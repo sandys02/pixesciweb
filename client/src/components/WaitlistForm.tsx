@@ -2,6 +2,9 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
+import { useMutation } from "@tanstack/react-query";
+import { apiRequest } from "@/lib/queryClient";
+import { useToast } from "@/hooks/use-toast";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -62,7 +65,7 @@ type FormData = z.infer<typeof formSchema>;
 
 export function WaitlistForm() {
   const [isSubmitted, setIsSubmitted] = useState(false);
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const { toast } = useToast();
 
   const form = useForm<FormData>({
     resolver: zodResolver(formSchema),
@@ -76,15 +79,29 @@ export function WaitlistForm() {
     },
   });
 
-  const onSubmit = (data: FormData) => {
-    console.log("Form submitted:", data);
-    setIsSubmitting(true);
-    
-    // TODO: remove mock functionality - Simulate API call
-    setTimeout(() => {
-      setIsSubmitting(false);
+  const mutation = useMutation({
+    mutationFn: async (data: FormData) => {
+      const response = await apiRequest("POST", "/api/waitlist", data);
+      return response.json();
+    },
+    onSuccess: () => {
       setIsSubmitted(true);
-    }, 1500);
+      toast({
+        title: "Success!",
+        description: "You've been added to the waitlist.",
+      });
+    },
+    onError: (error: Error) => {
+      toast({
+        title: "Error",
+        description: error.message || "Failed to submit form. Please try again.",
+        variant: "destructive",
+      });
+    },
+  });
+
+  const onSubmit = (data: FormData) => {
+    mutation.mutate(data);
   };
 
   if (isSubmitted) {
@@ -275,10 +292,10 @@ export function WaitlistForm() {
                   type="submit"
                   size="lg"
                   className="w-full bg-success hover:bg-success/90 text-success-foreground text-lg"
-                  disabled={isSubmitting}
+                  disabled={mutation.isPending}
                   data-testid="button-submit-waitlist"
                 >
-                  {isSubmitting ? "Securing Your Spot..." : "Secure My Early Access"}
+                  {mutation.isPending ? "Securing Your Spot..." : "Secure My Early Access"}
                 </Button>
 
                 <div className="text-center space-y-2">
