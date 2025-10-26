@@ -25,7 +25,7 @@ const faqs = [
   },
   {
     question: "When will it be available?",
-    answer: "Beta launches in Q2 2024. Waitlist members get first access.",
+    answer: "Beta launches in Q1 2026. Waitlist members get first access.",
   },
 ];
 

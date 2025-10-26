@@ -56,7 +56,7 @@ export function Footer() {
           </Button>
 
           <p className="text-xs text-background/60 pt-6">
-            © 2024 PixeSci. All rights reserved.
+            © 2025 PixeSci. All rights reserved.
           </p>
         </div>
       </div>
