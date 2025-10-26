@@ -1,5 +1,7 @@
-import { type User, type InsertUser, type WaitlistSignup, type InsertWaitlistSignup } from "@shared/schema";
-import { randomUUID } from "crypto";
+import { type User, type InsertUser, type WaitlistSignup, type InsertWaitlistSignup, users, waitlistSignups } from "@shared/schema";
+import { drizzle } from "drizzle-orm/neon-serverless";
+import { eq, desc } from "drizzle-orm";
+import { Pool } from "@neondatabase/serverless";
 
 export interface IStorage {
   getUser(id: string): Promise<User | undefined>;
@@ -10,53 +12,37 @@ export interface IStorage {
   getAllWaitlistSignups(): Promise<WaitlistSignup[]>;
 }
 
-export class MemStorage implements IStorage {
-  private users: Map<string, User>;
-  private waitlistSignups: Map<string, WaitlistSignup>;
+export class DatabaseStorage implements IStorage {
+  private db;
 
   constructor() {
-    this.users = new Map();
-    this.waitlistSignups = new Map();
+    const pool = new Pool({ connectionString: process.env.DATABASE_URL });
+    this.db = drizzle(pool);
   }
 
   async getUser(id: string): Promise<User | undefined> {
-    return this.users.get(id);
+    const result = await this.db.select().from(users).where(eq(users.id, id)).limit(1);
+    return result[0];
   }
 
   async getUserByUsername(username: string): Promise<User | undefined> {
-    return Array.from(this.users.values()).find(
-      (user) => user.username === username,
-    );
+    const result = await this.db.select().from(users).where(eq(users.username, username)).limit(1);
+    return result[0];
   }
 
   async createUser(insertUser: InsertUser): Promise<User> {
-    const id = randomUUID();
-    const user: User = { ...insertUser, id };
-    this.users.set(id, user);
-    return user;
+    const result = await this.db.insert(users).values(insertUser).returning();
+    return result[0];
   }
 
   async createWaitlistSignup(insertSignup: InsertWaitlistSignup): Promise<WaitlistSignup> {
-    const id = randomUUID();
-    const signup: WaitlistSignup = {
-      id,
-      email: insertSignup.email,
-      name: insertSignup.name,
-      institution: insertSignup.institution ?? null,
-      researchArea: insertSignup.researchArea,
-      software: insertSignup.software,
-      challenge: insertSignup.challenge ?? null,
-      createdAt: new Date(),
-    };
-    this.waitlistSignups.set(id, signup);
-    return signup;
+    const result = await this.db.insert(waitlistSignups).values(insertSignup).returning();
+    return result[0];
   }
 
   async getAllWaitlistSignups(): Promise<WaitlistSignup[]> {
-    return Array.from(this.waitlistSignups.values()).sort(
-      (a, b) => b.createdAt.getTime() - a.createdAt.getTime()
-    );
+    return await this.db.select().from(waitlistSignups).orderBy(desc(waitlistSignups.createdAt));
   }
 }
 
-export const storage = new MemStorage();
+export const storage = new DatabaseStorage();
