@@ -5,10 +5,10 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Sparkles, Check } from "lucide-react";
 
 const prompts = [
-  "What's the tumor response to treatment across my imaging data?",
-  "Analyze T-cell activation patterns in these flow cytometry files",
-  "Integrate images, genomics, proteomics, and clinical data for patient cohort",
-  "Compare treatment outcomes across multi-modal datasets",
+  "Analyze tumor response to treatment",
+  "Profile T-cell activation patterns",
+  "Integrate imaging, genomics, and clinical data",
+  "Compare treatment outcomes across datasets",
 ];
 
 const benefits = [
