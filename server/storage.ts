@@ -2,6 +2,7 @@ import { type User, type InsertUser, type WaitlistSignup, type InsertWaitlistSig
 import { drizzle } from "drizzle-orm/neon-serverless";
 import { eq, desc } from "drizzle-orm";
 import { Pool } from "@neondatabase/serverless";
+import { randomUUID } from "crypto";
 
 export interface IStorage {
   getUser(id: string): Promise<User | undefined>;
@@ -12,36 +13,128 @@ export interface IStorage {
   getAllWaitlistSignups(): Promise<WaitlistSignup[]>;
 }
 
-export class DatabaseStorage implements IStorage {
-  private db;
+class MemStorage implements IStorage {
+  private users: Map<string, User>;
+  private waitlistSignups: Map<string, WaitlistSignup>;
 
   constructor() {
-    const pool = new Pool({ connectionString: process.env.DATABASE_URL });
-    this.db = drizzle(pool);
+    this.users = new Map();
+    this.waitlistSignups = new Map();
   }
 
   async getUser(id: string): Promise<User | undefined> {
-    const result = await this.db.select().from(users).where(eq(users.id, id)).limit(1);
-    return result[0];
+    return this.users.get(id);
   }
 
   async getUserByUsername(username: string): Promise<User | undefined> {
-    const result = await this.db.select().from(users).where(eq(users.username, username)).limit(1);
-    return result[0];
+    return Array.from(this.users.values()).find(
+      (user) => user.username === username,
+    );
   }
 
   async createUser(insertUser: InsertUser): Promise<User> {
-    const result = await this.db.insert(users).values(insertUser).returning();
-    return result[0];
+    const id = randomUUID();
+    const user: User = { ...insertUser, id };
+    this.users.set(id, user);
+    return user;
   }
 
   async createWaitlistSignup(insertSignup: InsertWaitlistSignup): Promise<WaitlistSignup> {
-    const result = await this.db.insert(waitlistSignups).values(insertSignup).returning();
-    return result[0];
+    const id = randomUUID();
+    const signup: WaitlistSignup = {
+      id,
+      email: insertSignup.email,
+      name: insertSignup.name,
+      institution: insertSignup.institution ?? null,
+      researchArea: insertSignup.researchArea,
+      software: insertSignup.software,
+      challenge: insertSignup.challenge ?? null,
+      createdAt: new Date(),
+    };
+    this.waitlistSignups.set(id, signup);
+    return signup;
   }
 
   async getAllWaitlistSignups(): Promise<WaitlistSignup[]> {
-    return await this.db.select().from(waitlistSignups).orderBy(desc(waitlistSignups.createdAt));
+    return Array.from(this.waitlistSignups.values()).sort(
+      (a, b) => b.createdAt.getTime() - a.createdAt.getTime()
+    );
+  }
+}
+
+class DatabaseStorage implements IStorage {
+  private db;
+  private fallback: MemStorage;
+  private useFallback: boolean = false;
+
+  constructor() {
+    this.fallback = new MemStorage();
+    try {
+      const pool = new Pool({ connectionString: process.env.DATABASE_URL });
+      this.db = drizzle(pool);
+    } catch (error) {
+      console.warn('Failed to initialize database connection, using in-memory storage:', error);
+      this.useFallback = true;
+    }
+  }
+
+  async getUser(id: string): Promise<User | undefined> {
+    if (this.useFallback || !this.db) return this.fallback.getUser(id);
+    try {
+      const result = await this.db.select().from(users).where(eq(users.id, id)).limit(1);
+      return result[0];
+    } catch (error) {
+      console.warn('Database query failed, falling back to memory storage:', error);
+      this.useFallback = true;
+      return this.fallback.getUser(id);
+    }
+  }
+
+  async getUserByUsername(username: string): Promise<User | undefined> {
+    if (this.useFallback || !this.db) return this.fallback.getUserByUsername(username);
+    try {
+      const result = await this.db.select().from(users).where(eq(users.username, username)).limit(1);
+      return result[0];
+    } catch (error) {
+      console.warn('Database query failed, falling back to memory storage:', error);
+      this.useFallback = true;
+      return this.fallback.getUserByUsername(username);
+    }
+  }
+
+  async createUser(insertUser: InsertUser): Promise<User> {
+    if (this.useFallback || !this.db) return this.fallback.createUser(insertUser);
+    try {
+      const result = await this.db.insert(users).values(insertUser).returning();
+      return result[0];
+    } catch (error) {
+      console.warn('Database insert failed, falling back to memory storage:', error);
+      this.useFallback = true;
+      return this.fallback.createUser(insertUser);
+    }
+  }
+
+  async createWaitlistSignup(insertSignup: InsertWaitlistSignup): Promise<WaitlistSignup> {
+    if (this.useFallback || !this.db) return this.fallback.createWaitlistSignup(insertSignup);
+    try {
+      const result = await this.db.insert(waitlistSignups).values(insertSignup).returning();
+      return result[0];
+    } catch (error) {
+      console.warn('Database insert failed, falling back to memory storage:', error);
+      this.useFallback = true;
+      return this.fallback.createWaitlistSignup(insertSignup);
+    }
+  }
+
+  async getAllWaitlistSignups(): Promise<WaitlistSignup[]> {
+    if (this.useFallback || !this.db) return this.fallback.getAllWaitlistSignups();
+    try {
+      return await this.db.select().from(waitlistSignups).orderBy(desc(waitlistSignups.createdAt));
+    } catch (error) {
+      console.warn('Database query failed, falling back to memory storage:', error);
+      this.useFallback = true;
+      return this.fallback.getAllWaitlistSignups();
+    }
   }
 }
 

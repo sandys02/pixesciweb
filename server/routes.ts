@@ -3,12 +3,20 @@ import { createServer, type Server } from "http";
 import { storage } from "./storage";
 import { insertWaitlistSignupSchema } from "@shared/schema";
 import { z } from "zod";
+import { sendWaitlistConfirmation } from "./email";
 
 export async function registerRoutes(app: Express): Promise<Server> {
   app.post("/api/waitlist", async (req, res) => {
     try {
       const validatedData = insertWaitlistSignupSchema.parse(req.body);
       const signup = await storage.createWaitlistSignup(validatedData);
+      
+      try {
+        await sendWaitlistConfirmation(signup.email, signup.name);
+      } catch (emailError) {
+        console.error("Failed to send confirmation email, but signup was saved:", emailError);
+      }
+      
       res.json({ success: true, id: signup.id });
     } catch (error) {
       if (error instanceof z.ZodError) {
