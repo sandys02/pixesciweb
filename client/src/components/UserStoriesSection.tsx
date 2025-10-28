@@ -5,19 +5,19 @@ import { motion } from "framer-motion";
 const stories = [
   {
     role: "PhD Student",
-    institution: "Stanford University",
+    institution: "Major Research University",
     before: "Struggled to integrate imaging and RNA-seq data",
     after: "'Analyze tumor microenvironment' → Complete analysis in minutes",
   },
   {
     role: "Core Facility Manager",
-    institution: "MIT",
+    institution: "Research Institute",
     before: "Training every user on 10 different software packages",
     after: "Everyone just describes what they need",
   },
   {
     role: "Postdoc",
-    institution: "UCSF",
+    institution: "Academic Medical Center",
     before: "Analysis bottleneck delayed my publication",
     after: "Generated all figures in one afternoon",
   },
