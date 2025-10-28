@@ -4,20 +4,20 @@ import { motion } from "framer-motion";
 
 const stories = [
   {
-    role: "PhD Student",
-    institution: "Major Research University",
+    role: "R&D Scientist",
+    institution: "Biotech Startup",
     before: "Struggled to integrate imaging and RNA-seq data",
     after: "'Analyze tumor microenvironment' → Complete analysis in minutes",
   },
   {
-    role: "Core Facility Manager",
-    institution: "Research Institute",
-    before: "Training every user on 10 different software packages",
+    role: "Bioinformatics Lead",
+    institution: "Pharma Company",
+    before: "Training every team member on different analysis tools",
     after: "Everyone just describes what they need",
   },
   {
-    role: "Postdoc",
-    institution: "Academic Medical Center",
+    role: "PhD Student",
+    institution: "Research University",
     before: "Analysis bottleneck delayed my publication",
     after: "Generated all figures in one afternoon",
   },
@@ -37,8 +37,11 @@ export function UserStoriesSection() {
           className="text-center mb-12"
         >
           <h2 className="text-4xl md:text-5xl font-bold mb-4">
-            Real Scientists, Real Results
+            Trusted by Biotech & Academic Researchers
           </h2>
+          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+            From startup R&D teams to university labs, scientists rely on PixeSci to accelerate discovery
+          </p>
         </motion.div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">

@@ -47,15 +47,19 @@ export function HeroSection() {
           transition={{ duration: 0.6 }}
           className="text-center max-w-5xl mx-auto mb-12"
         >
+          <div className="mb-4">
+            <span className="inline-block px-4 py-2 bg-primary/10 border border-primary/20 rounded-full text-primary font-semibold text-sm">
+              Built for Biotech & Pharma R&D
+            </span>
+          </div>
           <h1 className="text-5xl md:text-7xl font-bold mb-6 leading-tight">
-            Stop Fighting Software.
-            <br />
+            Stop Fighting Software.<br />
             <span className="text-primary">Start Doing Science.</span>
           </h1>
           <p className="text-xl md:text-2xl text-muted-foreground mb-8 leading-relaxed max-w-3xl mx-auto">
             AI that turns any scientific tool into a simple conversation.
             <br />
-            Just tell PixeSci what you need - no menus, no manuals, no frustration.
+            Built for life science researchers who need answers, not manuals.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
             <Button
