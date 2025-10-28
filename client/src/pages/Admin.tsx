@@ -1,26 +1,53 @@
 import { useQuery } from "@tanstack/react-query";
+import { useEffect } from "react";
+import { useLocation } from "wouter";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
-import { Mail, Building2, FlaskConical, Code, MessageSquare, Calendar } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Mail, Building2, FlaskConical, Code, MessageSquare, Calendar, LogOut } from "lucide-react";
 import type { WaitlistSignup } from "@shared/schema";
 import { format } from "date-fns";
 
 export default function Admin() {
+  const [, setLocation] = useLocation();
+  
+  useEffect(() => {
+    const isAuthenticated = sessionStorage.getItem("adminAuthenticated");
+    if (!isAuthenticated) {
+      setLocation("/utengano");
+    }
+  }, [setLocation]);
+
   const { data, isLoading, error } = useQuery<{ success: boolean; signups: WaitlistSignup[] }>({
     queryKey: ["/api/waitlist"],
   });
 
+  const handleLogout = () => {
+    sessionStorage.removeItem("adminAuthenticated");
+    setLocation("/utengano");
+  };
+
   return (
     <div className="min-h-screen bg-muted/30 py-12">
       <div className="container mx-auto px-4 max-w-7xl">
-        <div className="mb-8">
-          <h1 className="text-4xl font-bold mb-2" data-testid="heading-admin">
-            Waitlist Signups
-          </h1>
-          <p className="text-muted-foreground">
-            View and manage all waitlist registrations
-          </p>
+        <div className="mb-8 flex items-start justify-between">
+          <div>
+            <h1 className="text-4xl font-bold mb-2" data-testid="heading-admin">
+              Waitlist Signups
+            </h1>
+            <p className="text-muted-foreground">
+              View and manage all waitlist registrations
+            </p>
+          </div>
+          <Button
+            variant="outline"
+            onClick={handleLogout}
+            data-testid="button-logout"
+          >
+            <LogOut className="w-4 h-4 mr-2" />
+            Logout
+          </Button>
         </div>
 
         {isLoading && (

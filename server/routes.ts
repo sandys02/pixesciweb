@@ -6,6 +6,37 @@ import { z } from "zod";
 import { sendWaitlistConfirmation } from "./email";
 
 export async function registerRoutes(app: Express): Promise<Server> {
+  app.post("/api/admin/verify", async (req, res) => {
+    try {
+      const { password } = req.body;
+      const adminPassword = process.env.ADMIN_PASSWORD;
+
+      if (!adminPassword) {
+        console.error("ADMIN_PASSWORD environment variable not set");
+        res.status(500).json({ 
+          success: false, 
+          error: "Server configuration error" 
+        });
+        return;
+      }
+
+      if (password === adminPassword) {
+        res.json({ success: true });
+      } else {
+        res.status(401).json({ 
+          success: false, 
+          error: "Invalid password" 
+        });
+      }
+    } catch (error) {
+      console.error("Error verifying admin password:", error);
+      res.status(500).json({ 
+        success: false, 
+        error: "Verification failed" 
+      });
+    }
+  });
+
   app.post("/api/waitlist", async (req, res) => {
     try {
       const validatedData = insertWaitlistSignupSchema.parse(req.body);
