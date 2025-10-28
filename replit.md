@@ -10,6 +10,29 @@ The landing page showcases the product's value proposition through multiple sect
 
 Preferred communication style: Simple, everyday language.
 
+## Admin Dashboard Access
+
+The admin dashboard for viewing waitlist signups is protected by password authentication and accessible at the non-obvious route `/utengano`.
+
+**Access Instructions:**
+1. Navigate to `/utengano` in your browser
+2. Enter the admin password (stored in ADMIN_PASSWORD environment variable)
+3. Access the dashboard at `/utengano/dashboard`
+
+**Security Features:**
+- Server-side session authentication with HTTP-only cookies
+- Protected API endpoints requiring valid session
+- Session regeneration on login to prevent fixation attacks
+- SameSite cookie protection against CSRF
+- 24-hour session expiration
+- Logout functionality to destroy sessions
+
+**Technical Details:**
+- Login endpoint: `POST /api/admin/verify` (validates password, creates session)
+- Logout endpoint: `POST /api/admin/logout` (destroys session)
+- Protected endpoint: `GET /api/waitlist` (requires authenticated session)
+- Old `/admin` route has been removed for security
+
 ## System Architecture
 
 ### Frontend Architecture
