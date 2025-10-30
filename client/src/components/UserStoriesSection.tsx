@@ -6,20 +6,20 @@ const stories = [
   {
     role: "R&D Scientist",
     institution: "Biotech Startup",
-    before: "Struggled to integrate imaging and RNA-seq data",
-    after: "'Analyze tumor microenvironment' → Complete analysis in minutes",
+    before: "Manually moving data between FlowJo, Prism, and Benchling",
+    after: "One command runs my entire flow cytometry pipeline",
   },
   {
     role: "Bioinformatics Lead",
     institution: "Pharma Company",
-    before: "Training every team member on different analysis tools",
-    after: "Everyone just describes what they need",
+    before: "Training every scientist on CLC Genomics and Seurat",
+    after: "Team just says 'analyze single-cell data' — PixeSci handles the rest",
   },
   {
     role: "PhD Student",
     institution: "Research University",
-    before: "Analysis bottleneck delayed my publication",
-    after: "Generated all figures in one afternoon",
+    before: "Weeks clicking through ImageJ and CellProfiler menus",
+    after: "All my image analysis done while I grab coffee",
   },
 ];
 

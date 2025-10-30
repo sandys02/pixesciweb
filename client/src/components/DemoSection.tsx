@@ -5,16 +5,16 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Sparkles, Check } from "lucide-react";
 
 const prompts = [
-  "Analyze tumor response to treatment",
-  "Profile T-cell activation patterns",
-  "Integrate imaging, genomics, and clinical data",
-  "Compare treatment outcomes across datasets",
+  "Analyze flow cytometry in FlowJo, then graph in Prism",
+  "Design plasmid in SnapGene, document in Benchling",
+  "Process images in ImageJ, quantify in CellProfiler",
+  "Run HPLC in Chromeleon, generate report in Excel",
 ];
 
 const benefits = [
-  "90% faster than manual workflows",
-  "Works with tools you already use",
-  "Reproducible every time",
+  "Orchestrates multiple tools in one workflow",
+  "90% faster than manual clicking",
+  "Works across Benchling, FlowJo, Prism, ImageJ & more",
 ];
 
 export function DemoSection() {
@@ -39,8 +39,11 @@ export function DemoSection() {
           className="text-center mb-12"
         >
           <h2 className="text-4xl md:text-5xl font-bold mb-4">
-            AI That Speaks Your Language
+            The Scientific Brain for Your Biotech Stack
           </h2>
+          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+            One command orchestrates your entire workflow — across FlowJo, Benchling, Prism, ImageJ, and 40+ tools
+          </p>
         </motion.div>
 
         <div className="max-w-4xl mx-auto">

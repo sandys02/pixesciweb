@@ -5,23 +5,23 @@ import { MousePointer, BookOpen, Clock, DollarSign, RefreshCcw } from "lucide-re
 const painPoints = [
   {
     icon: MousePointer,
-    title: "Clicking through 50 menus just to open an image",
+    title: "Switching between FlowJo, Prism, and Excel just to create one graph",
   },
   {
     icon: BookOpen,
-    title: "Reading 200-page manuals for simple analysis",
+    title: "Training new lab members on 10+ different software packages",
   },
   {
     icon: Clock,
-    title: "Spending weeks on what should take minutes",
+    title: "Spending days manually moving data between Benchling and ImageJ",
   },
   {
     icon: DollarSign,
-    title: "Expensive software sitting unused because it's too complex",
+    title: "Expensive tools like Imaris and Schrödinger barely used",
   },
   {
     icon: RefreshCcw,
-    title: "Redoing analysis because you forgot one step",
+    title: "Repeating the same 20-click workflow every single day",
   },
 ];
 
