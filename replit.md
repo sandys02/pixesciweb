@@ -32,12 +32,16 @@ The admin dashboard for viewing waitlist signups is protected by password authen
 - SameSite cookie protection against CSRF
 - 24-hour session expiration
 - Logout functionality to destroy sessions
+- Explicit session.save() to ensure session persistence
 
 **Technical Details:**
-- Login endpoint: `POST /api/admin/verify` (validates password, creates session)
+- Login endpoint: `POST /api/admin/verify` (validates password, creates session with explicit save)
 - Logout endpoint: `POST /api/admin/logout` (destroys session)
 - Protected endpoint: `GET /api/waitlist` (requires authenticated session)
 - Old `/admin` route has been removed for security
+
+**Recent Bug Fixes:**
+- Fixed session persistence bug where users could log in but not access dashboard (added explicit session.save() callback)
 
 ## System Architecture
 
