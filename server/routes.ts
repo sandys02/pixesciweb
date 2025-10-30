@@ -28,7 +28,14 @@ export async function registerRoutes(app: Express): Promise<Server> {
             return;
           }
           req.session.isAdmin = true;
-          res.json({ success: true });
+          req.session.save((saveErr) => {
+            if (saveErr) {
+              console.error("Error saving session:", saveErr);
+              res.status(500).json({ success: false, error: "Session save error" });
+              return;
+            }
+            res.json({ success: true });
+          });
         });
       } else {
         res.status(401).json({ 
