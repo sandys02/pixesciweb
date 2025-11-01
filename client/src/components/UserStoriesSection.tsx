@@ -13,7 +13,7 @@ const stories = [
     role: "Bioinformatics Lead",
     institution: "Pharma Company",
     before: "Training every scientist on CLC Genomics and Seurat",
-    after: "Team just says 'analyze single-cell data' — PixeSci handles the rest",
+    after: "Team just says 'analyze single-cell data' — PixeSci™ handles the rest",
   },
   {
     role: "PhD Student",
@@ -40,7 +40,7 @@ export function UserStoriesSection() {
             Trusted by Biotech & Academic Researchers
           </h2>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            From startup R&D teams to university labs, scientists rely on PixeSci to accelerate discovery
+            From startup R&D teams to university labs, scientists rely on PixeSci™ to accelerate discovery
           </p>
         </motion.div>
 

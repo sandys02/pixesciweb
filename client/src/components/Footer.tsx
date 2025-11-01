@@ -13,7 +13,7 @@ export function Footer() {
         <div className="text-center space-y-6">
           <div className="flex items-center justify-center gap-2">
             <Microscope className="w-8 h-8 text-accent" />
-            <span className="text-2xl font-bold">PixeSci</span>
+            <span className="text-2xl font-bold">PixeSci™</span>
           </div>
           
           <p className="text-lg text-background/80">
@@ -56,7 +56,7 @@ export function Footer() {
           </Button>
 
           <p className="text-xs text-background/60 pt-6">
-            © 2025 PixeSci. All rights reserved.
+            © 2025 PixeSci™. All rights reserved.
           </p>
         </div>
       </div>

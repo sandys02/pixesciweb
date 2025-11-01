@@ -9,7 +9,7 @@ import { motion } from "framer-motion";
 const faqs = [
   {
     question: "Will it work with my specific analysis workflow?",
-    answer: "PixeSci learns your lab's unique procedures and adapts to your specific needs.",
+    answer: "PixeSci™ learns your lab's unique procedures and adapts to your specific needs.",
   },
   {
     question: "What about data security?",
@@ -17,7 +17,7 @@ const faqs = [
   },
   {
     question: "How does PixeSci integrate with my existing software?",
-    answer: "PixeSci works alongside your current tools, automating complex workflows through simple natural language commands.",
+    answer: "PixeSci™ works alongside your current tools, automating complex workflows through simple natural language commands.",
   },
   {
     question: "How much will it cost?",

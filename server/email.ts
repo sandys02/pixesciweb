@@ -45,14 +45,14 @@ export async function sendWaitlistConfirmation(email: string, name: string): Pro
     await client.emails.send({
       from: fromEmail,
       to: email,
-      subject: "Welcome to the PixeSci Waitlist!",
+      subject: "Welcome to the PixeSci™ Waitlist!",
       html: `
         <!DOCTYPE html>
         <html>
           <head>
             <meta charset="utf-8">
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
-            <title>Welcome to PixeSci</title>
+            <title>Welcome to PixeSci™</title>
           </head>
           <body style="margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif; background-color: #f5f5f5;">
             <table width="100%" cellpadding="0" cellspacing="0" style="background-color: #f5f5f5; padding: 40px 20px;">
@@ -63,7 +63,7 @@ export async function sendWaitlistConfirmation(email: string, name: string): Pro
                     <tr>
                       <td style="padding: 40px 40px 20px; text-align: center; background: linear-gradient(135deg, #1e3a8a 0%, #3b82f6 100%); border-radius: 8px 8px 0 0;">
                         <h1 style="margin: 0; color: #ffffff; font-size: 28px; font-weight: 700;">
-                          🔬 PixeSci
+                          🔬 PixeSci™
                         </h1>
                       </td>
                     </tr>
@@ -80,13 +80,13 @@ export async function sendWaitlistConfirmation(email: string, name: string): Pro
                         </p>
                         
                         <p style="margin: 0 0 16px; color: #475569; font-size: 16px; line-height: 1.6;">
-                          Thank you for joining the PixeSci waitlist! You're now part of an exclusive group of researchers who will get first access to our AI-powered platform that makes scientific software simple.
+                          Thank you for joining the PixeSci™ waitlist! You're now part of an exclusive group of researchers who will get first access to our AI-powered platform that makes scientific software simple.
                         </p>
                         
                         <div style="background-color: #f1f5f9; border-left: 4px solid #3b82f6; padding: 20px; margin: 24px 0; border-radius: 4px;">
                           <p style="margin: 0; color: #1e293b; font-size: 15px; line-height: 1.6;">
                             <strong>What's Next?</strong><br>
-                            We're working hard to bring PixeSci to life. Beta launches in Q1 2026, and as a waitlist member, you'll be among the first to try it out. We'll keep you updated on our progress!
+                            We're working hard to bring PixeSci™ to life. Beta launches in Q1 2026, and as a waitlist member, you'll be among the first to try it out. We'll keep you updated on our progress!
                           </p>
                         </div>
                         
@@ -96,7 +96,7 @@ export async function sendWaitlistConfirmation(email: string, name: string): Pro
                         
                         <p style="margin: 0; color: #475569; font-size: 16px; line-height: 1.6;">
                           Best regards,<br>
-                          <strong>The PixeSci Team</strong>
+                          <strong>The PixeSci™ Team</strong>
                         </p>
                       </td>
                     </tr>
@@ -108,7 +108,7 @@ export async function sendWaitlistConfirmation(email: string, name: string): Pro
                           Making science software simple
                         </p>
                         <p style="margin: 0; color: #94a3b8; font-size: 12px;">
-                          © 2025 PixeSci. All rights reserved.
+                          © 2025 PixeSci™. All rights reserved.
                         </p>
                       </td>
                     </tr>

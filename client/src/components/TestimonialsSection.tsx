@@ -7,7 +7,7 @@ import managerImage from "@assets/generated_images/Facility_manager_testimonial_
 
 const testimonials = [
   {
-    quote: "PixeSci gave me my evenings back. What used to take me all weekend now happens while I grab coffee.",
+    quote: "PixeSci™ gave me my evenings back. What used to take me all weekend now happens while I grab coffee.",
     author: "Dr. Sarah Chen",
     role: "Cell Biology PhD",
     institution: "Stanford",

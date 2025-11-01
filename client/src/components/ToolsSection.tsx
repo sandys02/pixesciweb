@@ -34,7 +34,7 @@ export function ToolsSection() {
             Your Entire Biotech Stack, Orchestrated
           </h2>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            PixeSci learns your tools and connects them — from benchtop instruments to analysis software
+            PixeSci™ learns your tools and connects them — from benchtop instruments to analysis software
           </p>
         </motion.div>
 

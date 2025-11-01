@@ -91,7 +91,7 @@ export function HeroSection() {
             <div className="absolute inset-0 bg-gradient-to-br from-primary/20 to-accent/20 rounded-md blur-xl" />
             <img
               src={happyImage}
-              alt="PixeSci AI interface showing scientific data analysis"
+              alt="PixeSci™ AI interface showing scientific data analysis"
               className="relative rounded-md w-full h-64 md:h-80 object-cover group-hover:scale-105 transition-transform duration-500"
             />
             <div className="absolute bottom-4 left-4 right-4 bg-primary/90 backdrop-blur-sm p-3 rounded-md">
