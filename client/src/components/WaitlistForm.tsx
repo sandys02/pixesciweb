@@ -26,7 +26,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { motion } from "framer-motion";
-import { CheckCircle2 } from "lucide-react";
+import { CheckCircle2, Sparkles } from "lucide-react";
 
 const researchAreas = [
   "Cell Biology",
@@ -111,7 +111,7 @@ export function WaitlistForm() {
           <motion.div
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
-            className="max-w-2xl mx-auto text-center"
+            className="max-w-2xl mx-auto text-center space-y-6"
           >
             <Card className="p-12">
               <CheckCircle2 className="w-16 h-16 text-success mx-auto mb-6" />
@@ -121,6 +121,29 @@ export function WaitlistForm() {
               </p>
               <p className="text-sm text-muted-foreground">
                 Check your email for confirmation.
+              </p>
+            </Card>
+
+            <Card className="p-8 bg-primary/5 border-primary/20">
+              <h3 className="text-xl font-bold mb-4 flex items-center justify-center gap-2">
+                <Sparkles className="w-6 h-6 text-primary" />
+                Get Early Access Faster
+              </h3>
+              <p className="text-muted-foreground mb-4">
+                Share PixeSci™ with colleagues and move up the waitlist!
+              </p>
+              <div className="space-y-3 text-left max-w-md mx-auto">
+                <div className="flex items-start gap-2">
+                  <span className="text-primary font-bold">1.</span>
+                  <p className="text-sm">Refer 3 colleagues - Get beta access 2 weeks early</p>
+                </div>
+                <div className="flex items-start gap-2">
+                  <span className="text-primary font-bold">2.</span>
+                  <p className="text-sm">Refer 5+ colleagues - Become a Founding Member with lifetime perks</p>
+                </div>
+              </div>
+              <p className="text-xs text-muted-foreground mt-6">
+                Referral program details coming soon in your confirmation email
               </p>
             </Card>
           </motion.div>

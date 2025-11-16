@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
 import { Microscope, Dna, BarChart3 } from "lucide-react";
+import { LiveSignupCounter } from "./LiveSignupCounter";
 import frustratedImage from "@assets/generated_images/Complex_software_interface_showing_frustration_0a50718a.png";
 import happyImage from "@assets/generated_images/Scientific_AI_analysis_interface_f1e4b778.png";
 
@@ -11,7 +12,7 @@ export function HeroSection() {
   };
 
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-gradient-to-b from-background to-muted/20">
+    <section id="hero-section" className="relative min-h-screen flex items-center justify-center overflow-hidden bg-gradient-to-b from-background to-muted/20">
       <motion.div
         className="absolute top-20 left-10 text-primary/20"
         animate={{ y: [0, -20, 0] }}
@@ -57,7 +58,7 @@ export function HeroSection() {
             <br />
             Built for life science researchers who need answers, not manuals.
           </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+          <div className="flex flex-col gap-4 justify-center items-center">
             <Button
               size="lg"
               className="bg-success hover:bg-success/90 text-success-foreground text-lg px-8 py-6 min-h-12"
@@ -66,6 +67,7 @@ export function HeroSection() {
             >
               Join the Waitlist
             </Button>
+            <LiveSignupCounter />
           </div>
         </motion.div>
 
@@ -95,7 +97,7 @@ export function HeroSection() {
               className="relative rounded-md w-full h-64 md:h-80 object-cover group-hover:scale-105 transition-transform duration-500"
             />
             <div className="absolute bottom-4 left-4 right-4 bg-primary/90 backdrop-blur-sm p-3 rounded-md">
-              <p className="text-sm font-semibold text-primary-foreground">After: "Analyze tumor response" → Answered!</p>
+              <p className="text-sm font-semibold text-primary-foreground">After: "Analyze tumor response" - Answered!</p>
             </div>
           </div>
         </motion.div>
