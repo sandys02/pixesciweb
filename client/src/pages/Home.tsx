@@ -13,7 +13,6 @@ import { BeforeAfterSlider } from "@/components/BeforeAfterSlider";
 import { LiveDemoSimulator } from "@/components/LiveDemoSimulator";
 import { WorkflowVisualization } from "@/components/WorkflowVisualization";
 import { UseCaseTabs } from "@/components/UseCaseTabs";
-import { ROICalculator } from "@/components/ROICalculator";
 import { StickyCtaButton } from "@/components/StickyCtaButton";
 import { MobileStickyCtaButton } from "@/components/MobileStickyCtaButton";
 import { ExitIntentPopup } from "@/components/ExitIntentPopup";
@@ -32,7 +31,6 @@ export default function Home() {
       <UseCaseTabs />
       <UserStoriesSection />
       <FeaturesSection />
-      <ROICalculator />
       <EarlyAccessSection />
       <WaitlistForm />
       <FAQSection />
