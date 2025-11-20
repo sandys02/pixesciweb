@@ -60,11 +60,13 @@ The admin dashboard for viewing waitlist signups is protected by password authen
 - React Hook Form with Zod for form validation and schema management
 
 **Design System:**
-- Custom color palette focused on scientific aesthetics (deep blue primary, cyan secondary, electric blue accent)
-- Neutral base colors with semantic tokens for light/dark mode support
-- Inter font family from Google Fonts
-- Consistent spacing scale using Tailwind's units (4, 8, 12, 16, 20, 32)
-- Shadow system with elevation states for interactive elements
+- **Color Palette:** Primary Blue (#2D5AF0), Secondary Orange (#FF6B2C), Success Green (#10B981), Error Red (#EF4444), Warning Yellow (#F59E0B), Info Blue (#3B82F6)
+- **Dark Mode (default):** Background #0F1117, Card #1A1D25, Elevated #242832, white text
+- **Light Mode:** Background #FAFAFA, Card #FFFFFF, Elevated #F5F5F5, dark text
+- **Typography:** Inter font family with type scale from 12px (caption) to 40px (H1), 600 weight for headings, 400 for body
+- **Spacing:** 8px grid system (0px, 4px, 8px, 12px, 16px, 24px, 32px, 48px)
+- **Border Radius:** sm (8px), md (12px), lg (16px), pill (999px)
+- **Animations:** Standard cubic-bezier(0.4, 0, 0.2, 1) at 500ms, Fast at 150ms
 
 **Component Structure:**
 - Page-level components in `client/src/pages/`

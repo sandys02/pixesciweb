@@ -3,20 +3,76 @@
 ## Brand Identity & Color System
 
 **Primary Palette:**
-- Primary: Deep scientific blue (#1e3a8a)
-- Secondary: Bright cyan/teal (#06b6d4)
-- Accent: Electric blue (#3b82f6)
-- Background: Clean white (#ffffff) with subtle gray sections (#f8fafc)
-- Text: Dark gray (#1f2937) for body, white for CTAs
-- Success/CTA: Vibrant green (#10b981)
+- Primary Blue: #2D5AF0 (Vibrant blue for main actions, navigation, branding)
+- Secondary Orange: #FF6B2C (Workflow indicators, automation features, secondary actions)
+- Success Green: #10B981 (High confidence, successful operations, completed tasks)
+- Error Red: #EF4444 (Low confidence, error messages, failed operations)
+- Warning Yellow: #F59E0B (Medium confidence, cautions, warnings)
+- Info Blue: #3B82F6 (Informational messages, help text, tips)
 
-**Visual Style:** Modern, clean, scientific aesthetic with subtle gradients and professional imagery
+**Dark Mode (Default):**
+- Background: #0F1117 (Almost black)
+- Paper/Card: #1A1D25 (Elevated surface)
+- Elevated: #242832 (Cards, popups, hover states)
+- Text Primary: #FFFFFF (White)
+- Text Secondary: #B0B0B0 (Light gray)
+- Divider: rgba(255,255,255,0.12) (12% white)
 
-## Layout System
+**Light Mode:**
+- Background: #FAFAFA (Off-white)
+- Paper/Card: #FFFFFF (Pure white)
+- Elevated: #F5F5F5 (Light gray)
+- Text Primary: #1A202C (Dark gray)
+- Text Secondary: #718096 (Medium gray)
+- Divider: rgba(0,0,0,0.08) (8% black)
 
-**Spacing:** Use Tailwind's spacing scale focused on units of 4, 8, 12, 16, 20, and 32 for consistent vertical rhythm
-- Section padding: py-16 to py-32 for desktop, py-12 to py-20 for mobile
-- Component spacing: gap-8 to gap-12 for grids
+**Visual Style:** Professional, enterprise-ready design optimized for scientific software with excellent contrast and accessibility
+
+## Typography System
+
+**Font Family:**
+'Inter var', Inter, system-ui, -apple-system, sans-serif
+
+**Type Scale (600 weight for headings, 400 weight for body):**
+- H1: 2.5rem (40px) - Large headings
+- H2: 2rem (32px) - Page titles
+- H3: 1.75rem (28px) - Section headings
+- H4: 1.5rem (24px) - Subsections
+- H5: 1.25rem (20px) - Card titles
+- H6: 1.125rem (18px) - Small headings
+- Body1: 1rem (16px) - Main text
+- Body2: 0.875rem (14px) - Secondary text
+- Button: 0.875rem (14px) - Button text (600 weight)
+- Caption: 0.75rem (12px) - Hints and captions
+
+**Tailwind Classes:**
+- Hero Headline: text-4xl md:text-5xl font-semibold
+- Section Headings: text-3xl md:text-4xl font-bold
+- Subheadings: text-xl md:text-2xl font-semibold
+- Body Text: text-base leading-relaxed
+- CTAs: text-sm font-semibold
+
+## Design Tokens
+
+**Border Radius:**
+- sm: 8px (Small - inputs, buttons)
+- md: 12px (Medium - cards, default)
+- lg: 16px (Large - modals, containers)
+- pill: 999px (Circular - chips, badges)
+
+**Spacing Scale (8px grid):**
+- 0: 0px
+- 1: 4px
+- 2: 8px
+- 3: 12px
+- 4: 16px
+- 5: 24px
+- 6: 32px
+- 7: 48px
+
+**Layout System:**
+- Section padding: py-12 to py-20 (48-80px)
+- Component spacing: gap-4 to gap-8 (16-32px)
 - Content max-width: max-w-7xl for full sections, max-w-4xl for text-focused content
 
 **Grid Strategy:**
@@ -24,16 +80,6 @@
 - Tool Grid: 3-4 columns on desktop (grid-cols-3 lg:grid-cols-4), single column mobile
 - Features: 2-3 columns (grid-cols-1 md:grid-cols-2 lg:grid-cols-3)
 - Testimonials: 1-3 columns (grid-cols-1 md:grid-cols-3)
-- Story Cards: 1-3 columns (grid-cols-1 md:grid-cols-3)
-
-## Typography
-
-**Font Stack:** Modern sans-serif via Google Fonts (Inter or similar system font)
-- Hero Headline: text-5xl to text-7xl, font-bold, leading-tight
-- Section Headings: text-3xl to text-4xl, font-bold
-- Subheadings: text-xl to text-2xl, font-semibold
-- Body Text: text-base to text-lg, leading-relaxed
-- CTAs: text-lg, font-semibold
 
 ## Component Library
 
@@ -72,13 +118,17 @@ Simple centered layout with PixeSci logo, tagline "Making science software simpl
 
 ## Animations & Interactions
 
+**Motion/Animation:**
+- Standard: cubic-bezier(0.4, 0, 0.2, 1) - 500ms
+- Fast: cubic-bezier(0.4, 0, 1, 1) - 150ms
+
 **Micro-Animations:**
-- Button hover: subtle scale (scale-105) and brightness increase
-- Card hover: elevation shadow increase, slight translate-y lift
+- Button hover: subtle translateY(-2px) with elevation shadow
+- Card hover: box-shadow increase with slight lift
 - Scroll-triggered fade-ins: opacity 0 to 1 with translateY
-- Tool logo hover: scale-110 with color transition
-- Form field focus: border color change to accent blue
-- CTA pulse: subtle animation on primary buttons
+- Tool logo hover: scale-105 with color transition
+- Form field focus: border color change to primary blue
+- Hover effects: transform: translateY(-2px) with box-shadow
 
 **Performance:** All animations at 60fps, lazy load images, smooth scrolling enabled, mobile-optimized interactions
 
