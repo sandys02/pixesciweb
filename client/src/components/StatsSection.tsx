@@ -93,24 +93,24 @@ function CountUpAnimation({ value, suffix, prefix = "" }: { value: number; suffi
 
 export function StatsSection() {
   return (
-    <section className="py-20 bg-primary/5" data-testid="section-stats">
+    <section className="py-24 bg-muted/20" data-testid="section-stats">
       <div className="container mx-auto px-4">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
-          className="text-center mb-12"
+          className="text-center mb-16"
         >
-          <h2 className="text-4xl md:text-5xl font-bold mb-4">
-            Built for Real Impact
+          <h2 className="text-3xl md:text-4xl font-bold mb-4 tracking-tight">
+            Built    for    Real    Impact
           </h2>
-          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            PixeSci™ is transforming how scientists work with data every day
+          <p className="text-base text-muted-foreground max-w-2xl mx-auto">
+            Trusted by research teams across biotech and pharma
           </p>
         </motion.div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 max-w-7xl mx-auto">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-12 max-w-5xl mx-auto">
           {stats.map((stat, index) => (
             <motion.div
               key={index}
@@ -118,18 +118,15 @@ export function StatsSection() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.5, delay: index * 0.1 }}
-              className="text-center p-6 rounded-md bg-card border border-card-border hover-elevate"
+              className="text-center"
               data-testid={`stat-card-${index}`}
             >
-              <div className="flex justify-center mb-4">
-                <stat.icon className="w-12 h-12 text-primary" />
-              </div>
               <CountUpAnimation 
                 value={stat.value} 
                 suffix={stat.suffix}
                 prefix={stat.prefix}
               />
-              <p className="mt-2 text-muted-foreground">{stat.label}</p>
+              <p className="mt-3 text-sm text-muted-foreground">{stat.label}</p>
             </motion.div>
           ))}
         </div>
