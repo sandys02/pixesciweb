@@ -42,12 +42,12 @@ export function ExitIntentPopup() {
             Before You Go...
           </DialogTitle>
           <DialogDescription className="space-y-3 pt-2">
-            <p className="text-base">
+            <div className="text-base">
               Join <strong>thousands of researchers</strong> who are tired of fighting with software.
-            </p>
-            <p className="text-muted-foreground">
+            </div>
+            <div className="text-muted-foreground">
               Get early access to PixeSci™ and be among the first to experience AI-powered scientific workflows.
-            </p>
+            </div>
           </DialogDescription>
         </DialogHeader>
         <div className="flex gap-3 mt-4">
