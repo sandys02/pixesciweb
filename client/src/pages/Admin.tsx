@@ -13,10 +13,15 @@ export default function Admin() {
   const [, setLocation] = useLocation();
   
   useEffect(() => {
-    const isAuthenticated = sessionStorage.getItem("adminAuthenticated");
-    if (!isAuthenticated) {
-      setLocation("/utengano");
-    }
+    // Small delay to allow sessionStorage to be set from login page
+    const timer = setTimeout(() => {
+      const isAuthenticated = sessionStorage.getItem("adminAuthenticated");
+      if (!isAuthenticated) {
+        setLocation("/utengano");
+      }
+    }, 50);
+    
+    return () => clearTimeout(timer);
   }, [setLocation]);
 
   const { data, isLoading, error } = useQuery<{ success: boolean; signups: WaitlistSignup[] }>({

@@ -29,7 +29,10 @@ export default function AdminLogin() {
 
       if (data.success) {
         sessionStorage.setItem("adminAuthenticated", "true");
-        setLocation("/utengano/dashboard");
+        // Small delay to ensure sessionStorage is set before navigation
+        setTimeout(() => {
+          setLocation("/utengano/dashboard");
+        }, 10);
       } else {
         toast({
           title: "Access Denied",
