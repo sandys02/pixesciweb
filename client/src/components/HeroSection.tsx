@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
-import { Microscope, Dna, BarChart3, Download } from "lucide-react";
+import { Microscope, Dna, BarChart3 } from "lucide-react";
 import { LiveSignupCounter } from "./LiveSignupCounter";
 import frustratedImage from "@assets/generated_images/Complex_software_interface_showing_frustration_0a50718a.png";
 import happyImage from "@assets/generated_images/Scientific_AI_analysis_interface_f1e4b778.png";
@@ -9,11 +9,6 @@ export function HeroSection() {
   const handleJoinWaitlist = () => {
     console.log("Join Waitlist clicked - scrolling to form");
     document.getElementById("waitlist-form")?.scrollIntoView({ behavior: "smooth" });
-  };
-
-  const handleDownload = () => {
-    console.log("Download button clicked");
-    // TODO: Add actual download logic or link
   };
 
   return (
@@ -38,24 +33,14 @@ export function HeroSection() {
           <p className="text-lg md:text-xl text-muted-foreground mb-12 leading-relaxed max-w-3xl mx-auto">
             AI-powered platform that orchestrates your scientific software—FlowJo, Prism, Benchling, ImageJ—through simple natural language commands.
           </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-8">
+          <div className="mb-8">
             <Button
               size="lg"
               className="bg-primary hover:bg-primary/90 text-primary-foreground text-base px-10 py-6 min-h-12 font-semibold"
               onClick={handleJoinWaitlist}
               data-testid="button-hero-join-waitlist"
             >
-              Join the Waitlist
-            </Button>
-            <Button
-              size="lg"
-              variant="outline"
-              className="text-base px-10 py-6 min-h-12 font-semibold"
-              onClick={handleDownload}
-              data-testid="button-hero-download"
-            >
-              <Download className="w-4 h-4 mr-2" />
-              Download Desktop App
+              Join the waitlist to download app
             </Button>
           </div>
           <LiveSignupCounter />

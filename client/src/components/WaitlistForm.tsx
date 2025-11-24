@@ -318,7 +318,7 @@ export function WaitlistForm() {
                   disabled={mutation.isPending}
                   data-testid="button-submit-waitlist"
                 >
-                  {mutation.isPending ? "Submitting..." : "Join the Waitlist"}
+                  {mutation.isPending ? "Submitting..." : "Join the waitlist to download app"}
                 </Button>
 
                 <div className="text-center space-y-2">
