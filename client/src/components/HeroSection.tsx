@@ -12,7 +12,7 @@ export function HeroSection() {
   };
 
   return (
-    <section id="hero-section" className="relative py-40 md:py-48 bg-background">
+    <section id="hero-section" className="relative pt-32 pb-24 md:pt-40 md:pb-32 bg-background">
       <div className="container mx-auto px-4">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
