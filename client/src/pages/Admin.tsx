@@ -1,94 +1,103 @@
+import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
-import { useEffect } from "react";
-import { useLocation } from "wouter";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Button } from "@/components/ui/button";
-import { Mail, Building2, FlaskConical, Code, MessageSquare, Calendar, LogOut } from "lucide-react";
+import { Input } from "@/components/ui/input";
+import { Mail, Building2, FlaskConical, Code, MessageSquare, Calendar, Lock } from "lucide-react";
 import type { WaitlistSignup } from "@shared/schema";
 import { format } from "date-fns";
 
 export default function Admin() {
-  const [, setLocation] = useLocation();
-  
-  useEffect(() => {
-    // Small delay to allow sessionStorage to be set from login page
-    const timer = setTimeout(() => {
-      const isAuthenticated = sessionStorage.getItem("adminAuthenticated");
-      if (!isAuthenticated) {
-        setLocation("/utengano");
-      }
-    }, 50);
-    
-    return () => clearTimeout(timer);
-  }, [setLocation]);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
-  const { data, isLoading, error } = useQuery<{ success: boolean; signups: WaitlistSignup[] }>({
-    queryKey: ["/api/waitlist"],
-    queryFn: async () => {
-      const response = await fetch("/api/waitlist", {
-        credentials: "include",
-      });
-      
-      if (response.status === 401) {
-        sessionStorage.removeItem("adminAuthenticated");
-        setLocation("/utengano");
-        throw new Error("Unauthorized");
-      }
-      
-      if (!response.ok) {
-        throw new Error("Failed to fetch waitlist");
-      }
-      
-      return response.json();
-    },
-    retry: (failureCount, error: any) => {
-      if (error?.message === "Unauthorized") {
-        return false;
-      }
-      return failureCount < 3;
-    },
-  });
+  const handleLogin = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsLoading(true);
+    setError("");
 
-  const handleLogout = async () => {
     try {
-      await fetch("/api/admin/logout", { 
+      const response = await fetch("/api/admin/verify", {
         method: "POST",
-        credentials: "include",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ password }),
       });
-      sessionStorage.removeItem("adminAuthenticated");
-      setLocation("/utengano");
-    } catch (error) {
-      console.error("Logout error:", error);
-      sessionStorage.removeItem("adminAuthenticated");
-      setLocation("/utengano");
+
+      const data = await response.json();
+
+      if (data.success) {
+        setIsAuthenticated(true);
+      } else {
+        setError("Incorrect password");
+      }
+    } catch (err) {
+      setError("Something went wrong. Please try again.");
+    } finally {
+      setIsLoading(false);
     }
   };
+
+  const { data, isLoading: dataLoading, error: dataError } = useQuery<{ success: boolean; signups: WaitlistSignup[] }>({
+    queryKey: ["/api/waitlist"],
+    enabled: isAuthenticated,
+  });
+
+  if (!isAuthenticated) {
+    return (
+      <div className="min-h-screen bg-muted/30 flex items-center justify-center py-12">
+        <Card className="w-full max-w-md mx-4">
+          <CardHeader className="text-center">
+            <div className="mx-auto w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center mb-4">
+              <Lock className="w-6 h-6 text-primary" />
+            </div>
+            <CardTitle>Admin Access</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <form onSubmit={handleLogin} className="space-y-4">
+              <div>
+                <Input
+                  type="password"
+                  placeholder="Enter password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  data-testid="input-admin-password"
+                />
+              </div>
+              {error && (
+                <p className="text-sm text-destructive">{error}</p>
+              )}
+              <Button
+                type="submit"
+                className="w-full"
+                disabled={isLoading || !password}
+                data-testid="button-admin-login"
+              >
+                {isLoading ? "Verifying..." : "Access Dashboard"}
+              </Button>
+            </form>
+          </CardContent>
+        </Card>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-muted/30 py-12">
       <div className="container mx-auto px-4 max-w-7xl">
-        <div className="mb-8 flex items-start justify-between">
-          <div>
-            <h1 className="text-4xl font-bold mb-2" data-testid="heading-admin">
-              Waitlist Signups
-            </h1>
-            <p className="text-muted-foreground">
-              View and manage all waitlist registrations
-            </p>
-          </div>
-          <Button
-            variant="outline"
-            onClick={handleLogout}
-            data-testid="button-logout"
-          >
-            <LogOut className="w-4 h-4 mr-2" />
-            Logout
-          </Button>
+        <div className="mb-8">
+          <h1 className="text-4xl font-bold mb-2" data-testid="heading-admin">
+            Waitlist Signups
+          </h1>
+          <p className="text-muted-foreground">
+            View and manage all waitlist registrations
+          </p>
         </div>
 
-        {isLoading && (
+        {dataLoading && (
           <div className="space-y-4">
             {[1, 2, 3].map((i) => (
               <Card key={i}>
@@ -104,7 +113,7 @@ export default function Admin() {
           </div>
         )}
 
-        {error && (
+        {dataError && (
           <Card className="border-destructive">
             <CardContent className="pt-6">
               <p className="text-destructive" data-testid="text-error">

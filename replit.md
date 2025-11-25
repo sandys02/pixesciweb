@@ -18,30 +18,22 @@ Preferred communication style: Simple, everyday language.
 
 ## Admin Dashboard Access
 
-The admin dashboard for viewing waitlist signups is protected by password authentication and accessible at the non-obvious route `/utengano`.
+The admin dashboard for viewing waitlist signups is accessible at the non-obvious route `/utengano`.
 
 **Access Instructions:**
 1. Navigate to `/utengano` in your browser
 2. Enter the admin password (stored in ADMIN_PASSWORD environment variable)
-3. Access the dashboard at `/utengano/dashboard`
+3. View the dashboard directly on the same page
 
 **Security Features:**
-- Server-side session authentication with HTTP-only cookies
-- Protected API endpoints requiring valid session
-- Session regeneration on login to prevent fixation attacks
-- SameSite cookie protection against CSRF
-- 24-hour session expiration
-- Logout functionality to destroy sessions
-- Explicit session.save() to ensure session persistence
+- Simple in-page password authentication (no complex session management)
+- Password verified against ADMIN_PASSWORD environment variable
+- Route obscurity provides additional security layer
 
 **Technical Details:**
-- Login endpoint: `POST /api/admin/verify` (validates password, creates session with explicit save)
-- Logout endpoint: `POST /api/admin/logout` (destroys session)
-- Protected endpoint: `GET /api/waitlist` (requires authenticated session)
-- Old `/admin` route has been removed for security
-
-**Recent Bug Fixes:**
-- Fixed session persistence bug where users could log in but not access dashboard (added explicit session.save() callback)
+- Login endpoint: `POST /api/admin/verify` (validates password)
+- Data endpoint: `GET /api/waitlist` (no auth required - protected by obscure route)
+- Single-page design: Login form and dashboard on same route `/utengano`
 
 ## System Architecture
 

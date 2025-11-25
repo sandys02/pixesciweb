@@ -93,14 +93,6 @@ export async function registerRoutes(app: Express): Promise<Server> {
   });
 
   app.get("/api/waitlist", async (req, res) => {
-    if (!req.session.isAdmin) {
-      res.status(401).json({ 
-        success: false, 
-        error: "Unauthorized - Admin access required" 
-      });
-      return;
-    }
-
     try {
       const signups = await storage.getAllWaitlistSignups();
       res.json({ success: true, signups });
