@@ -1,4 +1,5 @@
 import { Button } from "@/components/ui/button";
+import logoImage from "@assets/ChatGPT Image Nov 25, 2025, 08_20_36 PM_1764120067070.png";
 
 export function Header() {
   const handleGetStarted = () => {
@@ -10,8 +11,8 @@ export function Header() {
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-16">
           <div className="flex items-center gap-2">
+            <img src={logoImage} alt="PixeSci" className="h-8 w-8 rounded-full" />
             <span className="text-xl font-bold tracking-tight">PixeSci</span>
-            <span className="text-xs text-muted-foreground">™</span>
           </div>
           
           <div>
