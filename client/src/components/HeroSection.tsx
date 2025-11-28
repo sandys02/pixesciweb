@@ -40,7 +40,7 @@ export function HeroSection() {
               onClick={handleJoinWaitlist}
               data-testid="button-hero-join-waitlist"
             >
-              Join the waitlist to download app
+              Talk to Us
             </Button>
           </div>
           <LiveSignupCounter />
