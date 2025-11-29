@@ -1,4 +1,4 @@
-import logoImage from "@assets/ChatGPT Image Nov 25, 2025, 08_20_36 PM_1764120067070.png";
+import logoImage from "@assets/ChatGPT Image Nov 28, 2025, 06_57_34 PM_1764375519241.png";
 
 export function Header() {
   return (
@@ -6,7 +6,7 @@ export function Header() {
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-16">
           <div className="flex items-center gap-2">
-            <img src={logoImage} alt="PixeSci" className="h-8 w-8 rounded-full" />
+            <img src={logoImage} alt="PixeSci" className="h-8 w-8 rounded-lg" />
             <span className="text-xl font-bold tracking-tight">PixeSci</span>
           </div>
         </div>
