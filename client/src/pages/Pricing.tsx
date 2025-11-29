@@ -13,7 +13,6 @@ const enterpriseFeatures = [
   "On-premise deployment available",
   "SSO & SAML authentication",
   "Advanced security controls",
-  "Compliance (SOC2, HIPAA ready)",
   "Dedicated success manager",
   "Priority support & custom SLA",
   "Team training & onboarding",
