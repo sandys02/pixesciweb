@@ -6,7 +6,7 @@ export function Header() {
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-16">
           <div className="flex items-center gap-2">
-            <img src={logoImage} alt="PixeSci" className="h-8 w-8 rounded-lg" />
+            <img src={logoImage} alt="PixeSci" className="h-8 w-8 rounded-lg mix-blend-multiply dark:mix-blend-screen dark:invert" />
             <span className="text-xl font-bold tracking-tight">PixeSci</span>
           </div>
         </div>
