@@ -1,3 +1,4 @@
+import { Button } from "@/components/ui/button";
 import logoImage from "@assets/ChatGPT Image Nov 28, 2025, 09_38_22 PM_1764384089669.png";
 
 export function Header() {
@@ -8,6 +9,16 @@ export function Header() {
           <div className="flex items-center gap-1">
             <img src={logoImage} alt="PixeSci" className="h-10 w-10 rounded-lg" />
             <span className="text-xl font-bold tracking-tight">PixeSci</span>
+          </div>
+          
+          <div>
+            <Button
+              size="sm"
+              asChild
+              data-testid="button-get-started"
+            >
+              <a href="https://web.pixesci.com">Get Started</a>
+            </Button>
           </div>
         </div>
       </div>
