@@ -24,7 +24,7 @@ export function HeroSection() {
             <span className="block mt-3">Start    Doing    Science.</span>
           </h1>
           <p className="text-lg md:text-xl text-muted-foreground mb-12 leading-relaxed max-w-3xl mx-auto">
-            AI-powered platform that orchestrates your scientific software—FlowJo, Prism, Benchling, ImageJ—through simple natural language commands.
+            Pixesci is an AI agent that has been trained to automate technical biotech softwares such as Schrödinger, Imaris, FlowJo, Prism, Benchling, ImageJ and PK Sim.
           </p>
           <div>
             <Button
