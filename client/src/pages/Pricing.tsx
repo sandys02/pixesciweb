@@ -7,6 +7,14 @@ import { Check } from "lucide-react";
 
 const CALENDAR_URL = "https://cal.com/pixesci/30min?user=pixesci&overlayCalendar=true";
 
+const proFeatures = [
+  "Up to 10 tool orchestrations",
+  "Core workflow automation",
+  "Cloud-hosted solution",
+  "Email support",
+  "Standard integrations",
+];
+
 const enterpriseFeatures = [
   "Unlimited tool orchestration",
   "Custom workflow automation",
@@ -38,42 +46,86 @@ export default function Pricing() {
             </p>
           </motion.div>
 
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            className="max-w-md mx-auto"
-          >
-            <Card className="p-8 border border-border">
-              <div className="text-sm font-medium text-muted-foreground uppercase tracking-wider mb-2">
-                Enterprise
-              </div>
-              <h2 className="text-3xl font-bold mb-4">Custom</h2>
-              <p className="text-muted-foreground mb-8">
-                Tailored to your research infrastructure. Deploy PixeSci across teams, labs, and facilities—fully customized to your stack and security requirements.
-              </p>
+          <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.2 }}
+            >
+              <Card className="p-8 border border-border h-full flex flex-col">
+                <div className="text-sm font-medium text-muted-foreground uppercase tracking-wider mb-2">
+                  Pro
+                </div>
+                <div className="mb-4">
+                  <span className="text-4xl font-bold">$99</span>
+                  <span className="text-muted-foreground">/month</span>
+                </div>
+                <p className="text-sm text-primary font-medium mb-4">
+                  14-day free trial
+                </p>
+                <p className="text-muted-foreground mb-8">
+                  Perfect for individual researchers and small teams getting started with AI-powered workflows.
+                </p>
 
-              <ul className="space-y-3 mb-8">
-                {enterpriseFeatures.map((feature, index) => (
-                  <li key={index} className="flex items-start gap-3">
-                    <Check className="w-5 h-5 text-primary mt-0.5 flex-shrink-0" />
-                    <span className="text-sm">{feature}</span>
-                  </li>
-                ))}
-              </ul>
+                <ul className="space-y-3 mb-8 flex-1">
+                  {proFeatures.map((feature, index) => (
+                    <li key={index} className="flex items-start gap-3">
+                      <Check className="w-5 h-5 text-primary mt-0.5 flex-shrink-0" />
+                      <span className="text-sm">{feature}</span>
+                    </li>
+                  ))}
+                </ul>
 
-              <Button
-                size="lg"
-                className="w-full"
-                asChild
-                data-testid="button-pricing-talk-to-us"
-              >
-                <a href={CALENDAR_URL} target="_blank" rel="noopener noreferrer">
-                  Talk to Us
-                </a>
-              </Button>
-            </Card>
-          </motion.div>
+                <Button
+                  size="lg"
+                  className="w-full"
+                  asChild
+                  data-testid="button-pricing-start-trial"
+                >
+                  <a href={CALENDAR_URL} target="_blank" rel="noopener noreferrer">
+                    Start Free Trial
+                  </a>
+                </Button>
+              </Card>
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.3 }}
+            >
+              <Card className="p-8 border border-border h-full flex flex-col">
+                <div className="text-sm font-medium text-muted-foreground uppercase tracking-wider mb-2">
+                  Enterprise
+                </div>
+                <h2 className="text-4xl font-bold mb-4">Custom</h2>
+                <p className="text-muted-foreground mb-8">
+                  Tailored to your research infrastructure. Deploy PixeSci across teams, labs, and facilities—fully customized to your stack and security requirements.
+                </p>
+
+                <ul className="space-y-3 mb-8 flex-1">
+                  {enterpriseFeatures.map((feature, index) => (
+                    <li key={index} className="flex items-start gap-3">
+                      <Check className="w-5 h-5 text-primary mt-0.5 flex-shrink-0" />
+                      <span className="text-sm">{feature}</span>
+                    </li>
+                  ))}
+                </ul>
+
+                <Button
+                  size="lg"
+                  variant="outline"
+                  className="w-full"
+                  asChild
+                  data-testid="button-pricing-talk-to-us"
+                >
+                  <a href={CALENDAR_URL} target="_blank" rel="noopener noreferrer">
+                    Talk to Us
+                  </a>
+                </Button>
+              </Card>
+            </motion.div>
+          </div>
 
           <motion.div
             initial={{ opacity: 0, y: 20 }}
