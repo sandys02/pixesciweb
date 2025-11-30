@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Link, useLocation } from "wouter";
+import { ThemeToggle } from "./ThemeToggle";
 import logoImage from "@assets/ChatGPT Image Nov 28, 2025, 09_38_22 PM_1764384089669.png";
 
 const CALENDAR_URL = "https://cal.com/pixesci/30min?user=pixesci&overlayCalendar=true";
@@ -29,6 +30,7 @@ export function Header() {
           </div>
           
           <div className="flex items-center gap-2">
+            <ThemeToggle />
             <Button
               size="sm"
               variant="outline"
