@@ -4,6 +4,7 @@ import { storage } from "./storage";
 import { insertWaitlistSignupSchema } from "@shared/schema";
 import { z } from "zod";
 import { sendWaitlistConfirmation } from "./email";
+import { submitToApollo } from "./apollo";
 
 export async function registerRoutes(app: Express): Promise<Server> {
   app.post("/api/admin/verify", async (req, res) => {
@@ -68,11 +69,17 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const validatedData = insertWaitlistSignupSchema.parse(req.body);
       const signup = await storage.createWaitlistSignup(validatedData);
       
-      try {
-        await sendWaitlistConfirmation(signup.email, signup.name);
-      } catch (emailError) {
-        console.error("Failed to send confirmation email, but signup was saved:", emailError);
-      }
+      // Submit to Apollo in background (don't block response)
+      submitToApollo({
+        email: signup.email,
+        name: signup.name,
+        software: signup.software,
+        websiteUrl: signup.websiteUrl,
+      }).catch(err => console.error('[Apollo] Background submission failed:', err));
+      
+      // Send confirmation email in background
+      sendWaitlistConfirmation(signup.email, signup.name)
+        .catch(emailError => console.error("Failed to send confirmation email:", emailError));
       
       res.json({ success: true, id: signup.id });
     } catch (error) {

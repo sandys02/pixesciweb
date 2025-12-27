@@ -17,52 +17,28 @@ export function PilotSignupSection() {
     setIsLoading(true);
     setError(null);
 
-    const form = e.currentTarget;
-    
+    const formData = new FormData(e.currentTarget);
+    const data = {
+      email: formData.get("email") as string,
+      name: formData.get("name") as string,
+      software: (formData.get("functions") as string) || null,
+      websiteUrl: (formData.get("website_url") as string) || null,
+    };
+
     try {
-      // Try Apollo form submission if available
-      const apolloWindow = window as typeof window & { 
-        ApolloMeetings?: { submit: (opts?: Record<string, unknown>) => void };
-      };
-      
-      if (apolloWindow.ApolloMeetings?.submit) {
-        // Apollo will capture the form data
-        apolloWindow.ApolloMeetings.submit({
-          onSuccess: () => {
-            setIsSubmitted(true);
-            setIsLoading(false);
-          },
-          onError: () => {
-            // Fallback - still show success since we can't retry
-            setIsSubmitted(true);
-            setIsLoading(false);
-          }
-        });
-      } else {
-        // Fallback: Submit form data via hidden iframe to Apollo
-        const formData = new FormData(form);
-        const email = formData.get("email") as string;
-        const name = formData.get("name") as string;
-        
-        // Track the submission with Apollo's tracking API
-        const apolloTrack = window as typeof window & {
-          trackingFunctions?: { track: (event: string, data: Record<string, unknown>) => void };
-        };
-        
-        if (apolloTrack.trackingFunctions?.track) {
-          apolloTrack.trackingFunctions.track("form_submission", {
-            email,
-            name,
-            software: formData.get("functions"),
-            website_url: formData.get("website_url"),
-          });
-        }
-        
+      const response = await fetch("/api/waitlist", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
+      });
+
+      if (response.ok) {
         setIsSubmitted(true);
+      } else {
+        setError("Something went wrong. Please try again.");
       }
     } catch {
-      // If anything fails, still show success to user
-      setIsSubmitted(true);
+      setError("Network error. Please check your connection.");
     } finally {
       setIsLoading(false);
     }
