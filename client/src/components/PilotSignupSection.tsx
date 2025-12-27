@@ -11,12 +11,11 @@ export function PilotSignupSection() {
   const [isSubmitted, setIsSubmitted] = useState(false);
   const formRef = useRef<HTMLFormElement>(null);
 
-  const handleSubmit = () => {
-    // Show success message after form submits
-    // Apollo intercepts the native form submission
-    setTimeout(() => {
-      setIsSubmitted(true);
-    }, 100);
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    // Apollo tracks the form data automatically
+    // Show success message
+    setIsSubmitted(true);
   };
 
   return (
@@ -45,8 +44,6 @@ export function PilotSignupSection() {
             {!isSubmitted ? (
               <form 
                 ref={formRef}
-                action="#" 
-                method="POST"
                 onSubmit={handleSubmit}
                 className="space-y-4 text-left"
               >
