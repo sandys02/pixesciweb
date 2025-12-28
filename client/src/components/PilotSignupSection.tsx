@@ -20,8 +20,11 @@ export function PilotSignupSection() {
           <h2 className="text-3xl md:text-4xl font-bold mb-4 tracking-tight">
             Join Our Pilot Program
           </h2>
-          <p className="text-lg text-muted-foreground mb-8">
+          <p className="text-lg text-muted-foreground mb-4">
             Be among the first to experience PixeSci. Get early access, shape the product, and receive priority support.
+          </p>
+          <p className="text-base text-primary font-medium mb-8">
+            Pilot participants receive exclusive founding member pricing — lock in early-bird rates before public launch.
           </p>
 
           <div 
@@ -44,6 +47,10 @@ export function PilotSignupSection() {
             <div className="flex items-center gap-2">
               <Check className="w-4 h-4 text-primary" />
               Early access
+            </div>
+            <div className="flex items-center gap-2">
+              <Check className="w-4 h-4 text-primary" />
+              Founding member pricing
             </div>
             <div className="flex items-center gap-2">
               <Check className="w-4 h-4 text-primary" />
