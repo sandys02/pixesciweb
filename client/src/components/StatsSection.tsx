@@ -11,7 +11,6 @@ interface Stat {
 const stats: Stat[] = [
   { value: 50, suffix: "+", label: "Scientific Tools", description: "Integrated platforms from FlowJo to Seurat" },
   { value: 90, suffix: "%", label: "Time Saved", description: "On repetitive analysis workflows" },
-  { value: 500, suffix: "+", label: "Researchers", description: "Already on the waitlist" },
   { value: 10, suffix: "x", label: "Faster", description: "Than manual data processing" },
 ];
 
