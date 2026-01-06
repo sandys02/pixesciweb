@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { MessageSquare, RefreshCw, Lock, Zap, Lightbulb, Users } from "lucide-react";
+import { MessageSquare, RefreshCw, Video, Zap, Lightbulb, Users } from "lucide-react";
 
 const features = [
   {
@@ -21,10 +21,10 @@ const features = [
     highlight: "Audit-ready logs",
   },
   {
-    icon: Lock,
-    title: "Research-Grade Security",
-    description: "Enterprise security with SOC 2 compliance ensures your proprietary research data stays private and protected on your systems.",
-    highlight: "SOC 2 compliant",
+    icon: Video,
+    title: "Show, Don't Code",
+    description: "Simply demonstrate your workflow once and PixeSci learns it. Record your process and the AI replicates it perfectly every time.",
+    highlight: "Learn by watching",
   },
   {
     icon: Lightbulb,
