@@ -66,7 +66,7 @@ const itemVariants = {
 
 export function FeaturesSection() {
   return (
-    <section className="py-24 bg-background border-t border-border/50" data-testid="section-features" id="section-features">
+    <section className="py-16 bg-background border-t border-border/50" data-testid="section-features" id="section-features">
       <div className="container mx-auto px-4">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
