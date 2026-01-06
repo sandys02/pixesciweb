@@ -1,6 +1,5 @@
 import { motion, useReducedMotion } from "framer-motion";
 import { useMemo } from "react";
-import { Rocket } from "lucide-react";
 
 function FloatingOrbs() {
   const prefersReducedMotion = useReducedMotion();
@@ -72,8 +71,7 @@ export function PilotSignupSection() {
           className="max-w-4xl mx-auto"
         >
           <div className="text-center mb-10">
-            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-primary/10 border border-primary/20 text-xs font-medium text-primary mb-4">
-              <Rocket className="w-3.5 h-3.5" />
+            <div className="inline-flex items-center px-3 py-1.5 rounded-md bg-primary/10 border border-primary/20 text-xs font-medium text-primary mb-4">
               Early Access
             </div>
             <h2 className="text-3xl md:text-4xl font-bold mb-4 tracking-tight">
