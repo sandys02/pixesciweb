@@ -171,7 +171,7 @@ export function InteractiveDemo() {
                     <span className="ml-3 text-xs text-muted-foreground font-mono">PixeSci Workflow Engine</span>
                   </div>
                   
-                  <div className="p-6 font-mono text-sm">
+                  <div className="p-6 font-mono text-sm min-h-[400px]">
                     <div className="mb-4 text-primary">
                       <span className="text-muted-foreground">$</span> {selectedScenario.command}
                     </div>
@@ -248,14 +248,16 @@ export function InteractiveDemo() {
           </AnimatePresence>
 
           {!selectedScenario && (
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              className="text-center py-12 border-2 border-dashed border-border/50 rounded-lg"
-            >
-              <Terminal className="w-12 h-12 text-muted-foreground/40 mx-auto mb-4" />
-              <p className="text-muted-foreground">Select a workflow above to see the demo</p>
-            </motion.div>
+            <div className="min-h-[453px] flex flex-col items-center justify-center border-2 border-dashed border-border/50 rounded-lg">
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                className="text-center"
+              >
+                <Terminal className="w-12 h-12 text-muted-foreground/40 mx-auto mb-4" />
+                <p className="text-muted-foreground">Select a workflow above to see the demo</p>
+              </motion.div>
+            </div>
           )}
         </div>
       </div>
