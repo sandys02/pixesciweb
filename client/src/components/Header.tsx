@@ -88,7 +88,7 @@ export function Header() {
                 onClick={() => smoothScrollTo('#signup-section')}
                 data-testid="button-header-signup"
               >
-                Get Started
+                Get early access
               </Button>
               <Button
                 size="sm"
@@ -144,7 +144,7 @@ export function Header() {
                     setIsMobileMenuOpen(false);
                   }}
                 >
-                  Get Started
+                  Get early access
                 </Button>
                 <Button
                   size="sm"

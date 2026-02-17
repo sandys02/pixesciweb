@@ -293,9 +293,9 @@ export function HeroSection() {
               size="lg"
               className="text-base px-8 min-h-12 font-semibold group"
               onClick={scrollToSignupForm}
-              data-testid="button-hero-create-account"
+              data-testid="button-hero-get-early-access"
             >
-              Create an account
+              Get early access
               <ArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" />
             </Button>
             <Button
