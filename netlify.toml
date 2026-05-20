@@ -4,12 +4,11 @@
   # Publish the frontend static files
   publish = "dist/public"
 
+[build.environment]
+  NPM_CONFIG_PRODUCTION = "false"
+
 # Redirect all routes to index.html for client-side routing
 [[redirects]]
   from = "/*"
   to = "/index.html"
   status = 200
-
-# Environment variables hint
-[context.production.environment]
-  NODE_ENV = "production"

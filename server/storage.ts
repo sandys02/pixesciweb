@@ -1,7 +1,6 @@
 import { type User, type InsertUser, type WaitlistSignup, type InsertWaitlistSignup, users, waitlistSignups } from "@shared/schema";
-import { drizzle } from "drizzle-orm/neon-serverless";
+import { drizzle } from "drizzle-orm/netlify-db";
 import { eq, desc } from "drizzle-orm";
-import { Pool } from "@neondatabase/serverless";
 import { randomUUID } from "crypto";
 
 export interface IStorage {
@@ -68,8 +67,7 @@ class DatabaseStorage implements IStorage {
   constructor() {
     this.fallback = new MemStorage();
     try {
-      const pool = new Pool({ connectionString: process.env.DATABASE_URL });
-      this.db = drizzle(pool);
+      this.db = drizzle();
     } catch (error) {
       console.warn('Failed to initialize database connection, using in-memory storage:', error);
       this.useFallback = true;
