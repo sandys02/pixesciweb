@@ -1,0 +1,5280 @@
+# Pixesci Marketing Website Master Implementation Prompt
+
+Use this prompt to build the Pixesci public marketing website in `/home/japheth-oruko/projects/pixesci-website`.
+
+This is an implementation prompt, not an implementation. It exists to guide a later Codex run through building the full website deliberately and consistently.
+
+Do not copy Vercel, ElevenLabs, or Sunburst directly. Use them only as directional references for quality, structure, restraint, motion, and storytelling.
+
+## Research Basis
+
+- Primary local source: `/home/japheth-oruko/projects/pixesciv2/frontend-v2/docs/PIXESCI_ONBOARDING.md` describes Pixesci as a local-first scientific workflow automation assistant with a Tauri desktop shell, Next.js frontend, FastAPI backend sidecar, local storage, local AI, software profiles, workflow execution, and audit/security controls.
+- Primary compliance source: `/home/japheth-oruko/projects/pixesciv2/frontend-v2/docs/compliance` contains company, business, FDA CGMP data integrity, and GRDI research data integrity materials.
+- Primary app source: `/home/japheth-oruko/projects/pixesciv2/frontend-v2/src/features` contains actual product surfaces for chat, workflows, workflow canvas, software catalog, audit logs, template center, prompt studio, auth, notifications, admin, and settings.
+- Primary backend source: `/home/japheth-oruko/projects/pixesciv2/backend` contains FastAPI routes, local AI services, workflow execution services, software catalog models, compliance/audit services, security endpoints, instrument adapters, and local-first runtime setup.
+- Inspiration source: `https://vercel.com/` is the primary visual reference for premium technical restraint, grid precision, enterprise navigation, concise product storytelling, and clean CTA hierarchy.
+- Inspiration source: `https://elevenlabs.io/` is a secondary reference for polished media-led product presentation, confident category language, and immersive product modules.
+- Inspiration source: `https://sunburst.ai/` is a secondary reference for guided process storytelling, product-in-context mockups, and narrative sequences that show a user moving from intent to published outcome.
+
+## Non-Negotiable Rules
+
+## Phase 0: Required Pre-Implementation Setup
+
+Before writing implementation code, the future Codex run must complete Phase 0.
+
+- Confirm the website will be implemented as a multi-page Next.js marketing site, not a single-page landing page.
+- Use the best available technologies already appropriate for this repo: Next.js 16 App Router, React 19, TypeScript, Tailwind CSS 4, shadcn/ui-style components, Radix primitives where needed, lucide-react icons, server components by default, and client components only for real interactivity.
+- Inspect the existing installed stack in `package.json`, `components.json`, `src/app/globals.css`, and `src/components/ui`.
+- Read the relevant Next.js 16 documentation in `node_modules/next/dist/docs/` before using framework APIs that may have changed.
+- Identify any additional npm packages that would materially improve the implementation, such as animation, form, validation, or utility packages.
+- Prompt the user before installing any package that is not already installed. Explain why each package is needed, where it will be used, and what tradeoff it introduces.
+- Identify every shadcn/ui component likely needed before implementation, such as button, dialog, sheet, dropdown-menu, navigation-menu, accordion, tabs, card, badge, input, textarea, label, select, separator, tooltip, and form-related primitives.
+- Prompt the user before running `npx shadcn@latest` or adding shadcn components. List the exact components to add and why they are needed.
+- Do not silently add dependencies, registries, component libraries, analytics scripts, animation libraries, icon packs, or external services.
+- Create a short implementation plan after Phase 0 that confirms routes, components, package needs, shadcn components, placeholder image strategy, and verification commands.
+
+## Image And Media Placeholder Requirements
+
+The implementation must include deliberate placeholders for future real Pixesci imagery and product screenshots.
+
+- Use placeholder `div` blocks, CSS-built mockups, or local placeholder image slots wherever final real product screenshots, customer-approved images, workflow screenshots, diagrams, or marketing media will be swapped in later.
+- Mark each placeholder clearly in code with a concise TODO comment naming the intended final asset, for example `TODO: Replace with real workflow canvas screenshot`.
+- Do not use random stock imagery for scientific product proof.
+- Do not invent customer screenshots, regulated workflow evidence, software logos, or certification images.
+- Placeholder visuals should still look polished enough for layout review: use skeleton product frames, workflow nodes, audit timelines, integration chips, and architecture blocks.
+- Every placeholder image area must have stable dimensions, responsive behavior, and accessible alt text or appropriate `aria-hidden` treatment.
+- Put placeholder asset metadata in a shared content/data file where possible so future image replacement is straightforward.
+- The final handoff must list every placeholder that still requires a real image or final asset.
+
+- Do not implement a generic SaaS landing page.
+- Do not make Pixesci look like a voice AI product, website builder, DevOps platform, or general RPA tool.
+- Do not copy Vercel, ElevenLabs, or Sunburst text, layout, names, animations, art direction, or component details.
+- Do not claim certifications or regulatory approval that are not documented.
+- Do not imply Pixesci alone makes a customer compliant.
+- Do not center the entire story on chat; chat is an interface, while orchestration, execution, and traceability are the platform.
+- Do not use vague phrases like `AI-powered productivity` without anchoring them in scientific workflow execution.
+- Do not add decorative SVG blobs, generic gradients, one-note palettes, or stock-like abstract scenes.
+- Do not hide the product behind marketing metaphors; show workflow graphs, integration handoffs, audit trails, local runtimes, and scientific software context.
+- Do not start by building a marketing-only hero with no product signal. The first viewport must communicate the product category immediately.
+
+## Product Understanding
+
+- Pixesci is integration, automation, and compliance infrastructure for fragmented scientific software.
+- Pixesci is a local-first orchestration and execution layer for scientific workflows.
+- Pixesci helps scientists and lab teams convert repetitive multi-tool processes into reusable, traceable workflows.
+- Pixesci is designed for controlled environments where cloud dependency, data movement, audit gaps, and manual handoffs are operational risks.
+- Pixesci combines a desktop app, local backend sidecar, graph-native workflow editor, software capability catalog, AI-assisted workflow generation, local model support, audit logs, and automation adapters.
+- Pixesci targets high-control scientific environments first: regulated life sciences and secure research environments.
+- Pixesci has broader domain potential across imaging, flow cytometry, analytical chemistry, bioinformatics, omics, materials science, computational chemistry, HPC, LIMS/ELN, and reporting workflows.
+- Pixesci is not a single-domain biotech workflow tool. Life sciences is the initial commercial wedge, not the whole identity.
+- Pixesci is not a hosted cloud control plane. The canonical runtime is a local desktop app talking to a local FastAPI backend over localhost HTTP/WebSocket.
+- Pixesci is not merely prompt automation. It uses deterministic adapters, software profiles, capability schemas, templates, OCR/CV, local models, and safety gates before open-ended reasoning.
+
+## Core Problem
+
+- Scientific work is fragmented across specialized tools that were not designed to communicate with one another.
+- Instrument software often does not talk to analysis software.
+- Analysis software often does not talk to statistical tools, LIMS, ELN, repositories, or reporting systems.
+- Manual exports, file renaming, copy-paste, re-entry, and analyst-specific sequences break reproducibility.
+- Manual handoffs create missing context, version drift, attribution gaps, and audit trail gaps.
+- Regulated teams face direct compliance risk when execution records, review evidence, and data lineage are incomplete.
+- Secure R&D and national lab teams face reproducibility and deployment-control pressure when workflows span local software, HPC jobs, instruments, and internal repositories.
+- Researchers lose time to data plumbing rather than science.
+- Existing LIMS/ELN platforms are systems of record, not full systems of execution across desktop scientific software.
+- Generic RPA tools lack scientific semantics, software capability contracts, data lineage, local-first scientific runtime assumptions, and compliance-aware workflow context.
+
+## Website Goals
+
+- Define Pixesci as the missing orchestration layer between scientific software tools.
+- Make the website feel premium, technical, elegant, and enterprise-ready.
+- Convert qualified buyers into demo requests or sales conversations.
+- Give technical evaluators enough specificity to trust the product.
+- Explain local-first and on-prem deployment as an architectural advantage.
+- Explain compliance support through workflow evidence rather than unsupported regulatory claims.
+- Show concrete workflows for regulated life sciences and secure research environments.
+- Create a route structure that can grow into product, solutions, security, compliance, integrations, resources, and company pages.
+- Support future content expansion without redesigning the whole site.
+- Build a strong design system that another engineer can extend consistently.
+
+## Target Audience
+
+- QC Directors at biotech, pharma, CRO, and CDMO organizations.
+- Heads of R&D Operations and lab operations leaders.
+- VPs of Manufacturing Sciences and analytical development leaders.
+- Lab IT managers responsible for validated or controlled environments.
+- Core facility managers who standardize repeatable pipelines for many researchers.
+- Research scientists and analysts who feel the manual workflow pain daily.
+- Quality reviewers who need traceable execution evidence and audit trail review support.
+- National lab program managers and secure research infrastructure teams.
+- Computational scientists coordinating HPC, file outputs, analysis tools, and reporting.
+- Technical due-diligence readers who need to understand architecture and deployment posture quickly.
+
+## Brand Positioning
+
+- Category: scientific workflow orchestration infrastructure.
+- Short positioning: The local-first orchestration layer for scientific software workflows.
+- Alternative positioning: Integration, automation, and traceability for high-control scientific environments.
+- Primary value: turn fragmented scientific software handoffs into reusable, traceable execution pipelines.
+- Primary wedge: regulated life sciences workflows where compliance pressure creates urgent demand.
+- Strategic wedge: secure research environments where airgapped/local architecture and reproducibility matter.
+- Tone: exact, confident, technical, pragmatic, and enterprise-literate.
+- Avoid tone: hype-heavy, cute, consumer AI, vague, defensive, academic-only, or compliance-lawyer jargon.
+- Brand promise: existing scientific tools, connected into reproducible workflows without sending sensitive work to a cloud control plane.
+- Proof posture: show system capabilities, workflow examples, architecture, and careful compliance language.
+
+## Technology Stack
+
+- Use Next.js 16 App Router and read installed docs before relying on framework APIs.
+- Use TypeScript throughout.
+- Use React 19 patterns compatible with the installed Next version.
+- Use Tailwind CSS 4 and the existing CSS variable theme foundation.
+- Use shadcn/ui-style primitives for buttons, menus, accordions, tabs, dialogs, cards, and forms where needed.
+- Use Radix primitives directly only when a shadcn-style component is not already available.
+- Use lucide-react icons for interface and feature icons.
+- Prefer server components for static marketing sections.
+- Use client components only for nav menus, mobile menus, accordions, tabs, carousels, animated counters, and interactive visual modules.
+- Do not add a CMS, analytics vendor, auth, or backend dependency unless explicitly requested.
+
+## Suggested Routes
+
+This must be a multi-page website. Implement real routes for the core public marketing pages instead of collapsing the experience into a one-page landing page.
+
+- `/` homepage.
+- `/product` product overview.
+- `/solutions/regulated-life-sciences` regulated life sciences solution page.
+- `/solutions/secure-research` secure research and national labs solution page.
+- `/solutions/core-facilities` core facilities solution page.
+- `/integrations` software and integration catalog marketing page.
+- `/compliance` compliance and data integrity page.
+- `/security` local-first security and deployment page.
+- `/workflow-automation` workflow automation feature page.
+- `/resources` resource index placeholder with useful initial content.
+- `/company` company/about page.
+- `/contact` demo/contact page.
+
+## Primary CTAs
+
+- Primary CTA label: `Request a demo`.
+- Secondary CTA label: `Explore the platform` or `See workflows`.
+- Enterprise CTA label: `Talk to sales`.
+- Technical CTA label: `Review architecture`.
+- Compliance CTA label: `See compliance workflows`.
+- Use CTA pairs sparingly; each section should not repeat the same two buttons without reason.
+- Hero CTA should target demo conversion while secondary CTA scrolls or links to product detail.
+- Footer CTA should be direct and enterprise-oriented.
+- For pages with high-buyer intent, include a contact form or clear contact route.
+- Do not use casual CTA language such as `Try it now` unless a self-serve product actually exists.
+
+## Design System Direction
+
+- Primary inspiration is Vercel: restrained surfaces, precise grid, crisp borders, generous whitespace, strong monochrome foundation, controlled gradients, and technical confidence.
+- Secondary ElevenLabs inspiration: polished interactive product modules, confident top-level product categories, and immersive moments only where Pixesci product visuals justify them.
+- Secondary Sunburst inspiration: guided process storytelling, agent-like progression, and product-in-context walkthroughs.
+- Use a mostly light default experience with selective dark technical bands for architecture, local runtime, and workflow execution visuals.
+- Use dark mode support if feasible, but the marketing pages must look intentionally designed in the default theme first.
+- Avoid using Vercel's exact black/white triangle motif, exact nav patterns, exact section ordering, or exact copy rhythm.
+- Avoid using ElevenLabs voice cards or media collage style directly.
+- Avoid using Sunburst's coral/plum/cream palette directly.
+- Pixesci visuals should be built from scientific workflow concepts: nodes, edges, audit events, files, instruments, software logos, parameters, review states, and local runtime layers.
+- Every decorative detail should reinforce scientific infrastructure, not generic AI futurism.
+
+## Color System
+
+- Base background: near-white technical white, such as `oklch(0.99 0 0)` or a close token.
+- Base foreground: near-black graphite, such as `oklch(0.15 0 0)`.
+- Muted backgrounds: cool neutral panels with very low chroma.
+- Borders: subtle neutral hairlines with opacity variants.
+- Primary accent: choose a precise scientific blue or cyan-teal accent, not a saturated SaaS purple.
+- Secondary accent: use a controlled green or amber only for state, validation, or review signals.
+- Critical/destructive: reserve red for risk, failed run, or security alert states.
+- Compliance/audit accent: use green/teal for verified traceability, not a loud badge palette.
+- Dark technical bands: near-black with faint grid lines and restrained accent glows tied to workflow paths.
+- Do not allow more than one accent family to dominate the entire site.
+
+## Typography
+
+- Use Geist already configured unless there is a documented reason to add another font.
+- Use a strong editorial H1 on marketing pages, but keep it technical and readable.
+- Do not use viewport-width font scaling.
+- Do not use negative letter spacing.
+- Use tight but accessible heading line heights.
+- Use body copy around 16-18px on desktop and 15-16px on mobile.
+- Use monospace only for code snippets, workflow IDs, event logs, model names, paths, and technical labels.
+- Use eyebrow text sparingly for page category and section orientation.
+- Make section headings literal and specific.
+- Avoid vague one-word headings except where supported by nearby technical context.
+
+## Spacing and Layout
+
+- Use a max content width around 1120-1240px for most sections.
+- Use full-width bands for major story chapters rather than floating section cards.
+- Use consistent vertical rhythm: large page sections around 96-144px desktop and 64-96px mobile.
+- Use grids with stable column definitions and responsive fallbacks.
+- Use 1px borders and subtle dividers to create Vercel-like technical precision.
+- Keep product mockups aligned to grid edges and sized intentionally.
+- Avoid layout shifts on hover.
+- Avoid nested cards.
+- Use aspect ratios for hero visual, workflow diagrams, catalog previews, and architecture diagrams.
+- Every section should have a clear role in the conversion narrative.
+
+## Motion
+
+- Use motion to clarify workflow progression, not to decorate.
+- Use subtle reveals, line tracing, node activation, log streaming, and status transitions.
+- Respect `prefers-reduced-motion` and disable nonessential animations.
+- Keep animation durations restrained, usually 150-500ms for UI transitions and 1-6s for ambient workflow visuals.
+- Avoid constant distracting motion near body copy.
+- Use CSS animations first; use client-side animation libraries only if already available or truly needed.
+- Do not add heavy 3D unless it provides real value and can be tested across breakpoints.
+- Hover states should feel precise: border, background, text, and small transform changes.
+- Animated counters should not be used for unverified metrics.
+- Workflow visuals can animate from manual handoff to connected traceable pipeline.
+
+## Accessibility
+
+- Use semantic landmarks: header, nav, main, section, footer.
+- Use one H1 per page.
+- Maintain heading hierarchy without skipping levels for visual reasons.
+- All nav menus must be keyboard accessible.
+- Mobile menu must trap focus if implemented as dialog/sheet.
+- Use focus-visible styles that are visible on light and dark backgrounds.
+- Every icon-only button needs an accessible label.
+- All product visuals need meaningful alt text or appropriate aria-hidden treatment.
+- Text contrast must satisfy WCAG AA.
+- Forms must have labels, errors, and success states.
+
+## SEO
+
+- Use route-specific metadata with precise titles and descriptions.
+- Homepage title should include Pixesci and scientific workflow orchestration.
+- Include Open Graph and Twitter metadata using a generated or designed OG image.
+- Use structured data for Organization and SoftwareApplication where appropriate.
+- Use clean canonical URLs.
+- Create `sitemap.ts` and `robots.ts` if the final implementation includes multiple pages.
+- Use descriptive headings that include terms buyers search for: scientific workflow automation, lab software integration, audit trail, local-first, on-prem, regulated workflows, reproducibility.
+- Avoid keyword stuffing.
+- Use internal links between product, solutions, compliance, security, and integrations pages.
+- Ensure pages render meaningful content without client-side data fetching.
+
+## Performance
+
+- Keep the site static-first.
+- Avoid large client bundles.
+- Use Next image optimization for raster assets where applicable.
+- Prefer CSS diagrams and lightweight SVG only where code-native visuals are more efficient than images.
+- Do not load external fonts beyond the existing Next font setup unless necessary.
+- Lazy-load heavy media below the fold.
+- Avoid autoplaying videos unless muted, lightweight, and nonessential.
+- Target excellent Lighthouse performance on desktop and mobile.
+- Keep animation code small and scoped.
+- Do not add analytics or third-party scripts without explicit instruction.
+
+## Compliance Messaging
+
+- Use FDA CGMP data integrity concepts carefully: completeness, consistency, accuracy, attributable, legible, contemporaneous, original/true copy, accurate, metadata, audit trails, record review, backups, access controls, and electronic signatures.
+- Use GRDI concepts carefully: accuracy, completeness, reproducibility, understandability, interpretability, transferability, raw data retention, metadata, identifiers, versioning, scripted processing, traceability when merging datasets, and documented data changes.
+- Pixesci should be described as supporting compliance workflows by creating execution evidence and traceability.
+- Do not state that Pixesci is Part 11 certified, HIPAA certified, FDA approved, or validated unless later proof is provided.
+- Acceptable phrasing: `designed for controlled environments`, `supports audit-ready workflows`, `helps preserve execution history`, `helps teams produce reviewable records`, `built around local-first deployment and traceability`.
+- Avoid phrasing: `guarantees compliance`, `FDA compliant out of the box`, `certified Part 11`, `HIPAA compliant for all deployments`.
+- Mention audit logs, user identity, timestamps, event type, outcome, resource, metadata, and checksums as product concepts where appropriate.
+- Mention review checkpoints and human-in-the-loop approval for high-risk steps.
+- Mention local/on-prem deployment as relevant for controlled infrastructure.
+- Make clear that customers retain responsibility for validation, SOPs, configuration, and quality-system use.
+
+## Homepage Structure
+
+- Hero: category-defining headline, concise value prop, CTA pair, and immediate product visual showing connected scientific workflow execution.
+- Proof strip: mention high-control environments, local-first architecture, audit trails, reproducible workflows, and software integrations instead of fake customer logos unless assets exist.
+- Problem section: fragmented scientific software, manual handoffs, broken lineage, lost time, compliance risk.
+- Platform section: orchestration layer with workflow canvas, software catalog, AI assistant, execution runtime, audit trail, local deployment.
+- Workflow visual section: show FlowJo/CellProfiler/ImageJ/Prism/LIMS or HPLC/Chromeleon/LIMS path as an example pipeline.
+- Compliance section: explain execution records, metadata, review checkpoints, audit history, and data integrity support.
+- Local-first architecture section: desktop app, local backend, local storage, local models, offline profile packs, optional internal shares.
+- Integrations section: categories of scientific software and capability channels.
+- Solutions section: regulated life sciences, secure research, core facilities.
+- Final CTA: request a demo for a specific workflow.
+
+## Navigation
+
+- Header should be sticky or gently fixed with backdrop blur only if it remains legible.
+- Navigation should be crisp and compact, inspired by enterprise technical sites.
+- Top-level nav: Product, Solutions, Integrations, Compliance, Security, Resources, Company.
+- Primary nav CTA: Request a demo.
+- Secondary nav item can be Contact or Talk to sales.
+- Desktop dropdowns should be structured and useful, not mega-menu clutter.
+- Mobile nav should be a full-height or sheet menu with grouped links and CTAs.
+- Logo should read Pixesci clearly.
+- Do not make the brand only tiny nav text; hero must reinforce brand/category.
+- Active route styling should be subtle and consistent.
+
+## Footer
+
+- Footer should feel enterprise-grade and useful.
+- Include concise brand description.
+- Include columns for Product, Solutions, Resources, Company, and Legal.
+- Include CTA band above footer.
+- Include compliance disclaimer language if compliance pages make regulated claims.
+- Include copyright with current year.
+- Do not include fake social links unless real URLs are provided.
+- Footer should work in light and dark contexts.
+- Use restrained typography and dividers.
+- Include contact route link prominently.
+
+## Page Requirements: Homepage
+
+- The homepage must define the category in the first viewport.
+- Recommended H1: `The local-first orchestration layer for scientific workflows.`
+- Alternative H1: `Connect scientific software into traceable workflows.`
+- Hero support copy should mention fragmented lab software, reusable execution pipelines, local deployment, and audit-ready traceability.
+- Hero visual should be a product-inspired workflow operating surface: nodes for instrument output, analysis, statistics, LIMS/ELN, review, and report export.
+- The hero must avoid generic abstract AI imagery.
+- Hero CTAs should be `Request a demo` and `See how it works`.
+- Include a compact proof row with labels such as Local-first, On-prem ready, Workflow execution, Audit history, Software profiles.
+- Use Vercel-like precision: generous negative space, exact grid, crisp borders, minimal ornament.
+- Below the hero, start with the structural problem: forty years of specialized scientific software and no universal orchestration layer.
+
+## Page Requirements: Product Page
+
+- Explain the platform as a set of connected product capabilities.
+- Sections: workflow canvas, software catalog, AI assistant, execution runtime, audit logs, template center, local deployment.
+- Use diagrams showing data and control flow between capabilities.
+- Show chat as a planning and control interface, not the whole product.
+- Show the software catalog as backend-owned profiles and capabilities.
+- Show workflow canvas as graph-native nodes and edges with variables and data-bus concepts.
+- Show execution runtime with events, progress, artifacts, and review checkpoints.
+- Show audit and compliance as trace outputs of execution.
+- Include technical buyer details: local backend, WebSocket events, SQLite/SQLCipher, local model support, package-based profile distribution.
+- End with CTA to discuss a specific workflow.
+
+## Page Requirements: Regulated Life Sciences Page
+
+- Position for biotech, pharma, CROs, CDMOs, QC, analytical development, and manufacturing sciences.
+- Focus on workflow standardization, audit trail review, batch/record evidence, OOS investigations, deviation/CAPA context, change control, LIMS/ELN handoffs, and data integrity.
+- Use careful language: supports compliance workflows, does not guarantee compliance.
+- Show example pipelines: FlowJo to Prism to LIMS/ELN; Chromeleon/Empower to LIMS/batch record; CellProfiler/ImageJ to statistics to Benchling/review; mass spec to MaxQuant to R/Python to LIMS.
+- Use a section translating manual handoffs into traceable execution records.
+- Include buyer personas: QC director, lab IT, quality reviewer, analyst, R&D operations leader.
+- Include deployment note: local/on-prem for controlled environments.
+- Include validation note: customers validate configured workflows under their quality system.
+- CTA: `Map a regulated workflow` or `Request a compliance workflow demo`.
+- Do not overuse regulatory acronyms without explanation.
+
+## Page Requirements: Secure Research Page
+
+- Position for national labs, secure R&D, physical sciences, HPC, materials science, computational chemistry, and controlled research infrastructure.
+- Focus on airgapped compatibility, local-first deployment, reproducibility, complex multi-software orchestration, file lineage, HPC job completion, and facility repositories.
+- Show pipelines: VASP to VESTA to OriginPro; LAMMPS to OVITO to Python; EPICS/Bluesky acquisition to Python/MATLAB reduction to repository; FASTQ to FastQC to BWA/GATK to ELN.
+- Emphasize no external cloud control plane as the default runtime.
+- Show offline profile/model pack distribution conceptually.
+- Include security-conscious copy without claiming classified-system certification.
+- CTA: `Discuss secure deployment`.
+- Use a darker technical band for architecture.
+- Avoid defense/military aesthetics.
+- Keep scientific infrastructure as the visual language.
+
+## Page Requirements: Core Facilities Page
+
+- Position for shared instrumentation and analysis facilities that need consistent workflows across many users.
+- Focus on repeatable templates, guided workflows, operator notes, local software detection, batch execution, review checkpoints, and reporting.
+- Show a facility manager turning a proven workflow into a reusable template.
+- Show users running standardized pipelines without rebuilding steps manually.
+- Mention local storage and working directory context.
+- Mention template center and workflow notes carefully as product concepts.
+- CTA: `Standardize a facility workflow`.
+- Do not suggest multi-user cloud collaboration unless implemented later.
+- Use clean operational UI mockups.
+- Keep copy grounded in throughput and reproducibility.
+
+## Page Requirements: Integrations Page
+
+- Present integration categories rather than pretending every integration is fully productionized.
+- Categories: Imaging & Microscopy, Bioinformatics & Omics, ELN & LIMS, Analytical Chemistry, Flow Cytometry & Immunology, Data Analysis & Statistics, Molecular Biology, Reporting & Export, RPA Automation, API Connectors, File & Data Pipeline, Compliance & Quality.
+- Use software examples from docs: ImageJ/Fiji, CellProfiler, GraphPad Prism, OMERO, Imaris, ZEN, Napari, PyMOL, BLAST, samtools, FastQC, MATLAB, Origin, SigmaPlot, TissueFAXS, LIMS REST, Excel, PowerPoint, filesystem operations, Chromeleon, FlowJo, QuPath, Zeiss.
+- Explain capability profiles: statuses, setup guides, supported workflows, requirements, capabilities, input/output formats, execution channels, risk, tags, GUI/user-input flags.
+- Explain local detection separately from catalog metadata.
+- Show adapter channels: CLI, GUI automation, macro, REST/API, file monitor, format conversion, Python/R/MATLAB scripts, human-in-the-loop.
+- Include a search/filter visual but avoid implementing actual backend search unless requested.
+- CTA: `Ask about your software stack`.
+- Avoid fake logos if trademark/legal concerns arise; use text chips or generic icons where needed.
+- Make integrations feel like infrastructure, not an app marketplace clone.
+
+## Page Requirements: Compliance Page
+
+- Anchor the page in data integrity and workflow evidence.
+- Sections: audit trails, metadata, access controls, review checkpoints, execution records, exports, retention posture, local deployment, validation responsibilities.
+- Use FDA CGMP data integrity principles and GRDI research integrity principles as conceptual guidance.
+- Include ALCOA as a data integrity reference only if explained carefully.
+- Explain that Pixesci records user, action, resource, outcome, timestamp, metadata, and checksums in audit concepts.
+- Explain current-user audit views and future admin review as separate where relevant.
+- Show an audit timeline visual with event IDs, user, workflow, software, file, severity, and review status.
+- Include disclaimer: Pixesci supports compliance workflows; customer validation and SOPs remain required.
+- CTA: `Review compliance workflows`.
+- Avoid legal advice tone.
+
+## Page Requirements: Security Page
+
+- Explain local-first architecture and deployment control.
+- Sections: desktop app, local backend, local data directories, SQLite/SQLCipher support, local AI model routing, optional cloud providers gated by policy, filesystem access controls, RBAC/session controls, audit logging, backups, PHI encryption surfaces where relevant.
+- Mention production/local-only/cloud-disabled policy gating for voice/cloud providers where appropriate.
+- Explain that provider credentials belong in backend/local runtime secrets, not frontend.
+- Show architecture diagram: browser/Tauri UI to localhost FastAPI to local DB/models/profile packs/software adapters.
+- Include airgapped/on-prem message without overclaiming certification.
+- CTA: `Discuss deployment requirements`.
+- Avoid fear-based security copy.
+- Keep it concrete and technical.
+- Use dark technical surface for architecture diagram.
+
+## Page Requirements: Workflow Automation Page
+
+- Focus on graph-native workflow authoring and execution.
+- Explain nodes, edges, variables, data bus, add-step dialog, integration palette, control steps, human steps, software integration steps, console, preview, notes, IDE, local file sidebar.
+- Show a workflow moving from natural language intent to validated capability nodes to execution events.
+- Explain human-in-the-loop checkpoints for review and approval.
+- Explain templates and reuse.
+- Explain execution history and artifacts.
+- CTA: `See a workflow demo`.
+- Avoid implying all workflows can be generated perfectly without user review.
+- Show safety gates and approval for high-risk external/instrument/file mutations.
+- Make this the most product-rich feature page.
+
+## Page Requirements: Company Page
+
+- Present Pixesci as building the missing layer between scientific tools.
+- Mention local-first scientific workflow orchestration.
+- Avoid overlong founder narrative unless content is supplied.
+- Include mission, product thesis, market focus, and team/hiring placeholder if relevant.
+- Do not include unverified customer claims unless approved.
+- If mentioning Albany Medical College/Barroso Lab, keep it factual and only if user approves public disclosure.
+- CTA: `Contact Pixesci`.
+- Use restrained editorial layout.
+- Keep credibility based on product clarity.
+- Avoid startup hype clichés.
+
+## Page Requirements: Contact Page
+
+- Build a serious demo-request page.
+- Fields: name, work email, organization, role, scientific domain, software stack, workflow pain, deployment requirement, message.
+- Include options for regulated life sciences, secure research, core facility, other.
+- Include deployment options: workstation, on-prem, airgapped/controlled, unsure.
+- Use accessible form labels and validation states.
+- Do not wire real email submission unless backend or provider is specified.
+- If no backend exists, make the form a static UI with clear TODO or use `mailto:` fallback if user approves.
+- Include alternate contact text only if provided.
+- Keep visual style consistent with site.
+- CTA submit label: `Request demo`.
+
+## Suggested Reusable Components
+
+### SiteHeader
+- sticky responsive header
+- desktop nav with grouped dropdowns
+- mobile sheet navigation
+- clear demo CTA
+- subtle border/backdrop
+- keyboard accessible
+
+### SiteFooter
+- CTA band
+- footer columns
+- brand statement
+- legal/disclaimer area
+- responsive layout
+- no fake links
+
+### HeroWorkflowVisual
+- workflow graph
+- software handoff chips
+- audit event rail
+- local runtime badge
+- subtle node activation motion
+- reduced-motion fallback
+
+### SectionShell
+- consistent max width
+- responsive padding
+- optional dark mode
+- heading group
+- grid slots
+- no nested card wrappers
+
+### FeatureGrid
+- data-driven cards
+- icon support
+- concise copy
+- hover precision
+- semantic headings
+- equal heights without layout shift
+
+### WorkflowPipeline
+- before/after layout
+- manual handoffs transformed into connected execution
+- file/data lineage labels
+- review checkpoint
+- artifact output
+
+### ArchitectureDiagram
+- Tauri/Next UI
+- localhost FastAPI
+- local DB
+- local models
+- profile packs
+- scientific software adapters
+- audit/logging layer
+
+### AuditTimeline
+- event rows
+- timestamp
+- actor
+- resource
+- outcome
+- checksum/status
+- review badge
+
+### IntegrationMatrix
+- category filters
+- software examples
+- capability channels
+- setup/readiness states
+- no fake backend
+
+### CompliancePrinciples
+- ALCOA concepts
+- GRDI concepts
+- careful disclaimers
+- traceability outputs
+- review evidence
+
+### CTASection
+- single focused conversion action
+- enterprise tone
+- supporting context
+- responsive buttons
+- no repeated generic copy
+
+### ContactForm
+- accessible labels
+- domain fields
+- software stack field
+- deployment requirement field
+- success/error UI placeholders
+- no secret leakage
+
+## Suggested Folder Structure
+
+- `src/app/(marketing)/` optional route group for marketing pages if desired.
+- `src/app/page.tsx` homepage.
+- `src/app/product/page.tsx` product overview.
+- `src/app/solutions/regulated-life-sciences/page.tsx` solution page.
+- `src/app/solutions/secure-research/page.tsx` solution page.
+- `src/app/solutions/core-facilities/page.tsx` solution page.
+- `src/app/integrations/page.tsx` integrations page.
+- `src/app/compliance/page.tsx` compliance page.
+- `src/app/security/page.tsx` security page.
+- `src/app/workflow-automation/page.tsx` feature page.
+- `src/app/resources/page.tsx` resource index.
+- `src/app/company/page.tsx` company page.
+- `src/app/contact/page.tsx` contact page.
+- `src/components/site/header.tsx` and `footer.tsx`.
+- `src/components/sections/*` for page sections.
+- `src/components/visuals/*` for diagrams/mockups.
+- `src/content/navigation.ts` for nav and footer links.
+- `src/content/pages.ts` for route/page metadata and copy.
+- `src/content/integrations.ts` for software categories/examples.
+- `src/content/compliance.ts` for compliance-safe messaging.
+- `src/lib/seo.ts` for metadata helpers.
+
+## Homepage Section-by-Section Implementation Checklist
+
+### Homepage Section 1: Hero
+- Requirement: include headline in the hero section with Pixesci-specific, non-generic copy.
+- Requirement: include subheadline in the hero section with Pixesci-specific, non-generic copy.
+- Requirement: include primary CTA in the hero section with Pixesci-specific, non-generic copy.
+- Requirement: include secondary CTA in the hero section with Pixesci-specific, non-generic copy.
+- Requirement: include workflow visual in the hero section with Pixesci-specific, non-generic copy.
+- Requirement: include proof chips in the hero section with Pixesci-specific, non-generic copy.
+- Requirement: include local-first badge in the hero section with Pixesci-specific, non-generic copy.
+- Requirement: include responsive behavior in the hero section with Pixesci-specific, non-generic copy.
+- Requirement: include motion fallback in the hero section with Pixesci-specific, non-generic copy.
+- Requirement: include SEO heading in the hero section with Pixesci-specific, non-generic copy.
+- Design note: the hero section should use precise spacing, stable responsive layout, and no copied inspiration-site composition.
+- Accessibility note: the hero section must maintain heading hierarchy, contrast, and keyboard-safe interactions.
+
+### Homepage Section 2: Problem
+- Requirement: include fragmentation in the problem section with Pixesci-specific, non-generic copy.
+- Requirement: include manual handoffs in the problem section with Pixesci-specific, non-generic copy.
+- Requirement: include audit gaps in the problem section with Pixesci-specific, non-generic copy.
+- Requirement: include lost time in the problem section with Pixesci-specific, non-generic copy.
+- Requirement: include irreproducibility in the problem section with Pixesci-specific, non-generic copy.
+- Requirement: include data lineage in the problem section with Pixesci-specific, non-generic copy.
+- Requirement: include scientific examples in the problem section with Pixesci-specific, non-generic copy.
+- Requirement: include buyer pain in the problem section with Pixesci-specific, non-generic copy.
+- Requirement: include visual contrast in the problem section with Pixesci-specific, non-generic copy.
+- Requirement: include transition in the problem section with Pixesci-specific, non-generic copy.
+- Design note: the problem section should use precise spacing, stable responsive layout, and no copied inspiration-site composition.
+- Accessibility note: the problem section must maintain heading hierarchy, contrast, and keyboard-safe interactions.
+
+### Homepage Section 3: Platform
+- Requirement: include workflow canvas in the platform section with Pixesci-specific, non-generic copy.
+- Requirement: include software catalog in the platform section with Pixesci-specific, non-generic copy.
+- Requirement: include AI assistant in the platform section with Pixesci-specific, non-generic copy.
+- Requirement: include execution runtime in the platform section with Pixesci-specific, non-generic copy.
+- Requirement: include audit logs in the platform section with Pixesci-specific, non-generic copy.
+- Requirement: include local backend in the platform section with Pixesci-specific, non-generic copy.
+- Requirement: include profile packs in the platform section with Pixesci-specific, non-generic copy.
+- Requirement: include templates in the platform section with Pixesci-specific, non-generic copy.
+- Requirement: include safety gates in the platform section with Pixesci-specific, non-generic copy.
+- Requirement: include artifacts in the platform section with Pixesci-specific, non-generic copy.
+- Design note: the platform section should use precise spacing, stable responsive layout, and no copied inspiration-site composition.
+- Accessibility note: the platform section must maintain heading hierarchy, contrast, and keyboard-safe interactions.
+
+### Homepage Section 4: Workflow
+- Requirement: include nodes in the workflow section with Pixesci-specific, non-generic copy.
+- Requirement: include edges in the workflow section with Pixesci-specific, non-generic copy.
+- Requirement: include variables in the workflow section with Pixesci-specific, non-generic copy.
+- Requirement: include data bus in the workflow section with Pixesci-specific, non-generic copy.
+- Requirement: include integration palette in the workflow section with Pixesci-specific, non-generic copy.
+- Requirement: include add-step in the workflow section with Pixesci-specific, non-generic copy.
+- Requirement: include console in the workflow section with Pixesci-specific, non-generic copy.
+- Requirement: include preview in the workflow section with Pixesci-specific, non-generic copy.
+- Requirement: include notes in the workflow section with Pixesci-specific, non-generic copy.
+- Requirement: include IDE in the workflow section with Pixesci-specific, non-generic copy.
+- Design note: the workflow section should use precise spacing, stable responsive layout, and no copied inspiration-site composition.
+- Accessibility note: the workflow section must maintain heading hierarchy, contrast, and keyboard-safe interactions.
+
+### Homepage Section 5: Compliance
+- Requirement: include audit trail in the compliance section with Pixesci-specific, non-generic copy.
+- Requirement: include metadata in the compliance section with Pixesci-specific, non-generic copy.
+- Requirement: include review in the compliance section with Pixesci-specific, non-generic copy.
+- Requirement: include retention in the compliance section with Pixesci-specific, non-generic copy.
+- Requirement: include checksums in the compliance section with Pixesci-specific, non-generic copy.
+- Requirement: include access in the compliance section with Pixesci-specific, non-generic copy.
+- Requirement: include electronic records in the compliance section with Pixesci-specific, non-generic copy.
+- Requirement: include data integrity in the compliance section with Pixesci-specific, non-generic copy.
+- Requirement: include disclaimer in the compliance section with Pixesci-specific, non-generic copy.
+- Requirement: include CTA in the compliance section with Pixesci-specific, non-generic copy.
+- Design note: the compliance section should use precise spacing, stable responsive layout, and no copied inspiration-site composition.
+- Accessibility note: the compliance section must maintain heading hierarchy, contrast, and keyboard-safe interactions.
+
+### Homepage Section 6: Security
+- Requirement: include local-first in the security section with Pixesci-specific, non-generic copy.
+- Requirement: include on-prem in the security section with Pixesci-specific, non-generic copy.
+- Requirement: include airgap in the security section with Pixesci-specific, non-generic copy.
+- Requirement: include SQLite/SQLCipher in the security section with Pixesci-specific, non-generic copy.
+- Requirement: include local models in the security section with Pixesci-specific, non-generic copy.
+- Requirement: include policy gating in the security section with Pixesci-specific, non-generic copy.
+- Requirement: include secrets in the security section with Pixesci-specific, non-generic copy.
+- Requirement: include filesystem controls in the security section with Pixesci-specific, non-generic copy.
+- Requirement: include RBAC in the security section with Pixesci-specific, non-generic copy.
+- Requirement: include backup in the security section with Pixesci-specific, non-generic copy.
+- Design note: the security section should use precise spacing, stable responsive layout, and no copied inspiration-site composition.
+- Accessibility note: the security section must maintain heading hierarchy, contrast, and keyboard-safe interactions.
+
+### Homepage Section 7: Integrations
+- Requirement: include categories in the integrations section with Pixesci-specific, non-generic copy.
+- Requirement: include software examples in the integrations section with Pixesci-specific, non-generic copy.
+- Requirement: include capabilities in the integrations section with Pixesci-specific, non-generic copy.
+- Requirement: include channels in the integrations section with Pixesci-specific, non-generic copy.
+- Requirement: include setup in the integrations section with Pixesci-specific, non-generic copy.
+- Requirement: include runtime detection in the integrations section with Pixesci-specific, non-generic copy.
+- Requirement: include formats in the integrations section with Pixesci-specific, non-generic copy.
+- Requirement: include risk in the integrations section with Pixesci-specific, non-generic copy.
+- Requirement: include human input in the integrations section with Pixesci-specific, non-generic copy.
+- Requirement: include search in the integrations section with Pixesci-specific, non-generic copy.
+- Design note: the integrations section should use precise spacing, stable responsive layout, and no copied inspiration-site composition.
+- Accessibility note: the integrations section must maintain heading hierarchy, contrast, and keyboard-safe interactions.
+
+### Homepage Section 8: Solutions
+- Requirement: include regulated life sciences in the solutions section with Pixesci-specific, non-generic copy.
+- Requirement: include secure research in the solutions section with Pixesci-specific, non-generic copy.
+- Requirement: include core facilities in the solutions section with Pixesci-specific, non-generic copy.
+- Requirement: include buyer roles in the solutions section with Pixesci-specific, non-generic copy.
+- Requirement: include workflow examples in the solutions section with Pixesci-specific, non-generic copy.
+- Requirement: include outcomes in the solutions section with Pixesci-specific, non-generic copy.
+- Requirement: include deployment in the solutions section with Pixesci-specific, non-generic copy.
+- Requirement: include proof in the solutions section with Pixesci-specific, non-generic copy.
+- Requirement: include CTA in the solutions section with Pixesci-specific, non-generic copy.
+- Requirement: include internal links in the solutions section with Pixesci-specific, non-generic copy.
+- Design note: the solutions section should use precise spacing, stable responsive layout, and no copied inspiration-site composition.
+- Accessibility note: the solutions section must maintain heading hierarchy, contrast, and keyboard-safe interactions.
+
+### Homepage Section 9: Resources
+- Requirement: include architecture overview in the resources section with Pixesci-specific, non-generic copy.
+- Requirement: include compliance guide in the resources section with Pixesci-specific, non-generic copy.
+- Requirement: include workflow examples in the resources section with Pixesci-specific, non-generic copy.
+- Requirement: include integration notes in the resources section with Pixesci-specific, non-generic copy.
+- Requirement: include security brief in the resources section with Pixesci-specific, non-generic copy.
+- Requirement: include data integrity in the resources section with Pixesci-specific, non-generic copy.
+- Requirement: include implementation paths in the resources section with Pixesci-specific, non-generic copy.
+- Requirement: include buyer checklist in the resources section with Pixesci-specific, non-generic copy.
+- Requirement: include FAQ in the resources section with Pixesci-specific, non-generic copy.
+- Requirement: include contact in the resources section with Pixesci-specific, non-generic copy.
+- Design note: the resources section should use precise spacing, stable responsive layout, and no copied inspiration-site composition.
+- Accessibility note: the resources section must maintain heading hierarchy, contrast, and keyboard-safe interactions.
+
+### Homepage Section 10: Final CTA
+- Requirement: include specific ask in the final cta section with Pixesci-specific, non-generic copy.
+- Requirement: include workflow mapping in the final cta section with Pixesci-specific, non-generic copy.
+- Requirement: include enterprise tone in the final cta section with Pixesci-specific, non-generic copy.
+- Requirement: include demo in the final cta section with Pixesci-specific, non-generic copy.
+- Requirement: include supporting sentence in the final cta section with Pixesci-specific, non-generic copy.
+- Requirement: include trust cues in the final cta section with Pixesci-specific, non-generic copy.
+- Requirement: include contact route in the final cta section with Pixesci-specific, non-generic copy.
+- Requirement: include responsive in the final cta section with Pixesci-specific, non-generic copy.
+- Requirement: include no hype in the final cta section with Pixesci-specific, non-generic copy.
+- Requirement: include footer transition in the final cta section with Pixesci-specific, non-generic copy.
+- Design note: the final cta section should use precise spacing, stable responsive layout, and no copied inspiration-site composition.
+- Accessibility note: the final cta section must maintain heading hierarchy, contrast, and keyboard-safe interactions.
+
+## Copywriting Direction
+
+### Fragmented Software
+- Core message: Scientific tools are excellent at their domain tasks, but the handoffs between them are manual and fragile.
+- Write in concrete nouns and verbs.
+- Avoid inflated AI claims.
+- Tie the message to a visible product capability or workflow example.
+- Prefer buyer-relevant outcomes over abstract benefits.
+
+### Local-First Runtime
+- Core message: The default Pixesci runtime is local/on-prem, with the desktop interface talking to a local backend and local storage.
+- Write in concrete nouns and verbs.
+- Avoid inflated AI claims.
+- Tie the message to a visible product capability or workflow example.
+- Prefer buyer-relevant outcomes over abstract benefits.
+
+### Graph Workflows
+- Core message: Workflows should be described as graph-native execution plans with nodes, edges, variables, and capability references.
+- Write in concrete nouns and verbs.
+- Avoid inflated AI claims.
+- Tie the message to a visible product capability or workflow example.
+- Prefer buyer-relevant outcomes over abstract benefits.
+
+### Software Profiles
+- Core message: Software profiles describe capabilities, setup, formats, requirements, and execution channels.
+- Write in concrete nouns and verbs.
+- Avoid inflated AI claims.
+- Tie the message to a visible product capability or workflow example.
+- Prefer buyer-relevant outcomes over abstract benefits.
+
+### AI Assistance
+- Core message: AI helps plan, generate, clarify, and guide workflows, but deterministic adapters and user review remain important.
+- Write in concrete nouns and verbs.
+- Avoid inflated AI claims.
+- Tie the message to a visible product capability or workflow example.
+- Prefer buyer-relevant outcomes over abstract benefits.
+
+### Auditability
+- Core message: Execution should produce events, metadata, user attribution, outcomes, and reviewable history.
+- Write in concrete nouns and verbs.
+- Avoid inflated AI claims.
+- Tie the message to a visible product capability or workflow example.
+- Prefer buyer-relevant outcomes over abstract benefits.
+
+### Compliance Support
+- Core message: Pixesci supports compliance workflows by preserving evidence and traceability; it does not replace validation or SOPs.
+- Write in concrete nouns and verbs.
+- Avoid inflated AI claims.
+- Tie the message to a visible product capability or workflow example.
+- Prefer buyer-relevant outcomes over abstract benefits.
+
+### Scientific Reproducibility
+- Core message: Reproducibility depends on raw data, metadata, versioning, identifiers, scripts, and documented processing.
+- Write in concrete nouns and verbs.
+- Avoid inflated AI claims.
+- Tie the message to a visible product capability or workflow example.
+- Prefer buyer-relevant outcomes over abstract benefits.
+
+### Regulated Buyers
+- Core message: Regulated teams buy because workflow traceability and review evidence are operational requirements.
+- Write in concrete nouns and verbs.
+- Avoid inflated AI claims.
+- Tie the message to a visible product capability or workflow example.
+- Prefer buyer-relevant outcomes over abstract benefits.
+
+### Secure Research
+- Core message: Secure research teams value local deployment, airgap compatibility, reproducibility, and internal infrastructure fit.
+- Write in concrete nouns and verbs.
+- Avoid inflated AI claims.
+- Tie the message to a visible product capability or workflow example.
+- Prefer buyer-relevant outcomes over abstract benefits.
+
+### Core Facilities
+- Core message: Core facilities need templates and repeatable pipelines that many users can run consistently.
+- Write in concrete nouns and verbs.
+- Avoid inflated AI claims.
+- Tie the message to a visible product capability or workflow example.
+- Prefer buyer-relevant outcomes over abstract benefits.
+
+### Integrations
+- Core message: Pixesci should be presented as connecting existing tools, not replacing them.
+- Write in concrete nouns and verbs.
+- Avoid inflated AI claims.
+- Tie the message to a visible product capability or workflow example.
+- Prefer buyer-relevant outcomes over abstract benefits.
+
+### Human Review
+- Core message: Human-in-the-loop checkpoints are a strength for controlled workflows and high-risk operations.
+- Write in concrete nouns and verbs.
+- Avoid inflated AI claims.
+- Tie the message to a visible product capability or workflow example.
+- Prefer buyer-relevant outcomes over abstract benefits.
+
+### Safety
+- Core message: High-risk external, instrument, filesystem, or GUI write actions should require approval or careful controls.
+- Write in concrete nouns and verbs.
+- Avoid inflated AI claims.
+- Tie the message to a visible product capability or workflow example.
+- Prefer buyer-relevant outcomes over abstract benefits.
+
+### Enterprise Readiness
+- Core message: Enterprise readiness comes from deployment control, auditability, data locality, access controls, and product clarity.
+- Write in concrete nouns and verbs.
+- Avoid inflated AI claims.
+- Tie the message to a visible product capability or workflow example.
+- Prefer buyer-relevant outcomes over abstract benefits.
+
+## Detailed Requirements Matrix
+
+### Area: Navigation
+- Navigation requirement 01: Use precise Pixesci terminology.
+- Navigation requirement 02: Keep the implementation grounded in the studied codebase.
+- Navigation requirement 03: Use semantic HTML for the surface.
+- Navigation requirement 04: Ensure the section works at mobile, tablet, and desktop widths.
+- Navigation requirement 05: Avoid direct copying from inspiration sites.
+- Navigation requirement 06: Use restrained technical styling.
+- Navigation requirement 07: Prefer data-driven rendering where lists repeat.
+- Navigation requirement 08: Keep copy specific to scientific workflows.
+- Navigation requirement 09: Avoid unsupported certification claims.
+- Navigation requirement 10: Make the user action clear.
+- Navigation requirement 11: Use stable layout dimensions.
+- Navigation requirement 12: Avoid nested cards.
+- Navigation requirement 13: Use accessible labels for controls.
+- Navigation requirement 14: Respect reduced motion.
+- Navigation requirement 15: Use lucide icons where iconography is needed.
+- Navigation requirement 16: Use shadcn-style primitives consistently.
+- Navigation requirement 17: Keep color contrast high.
+- Navigation requirement 18: Use internal links to related pages.
+- Navigation requirement 19: Use concise headings with concrete value.
+- Navigation requirement 20: Keep body text readable and scannable.
+- Navigation requirement 21: Represent local-first deployment accurately.
+- Navigation requirement 22: Represent workflow traceability accurately.
+- Navigation requirement 23: Represent software integration as capability-based.
+- Navigation requirement 24: Show product mechanics through visuals.
+- Navigation requirement 25: Keep bundle size small.
+- Navigation requirement 26: Do not add unnecessary client state.
+- Navigation requirement 27: Do not create fake customer proof.
+- Navigation requirement 28: Do not invent backend APIs.
+- Navigation requirement 29: Provide fallback content for visuals.
+- Navigation requirement 30: Use TypeScript prop types for reusable components.
+- Navigation requirement 31: Avoid excessive gradients.
+- Navigation requirement 32: Avoid generic SaaS cards.
+- Navigation requirement 33: Keep CTAs enterprise appropriate.
+- Navigation requirement 34: Ensure no text overlaps at narrow widths.
+- Navigation requirement 35: Use route metadata.
+- Navigation requirement 36: Use a consistent spacing scale.
+- Navigation requirement 37: Use clear empty and error states where forms exist.
+- Navigation requirement 38: Document any assumptions in comments sparingly.
+- Navigation requirement 39: Run lint, typecheck, and build.
+- Navigation requirement 40: Inspect the site visually before final handoff.
+
+### Area: Hero
+- Hero requirement 01: Use precise Pixesci terminology.
+- Hero requirement 02: Keep the implementation grounded in the studied codebase.
+- Hero requirement 03: Use semantic HTML for the surface.
+- Hero requirement 04: Ensure the section works at mobile, tablet, and desktop widths.
+- Hero requirement 05: Avoid direct copying from inspiration sites.
+- Hero requirement 06: Use restrained technical styling.
+- Hero requirement 07: Prefer data-driven rendering where lists repeat.
+- Hero requirement 08: Keep copy specific to scientific workflows.
+- Hero requirement 09: Avoid unsupported certification claims.
+- Hero requirement 10: Make the user action clear.
+- Hero requirement 11: Use stable layout dimensions.
+- Hero requirement 12: Avoid nested cards.
+- Hero requirement 13: Use accessible labels for controls.
+- Hero requirement 14: Respect reduced motion.
+- Hero requirement 15: Use lucide icons where iconography is needed.
+- Hero requirement 16: Use shadcn-style primitives consistently.
+- Hero requirement 17: Keep color contrast high.
+- Hero requirement 18: Use internal links to related pages.
+- Hero requirement 19: Use concise headings with concrete value.
+- Hero requirement 20: Keep body text readable and scannable.
+- Hero requirement 21: Represent local-first deployment accurately.
+- Hero requirement 22: Represent workflow traceability accurately.
+- Hero requirement 23: Represent software integration as capability-based.
+- Hero requirement 24: Show product mechanics through visuals.
+- Hero requirement 25: Keep bundle size small.
+- Hero requirement 26: Do not add unnecessary client state.
+- Hero requirement 27: Do not create fake customer proof.
+- Hero requirement 28: Do not invent backend APIs.
+- Hero requirement 29: Provide fallback content for visuals.
+- Hero requirement 30: Use TypeScript prop types for reusable components.
+- Hero requirement 31: Avoid excessive gradients.
+- Hero requirement 32: Avoid generic SaaS cards.
+- Hero requirement 33: Keep CTAs enterprise appropriate.
+- Hero requirement 34: Ensure no text overlaps at narrow widths.
+- Hero requirement 35: Use route metadata.
+- Hero requirement 36: Use a consistent spacing scale.
+- Hero requirement 37: Use clear empty and error states where forms exist.
+- Hero requirement 38: Document any assumptions in comments sparingly.
+- Hero requirement 39: Run lint, typecheck, and build.
+- Hero requirement 40: Inspect the site visually before final handoff.
+
+### Area: Product Visuals
+- Product Visuals requirement 01: Use precise Pixesci terminology.
+- Product Visuals requirement 02: Keep the implementation grounded in the studied codebase.
+- Product Visuals requirement 03: Use semantic HTML for the surface.
+- Product Visuals requirement 04: Ensure the section works at mobile, tablet, and desktop widths.
+- Product Visuals requirement 05: Avoid direct copying from inspiration sites.
+- Product Visuals requirement 06: Use restrained technical styling.
+- Product Visuals requirement 07: Prefer data-driven rendering where lists repeat.
+- Product Visuals requirement 08: Keep copy specific to scientific workflows.
+- Product Visuals requirement 09: Avoid unsupported certification claims.
+- Product Visuals requirement 10: Make the user action clear.
+- Product Visuals requirement 11: Use stable layout dimensions.
+- Product Visuals requirement 12: Avoid nested cards.
+- Product Visuals requirement 13: Use accessible labels for controls.
+- Product Visuals requirement 14: Respect reduced motion.
+- Product Visuals requirement 15: Use lucide icons where iconography is needed.
+- Product Visuals requirement 16: Use shadcn-style primitives consistently.
+- Product Visuals requirement 17: Keep color contrast high.
+- Product Visuals requirement 18: Use internal links to related pages.
+- Product Visuals requirement 19: Use concise headings with concrete value.
+- Product Visuals requirement 20: Keep body text readable and scannable.
+- Product Visuals requirement 21: Represent local-first deployment accurately.
+- Product Visuals requirement 22: Represent workflow traceability accurately.
+- Product Visuals requirement 23: Represent software integration as capability-based.
+- Product Visuals requirement 24: Show product mechanics through visuals.
+- Product Visuals requirement 25: Keep bundle size small.
+- Product Visuals requirement 26: Do not add unnecessary client state.
+- Product Visuals requirement 27: Do not create fake customer proof.
+- Product Visuals requirement 28: Do not invent backend APIs.
+- Product Visuals requirement 29: Provide fallback content for visuals.
+- Product Visuals requirement 30: Use TypeScript prop types for reusable components.
+- Product Visuals requirement 31: Avoid excessive gradients.
+- Product Visuals requirement 32: Avoid generic SaaS cards.
+- Product Visuals requirement 33: Keep CTAs enterprise appropriate.
+- Product Visuals requirement 34: Ensure no text overlaps at narrow widths.
+- Product Visuals requirement 35: Use route metadata.
+- Product Visuals requirement 36: Use a consistent spacing scale.
+- Product Visuals requirement 37: Use clear empty and error states where forms exist.
+- Product Visuals requirement 38: Document any assumptions in comments sparingly.
+- Product Visuals requirement 39: Run lint, typecheck, and build.
+- Product Visuals requirement 40: Inspect the site visually before final handoff.
+
+### Area: Workflow Canvas
+- Workflow Canvas requirement 01: Use precise Pixesci terminology.
+- Workflow Canvas requirement 02: Keep the implementation grounded in the studied codebase.
+- Workflow Canvas requirement 03: Use semantic HTML for the surface.
+- Workflow Canvas requirement 04: Ensure the section works at mobile, tablet, and desktop widths.
+- Workflow Canvas requirement 05: Avoid direct copying from inspiration sites.
+- Workflow Canvas requirement 06: Use restrained technical styling.
+- Workflow Canvas requirement 07: Prefer data-driven rendering where lists repeat.
+- Workflow Canvas requirement 08: Keep copy specific to scientific workflows.
+- Workflow Canvas requirement 09: Avoid unsupported certification claims.
+- Workflow Canvas requirement 10: Make the user action clear.
+- Workflow Canvas requirement 11: Use stable layout dimensions.
+- Workflow Canvas requirement 12: Avoid nested cards.
+- Workflow Canvas requirement 13: Use accessible labels for controls.
+- Workflow Canvas requirement 14: Respect reduced motion.
+- Workflow Canvas requirement 15: Use lucide icons where iconography is needed.
+- Workflow Canvas requirement 16: Use shadcn-style primitives consistently.
+- Workflow Canvas requirement 17: Keep color contrast high.
+- Workflow Canvas requirement 18: Use internal links to related pages.
+- Workflow Canvas requirement 19: Use concise headings with concrete value.
+- Workflow Canvas requirement 20: Keep body text readable and scannable.
+- Workflow Canvas requirement 21: Represent local-first deployment accurately.
+- Workflow Canvas requirement 22: Represent workflow traceability accurately.
+- Workflow Canvas requirement 23: Represent software integration as capability-based.
+- Workflow Canvas requirement 24: Show product mechanics through visuals.
+- Workflow Canvas requirement 25: Keep bundle size small.
+- Workflow Canvas requirement 26: Do not add unnecessary client state.
+- Workflow Canvas requirement 27: Do not create fake customer proof.
+- Workflow Canvas requirement 28: Do not invent backend APIs.
+- Workflow Canvas requirement 29: Provide fallback content for visuals.
+- Workflow Canvas requirement 30: Use TypeScript prop types for reusable components.
+- Workflow Canvas requirement 31: Avoid excessive gradients.
+- Workflow Canvas requirement 32: Avoid generic SaaS cards.
+- Workflow Canvas requirement 33: Keep CTAs enterprise appropriate.
+- Workflow Canvas requirement 34: Ensure no text overlaps at narrow widths.
+- Workflow Canvas requirement 35: Use route metadata.
+- Workflow Canvas requirement 36: Use a consistent spacing scale.
+- Workflow Canvas requirement 37: Use clear empty and error states where forms exist.
+- Workflow Canvas requirement 38: Document any assumptions in comments sparingly.
+- Workflow Canvas requirement 39: Run lint, typecheck, and build.
+- Workflow Canvas requirement 40: Inspect the site visually before final handoff.
+
+### Area: Chat and AI
+- Chat and AI requirement 01: Use precise Pixesci terminology.
+- Chat and AI requirement 02: Keep the implementation grounded in the studied codebase.
+- Chat and AI requirement 03: Use semantic HTML for the surface.
+- Chat and AI requirement 04: Ensure the section works at mobile, tablet, and desktop widths.
+- Chat and AI requirement 05: Avoid direct copying from inspiration sites.
+- Chat and AI requirement 06: Use restrained technical styling.
+- Chat and AI requirement 07: Prefer data-driven rendering where lists repeat.
+- Chat and AI requirement 08: Keep copy specific to scientific workflows.
+- Chat and AI requirement 09: Avoid unsupported certification claims.
+- Chat and AI requirement 10: Make the user action clear.
+- Chat and AI requirement 11: Use stable layout dimensions.
+- Chat and AI requirement 12: Avoid nested cards.
+- Chat and AI requirement 13: Use accessible labels for controls.
+- Chat and AI requirement 14: Respect reduced motion.
+- Chat and AI requirement 15: Use lucide icons where iconography is needed.
+- Chat and AI requirement 16: Use shadcn-style primitives consistently.
+- Chat and AI requirement 17: Keep color contrast high.
+- Chat and AI requirement 18: Use internal links to related pages.
+- Chat and AI requirement 19: Use concise headings with concrete value.
+- Chat and AI requirement 20: Keep body text readable and scannable.
+- Chat and AI requirement 21: Represent local-first deployment accurately.
+- Chat and AI requirement 22: Represent workflow traceability accurately.
+- Chat and AI requirement 23: Represent software integration as capability-based.
+- Chat and AI requirement 24: Show product mechanics through visuals.
+- Chat and AI requirement 25: Keep bundle size small.
+- Chat and AI requirement 26: Do not add unnecessary client state.
+- Chat and AI requirement 27: Do not create fake customer proof.
+- Chat and AI requirement 28: Do not invent backend APIs.
+- Chat and AI requirement 29: Provide fallback content for visuals.
+- Chat and AI requirement 30: Use TypeScript prop types for reusable components.
+- Chat and AI requirement 31: Avoid excessive gradients.
+- Chat and AI requirement 32: Avoid generic SaaS cards.
+- Chat and AI requirement 33: Keep CTAs enterprise appropriate.
+- Chat and AI requirement 34: Ensure no text overlaps at narrow widths.
+- Chat and AI requirement 35: Use route metadata.
+- Chat and AI requirement 36: Use a consistent spacing scale.
+- Chat and AI requirement 37: Use clear empty and error states where forms exist.
+- Chat and AI requirement 38: Document any assumptions in comments sparingly.
+- Chat and AI requirement 39: Run lint, typecheck, and build.
+- Chat and AI requirement 40: Inspect the site visually before final handoff.
+
+### Area: Software Catalog
+- Software Catalog requirement 01: Use precise Pixesci terminology.
+- Software Catalog requirement 02: Keep the implementation grounded in the studied codebase.
+- Software Catalog requirement 03: Use semantic HTML for the surface.
+- Software Catalog requirement 04: Ensure the section works at mobile, tablet, and desktop widths.
+- Software Catalog requirement 05: Avoid direct copying from inspiration sites.
+- Software Catalog requirement 06: Use restrained technical styling.
+- Software Catalog requirement 07: Prefer data-driven rendering where lists repeat.
+- Software Catalog requirement 08: Keep copy specific to scientific workflows.
+- Software Catalog requirement 09: Avoid unsupported certification claims.
+- Software Catalog requirement 10: Make the user action clear.
+- Software Catalog requirement 11: Use stable layout dimensions.
+- Software Catalog requirement 12: Avoid nested cards.
+- Software Catalog requirement 13: Use accessible labels for controls.
+- Software Catalog requirement 14: Respect reduced motion.
+- Software Catalog requirement 15: Use lucide icons where iconography is needed.
+- Software Catalog requirement 16: Use shadcn-style primitives consistently.
+- Software Catalog requirement 17: Keep color contrast high.
+- Software Catalog requirement 18: Use internal links to related pages.
+- Software Catalog requirement 19: Use concise headings with concrete value.
+- Software Catalog requirement 20: Keep body text readable and scannable.
+- Software Catalog requirement 21: Represent local-first deployment accurately.
+- Software Catalog requirement 22: Represent workflow traceability accurately.
+- Software Catalog requirement 23: Represent software integration as capability-based.
+- Software Catalog requirement 24: Show product mechanics through visuals.
+- Software Catalog requirement 25: Keep bundle size small.
+- Software Catalog requirement 26: Do not add unnecessary client state.
+- Software Catalog requirement 27: Do not create fake customer proof.
+- Software Catalog requirement 28: Do not invent backend APIs.
+- Software Catalog requirement 29: Provide fallback content for visuals.
+- Software Catalog requirement 30: Use TypeScript prop types for reusable components.
+- Software Catalog requirement 31: Avoid excessive gradients.
+- Software Catalog requirement 32: Avoid generic SaaS cards.
+- Software Catalog requirement 33: Keep CTAs enterprise appropriate.
+- Software Catalog requirement 34: Ensure no text overlaps at narrow widths.
+- Software Catalog requirement 35: Use route metadata.
+- Software Catalog requirement 36: Use a consistent spacing scale.
+- Software Catalog requirement 37: Use clear empty and error states where forms exist.
+- Software Catalog requirement 38: Document any assumptions in comments sparingly.
+- Software Catalog requirement 39: Run lint, typecheck, and build.
+- Software Catalog requirement 40: Inspect the site visually before final handoff.
+
+### Area: Integrations
+- Integrations requirement 01: Use precise Pixesci terminology.
+- Integrations requirement 02: Keep the implementation grounded in the studied codebase.
+- Integrations requirement 03: Use semantic HTML for the surface.
+- Integrations requirement 04: Ensure the section works at mobile, tablet, and desktop widths.
+- Integrations requirement 05: Avoid direct copying from inspiration sites.
+- Integrations requirement 06: Use restrained technical styling.
+- Integrations requirement 07: Prefer data-driven rendering where lists repeat.
+- Integrations requirement 08: Keep copy specific to scientific workflows.
+- Integrations requirement 09: Avoid unsupported certification claims.
+- Integrations requirement 10: Make the user action clear.
+- Integrations requirement 11: Use stable layout dimensions.
+- Integrations requirement 12: Avoid nested cards.
+- Integrations requirement 13: Use accessible labels for controls.
+- Integrations requirement 14: Respect reduced motion.
+- Integrations requirement 15: Use lucide icons where iconography is needed.
+- Integrations requirement 16: Use shadcn-style primitives consistently.
+- Integrations requirement 17: Keep color contrast high.
+- Integrations requirement 18: Use internal links to related pages.
+- Integrations requirement 19: Use concise headings with concrete value.
+- Integrations requirement 20: Keep body text readable and scannable.
+- Integrations requirement 21: Represent local-first deployment accurately.
+- Integrations requirement 22: Represent workflow traceability accurately.
+- Integrations requirement 23: Represent software integration as capability-based.
+- Integrations requirement 24: Show product mechanics through visuals.
+- Integrations requirement 25: Keep bundle size small.
+- Integrations requirement 26: Do not add unnecessary client state.
+- Integrations requirement 27: Do not create fake customer proof.
+- Integrations requirement 28: Do not invent backend APIs.
+- Integrations requirement 29: Provide fallback content for visuals.
+- Integrations requirement 30: Use TypeScript prop types for reusable components.
+- Integrations requirement 31: Avoid excessive gradients.
+- Integrations requirement 32: Avoid generic SaaS cards.
+- Integrations requirement 33: Keep CTAs enterprise appropriate.
+- Integrations requirement 34: Ensure no text overlaps at narrow widths.
+- Integrations requirement 35: Use route metadata.
+- Integrations requirement 36: Use a consistent spacing scale.
+- Integrations requirement 37: Use clear empty and error states where forms exist.
+- Integrations requirement 38: Document any assumptions in comments sparingly.
+- Integrations requirement 39: Run lint, typecheck, and build.
+- Integrations requirement 40: Inspect the site visually before final handoff.
+
+### Area: Compliance
+- Compliance requirement 01: Use precise Pixesci terminology.
+- Compliance requirement 02: Keep the implementation grounded in the studied codebase.
+- Compliance requirement 03: Use semantic HTML for the surface.
+- Compliance requirement 04: Ensure the section works at mobile, tablet, and desktop widths.
+- Compliance requirement 05: Avoid direct copying from inspiration sites.
+- Compliance requirement 06: Use restrained technical styling.
+- Compliance requirement 07: Prefer data-driven rendering where lists repeat.
+- Compliance requirement 08: Keep copy specific to scientific workflows.
+- Compliance requirement 09: Avoid unsupported certification claims.
+- Compliance requirement 10: Make the user action clear.
+- Compliance requirement 11: Use stable layout dimensions.
+- Compliance requirement 12: Avoid nested cards.
+- Compliance requirement 13: Use accessible labels for controls.
+- Compliance requirement 14: Respect reduced motion.
+- Compliance requirement 15: Use lucide icons where iconography is needed.
+- Compliance requirement 16: Use shadcn-style primitives consistently.
+- Compliance requirement 17: Keep color contrast high.
+- Compliance requirement 18: Use internal links to related pages.
+- Compliance requirement 19: Use concise headings with concrete value.
+- Compliance requirement 20: Keep body text readable and scannable.
+- Compliance requirement 21: Represent local-first deployment accurately.
+- Compliance requirement 22: Represent workflow traceability accurately.
+- Compliance requirement 23: Represent software integration as capability-based.
+- Compliance requirement 24: Show product mechanics through visuals.
+- Compliance requirement 25: Keep bundle size small.
+- Compliance requirement 26: Do not add unnecessary client state.
+- Compliance requirement 27: Do not create fake customer proof.
+- Compliance requirement 28: Do not invent backend APIs.
+- Compliance requirement 29: Provide fallback content for visuals.
+- Compliance requirement 30: Use TypeScript prop types for reusable components.
+- Compliance requirement 31: Avoid excessive gradients.
+- Compliance requirement 32: Avoid generic SaaS cards.
+- Compliance requirement 33: Keep CTAs enterprise appropriate.
+- Compliance requirement 34: Ensure no text overlaps at narrow widths.
+- Compliance requirement 35: Use route metadata.
+- Compliance requirement 36: Use a consistent spacing scale.
+- Compliance requirement 37: Use clear empty and error states where forms exist.
+- Compliance requirement 38: Document any assumptions in comments sparingly.
+- Compliance requirement 39: Run lint, typecheck, and build.
+- Compliance requirement 40: Inspect the site visually before final handoff.
+
+### Area: Security
+- Security requirement 01: Use precise Pixesci terminology.
+- Security requirement 02: Keep the implementation grounded in the studied codebase.
+- Security requirement 03: Use semantic HTML for the surface.
+- Security requirement 04: Ensure the section works at mobile, tablet, and desktop widths.
+- Security requirement 05: Avoid direct copying from inspiration sites.
+- Security requirement 06: Use restrained technical styling.
+- Security requirement 07: Prefer data-driven rendering where lists repeat.
+- Security requirement 08: Keep copy specific to scientific workflows.
+- Security requirement 09: Avoid unsupported certification claims.
+- Security requirement 10: Make the user action clear.
+- Security requirement 11: Use stable layout dimensions.
+- Security requirement 12: Avoid nested cards.
+- Security requirement 13: Use accessible labels for controls.
+- Security requirement 14: Respect reduced motion.
+- Security requirement 15: Use lucide icons where iconography is needed.
+- Security requirement 16: Use shadcn-style primitives consistently.
+- Security requirement 17: Keep color contrast high.
+- Security requirement 18: Use internal links to related pages.
+- Security requirement 19: Use concise headings with concrete value.
+- Security requirement 20: Keep body text readable and scannable.
+- Security requirement 21: Represent local-first deployment accurately.
+- Security requirement 22: Represent workflow traceability accurately.
+- Security requirement 23: Represent software integration as capability-based.
+- Security requirement 24: Show product mechanics through visuals.
+- Security requirement 25: Keep bundle size small.
+- Security requirement 26: Do not add unnecessary client state.
+- Security requirement 27: Do not create fake customer proof.
+- Security requirement 28: Do not invent backend APIs.
+- Security requirement 29: Provide fallback content for visuals.
+- Security requirement 30: Use TypeScript prop types for reusable components.
+- Security requirement 31: Avoid excessive gradients.
+- Security requirement 32: Avoid generic SaaS cards.
+- Security requirement 33: Keep CTAs enterprise appropriate.
+- Security requirement 34: Ensure no text overlaps at narrow widths.
+- Security requirement 35: Use route metadata.
+- Security requirement 36: Use a consistent spacing scale.
+- Security requirement 37: Use clear empty and error states where forms exist.
+- Security requirement 38: Document any assumptions in comments sparingly.
+- Security requirement 39: Run lint, typecheck, and build.
+- Security requirement 40: Inspect the site visually before final handoff.
+
+### Area: Local-First Architecture
+- Local-First Architecture requirement 01: Use precise Pixesci terminology.
+- Local-First Architecture requirement 02: Keep the implementation grounded in the studied codebase.
+- Local-First Architecture requirement 03: Use semantic HTML for the surface.
+- Local-First Architecture requirement 04: Ensure the section works at mobile, tablet, and desktop widths.
+- Local-First Architecture requirement 05: Avoid direct copying from inspiration sites.
+- Local-First Architecture requirement 06: Use restrained technical styling.
+- Local-First Architecture requirement 07: Prefer data-driven rendering where lists repeat.
+- Local-First Architecture requirement 08: Keep copy specific to scientific workflows.
+- Local-First Architecture requirement 09: Avoid unsupported certification claims.
+- Local-First Architecture requirement 10: Make the user action clear.
+- Local-First Architecture requirement 11: Use stable layout dimensions.
+- Local-First Architecture requirement 12: Avoid nested cards.
+- Local-First Architecture requirement 13: Use accessible labels for controls.
+- Local-First Architecture requirement 14: Respect reduced motion.
+- Local-First Architecture requirement 15: Use lucide icons where iconography is needed.
+- Local-First Architecture requirement 16: Use shadcn-style primitives consistently.
+- Local-First Architecture requirement 17: Keep color contrast high.
+- Local-First Architecture requirement 18: Use internal links to related pages.
+- Local-First Architecture requirement 19: Use concise headings with concrete value.
+- Local-First Architecture requirement 20: Keep body text readable and scannable.
+- Local-First Architecture requirement 21: Represent local-first deployment accurately.
+- Local-First Architecture requirement 22: Represent workflow traceability accurately.
+- Local-First Architecture requirement 23: Represent software integration as capability-based.
+- Local-First Architecture requirement 24: Show product mechanics through visuals.
+- Local-First Architecture requirement 25: Keep bundle size small.
+- Local-First Architecture requirement 26: Do not add unnecessary client state.
+- Local-First Architecture requirement 27: Do not create fake customer proof.
+- Local-First Architecture requirement 28: Do not invent backend APIs.
+- Local-First Architecture requirement 29: Provide fallback content for visuals.
+- Local-First Architecture requirement 30: Use TypeScript prop types for reusable components.
+- Local-First Architecture requirement 31: Avoid excessive gradients.
+- Local-First Architecture requirement 32: Avoid generic SaaS cards.
+- Local-First Architecture requirement 33: Keep CTAs enterprise appropriate.
+- Local-First Architecture requirement 34: Ensure no text overlaps at narrow widths.
+- Local-First Architecture requirement 35: Use route metadata.
+- Local-First Architecture requirement 36: Use a consistent spacing scale.
+- Local-First Architecture requirement 37: Use clear empty and error states where forms exist.
+- Local-First Architecture requirement 38: Document any assumptions in comments sparingly.
+- Local-First Architecture requirement 39: Run lint, typecheck, and build.
+- Local-First Architecture requirement 40: Inspect the site visually before final handoff.
+
+### Area: Regulated Life Sciences
+- Regulated Life Sciences requirement 01: Use precise Pixesci terminology.
+- Regulated Life Sciences requirement 02: Keep the implementation grounded in the studied codebase.
+- Regulated Life Sciences requirement 03: Use semantic HTML for the surface.
+- Regulated Life Sciences requirement 04: Ensure the section works at mobile, tablet, and desktop widths.
+- Regulated Life Sciences requirement 05: Avoid direct copying from inspiration sites.
+- Regulated Life Sciences requirement 06: Use restrained technical styling.
+- Regulated Life Sciences requirement 07: Prefer data-driven rendering where lists repeat.
+- Regulated Life Sciences requirement 08: Keep copy specific to scientific workflows.
+- Regulated Life Sciences requirement 09: Avoid unsupported certification claims.
+- Regulated Life Sciences requirement 10: Make the user action clear.
+- Regulated Life Sciences requirement 11: Use stable layout dimensions.
+- Regulated Life Sciences requirement 12: Avoid nested cards.
+- Regulated Life Sciences requirement 13: Use accessible labels for controls.
+- Regulated Life Sciences requirement 14: Respect reduced motion.
+- Regulated Life Sciences requirement 15: Use lucide icons where iconography is needed.
+- Regulated Life Sciences requirement 16: Use shadcn-style primitives consistently.
+- Regulated Life Sciences requirement 17: Keep color contrast high.
+- Regulated Life Sciences requirement 18: Use internal links to related pages.
+- Regulated Life Sciences requirement 19: Use concise headings with concrete value.
+- Regulated Life Sciences requirement 20: Keep body text readable and scannable.
+- Regulated Life Sciences requirement 21: Represent local-first deployment accurately.
+- Regulated Life Sciences requirement 22: Represent workflow traceability accurately.
+- Regulated Life Sciences requirement 23: Represent software integration as capability-based.
+- Regulated Life Sciences requirement 24: Show product mechanics through visuals.
+- Regulated Life Sciences requirement 25: Keep bundle size small.
+- Regulated Life Sciences requirement 26: Do not add unnecessary client state.
+- Regulated Life Sciences requirement 27: Do not create fake customer proof.
+- Regulated Life Sciences requirement 28: Do not invent backend APIs.
+- Regulated Life Sciences requirement 29: Provide fallback content for visuals.
+- Regulated Life Sciences requirement 30: Use TypeScript prop types for reusable components.
+- Regulated Life Sciences requirement 31: Avoid excessive gradients.
+- Regulated Life Sciences requirement 32: Avoid generic SaaS cards.
+- Regulated Life Sciences requirement 33: Keep CTAs enterprise appropriate.
+- Regulated Life Sciences requirement 34: Ensure no text overlaps at narrow widths.
+- Regulated Life Sciences requirement 35: Use route metadata.
+- Regulated Life Sciences requirement 36: Use a consistent spacing scale.
+- Regulated Life Sciences requirement 37: Use clear empty and error states where forms exist.
+- Regulated Life Sciences requirement 38: Document any assumptions in comments sparingly.
+- Regulated Life Sciences requirement 39: Run lint, typecheck, and build.
+- Regulated Life Sciences requirement 40: Inspect the site visually before final handoff.
+
+### Area: Secure Research
+- Secure Research requirement 01: Use precise Pixesci terminology.
+- Secure Research requirement 02: Keep the implementation grounded in the studied codebase.
+- Secure Research requirement 03: Use semantic HTML for the surface.
+- Secure Research requirement 04: Ensure the section works at mobile, tablet, and desktop widths.
+- Secure Research requirement 05: Avoid direct copying from inspiration sites.
+- Secure Research requirement 06: Use restrained technical styling.
+- Secure Research requirement 07: Prefer data-driven rendering where lists repeat.
+- Secure Research requirement 08: Keep copy specific to scientific workflows.
+- Secure Research requirement 09: Avoid unsupported certification claims.
+- Secure Research requirement 10: Make the user action clear.
+- Secure Research requirement 11: Use stable layout dimensions.
+- Secure Research requirement 12: Avoid nested cards.
+- Secure Research requirement 13: Use accessible labels for controls.
+- Secure Research requirement 14: Respect reduced motion.
+- Secure Research requirement 15: Use lucide icons where iconography is needed.
+- Secure Research requirement 16: Use shadcn-style primitives consistently.
+- Secure Research requirement 17: Keep color contrast high.
+- Secure Research requirement 18: Use internal links to related pages.
+- Secure Research requirement 19: Use concise headings with concrete value.
+- Secure Research requirement 20: Keep body text readable and scannable.
+- Secure Research requirement 21: Represent local-first deployment accurately.
+- Secure Research requirement 22: Represent workflow traceability accurately.
+- Secure Research requirement 23: Represent software integration as capability-based.
+- Secure Research requirement 24: Show product mechanics through visuals.
+- Secure Research requirement 25: Keep bundle size small.
+- Secure Research requirement 26: Do not add unnecessary client state.
+- Secure Research requirement 27: Do not create fake customer proof.
+- Secure Research requirement 28: Do not invent backend APIs.
+- Secure Research requirement 29: Provide fallback content for visuals.
+- Secure Research requirement 30: Use TypeScript prop types for reusable components.
+- Secure Research requirement 31: Avoid excessive gradients.
+- Secure Research requirement 32: Avoid generic SaaS cards.
+- Secure Research requirement 33: Keep CTAs enterprise appropriate.
+- Secure Research requirement 34: Ensure no text overlaps at narrow widths.
+- Secure Research requirement 35: Use route metadata.
+- Secure Research requirement 36: Use a consistent spacing scale.
+- Secure Research requirement 37: Use clear empty and error states where forms exist.
+- Secure Research requirement 38: Document any assumptions in comments sparingly.
+- Secure Research requirement 39: Run lint, typecheck, and build.
+- Secure Research requirement 40: Inspect the site visually before final handoff.
+
+### Area: Core Facilities
+- Core Facilities requirement 01: Use precise Pixesci terminology.
+- Core Facilities requirement 02: Keep the implementation grounded in the studied codebase.
+- Core Facilities requirement 03: Use semantic HTML for the surface.
+- Core Facilities requirement 04: Ensure the section works at mobile, tablet, and desktop widths.
+- Core Facilities requirement 05: Avoid direct copying from inspiration sites.
+- Core Facilities requirement 06: Use restrained technical styling.
+- Core Facilities requirement 07: Prefer data-driven rendering where lists repeat.
+- Core Facilities requirement 08: Keep copy specific to scientific workflows.
+- Core Facilities requirement 09: Avoid unsupported certification claims.
+- Core Facilities requirement 10: Make the user action clear.
+- Core Facilities requirement 11: Use stable layout dimensions.
+- Core Facilities requirement 12: Avoid nested cards.
+- Core Facilities requirement 13: Use accessible labels for controls.
+- Core Facilities requirement 14: Respect reduced motion.
+- Core Facilities requirement 15: Use lucide icons where iconography is needed.
+- Core Facilities requirement 16: Use shadcn-style primitives consistently.
+- Core Facilities requirement 17: Keep color contrast high.
+- Core Facilities requirement 18: Use internal links to related pages.
+- Core Facilities requirement 19: Use concise headings with concrete value.
+- Core Facilities requirement 20: Keep body text readable and scannable.
+- Core Facilities requirement 21: Represent local-first deployment accurately.
+- Core Facilities requirement 22: Represent workflow traceability accurately.
+- Core Facilities requirement 23: Represent software integration as capability-based.
+- Core Facilities requirement 24: Show product mechanics through visuals.
+- Core Facilities requirement 25: Keep bundle size small.
+- Core Facilities requirement 26: Do not add unnecessary client state.
+- Core Facilities requirement 27: Do not create fake customer proof.
+- Core Facilities requirement 28: Do not invent backend APIs.
+- Core Facilities requirement 29: Provide fallback content for visuals.
+- Core Facilities requirement 30: Use TypeScript prop types for reusable components.
+- Core Facilities requirement 31: Avoid excessive gradients.
+- Core Facilities requirement 32: Avoid generic SaaS cards.
+- Core Facilities requirement 33: Keep CTAs enterprise appropriate.
+- Core Facilities requirement 34: Ensure no text overlaps at narrow widths.
+- Core Facilities requirement 35: Use route metadata.
+- Core Facilities requirement 36: Use a consistent spacing scale.
+- Core Facilities requirement 37: Use clear empty and error states where forms exist.
+- Core Facilities requirement 38: Document any assumptions in comments sparingly.
+- Core Facilities requirement 39: Run lint, typecheck, and build.
+- Core Facilities requirement 40: Inspect the site visually before final handoff.
+
+### Area: Audit Trails
+- Audit Trails requirement 01: Use precise Pixesci terminology.
+- Audit Trails requirement 02: Keep the implementation grounded in the studied codebase.
+- Audit Trails requirement 03: Use semantic HTML for the surface.
+- Audit Trails requirement 04: Ensure the section works at mobile, tablet, and desktop widths.
+- Audit Trails requirement 05: Avoid direct copying from inspiration sites.
+- Audit Trails requirement 06: Use restrained technical styling.
+- Audit Trails requirement 07: Prefer data-driven rendering where lists repeat.
+- Audit Trails requirement 08: Keep copy specific to scientific workflows.
+- Audit Trails requirement 09: Avoid unsupported certification claims.
+- Audit Trails requirement 10: Make the user action clear.
+- Audit Trails requirement 11: Use stable layout dimensions.
+- Audit Trails requirement 12: Avoid nested cards.
+- Audit Trails requirement 13: Use accessible labels for controls.
+- Audit Trails requirement 14: Respect reduced motion.
+- Audit Trails requirement 15: Use lucide icons where iconography is needed.
+- Audit Trails requirement 16: Use shadcn-style primitives consistently.
+- Audit Trails requirement 17: Keep color contrast high.
+- Audit Trails requirement 18: Use internal links to related pages.
+- Audit Trails requirement 19: Use concise headings with concrete value.
+- Audit Trails requirement 20: Keep body text readable and scannable.
+- Audit Trails requirement 21: Represent local-first deployment accurately.
+- Audit Trails requirement 22: Represent workflow traceability accurately.
+- Audit Trails requirement 23: Represent software integration as capability-based.
+- Audit Trails requirement 24: Show product mechanics through visuals.
+- Audit Trails requirement 25: Keep bundle size small.
+- Audit Trails requirement 26: Do not add unnecessary client state.
+- Audit Trails requirement 27: Do not create fake customer proof.
+- Audit Trails requirement 28: Do not invent backend APIs.
+- Audit Trails requirement 29: Provide fallback content for visuals.
+- Audit Trails requirement 30: Use TypeScript prop types for reusable components.
+- Audit Trails requirement 31: Avoid excessive gradients.
+- Audit Trails requirement 32: Avoid generic SaaS cards.
+- Audit Trails requirement 33: Keep CTAs enterprise appropriate.
+- Audit Trails requirement 34: Ensure no text overlaps at narrow widths.
+- Audit Trails requirement 35: Use route metadata.
+- Audit Trails requirement 36: Use a consistent spacing scale.
+- Audit Trails requirement 37: Use clear empty and error states where forms exist.
+- Audit Trails requirement 38: Document any assumptions in comments sparingly.
+- Audit Trails requirement 39: Run lint, typecheck, and build.
+- Audit Trails requirement 40: Inspect the site visually before final handoff.
+
+### Area: Data Integrity
+- Data Integrity requirement 01: Use precise Pixesci terminology.
+- Data Integrity requirement 02: Keep the implementation grounded in the studied codebase.
+- Data Integrity requirement 03: Use semantic HTML for the surface.
+- Data Integrity requirement 04: Ensure the section works at mobile, tablet, and desktop widths.
+- Data Integrity requirement 05: Avoid direct copying from inspiration sites.
+- Data Integrity requirement 06: Use restrained technical styling.
+- Data Integrity requirement 07: Prefer data-driven rendering where lists repeat.
+- Data Integrity requirement 08: Keep copy specific to scientific workflows.
+- Data Integrity requirement 09: Avoid unsupported certification claims.
+- Data Integrity requirement 10: Make the user action clear.
+- Data Integrity requirement 11: Use stable layout dimensions.
+- Data Integrity requirement 12: Avoid nested cards.
+- Data Integrity requirement 13: Use accessible labels for controls.
+- Data Integrity requirement 14: Respect reduced motion.
+- Data Integrity requirement 15: Use lucide icons where iconography is needed.
+- Data Integrity requirement 16: Use shadcn-style primitives consistently.
+- Data Integrity requirement 17: Keep color contrast high.
+- Data Integrity requirement 18: Use internal links to related pages.
+- Data Integrity requirement 19: Use concise headings with concrete value.
+- Data Integrity requirement 20: Keep body text readable and scannable.
+- Data Integrity requirement 21: Represent local-first deployment accurately.
+- Data Integrity requirement 22: Represent workflow traceability accurately.
+- Data Integrity requirement 23: Represent software integration as capability-based.
+- Data Integrity requirement 24: Show product mechanics through visuals.
+- Data Integrity requirement 25: Keep bundle size small.
+- Data Integrity requirement 26: Do not add unnecessary client state.
+- Data Integrity requirement 27: Do not create fake customer proof.
+- Data Integrity requirement 28: Do not invent backend APIs.
+- Data Integrity requirement 29: Provide fallback content for visuals.
+- Data Integrity requirement 30: Use TypeScript prop types for reusable components.
+- Data Integrity requirement 31: Avoid excessive gradients.
+- Data Integrity requirement 32: Avoid generic SaaS cards.
+- Data Integrity requirement 33: Keep CTAs enterprise appropriate.
+- Data Integrity requirement 34: Ensure no text overlaps at narrow widths.
+- Data Integrity requirement 35: Use route metadata.
+- Data Integrity requirement 36: Use a consistent spacing scale.
+- Data Integrity requirement 37: Use clear empty and error states where forms exist.
+- Data Integrity requirement 38: Document any assumptions in comments sparingly.
+- Data Integrity requirement 39: Run lint, typecheck, and build.
+- Data Integrity requirement 40: Inspect the site visually before final handoff.
+
+### Area: Scientific Reproducibility
+- Scientific Reproducibility requirement 01: Use precise Pixesci terminology.
+- Scientific Reproducibility requirement 02: Keep the implementation grounded in the studied codebase.
+- Scientific Reproducibility requirement 03: Use semantic HTML for the surface.
+- Scientific Reproducibility requirement 04: Ensure the section works at mobile, tablet, and desktop widths.
+- Scientific Reproducibility requirement 05: Avoid direct copying from inspiration sites.
+- Scientific Reproducibility requirement 06: Use restrained technical styling.
+- Scientific Reproducibility requirement 07: Prefer data-driven rendering where lists repeat.
+- Scientific Reproducibility requirement 08: Keep copy specific to scientific workflows.
+- Scientific Reproducibility requirement 09: Avoid unsupported certification claims.
+- Scientific Reproducibility requirement 10: Make the user action clear.
+- Scientific Reproducibility requirement 11: Use stable layout dimensions.
+- Scientific Reproducibility requirement 12: Avoid nested cards.
+- Scientific Reproducibility requirement 13: Use accessible labels for controls.
+- Scientific Reproducibility requirement 14: Respect reduced motion.
+- Scientific Reproducibility requirement 15: Use lucide icons where iconography is needed.
+- Scientific Reproducibility requirement 16: Use shadcn-style primitives consistently.
+- Scientific Reproducibility requirement 17: Keep color contrast high.
+- Scientific Reproducibility requirement 18: Use internal links to related pages.
+- Scientific Reproducibility requirement 19: Use concise headings with concrete value.
+- Scientific Reproducibility requirement 20: Keep body text readable and scannable.
+- Scientific Reproducibility requirement 21: Represent local-first deployment accurately.
+- Scientific Reproducibility requirement 22: Represent workflow traceability accurately.
+- Scientific Reproducibility requirement 23: Represent software integration as capability-based.
+- Scientific Reproducibility requirement 24: Show product mechanics through visuals.
+- Scientific Reproducibility requirement 25: Keep bundle size small.
+- Scientific Reproducibility requirement 26: Do not add unnecessary client state.
+- Scientific Reproducibility requirement 27: Do not create fake customer proof.
+- Scientific Reproducibility requirement 28: Do not invent backend APIs.
+- Scientific Reproducibility requirement 29: Provide fallback content for visuals.
+- Scientific Reproducibility requirement 30: Use TypeScript prop types for reusable components.
+- Scientific Reproducibility requirement 31: Avoid excessive gradients.
+- Scientific Reproducibility requirement 32: Avoid generic SaaS cards.
+- Scientific Reproducibility requirement 33: Keep CTAs enterprise appropriate.
+- Scientific Reproducibility requirement 34: Ensure no text overlaps at narrow widths.
+- Scientific Reproducibility requirement 35: Use route metadata.
+- Scientific Reproducibility requirement 36: Use a consistent spacing scale.
+- Scientific Reproducibility requirement 37: Use clear empty and error states where forms exist.
+- Scientific Reproducibility requirement 38: Document any assumptions in comments sparingly.
+- Scientific Reproducibility requirement 39: Run lint, typecheck, and build.
+- Scientific Reproducibility requirement 40: Inspect the site visually before final handoff.
+
+### Area: Templates
+- Templates requirement 01: Use precise Pixesci terminology.
+- Templates requirement 02: Keep the implementation grounded in the studied codebase.
+- Templates requirement 03: Use semantic HTML for the surface.
+- Templates requirement 04: Ensure the section works at mobile, tablet, and desktop widths.
+- Templates requirement 05: Avoid direct copying from inspiration sites.
+- Templates requirement 06: Use restrained technical styling.
+- Templates requirement 07: Prefer data-driven rendering where lists repeat.
+- Templates requirement 08: Keep copy specific to scientific workflows.
+- Templates requirement 09: Avoid unsupported certification claims.
+- Templates requirement 10: Make the user action clear.
+- Templates requirement 11: Use stable layout dimensions.
+- Templates requirement 12: Avoid nested cards.
+- Templates requirement 13: Use accessible labels for controls.
+- Templates requirement 14: Respect reduced motion.
+- Templates requirement 15: Use lucide icons where iconography is needed.
+- Templates requirement 16: Use shadcn-style primitives consistently.
+- Templates requirement 17: Keep color contrast high.
+- Templates requirement 18: Use internal links to related pages.
+- Templates requirement 19: Use concise headings with concrete value.
+- Templates requirement 20: Keep body text readable and scannable.
+- Templates requirement 21: Represent local-first deployment accurately.
+- Templates requirement 22: Represent workflow traceability accurately.
+- Templates requirement 23: Represent software integration as capability-based.
+- Templates requirement 24: Show product mechanics through visuals.
+- Templates requirement 25: Keep bundle size small.
+- Templates requirement 26: Do not add unnecessary client state.
+- Templates requirement 27: Do not create fake customer proof.
+- Templates requirement 28: Do not invent backend APIs.
+- Templates requirement 29: Provide fallback content for visuals.
+- Templates requirement 30: Use TypeScript prop types for reusable components.
+- Templates requirement 31: Avoid excessive gradients.
+- Templates requirement 32: Avoid generic SaaS cards.
+- Templates requirement 33: Keep CTAs enterprise appropriate.
+- Templates requirement 34: Ensure no text overlaps at narrow widths.
+- Templates requirement 35: Use route metadata.
+- Templates requirement 36: Use a consistent spacing scale.
+- Templates requirement 37: Use clear empty and error states where forms exist.
+- Templates requirement 38: Document any assumptions in comments sparingly.
+- Templates requirement 39: Run lint, typecheck, and build.
+- Templates requirement 40: Inspect the site visually before final handoff.
+
+### Area: Execution Runtime
+- Execution Runtime requirement 01: Use precise Pixesci terminology.
+- Execution Runtime requirement 02: Keep the implementation grounded in the studied codebase.
+- Execution Runtime requirement 03: Use semantic HTML for the surface.
+- Execution Runtime requirement 04: Ensure the section works at mobile, tablet, and desktop widths.
+- Execution Runtime requirement 05: Avoid direct copying from inspiration sites.
+- Execution Runtime requirement 06: Use restrained technical styling.
+- Execution Runtime requirement 07: Prefer data-driven rendering where lists repeat.
+- Execution Runtime requirement 08: Keep copy specific to scientific workflows.
+- Execution Runtime requirement 09: Avoid unsupported certification claims.
+- Execution Runtime requirement 10: Make the user action clear.
+- Execution Runtime requirement 11: Use stable layout dimensions.
+- Execution Runtime requirement 12: Avoid nested cards.
+- Execution Runtime requirement 13: Use accessible labels for controls.
+- Execution Runtime requirement 14: Respect reduced motion.
+- Execution Runtime requirement 15: Use lucide icons where iconography is needed.
+- Execution Runtime requirement 16: Use shadcn-style primitives consistently.
+- Execution Runtime requirement 17: Keep color contrast high.
+- Execution Runtime requirement 18: Use internal links to related pages.
+- Execution Runtime requirement 19: Use concise headings with concrete value.
+- Execution Runtime requirement 20: Keep body text readable and scannable.
+- Execution Runtime requirement 21: Represent local-first deployment accurately.
+- Execution Runtime requirement 22: Represent workflow traceability accurately.
+- Execution Runtime requirement 23: Represent software integration as capability-based.
+- Execution Runtime requirement 24: Show product mechanics through visuals.
+- Execution Runtime requirement 25: Keep bundle size small.
+- Execution Runtime requirement 26: Do not add unnecessary client state.
+- Execution Runtime requirement 27: Do not create fake customer proof.
+- Execution Runtime requirement 28: Do not invent backend APIs.
+- Execution Runtime requirement 29: Provide fallback content for visuals.
+- Execution Runtime requirement 30: Use TypeScript prop types for reusable components.
+- Execution Runtime requirement 31: Avoid excessive gradients.
+- Execution Runtime requirement 32: Avoid generic SaaS cards.
+- Execution Runtime requirement 33: Keep CTAs enterprise appropriate.
+- Execution Runtime requirement 34: Ensure no text overlaps at narrow widths.
+- Execution Runtime requirement 35: Use route metadata.
+- Execution Runtime requirement 36: Use a consistent spacing scale.
+- Execution Runtime requirement 37: Use clear empty and error states where forms exist.
+- Execution Runtime requirement 38: Document any assumptions in comments sparingly.
+- Execution Runtime requirement 39: Run lint, typecheck, and build.
+- Execution Runtime requirement 40: Inspect the site visually before final handoff.
+
+### Area: Human-in-the-Loop
+- Human-in-the-Loop requirement 01: Use precise Pixesci terminology.
+- Human-in-the-Loop requirement 02: Keep the implementation grounded in the studied codebase.
+- Human-in-the-Loop requirement 03: Use semantic HTML for the surface.
+- Human-in-the-Loop requirement 04: Ensure the section works at mobile, tablet, and desktop widths.
+- Human-in-the-Loop requirement 05: Avoid direct copying from inspiration sites.
+- Human-in-the-Loop requirement 06: Use restrained technical styling.
+- Human-in-the-Loop requirement 07: Prefer data-driven rendering where lists repeat.
+- Human-in-the-Loop requirement 08: Keep copy specific to scientific workflows.
+- Human-in-the-Loop requirement 09: Avoid unsupported certification claims.
+- Human-in-the-Loop requirement 10: Make the user action clear.
+- Human-in-the-Loop requirement 11: Use stable layout dimensions.
+- Human-in-the-Loop requirement 12: Avoid nested cards.
+- Human-in-the-Loop requirement 13: Use accessible labels for controls.
+- Human-in-the-Loop requirement 14: Respect reduced motion.
+- Human-in-the-Loop requirement 15: Use lucide icons where iconography is needed.
+- Human-in-the-Loop requirement 16: Use shadcn-style primitives consistently.
+- Human-in-the-Loop requirement 17: Keep color contrast high.
+- Human-in-the-Loop requirement 18: Use internal links to related pages.
+- Human-in-the-Loop requirement 19: Use concise headings with concrete value.
+- Human-in-the-Loop requirement 20: Keep body text readable and scannable.
+- Human-in-the-Loop requirement 21: Represent local-first deployment accurately.
+- Human-in-the-Loop requirement 22: Represent workflow traceability accurately.
+- Human-in-the-Loop requirement 23: Represent software integration as capability-based.
+- Human-in-the-Loop requirement 24: Show product mechanics through visuals.
+- Human-in-the-Loop requirement 25: Keep bundle size small.
+- Human-in-the-Loop requirement 26: Do not add unnecessary client state.
+- Human-in-the-Loop requirement 27: Do not create fake customer proof.
+- Human-in-the-Loop requirement 28: Do not invent backend APIs.
+- Human-in-the-Loop requirement 29: Provide fallback content for visuals.
+- Human-in-the-Loop requirement 30: Use TypeScript prop types for reusable components.
+- Human-in-the-Loop requirement 31: Avoid excessive gradients.
+- Human-in-the-Loop requirement 32: Avoid generic SaaS cards.
+- Human-in-the-Loop requirement 33: Keep CTAs enterprise appropriate.
+- Human-in-the-Loop requirement 34: Ensure no text overlaps at narrow widths.
+- Human-in-the-Loop requirement 35: Use route metadata.
+- Human-in-the-Loop requirement 36: Use a consistent spacing scale.
+- Human-in-the-Loop requirement 37: Use clear empty and error states where forms exist.
+- Human-in-the-Loop requirement 38: Document any assumptions in comments sparingly.
+- Human-in-the-Loop requirement 39: Run lint, typecheck, and build.
+- Human-in-the-Loop requirement 40: Inspect the site visually before final handoff.
+
+### Area: Safety Gates
+- Safety Gates requirement 01: Use precise Pixesci terminology.
+- Safety Gates requirement 02: Keep the implementation grounded in the studied codebase.
+- Safety Gates requirement 03: Use semantic HTML for the surface.
+- Safety Gates requirement 04: Ensure the section works at mobile, tablet, and desktop widths.
+- Safety Gates requirement 05: Avoid direct copying from inspiration sites.
+- Safety Gates requirement 06: Use restrained technical styling.
+- Safety Gates requirement 07: Prefer data-driven rendering where lists repeat.
+- Safety Gates requirement 08: Keep copy specific to scientific workflows.
+- Safety Gates requirement 09: Avoid unsupported certification claims.
+- Safety Gates requirement 10: Make the user action clear.
+- Safety Gates requirement 11: Use stable layout dimensions.
+- Safety Gates requirement 12: Avoid nested cards.
+- Safety Gates requirement 13: Use accessible labels for controls.
+- Safety Gates requirement 14: Respect reduced motion.
+- Safety Gates requirement 15: Use lucide icons where iconography is needed.
+- Safety Gates requirement 16: Use shadcn-style primitives consistently.
+- Safety Gates requirement 17: Keep color contrast high.
+- Safety Gates requirement 18: Use internal links to related pages.
+- Safety Gates requirement 19: Use concise headings with concrete value.
+- Safety Gates requirement 20: Keep body text readable and scannable.
+- Safety Gates requirement 21: Represent local-first deployment accurately.
+- Safety Gates requirement 22: Represent workflow traceability accurately.
+- Safety Gates requirement 23: Represent software integration as capability-based.
+- Safety Gates requirement 24: Show product mechanics through visuals.
+- Safety Gates requirement 25: Keep bundle size small.
+- Safety Gates requirement 26: Do not add unnecessary client state.
+- Safety Gates requirement 27: Do not create fake customer proof.
+- Safety Gates requirement 28: Do not invent backend APIs.
+- Safety Gates requirement 29: Provide fallback content for visuals.
+- Safety Gates requirement 30: Use TypeScript prop types for reusable components.
+- Safety Gates requirement 31: Avoid excessive gradients.
+- Safety Gates requirement 32: Avoid generic SaaS cards.
+- Safety Gates requirement 33: Keep CTAs enterprise appropriate.
+- Safety Gates requirement 34: Ensure no text overlaps at narrow widths.
+- Safety Gates requirement 35: Use route metadata.
+- Safety Gates requirement 36: Use a consistent spacing scale.
+- Safety Gates requirement 37: Use clear empty and error states where forms exist.
+- Safety Gates requirement 38: Document any assumptions in comments sparingly.
+- Safety Gates requirement 39: Run lint, typecheck, and build.
+- Safety Gates requirement 40: Inspect the site visually before final handoff.
+
+### Area: Responsive Design
+- Responsive Design requirement 01: Use precise Pixesci terminology.
+- Responsive Design requirement 02: Keep the implementation grounded in the studied codebase.
+- Responsive Design requirement 03: Use semantic HTML for the surface.
+- Responsive Design requirement 04: Ensure the section works at mobile, tablet, and desktop widths.
+- Responsive Design requirement 05: Avoid direct copying from inspiration sites.
+- Responsive Design requirement 06: Use restrained technical styling.
+- Responsive Design requirement 07: Prefer data-driven rendering where lists repeat.
+- Responsive Design requirement 08: Keep copy specific to scientific workflows.
+- Responsive Design requirement 09: Avoid unsupported certification claims.
+- Responsive Design requirement 10: Make the user action clear.
+- Responsive Design requirement 11: Use stable layout dimensions.
+- Responsive Design requirement 12: Avoid nested cards.
+- Responsive Design requirement 13: Use accessible labels for controls.
+- Responsive Design requirement 14: Respect reduced motion.
+- Responsive Design requirement 15: Use lucide icons where iconography is needed.
+- Responsive Design requirement 16: Use shadcn-style primitives consistently.
+- Responsive Design requirement 17: Keep color contrast high.
+- Responsive Design requirement 18: Use internal links to related pages.
+- Responsive Design requirement 19: Use concise headings with concrete value.
+- Responsive Design requirement 20: Keep body text readable and scannable.
+- Responsive Design requirement 21: Represent local-first deployment accurately.
+- Responsive Design requirement 22: Represent workflow traceability accurately.
+- Responsive Design requirement 23: Represent software integration as capability-based.
+- Responsive Design requirement 24: Show product mechanics through visuals.
+- Responsive Design requirement 25: Keep bundle size small.
+- Responsive Design requirement 26: Do not add unnecessary client state.
+- Responsive Design requirement 27: Do not create fake customer proof.
+- Responsive Design requirement 28: Do not invent backend APIs.
+- Responsive Design requirement 29: Provide fallback content for visuals.
+- Responsive Design requirement 30: Use TypeScript prop types for reusable components.
+- Responsive Design requirement 31: Avoid excessive gradients.
+- Responsive Design requirement 32: Avoid generic SaaS cards.
+- Responsive Design requirement 33: Keep CTAs enterprise appropriate.
+- Responsive Design requirement 34: Ensure no text overlaps at narrow widths.
+- Responsive Design requirement 35: Use route metadata.
+- Responsive Design requirement 36: Use a consistent spacing scale.
+- Responsive Design requirement 37: Use clear empty and error states where forms exist.
+- Responsive Design requirement 38: Document any assumptions in comments sparingly.
+- Responsive Design requirement 39: Run lint, typecheck, and build.
+- Responsive Design requirement 40: Inspect the site visually before final handoff.
+
+### Area: Accessibility
+- Accessibility requirement 01: Use precise Pixesci terminology.
+- Accessibility requirement 02: Keep the implementation grounded in the studied codebase.
+- Accessibility requirement 03: Use semantic HTML for the surface.
+- Accessibility requirement 04: Ensure the section works at mobile, tablet, and desktop widths.
+- Accessibility requirement 05: Avoid direct copying from inspiration sites.
+- Accessibility requirement 06: Use restrained technical styling.
+- Accessibility requirement 07: Prefer data-driven rendering where lists repeat.
+- Accessibility requirement 08: Keep copy specific to scientific workflows.
+- Accessibility requirement 09: Avoid unsupported certification claims.
+- Accessibility requirement 10: Make the user action clear.
+- Accessibility requirement 11: Use stable layout dimensions.
+- Accessibility requirement 12: Avoid nested cards.
+- Accessibility requirement 13: Use accessible labels for controls.
+- Accessibility requirement 14: Respect reduced motion.
+- Accessibility requirement 15: Use lucide icons where iconography is needed.
+- Accessibility requirement 16: Use shadcn-style primitives consistently.
+- Accessibility requirement 17: Keep color contrast high.
+- Accessibility requirement 18: Use internal links to related pages.
+- Accessibility requirement 19: Use concise headings with concrete value.
+- Accessibility requirement 20: Keep body text readable and scannable.
+- Accessibility requirement 21: Represent local-first deployment accurately.
+- Accessibility requirement 22: Represent workflow traceability accurately.
+- Accessibility requirement 23: Represent software integration as capability-based.
+- Accessibility requirement 24: Show product mechanics through visuals.
+- Accessibility requirement 25: Keep bundle size small.
+- Accessibility requirement 26: Do not add unnecessary client state.
+- Accessibility requirement 27: Do not create fake customer proof.
+- Accessibility requirement 28: Do not invent backend APIs.
+- Accessibility requirement 29: Provide fallback content for visuals.
+- Accessibility requirement 30: Use TypeScript prop types for reusable components.
+- Accessibility requirement 31: Avoid excessive gradients.
+- Accessibility requirement 32: Avoid generic SaaS cards.
+- Accessibility requirement 33: Keep CTAs enterprise appropriate.
+- Accessibility requirement 34: Ensure no text overlaps at narrow widths.
+- Accessibility requirement 35: Use route metadata.
+- Accessibility requirement 36: Use a consistent spacing scale.
+- Accessibility requirement 37: Use clear empty and error states where forms exist.
+- Accessibility requirement 38: Document any assumptions in comments sparingly.
+- Accessibility requirement 39: Run lint, typecheck, and build.
+- Accessibility requirement 40: Inspect the site visually before final handoff.
+
+### Area: SEO
+- SEO requirement 01: Use precise Pixesci terminology.
+- SEO requirement 02: Keep the implementation grounded in the studied codebase.
+- SEO requirement 03: Use semantic HTML for the surface.
+- SEO requirement 04: Ensure the section works at mobile, tablet, and desktop widths.
+- SEO requirement 05: Avoid direct copying from inspiration sites.
+- SEO requirement 06: Use restrained technical styling.
+- SEO requirement 07: Prefer data-driven rendering where lists repeat.
+- SEO requirement 08: Keep copy specific to scientific workflows.
+- SEO requirement 09: Avoid unsupported certification claims.
+- SEO requirement 10: Make the user action clear.
+- SEO requirement 11: Use stable layout dimensions.
+- SEO requirement 12: Avoid nested cards.
+- SEO requirement 13: Use accessible labels for controls.
+- SEO requirement 14: Respect reduced motion.
+- SEO requirement 15: Use lucide icons where iconography is needed.
+- SEO requirement 16: Use shadcn-style primitives consistently.
+- SEO requirement 17: Keep color contrast high.
+- SEO requirement 18: Use internal links to related pages.
+- SEO requirement 19: Use concise headings with concrete value.
+- SEO requirement 20: Keep body text readable and scannable.
+- SEO requirement 21: Represent local-first deployment accurately.
+- SEO requirement 22: Represent workflow traceability accurately.
+- SEO requirement 23: Represent software integration as capability-based.
+- SEO requirement 24: Show product mechanics through visuals.
+- SEO requirement 25: Keep bundle size small.
+- SEO requirement 26: Do not add unnecessary client state.
+- SEO requirement 27: Do not create fake customer proof.
+- SEO requirement 28: Do not invent backend APIs.
+- SEO requirement 29: Provide fallback content for visuals.
+- SEO requirement 30: Use TypeScript prop types for reusable components.
+- SEO requirement 31: Avoid excessive gradients.
+- SEO requirement 32: Avoid generic SaaS cards.
+- SEO requirement 33: Keep CTAs enterprise appropriate.
+- SEO requirement 34: Ensure no text overlaps at narrow widths.
+- SEO requirement 35: Use route metadata.
+- SEO requirement 36: Use a consistent spacing scale.
+- SEO requirement 37: Use clear empty and error states where forms exist.
+- SEO requirement 38: Document any assumptions in comments sparingly.
+- SEO requirement 39: Run lint, typecheck, and build.
+- SEO requirement 40: Inspect the site visually before final handoff.
+
+### Area: Performance
+- Performance requirement 01: Use precise Pixesci terminology.
+- Performance requirement 02: Keep the implementation grounded in the studied codebase.
+- Performance requirement 03: Use semantic HTML for the surface.
+- Performance requirement 04: Ensure the section works at mobile, tablet, and desktop widths.
+- Performance requirement 05: Avoid direct copying from inspiration sites.
+- Performance requirement 06: Use restrained technical styling.
+- Performance requirement 07: Prefer data-driven rendering where lists repeat.
+- Performance requirement 08: Keep copy specific to scientific workflows.
+- Performance requirement 09: Avoid unsupported certification claims.
+- Performance requirement 10: Make the user action clear.
+- Performance requirement 11: Use stable layout dimensions.
+- Performance requirement 12: Avoid nested cards.
+- Performance requirement 13: Use accessible labels for controls.
+- Performance requirement 14: Respect reduced motion.
+- Performance requirement 15: Use lucide icons where iconography is needed.
+- Performance requirement 16: Use shadcn-style primitives consistently.
+- Performance requirement 17: Keep color contrast high.
+- Performance requirement 18: Use internal links to related pages.
+- Performance requirement 19: Use concise headings with concrete value.
+- Performance requirement 20: Keep body text readable and scannable.
+- Performance requirement 21: Represent local-first deployment accurately.
+- Performance requirement 22: Represent workflow traceability accurately.
+- Performance requirement 23: Represent software integration as capability-based.
+- Performance requirement 24: Show product mechanics through visuals.
+- Performance requirement 25: Keep bundle size small.
+- Performance requirement 26: Do not add unnecessary client state.
+- Performance requirement 27: Do not create fake customer proof.
+- Performance requirement 28: Do not invent backend APIs.
+- Performance requirement 29: Provide fallback content for visuals.
+- Performance requirement 30: Use TypeScript prop types for reusable components.
+- Performance requirement 31: Avoid excessive gradients.
+- Performance requirement 32: Avoid generic SaaS cards.
+- Performance requirement 33: Keep CTAs enterprise appropriate.
+- Performance requirement 34: Ensure no text overlaps at narrow widths.
+- Performance requirement 35: Use route metadata.
+- Performance requirement 36: Use a consistent spacing scale.
+- Performance requirement 37: Use clear empty and error states where forms exist.
+- Performance requirement 38: Document any assumptions in comments sparingly.
+- Performance requirement 39: Run lint, typecheck, and build.
+- Performance requirement 40: Inspect the site visually before final handoff.
+
+### Area: Content Data
+- Content Data requirement 01: Use precise Pixesci terminology.
+- Content Data requirement 02: Keep the implementation grounded in the studied codebase.
+- Content Data requirement 03: Use semantic HTML for the surface.
+- Content Data requirement 04: Ensure the section works at mobile, tablet, and desktop widths.
+- Content Data requirement 05: Avoid direct copying from inspiration sites.
+- Content Data requirement 06: Use restrained technical styling.
+- Content Data requirement 07: Prefer data-driven rendering where lists repeat.
+- Content Data requirement 08: Keep copy specific to scientific workflows.
+- Content Data requirement 09: Avoid unsupported certification claims.
+- Content Data requirement 10: Make the user action clear.
+- Content Data requirement 11: Use stable layout dimensions.
+- Content Data requirement 12: Avoid nested cards.
+- Content Data requirement 13: Use accessible labels for controls.
+- Content Data requirement 14: Respect reduced motion.
+- Content Data requirement 15: Use lucide icons where iconography is needed.
+- Content Data requirement 16: Use shadcn-style primitives consistently.
+- Content Data requirement 17: Keep color contrast high.
+- Content Data requirement 18: Use internal links to related pages.
+- Content Data requirement 19: Use concise headings with concrete value.
+- Content Data requirement 20: Keep body text readable and scannable.
+- Content Data requirement 21: Represent local-first deployment accurately.
+- Content Data requirement 22: Represent workflow traceability accurately.
+- Content Data requirement 23: Represent software integration as capability-based.
+- Content Data requirement 24: Show product mechanics through visuals.
+- Content Data requirement 25: Keep bundle size small.
+- Content Data requirement 26: Do not add unnecessary client state.
+- Content Data requirement 27: Do not create fake customer proof.
+- Content Data requirement 28: Do not invent backend APIs.
+- Content Data requirement 29: Provide fallback content for visuals.
+- Content Data requirement 30: Use TypeScript prop types for reusable components.
+- Content Data requirement 31: Avoid excessive gradients.
+- Content Data requirement 32: Avoid generic SaaS cards.
+- Content Data requirement 33: Keep CTAs enterprise appropriate.
+- Content Data requirement 34: Ensure no text overlaps at narrow widths.
+- Content Data requirement 35: Use route metadata.
+- Content Data requirement 36: Use a consistent spacing scale.
+- Content Data requirement 37: Use clear empty and error states where forms exist.
+- Content Data requirement 38: Document any assumptions in comments sparingly.
+- Content Data requirement 39: Run lint, typecheck, and build.
+- Content Data requirement 40: Inspect the site visually before final handoff.
+
+### Area: Component Architecture
+- Component Architecture requirement 01: Use precise Pixesci terminology.
+- Component Architecture requirement 02: Keep the implementation grounded in the studied codebase.
+- Component Architecture requirement 03: Use semantic HTML for the surface.
+- Component Architecture requirement 04: Ensure the section works at mobile, tablet, and desktop widths.
+- Component Architecture requirement 05: Avoid direct copying from inspiration sites.
+- Component Architecture requirement 06: Use restrained technical styling.
+- Component Architecture requirement 07: Prefer data-driven rendering where lists repeat.
+- Component Architecture requirement 08: Keep copy specific to scientific workflows.
+- Component Architecture requirement 09: Avoid unsupported certification claims.
+- Component Architecture requirement 10: Make the user action clear.
+- Component Architecture requirement 11: Use stable layout dimensions.
+- Component Architecture requirement 12: Avoid nested cards.
+- Component Architecture requirement 13: Use accessible labels for controls.
+- Component Architecture requirement 14: Respect reduced motion.
+- Component Architecture requirement 15: Use lucide icons where iconography is needed.
+- Component Architecture requirement 16: Use shadcn-style primitives consistently.
+- Component Architecture requirement 17: Keep color contrast high.
+- Component Architecture requirement 18: Use internal links to related pages.
+- Component Architecture requirement 19: Use concise headings with concrete value.
+- Component Architecture requirement 20: Keep body text readable and scannable.
+- Component Architecture requirement 21: Represent local-first deployment accurately.
+- Component Architecture requirement 22: Represent workflow traceability accurately.
+- Component Architecture requirement 23: Represent software integration as capability-based.
+- Component Architecture requirement 24: Show product mechanics through visuals.
+- Component Architecture requirement 25: Keep bundle size small.
+- Component Architecture requirement 26: Do not add unnecessary client state.
+- Component Architecture requirement 27: Do not create fake customer proof.
+- Component Architecture requirement 28: Do not invent backend APIs.
+- Component Architecture requirement 29: Provide fallback content for visuals.
+- Component Architecture requirement 30: Use TypeScript prop types for reusable components.
+- Component Architecture requirement 31: Avoid excessive gradients.
+- Component Architecture requirement 32: Avoid generic SaaS cards.
+- Component Architecture requirement 33: Keep CTAs enterprise appropriate.
+- Component Architecture requirement 34: Ensure no text overlaps at narrow widths.
+- Component Architecture requirement 35: Use route metadata.
+- Component Architecture requirement 36: Use a consistent spacing scale.
+- Component Architecture requirement 37: Use clear empty and error states where forms exist.
+- Component Architecture requirement 38: Document any assumptions in comments sparingly.
+- Component Architecture requirement 39: Run lint, typecheck, and build.
+- Component Architecture requirement 40: Inspect the site visually before final handoff.
+
+### Area: Tailwind Tokens
+- Tailwind Tokens requirement 01: Use precise Pixesci terminology.
+- Tailwind Tokens requirement 02: Keep the implementation grounded in the studied codebase.
+- Tailwind Tokens requirement 03: Use semantic HTML for the surface.
+- Tailwind Tokens requirement 04: Ensure the section works at mobile, tablet, and desktop widths.
+- Tailwind Tokens requirement 05: Avoid direct copying from inspiration sites.
+- Tailwind Tokens requirement 06: Use restrained technical styling.
+- Tailwind Tokens requirement 07: Prefer data-driven rendering where lists repeat.
+- Tailwind Tokens requirement 08: Keep copy specific to scientific workflows.
+- Tailwind Tokens requirement 09: Avoid unsupported certification claims.
+- Tailwind Tokens requirement 10: Make the user action clear.
+- Tailwind Tokens requirement 11: Use stable layout dimensions.
+- Tailwind Tokens requirement 12: Avoid nested cards.
+- Tailwind Tokens requirement 13: Use accessible labels for controls.
+- Tailwind Tokens requirement 14: Respect reduced motion.
+- Tailwind Tokens requirement 15: Use lucide icons where iconography is needed.
+- Tailwind Tokens requirement 16: Use shadcn-style primitives consistently.
+- Tailwind Tokens requirement 17: Keep color contrast high.
+- Tailwind Tokens requirement 18: Use internal links to related pages.
+- Tailwind Tokens requirement 19: Use concise headings with concrete value.
+- Tailwind Tokens requirement 20: Keep body text readable and scannable.
+- Tailwind Tokens requirement 21: Represent local-first deployment accurately.
+- Tailwind Tokens requirement 22: Represent workflow traceability accurately.
+- Tailwind Tokens requirement 23: Represent software integration as capability-based.
+- Tailwind Tokens requirement 24: Show product mechanics through visuals.
+- Tailwind Tokens requirement 25: Keep bundle size small.
+- Tailwind Tokens requirement 26: Do not add unnecessary client state.
+- Tailwind Tokens requirement 27: Do not create fake customer proof.
+- Tailwind Tokens requirement 28: Do not invent backend APIs.
+- Tailwind Tokens requirement 29: Provide fallback content for visuals.
+- Tailwind Tokens requirement 30: Use TypeScript prop types for reusable components.
+- Tailwind Tokens requirement 31: Avoid excessive gradients.
+- Tailwind Tokens requirement 32: Avoid generic SaaS cards.
+- Tailwind Tokens requirement 33: Keep CTAs enterprise appropriate.
+- Tailwind Tokens requirement 34: Ensure no text overlaps at narrow widths.
+- Tailwind Tokens requirement 35: Use route metadata.
+- Tailwind Tokens requirement 36: Use a consistent spacing scale.
+- Tailwind Tokens requirement 37: Use clear empty and error states where forms exist.
+- Tailwind Tokens requirement 38: Document any assumptions in comments sparingly.
+- Tailwind Tokens requirement 39: Run lint, typecheck, and build.
+- Tailwind Tokens requirement 40: Inspect the site visually before final handoff.
+
+### Area: Motion
+- Motion requirement 01: Use precise Pixesci terminology.
+- Motion requirement 02: Keep the implementation grounded in the studied codebase.
+- Motion requirement 03: Use semantic HTML for the surface.
+- Motion requirement 04: Ensure the section works at mobile, tablet, and desktop widths.
+- Motion requirement 05: Avoid direct copying from inspiration sites.
+- Motion requirement 06: Use restrained technical styling.
+- Motion requirement 07: Prefer data-driven rendering where lists repeat.
+- Motion requirement 08: Keep copy specific to scientific workflows.
+- Motion requirement 09: Avoid unsupported certification claims.
+- Motion requirement 10: Make the user action clear.
+- Motion requirement 11: Use stable layout dimensions.
+- Motion requirement 12: Avoid nested cards.
+- Motion requirement 13: Use accessible labels for controls.
+- Motion requirement 14: Respect reduced motion.
+- Motion requirement 15: Use lucide icons where iconography is needed.
+- Motion requirement 16: Use shadcn-style primitives consistently.
+- Motion requirement 17: Keep color contrast high.
+- Motion requirement 18: Use internal links to related pages.
+- Motion requirement 19: Use concise headings with concrete value.
+- Motion requirement 20: Keep body text readable and scannable.
+- Motion requirement 21: Represent local-first deployment accurately.
+- Motion requirement 22: Represent workflow traceability accurately.
+- Motion requirement 23: Represent software integration as capability-based.
+- Motion requirement 24: Show product mechanics through visuals.
+- Motion requirement 25: Keep bundle size small.
+- Motion requirement 26: Do not add unnecessary client state.
+- Motion requirement 27: Do not create fake customer proof.
+- Motion requirement 28: Do not invent backend APIs.
+- Motion requirement 29: Provide fallback content for visuals.
+- Motion requirement 30: Use TypeScript prop types for reusable components.
+- Motion requirement 31: Avoid excessive gradients.
+- Motion requirement 32: Avoid generic SaaS cards.
+- Motion requirement 33: Keep CTAs enterprise appropriate.
+- Motion requirement 34: Ensure no text overlaps at narrow widths.
+- Motion requirement 35: Use route metadata.
+- Motion requirement 36: Use a consistent spacing scale.
+- Motion requirement 37: Use clear empty and error states where forms exist.
+- Motion requirement 38: Document any assumptions in comments sparingly.
+- Motion requirement 39: Run lint, typecheck, and build.
+- Motion requirement 40: Inspect the site visually before final handoff.
+
+### Area: Testing
+- Testing requirement 01: Use precise Pixesci terminology.
+- Testing requirement 02: Keep the implementation grounded in the studied codebase.
+- Testing requirement 03: Use semantic HTML for the surface.
+- Testing requirement 04: Ensure the section works at mobile, tablet, and desktop widths.
+- Testing requirement 05: Avoid direct copying from inspiration sites.
+- Testing requirement 06: Use restrained technical styling.
+- Testing requirement 07: Prefer data-driven rendering where lists repeat.
+- Testing requirement 08: Keep copy specific to scientific workflows.
+- Testing requirement 09: Avoid unsupported certification claims.
+- Testing requirement 10: Make the user action clear.
+- Testing requirement 11: Use stable layout dimensions.
+- Testing requirement 12: Avoid nested cards.
+- Testing requirement 13: Use accessible labels for controls.
+- Testing requirement 14: Respect reduced motion.
+- Testing requirement 15: Use lucide icons where iconography is needed.
+- Testing requirement 16: Use shadcn-style primitives consistently.
+- Testing requirement 17: Keep color contrast high.
+- Testing requirement 18: Use internal links to related pages.
+- Testing requirement 19: Use concise headings with concrete value.
+- Testing requirement 20: Keep body text readable and scannable.
+- Testing requirement 21: Represent local-first deployment accurately.
+- Testing requirement 22: Represent workflow traceability accurately.
+- Testing requirement 23: Represent software integration as capability-based.
+- Testing requirement 24: Show product mechanics through visuals.
+- Testing requirement 25: Keep bundle size small.
+- Testing requirement 26: Do not add unnecessary client state.
+- Testing requirement 27: Do not create fake customer proof.
+- Testing requirement 28: Do not invent backend APIs.
+- Testing requirement 29: Provide fallback content for visuals.
+- Testing requirement 30: Use TypeScript prop types for reusable components.
+- Testing requirement 31: Avoid excessive gradients.
+- Testing requirement 32: Avoid generic SaaS cards.
+- Testing requirement 33: Keep CTAs enterprise appropriate.
+- Testing requirement 34: Ensure no text overlaps at narrow widths.
+- Testing requirement 35: Use route metadata.
+- Testing requirement 36: Use a consistent spacing scale.
+- Testing requirement 37: Use clear empty and error states where forms exist.
+- Testing requirement 38: Document any assumptions in comments sparingly.
+- Testing requirement 39: Run lint, typecheck, and build.
+- Testing requirement 40: Inspect the site visually before final handoff.
+
+### Area: Acceptance Criteria
+- Acceptance Criteria requirement 01: Use precise Pixesci terminology.
+- Acceptance Criteria requirement 02: Keep the implementation grounded in the studied codebase.
+- Acceptance Criteria requirement 03: Use semantic HTML for the surface.
+- Acceptance Criteria requirement 04: Ensure the section works at mobile, tablet, and desktop widths.
+- Acceptance Criteria requirement 05: Avoid direct copying from inspiration sites.
+- Acceptance Criteria requirement 06: Use restrained technical styling.
+- Acceptance Criteria requirement 07: Prefer data-driven rendering where lists repeat.
+- Acceptance Criteria requirement 08: Keep copy specific to scientific workflows.
+- Acceptance Criteria requirement 09: Avoid unsupported certification claims.
+- Acceptance Criteria requirement 10: Make the user action clear.
+- Acceptance Criteria requirement 11: Use stable layout dimensions.
+- Acceptance Criteria requirement 12: Avoid nested cards.
+- Acceptance Criteria requirement 13: Use accessible labels for controls.
+- Acceptance Criteria requirement 14: Respect reduced motion.
+- Acceptance Criteria requirement 15: Use lucide icons where iconography is needed.
+- Acceptance Criteria requirement 16: Use shadcn-style primitives consistently.
+- Acceptance Criteria requirement 17: Keep color contrast high.
+- Acceptance Criteria requirement 18: Use internal links to related pages.
+- Acceptance Criteria requirement 19: Use concise headings with concrete value.
+- Acceptance Criteria requirement 20: Keep body text readable and scannable.
+- Acceptance Criteria requirement 21: Represent local-first deployment accurately.
+- Acceptance Criteria requirement 22: Represent workflow traceability accurately.
+- Acceptance Criteria requirement 23: Represent software integration as capability-based.
+- Acceptance Criteria requirement 24: Show product mechanics through visuals.
+- Acceptance Criteria requirement 25: Keep bundle size small.
+- Acceptance Criteria requirement 26: Do not add unnecessary client state.
+- Acceptance Criteria requirement 27: Do not create fake customer proof.
+- Acceptance Criteria requirement 28: Do not invent backend APIs.
+- Acceptance Criteria requirement 29: Provide fallback content for visuals.
+- Acceptance Criteria requirement 30: Use TypeScript prop types for reusable components.
+- Acceptance Criteria requirement 31: Avoid excessive gradients.
+- Acceptance Criteria requirement 32: Avoid generic SaaS cards.
+- Acceptance Criteria requirement 33: Keep CTAs enterprise appropriate.
+- Acceptance Criteria requirement 34: Ensure no text overlaps at narrow widths.
+- Acceptance Criteria requirement 35: Use route metadata.
+- Acceptance Criteria requirement 36: Use a consistent spacing scale.
+- Acceptance Criteria requirement 37: Use clear empty and error states where forms exist.
+- Acceptance Criteria requirement 38: Document any assumptions in comments sparingly.
+- Acceptance Criteria requirement 39: Run lint, typecheck, and build.
+- Acceptance Criteria requirement 40: Inspect the site visually before final handoff.
+
+## Route Acceptance Checklists
+
+### Homepage Acceptance
+- Homepage: has route-specific metadata.
+- Homepage: has exactly one H1.
+- Homepage: has a clear primary CTA.
+- Homepage: has a clear secondary path or internal link.
+- Homepage: uses Pixesci-specific copy.
+- Homepage: does not overclaim compliance.
+- Homepage: renders without client data dependency.
+- Homepage: has mobile-safe layout.
+- Homepage: has desktop-safe layout.
+- Homepage: uses accessible images/visuals.
+- Homepage: keeps navigation consistent.
+- Homepage: keeps footer consistent.
+- Homepage: has no placeholder lorem ipsum.
+- Homepage: has no fake metrics.
+- Homepage: has no fake logos.
+- Homepage: uses stable section spacing.
+- Homepage: uses contrast-safe text.
+- Homepage: has reduced-motion fallback for animations.
+- Homepage: is covered by lint/typecheck/build.
+- Homepage: connects to the broader site narrative.
+
+### Product Page Acceptance
+- Product Page: has route-specific metadata.
+- Product Page: has exactly one H1.
+- Product Page: has a clear primary CTA.
+- Product Page: has a clear secondary path or internal link.
+- Product Page: uses Pixesci-specific copy.
+- Product Page: does not overclaim compliance.
+- Product Page: renders without client data dependency.
+- Product Page: has mobile-safe layout.
+- Product Page: has desktop-safe layout.
+- Product Page: uses accessible images/visuals.
+- Product Page: keeps navigation consistent.
+- Product Page: keeps footer consistent.
+- Product Page: has no placeholder lorem ipsum.
+- Product Page: has no fake metrics.
+- Product Page: has no fake logos.
+- Product Page: uses stable section spacing.
+- Product Page: uses contrast-safe text.
+- Product Page: has reduced-motion fallback for animations.
+- Product Page: is covered by lint/typecheck/build.
+- Product Page: connects to the broader site narrative.
+
+### Regulated Life Sciences Page Acceptance
+- Regulated Life Sciences Page: has route-specific metadata.
+- Regulated Life Sciences Page: has exactly one H1.
+- Regulated Life Sciences Page: has a clear primary CTA.
+- Regulated Life Sciences Page: has a clear secondary path or internal link.
+- Regulated Life Sciences Page: uses Pixesci-specific copy.
+- Regulated Life Sciences Page: does not overclaim compliance.
+- Regulated Life Sciences Page: renders without client data dependency.
+- Regulated Life Sciences Page: has mobile-safe layout.
+- Regulated Life Sciences Page: has desktop-safe layout.
+- Regulated Life Sciences Page: uses accessible images/visuals.
+- Regulated Life Sciences Page: keeps navigation consistent.
+- Regulated Life Sciences Page: keeps footer consistent.
+- Regulated Life Sciences Page: has no placeholder lorem ipsum.
+- Regulated Life Sciences Page: has no fake metrics.
+- Regulated Life Sciences Page: has no fake logos.
+- Regulated Life Sciences Page: uses stable section spacing.
+- Regulated Life Sciences Page: uses contrast-safe text.
+- Regulated Life Sciences Page: has reduced-motion fallback for animations.
+- Regulated Life Sciences Page: is covered by lint/typecheck/build.
+- Regulated Life Sciences Page: connects to the broader site narrative.
+
+### Secure Research Page Acceptance
+- Secure Research Page: has route-specific metadata.
+- Secure Research Page: has exactly one H1.
+- Secure Research Page: has a clear primary CTA.
+- Secure Research Page: has a clear secondary path or internal link.
+- Secure Research Page: uses Pixesci-specific copy.
+- Secure Research Page: does not overclaim compliance.
+- Secure Research Page: renders without client data dependency.
+- Secure Research Page: has mobile-safe layout.
+- Secure Research Page: has desktop-safe layout.
+- Secure Research Page: uses accessible images/visuals.
+- Secure Research Page: keeps navigation consistent.
+- Secure Research Page: keeps footer consistent.
+- Secure Research Page: has no placeholder lorem ipsum.
+- Secure Research Page: has no fake metrics.
+- Secure Research Page: has no fake logos.
+- Secure Research Page: uses stable section spacing.
+- Secure Research Page: uses contrast-safe text.
+- Secure Research Page: has reduced-motion fallback for animations.
+- Secure Research Page: is covered by lint/typecheck/build.
+- Secure Research Page: connects to the broader site narrative.
+
+### Core Facilities Page Acceptance
+- Core Facilities Page: has route-specific metadata.
+- Core Facilities Page: has exactly one H1.
+- Core Facilities Page: has a clear primary CTA.
+- Core Facilities Page: has a clear secondary path or internal link.
+- Core Facilities Page: uses Pixesci-specific copy.
+- Core Facilities Page: does not overclaim compliance.
+- Core Facilities Page: renders without client data dependency.
+- Core Facilities Page: has mobile-safe layout.
+- Core Facilities Page: has desktop-safe layout.
+- Core Facilities Page: uses accessible images/visuals.
+- Core Facilities Page: keeps navigation consistent.
+- Core Facilities Page: keeps footer consistent.
+- Core Facilities Page: has no placeholder lorem ipsum.
+- Core Facilities Page: has no fake metrics.
+- Core Facilities Page: has no fake logos.
+- Core Facilities Page: uses stable section spacing.
+- Core Facilities Page: uses contrast-safe text.
+- Core Facilities Page: has reduced-motion fallback for animations.
+- Core Facilities Page: is covered by lint/typecheck/build.
+- Core Facilities Page: connects to the broader site narrative.
+
+### Integrations Page Acceptance
+- Integrations Page: has route-specific metadata.
+- Integrations Page: has exactly one H1.
+- Integrations Page: has a clear primary CTA.
+- Integrations Page: has a clear secondary path or internal link.
+- Integrations Page: uses Pixesci-specific copy.
+- Integrations Page: does not overclaim compliance.
+- Integrations Page: renders without client data dependency.
+- Integrations Page: has mobile-safe layout.
+- Integrations Page: has desktop-safe layout.
+- Integrations Page: uses accessible images/visuals.
+- Integrations Page: keeps navigation consistent.
+- Integrations Page: keeps footer consistent.
+- Integrations Page: has no placeholder lorem ipsum.
+- Integrations Page: has no fake metrics.
+- Integrations Page: has no fake logos.
+- Integrations Page: uses stable section spacing.
+- Integrations Page: uses contrast-safe text.
+- Integrations Page: has reduced-motion fallback for animations.
+- Integrations Page: is covered by lint/typecheck/build.
+- Integrations Page: connects to the broader site narrative.
+
+### Compliance Page Acceptance
+- Compliance Page: has route-specific metadata.
+- Compliance Page: has exactly one H1.
+- Compliance Page: has a clear primary CTA.
+- Compliance Page: has a clear secondary path or internal link.
+- Compliance Page: uses Pixesci-specific copy.
+- Compliance Page: does not overclaim compliance.
+- Compliance Page: renders without client data dependency.
+- Compliance Page: has mobile-safe layout.
+- Compliance Page: has desktop-safe layout.
+- Compliance Page: uses accessible images/visuals.
+- Compliance Page: keeps navigation consistent.
+- Compliance Page: keeps footer consistent.
+- Compliance Page: has no placeholder lorem ipsum.
+- Compliance Page: has no fake metrics.
+- Compliance Page: has no fake logos.
+- Compliance Page: uses stable section spacing.
+- Compliance Page: uses contrast-safe text.
+- Compliance Page: has reduced-motion fallback for animations.
+- Compliance Page: is covered by lint/typecheck/build.
+- Compliance Page: connects to the broader site narrative.
+
+### Security Page Acceptance
+- Security Page: has route-specific metadata.
+- Security Page: has exactly one H1.
+- Security Page: has a clear primary CTA.
+- Security Page: has a clear secondary path or internal link.
+- Security Page: uses Pixesci-specific copy.
+- Security Page: does not overclaim compliance.
+- Security Page: renders without client data dependency.
+- Security Page: has mobile-safe layout.
+- Security Page: has desktop-safe layout.
+- Security Page: uses accessible images/visuals.
+- Security Page: keeps navigation consistent.
+- Security Page: keeps footer consistent.
+- Security Page: has no placeholder lorem ipsum.
+- Security Page: has no fake metrics.
+- Security Page: has no fake logos.
+- Security Page: uses stable section spacing.
+- Security Page: uses contrast-safe text.
+- Security Page: has reduced-motion fallback for animations.
+- Security Page: is covered by lint/typecheck/build.
+- Security Page: connects to the broader site narrative.
+
+### Workflow Automation Page Acceptance
+- Workflow Automation Page: has route-specific metadata.
+- Workflow Automation Page: has exactly one H1.
+- Workflow Automation Page: has a clear primary CTA.
+- Workflow Automation Page: has a clear secondary path or internal link.
+- Workflow Automation Page: uses Pixesci-specific copy.
+- Workflow Automation Page: does not overclaim compliance.
+- Workflow Automation Page: renders without client data dependency.
+- Workflow Automation Page: has mobile-safe layout.
+- Workflow Automation Page: has desktop-safe layout.
+- Workflow Automation Page: uses accessible images/visuals.
+- Workflow Automation Page: keeps navigation consistent.
+- Workflow Automation Page: keeps footer consistent.
+- Workflow Automation Page: has no placeholder lorem ipsum.
+- Workflow Automation Page: has no fake metrics.
+- Workflow Automation Page: has no fake logos.
+- Workflow Automation Page: uses stable section spacing.
+- Workflow Automation Page: uses contrast-safe text.
+- Workflow Automation Page: has reduced-motion fallback for animations.
+- Workflow Automation Page: is covered by lint/typecheck/build.
+- Workflow Automation Page: connects to the broader site narrative.
+
+### Company Page Acceptance
+- Company Page: has route-specific metadata.
+- Company Page: has exactly one H1.
+- Company Page: has a clear primary CTA.
+- Company Page: has a clear secondary path or internal link.
+- Company Page: uses Pixesci-specific copy.
+- Company Page: does not overclaim compliance.
+- Company Page: renders without client data dependency.
+- Company Page: has mobile-safe layout.
+- Company Page: has desktop-safe layout.
+- Company Page: uses accessible images/visuals.
+- Company Page: keeps navigation consistent.
+- Company Page: keeps footer consistent.
+- Company Page: has no placeholder lorem ipsum.
+- Company Page: has no fake metrics.
+- Company Page: has no fake logos.
+- Company Page: uses stable section spacing.
+- Company Page: uses contrast-safe text.
+- Company Page: has reduced-motion fallback for animations.
+- Company Page: is covered by lint/typecheck/build.
+- Company Page: connects to the broader site narrative.
+
+### Contact Page Acceptance
+- Contact Page: has route-specific metadata.
+- Contact Page: has exactly one H1.
+- Contact Page: has a clear primary CTA.
+- Contact Page: has a clear secondary path or internal link.
+- Contact Page: uses Pixesci-specific copy.
+- Contact Page: does not overclaim compliance.
+- Contact Page: renders without client data dependency.
+- Contact Page: has mobile-safe layout.
+- Contact Page: has desktop-safe layout.
+- Contact Page: uses accessible images/visuals.
+- Contact Page: keeps navigation consistent.
+- Contact Page: keeps footer consistent.
+- Contact Page: has no placeholder lorem ipsum.
+- Contact Page: has no fake metrics.
+- Contact Page: has no fake logos.
+- Contact Page: uses stable section spacing.
+- Contact Page: uses contrast-safe text.
+- Contact Page: has reduced-motion fallback for animations.
+- Contact Page: is covered by lint/typecheck/build.
+- Contact Page: connects to the broader site narrative.
+
+## Visual Module Specifications
+
+### Visual: Workflow Graph
+- The workflow graph visual must be product-inspired rather than abstract decoration.
+- The workflow graph visual must remain legible on mobile.
+- The workflow graph visual must have a reduced-motion/nonanimated state.
+- The workflow graph visual must use real Pixesci concepts from the codebase.
+- The workflow graph visual must avoid copied inspiration-site composition.
+- The workflow graph visual must use stable dimensions and responsive constraints.
+- The workflow graph visual must support light and dark surface variants if used in both contexts.
+- The workflow graph visual must not rely on external network assets unless explicitly approved.
+- The workflow graph visual must include accessible text or be marked decorative appropriately.
+- The workflow graph visual must reinforce the page narrative rather than distract from it.
+
+### Visual: Audit Timeline
+- The audit timeline visual must be product-inspired rather than abstract decoration.
+- The audit timeline visual must remain legible on mobile.
+- The audit timeline visual must have a reduced-motion/nonanimated state.
+- The audit timeline visual must use real Pixesci concepts from the codebase.
+- The audit timeline visual must avoid copied inspiration-site composition.
+- The audit timeline visual must use stable dimensions and responsive constraints.
+- The audit timeline visual must support light and dark surface variants if used in both contexts.
+- The audit timeline visual must not rely on external network assets unless explicitly approved.
+- The audit timeline visual must include accessible text or be marked decorative appropriately.
+- The audit timeline visual must reinforce the page narrative rather than distract from it.
+
+### Visual: Software Catalog
+- The software catalog visual must be product-inspired rather than abstract decoration.
+- The software catalog visual must remain legible on mobile.
+- The software catalog visual must have a reduced-motion/nonanimated state.
+- The software catalog visual must use real Pixesci concepts from the codebase.
+- The software catalog visual must avoid copied inspiration-site composition.
+- The software catalog visual must use stable dimensions and responsive constraints.
+- The software catalog visual must support light and dark surface variants if used in both contexts.
+- The software catalog visual must not rely on external network assets unless explicitly approved.
+- The software catalog visual must include accessible text or be marked decorative appropriately.
+- The software catalog visual must reinforce the page narrative rather than distract from it.
+
+### Visual: Local Architecture
+- The local architecture visual must be product-inspired rather than abstract decoration.
+- The local architecture visual must remain legible on mobile.
+- The local architecture visual must have a reduced-motion/nonanimated state.
+- The local architecture visual must use real Pixesci concepts from the codebase.
+- The local architecture visual must avoid copied inspiration-site composition.
+- The local architecture visual must use stable dimensions and responsive constraints.
+- The local architecture visual must support light and dark surface variants if used in both contexts.
+- The local architecture visual must not rely on external network assets unless explicitly approved.
+- The local architecture visual must include accessible text or be marked decorative appropriately.
+- The local architecture visual must reinforce the page narrative rather than distract from it.
+
+### Visual: Integration Matrix
+- The integration matrix visual must be product-inspired rather than abstract decoration.
+- The integration matrix visual must remain legible on mobile.
+- The integration matrix visual must have a reduced-motion/nonanimated state.
+- The integration matrix visual must use real Pixesci concepts from the codebase.
+- The integration matrix visual must avoid copied inspiration-site composition.
+- The integration matrix visual must use stable dimensions and responsive constraints.
+- The integration matrix visual must support light and dark surface variants if used in both contexts.
+- The integration matrix visual must not rely on external network assets unless explicitly approved.
+- The integration matrix visual must include accessible text or be marked decorative appropriately.
+- The integration matrix visual must reinforce the page narrative rather than distract from it.
+
+### Visual: Compliance Record
+- The compliance record visual must be product-inspired rather than abstract decoration.
+- The compliance record visual must remain legible on mobile.
+- The compliance record visual must have a reduced-motion/nonanimated state.
+- The compliance record visual must use real Pixesci concepts from the codebase.
+- The compliance record visual must avoid copied inspiration-site composition.
+- The compliance record visual must use stable dimensions and responsive constraints.
+- The compliance record visual must support light and dark surface variants if used in both contexts.
+- The compliance record visual must not rely on external network assets unless explicitly approved.
+- The compliance record visual must include accessible text or be marked decorative appropriately.
+- The compliance record visual must reinforce the page narrative rather than distract from it.
+
+### Visual: Execution Console
+- The execution console visual must be product-inspired rather than abstract decoration.
+- The execution console visual must remain legible on mobile.
+- The execution console visual must have a reduced-motion/nonanimated state.
+- The execution console visual must use real Pixesci concepts from the codebase.
+- The execution console visual must avoid copied inspiration-site composition.
+- The execution console visual must use stable dimensions and responsive constraints.
+- The execution console visual must support light and dark surface variants if used in both contexts.
+- The execution console visual must not rely on external network assets unless explicitly approved.
+- The execution console visual must include accessible text or be marked decorative appropriately.
+- The execution console visual must reinforce the page narrative rather than distract from it.
+
+### Visual: Template Gallery
+- The template gallery visual must be product-inspired rather than abstract decoration.
+- The template gallery visual must remain legible on mobile.
+- The template gallery visual must have a reduced-motion/nonanimated state.
+- The template gallery visual must use real Pixesci concepts from the codebase.
+- The template gallery visual must avoid copied inspiration-site composition.
+- The template gallery visual must use stable dimensions and responsive constraints.
+- The template gallery visual must support light and dark surface variants if used in both contexts.
+- The template gallery visual must not rely on external network assets unless explicitly approved.
+- The template gallery visual must include accessible text or be marked decorative appropriately.
+- The template gallery visual must reinforce the page narrative rather than distract from it.
+
+### Visual: Contact Form
+- The contact form visual must be product-inspired rather than abstract decoration.
+- The contact form visual must remain legible on mobile.
+- The contact form visual must have a reduced-motion/nonanimated state.
+- The contact form visual must use real Pixesci concepts from the codebase.
+- The contact form visual must avoid copied inspiration-site composition.
+- The contact form visual must use stable dimensions and responsive constraints.
+- The contact form visual must support light and dark surface variants if used in both contexts.
+- The contact form visual must not rely on external network assets unless explicitly approved.
+- The contact form visual must include accessible text or be marked decorative appropriately.
+- The contact form visual must reinforce the page narrative rather than distract from it.
+
+### Visual: Cta Band
+- The CTA band visual must be product-inspired rather than abstract decoration.
+- The CTA band visual must remain legible on mobile.
+- The CTA band visual must have a reduced-motion/nonanimated state.
+- The CTA band visual must use real Pixesci concepts from the codebase.
+- The CTA band visual must avoid copied inspiration-site composition.
+- The CTA band visual must use stable dimensions and responsive constraints.
+- The CTA band visual must support light and dark surface variants if used in both contexts.
+- The CTA band visual must not rely on external network assets unless explicitly approved.
+- The CTA band visual must include accessible text or be marked decorative appropriately.
+- The CTA band visual must reinforce the page narrative rather than distract from it.
+
+## Integration Content Requirements
+
+### Integration Category: Imaging & Microscopy
+- Include `Imaging & Microscopy` in the integrations content model.
+- Describe how `Imaging & Microscopy` workflows connect to orchestration, traceability, and local execution.
+- Provide at least one relevant example pipeline for `Imaging & Microscopy` if there is enough product context.
+- Do not imply every `Imaging & Microscopy` tool is fully implemented unless backed by product docs or code.
+
+### Integration Category: Bioinformatics & Omics
+- Include `Bioinformatics & Omics` in the integrations content model.
+- Describe how `Bioinformatics & Omics` workflows connect to orchestration, traceability, and local execution.
+- Provide at least one relevant example pipeline for `Bioinformatics & Omics` if there is enough product context.
+- Do not imply every `Bioinformatics & Omics` tool is fully implemented unless backed by product docs or code.
+
+### Integration Category: ELN & LIMS
+- Include `ELN & LIMS` in the integrations content model.
+- Describe how `ELN & LIMS` workflows connect to orchestration, traceability, and local execution.
+- Provide at least one relevant example pipeline for `ELN & LIMS` if there is enough product context.
+- Do not imply every `ELN & LIMS` tool is fully implemented unless backed by product docs or code.
+
+### Integration Category: Analytical Chemistry
+- Include `Analytical Chemistry` in the integrations content model.
+- Describe how `Analytical Chemistry` workflows connect to orchestration, traceability, and local execution.
+- Provide at least one relevant example pipeline for `Analytical Chemistry` if there is enough product context.
+- Do not imply every `Analytical Chemistry` tool is fully implemented unless backed by product docs or code.
+
+### Integration Category: Flow Cytometry & Immunology
+- Include `Flow Cytometry & Immunology` in the integrations content model.
+- Describe how `Flow Cytometry & Immunology` workflows connect to orchestration, traceability, and local execution.
+- Provide at least one relevant example pipeline for `Flow Cytometry & Immunology` if there is enough product context.
+- Do not imply every `Flow Cytometry & Immunology` tool is fully implemented unless backed by product docs or code.
+
+### Integration Category: Data Analysis & Statistics
+- Include `Data Analysis & Statistics` in the integrations content model.
+- Describe how `Data Analysis & Statistics` workflows connect to orchestration, traceability, and local execution.
+- Provide at least one relevant example pipeline for `Data Analysis & Statistics` if there is enough product context.
+- Do not imply every `Data Analysis & Statistics` tool is fully implemented unless backed by product docs or code.
+
+### Integration Category: Molecular Biology
+- Include `Molecular Biology` in the integrations content model.
+- Describe how `Molecular Biology` workflows connect to orchestration, traceability, and local execution.
+- Provide at least one relevant example pipeline for `Molecular Biology` if there is enough product context.
+- Do not imply every `Molecular Biology` tool is fully implemented unless backed by product docs or code.
+
+### Integration Category: Reporting & Export
+- Include `Reporting & Export` in the integrations content model.
+- Describe how `Reporting & Export` workflows connect to orchestration, traceability, and local execution.
+- Provide at least one relevant example pipeline for `Reporting & Export` if there is enough product context.
+- Do not imply every `Reporting & Export` tool is fully implemented unless backed by product docs or code.
+
+### Integration Category: RPA Automation
+- Include `RPA Automation` in the integrations content model.
+- Describe how `RPA Automation` workflows connect to orchestration, traceability, and local execution.
+- Provide at least one relevant example pipeline for `RPA Automation` if there is enough product context.
+- Do not imply every `RPA Automation` tool is fully implemented unless backed by product docs or code.
+
+### Integration Category: API Connectors
+- Include `API Connectors` in the integrations content model.
+- Describe how `API Connectors` workflows connect to orchestration, traceability, and local execution.
+- Provide at least one relevant example pipeline for `API Connectors` if there is enough product context.
+- Do not imply every `API Connectors` tool is fully implemented unless backed by product docs or code.
+
+### Integration Category: File & Data Pipeline
+- Include `File & Data Pipeline` in the integrations content model.
+- Describe how `File & Data Pipeline` workflows connect to orchestration, traceability, and local execution.
+- Provide at least one relevant example pipeline for `File & Data Pipeline` if there is enough product context.
+- Do not imply every `File & Data Pipeline` tool is fully implemented unless backed by product docs or code.
+
+### Integration Category: Compliance & Quality
+- Include `Compliance & Quality` in the integrations content model.
+- Describe how `Compliance & Quality` workflows connect to orchestration, traceability, and local execution.
+- Provide at least one relevant example pipeline for `Compliance & Quality` if there is enough product context.
+- Do not imply every `Compliance & Quality` tool is fully implemented unless backed by product docs or code.
+
+## Software Example Handling
+
+- Software example `ImageJ/Fiji` may appear as an example of the scientific software ecosystem; verify any production integration claim before presenting it as fully supported.
+- Software example `CellProfiler` may appear as an example of the scientific software ecosystem; verify any production integration claim before presenting it as fully supported.
+- Software example `GraphPad Prism` may appear as an example of the scientific software ecosystem; verify any production integration claim before presenting it as fully supported.
+- Software example `OMERO` may appear as an example of the scientific software ecosystem; verify any production integration claim before presenting it as fully supported.
+- Software example `Imaris` may appear as an example of the scientific software ecosystem; verify any production integration claim before presenting it as fully supported.
+- Software example `ZEN` may appear as an example of the scientific software ecosystem; verify any production integration claim before presenting it as fully supported.
+- Software example `Napari` may appear as an example of the scientific software ecosystem; verify any production integration claim before presenting it as fully supported.
+- Software example `PyMOL` may appear as an example of the scientific software ecosystem; verify any production integration claim before presenting it as fully supported.
+- Software example `BLAST` may appear as an example of the scientific software ecosystem; verify any production integration claim before presenting it as fully supported.
+- Software example `samtools` may appear as an example of the scientific software ecosystem; verify any production integration claim before presenting it as fully supported.
+- Software example `FastQC` may appear as an example of the scientific software ecosystem; verify any production integration claim before presenting it as fully supported.
+- Software example `MATLAB` may appear as an example of the scientific software ecosystem; verify any production integration claim before presenting it as fully supported.
+- Software example `Origin` may appear as an example of the scientific software ecosystem; verify any production integration claim before presenting it as fully supported.
+- Software example `SigmaPlot` may appear as an example of the scientific software ecosystem; verify any production integration claim before presenting it as fully supported.
+- Software example `TissueFAXS` may appear as an example of the scientific software ecosystem; verify any production integration claim before presenting it as fully supported.
+- Software example `LIMS REST` may appear as an example of the scientific software ecosystem; verify any production integration claim before presenting it as fully supported.
+- Software example `Excel` may appear as an example of the scientific software ecosystem; verify any production integration claim before presenting it as fully supported.
+- Software example `PowerPoint` may appear as an example of the scientific software ecosystem; verify any production integration claim before presenting it as fully supported.
+- Software example `Chromeleon` may appear as an example of the scientific software ecosystem; verify any production integration claim before presenting it as fully supported.
+- Software example `FlowJo` may appear as an example of the scientific software ecosystem; verify any production integration claim before presenting it as fully supported.
+- Software example `QuPath` may appear as an example of the scientific software ecosystem; verify any production integration claim before presenting it as fully supported.
+- Software example `Zeiss` may appear as an example of the scientific software ecosystem; verify any production integration claim before presenting it as fully supported.
+- Software example `Benchling` may appear as an example of the scientific software ecosystem; verify any production integration claim before presenting it as fully supported.
+- Software example `Google Drive` may appear as an example of the scientific software ecosystem; verify any production integration claim before presenting it as fully supported.
+- Software example `Python` may appear as an example of the scientific software ecosystem; verify any production integration claim before presenting it as fully supported.
+- Software example `R` may appear as an example of the scientific software ecosystem; verify any production integration claim before presenting it as fully supported.
+
+## Workflow Example Requirements
+
+### Workflow Example: Flow cytometry
+- Before state: manual handoff from FlowJo to GraphPad Prism to LIMS/ELN.
+- After state: Pixesci orchestrates the handoff so gating results and figures become traceable outputs.
+- Include source files, parameters, operator/review context, outputs, and execution history in the visual narrative.
+- Keep this as a representative example unless implementation proof exists for a specific customer workflow.
+
+### Workflow Example: Chromatography QC
+- Before state: manual handoff from Chromeleon or Empower to LIMS to batch record.
+- After state: Pixesci orchestrates the handoff so instrument output becomes reviewable execution evidence.
+- Include source files, parameters, operator/review context, outputs, and execution history in the visual narrative.
+- Keep this as a representative example unless implementation proof exists for a specific customer workflow.
+
+### Workflow Example: Imaging quantification
+- Before state: manual handoff from CellProfiler or ImageJ to statistics to Benchling/review.
+- After state: Pixesci orchestrates the handoff so analysis outputs and OOS flags are captured.
+- Include source files, parameters, operator/review context, outputs, and execution history in the visual narrative.
+- Keep this as a representative example unless implementation proof exists for a specific customer workflow.
+
+### Workflow Example: Mass spectrometry
+- Before state: manual handoff from Thermo Xcalibur to MaxQuant to R/Python/LIMS.
+- After state: Pixesci orchestrates the handoff so sample-set processing runs as a reusable pipeline.
+- Include source files, parameters, operator/review context, outputs, and execution history in the visual narrative.
+- Keep this as a representative example unless implementation proof exists for a specific customer workflow.
+
+### Workflow Example: Materials simulation
+- Before state: manual handoff from VASP to VESTA/OriginPro to HDF5/SQL.
+- After state: Pixesci orchestrates the handoff so job outputs become structured analysis artifacts.
+- Include source files, parameters, operator/review context, outputs, and execution history in the visual narrative.
+- Keep this as a representative example unless implementation proof exists for a specific customer workflow.
+
+### Workflow Example: MD simulation
+- Before state: manual handoff from LAMMPS to OVITO to Python.
+- After state: Pixesci orchestrates the handoff so trajectory analyses run consistently across batches.
+- Include source files, parameters, operator/review context, outputs, and execution history in the visual narrative.
+- Keep this as a representative example unless implementation proof exists for a specific customer workflow.
+
+### Workflow Example: Beamline acquisition
+- Before state: manual handoff from EPICS/Bluesky to Python/MATLAB to facility repository.
+- After state: Pixesci orchestrates the handoff so acquisition triggers reduction and registration.
+- Include source files, parameters, operator/review context, outputs, and execution history in the visual narrative.
+- Keep this as a representative example unless implementation proof exists for a specific customer workflow.
+
+### Workflow Example: Genomics
+- Before state: manual handoff from FASTQ/FastQC to BWA/GATK to ELN/LIMS.
+- After state: Pixesci orchestrates the handoff so sample pipelines run with consistent steps.
+- Include source files, parameters, operator/review context, outputs, and execution history in the visual narrative.
+- Keep this as a representative example unless implementation proof exists for a specific customer workflow.
+
+## Development Instructions
+
+- Read `AGENTS.md` before implementing.
+- Read this prompt fully before implementing.
+- Inspect the existing website project files before editing.
+- Inspect `package.json`, `components.json`, `src/app/globals.css`, `src/app/layout.tsx`, and existing UI primitives.
+- Read relevant Next 16 docs in `node_modules/next/dist/docs/` for APIs touched.
+- Create content/data files before building page components when copy repeats.
+- Build site shell before individual pages.
+- Build design tokens before section styling.
+- Build homepage first, then reusable section components, then secondary routes.
+- Use responsive layout from the beginning rather than patching at the end.
+- Run checks frequently.
+- Start dev server and inspect at desktop and mobile sizes.
+- Fix visual regressions before final response.
+- Do not commit unless explicitly asked.
+- Report changed files and verification results at the end.
+
+## Testing Checklist
+
+- `npm run lint` passes.
+- `npm run typecheck` passes.
+- `npm run build` passes.
+- Homepage renders without hydration warnings.
+- All routes return 200 in dev server.
+- Desktop 1440px layout has no overlap.
+- Laptop 1280px layout has no overlap.
+- Tablet 768px layout has no overlap.
+- Mobile 390px layout has no overlap.
+- Mobile navigation opens and closes by keyboard.
+- Focus states are visible.
+- Reduced motion disables decorative animations.
+- Contact form labels are accessible.
+- No fake certifications appear.
+- No copied inspiration copy appears.
+- No placeholder copy remains.
+- No console errors in browser.
+- Images/visuals have alt text or aria-hidden.
+- Metadata exists for key routes.
+- Sitemap/robots exist if implemented.
+- Lighthouse performance is acceptable.
+- Bundle does not include unnecessary heavy dependencies.
+- Dark technical bands maintain contrast.
+- CTA links point to real routes.
+- Footer links point to real routes or are intentionally omitted.
+- No external network dependency is needed for static render.
+- Typography is consistent.
+- Spacing is consistent.
+- Cards are not nested.
+- No decorative blobs/orbs are used.
+- Text does not clip in buttons.
+- Long software names wrap gracefully.
+- Audit timeline remains readable on mobile.
+- Workflow graph has mobile fallback.
+- Architecture diagram has mobile fallback.
+- Compliance disclaimer appears where needed.
+- Local-first architecture is accurately described.
+- Chat is not overpositioned as the whole product.
+- Integrations are not overclaimed.
+- Final summary includes verification outcomes.
+
+## Final Acceptance Criteria
+
+- The site looks premium, technical, elegant, modern, conversion-focused, and enterprise-ready.
+- The site unmistakably communicates Pixesci as scientific workflow orchestration infrastructure.
+- The homepage first viewport clearly says what Pixesci does and who it is for.
+- The product visuals are specific to workflows, integrations, audit trails, and local-first architecture.
+- The site uses Vercel-inspired restraint without copying Vercel.
+- The site uses ElevenLabs-inspired polish only where appropriate and without becoming media-first voice-AI design.
+- The site uses Sunburst-inspired storytelling only where helpful and without adopting its palette or exact layouts.
+- Compliance copy is careful, accurate, and non-overclaiming.
+- Local-first, on-prem, and controlled-environment messaging is prominent.
+- Scientific reproducibility and data integrity are treated as first-class themes.
+- Integrations and software catalog messaging reflects the actual codebase and docs.
+- Navigation and footer are complete and scalable.
+- Responsive design is polished across breakpoints.
+- Accessibility basics are implemented.
+- SEO metadata is implemented.
+- Performance remains strong.
+- Reusable components and content data files make future extension straightforward.
+- No implementation shortcuts create a generic SaaS feel.
+- All checks pass or any failures are clearly explained.
+- The final handoff lists files changed and verification commands run.
+## Exhaustive Implementation Directives
+
+### Page And Section Directives
+#### Homepage
+- Purpose: use this page for category definition and conversion.
+- Homepage / hero / copy: use exact scientific workflow language and avoid generic SaaS claims.
+- Homepage / hero / layout: use stable responsive grids with no nested cards.
+- Homepage / hero / visual: show product mechanics such as nodes, events, files, software, and review states.
+- Homepage / hero / motion: make progression understandable and respect reduced motion.
+- Homepage / hero / accessibility: preserve semantic structure, focus states, contrast, and alt text.
+- Homepage / hero / SEO: use route-specific terms buyers search for without keyword stuffing.
+- Homepage / hero / performance: keep the surface static-first and avoid unnecessary client code.
+- Homepage / hero / compliance: support traceability messaging without implying automatic compliance.
+- Homepage / hero / CTA: make the next action specific to the reader intent.
+- Homepage / hero / responsive: verify mobile, tablet, laptop, and wide desktop behavior.
+- Homepage / hero / content model: prefer shared data arrays for repeated content.
+- Homepage / hero / tone: sound precise, enterprise-ready, scientific, and pragmatic.
+- Homepage / problem / copy: use exact scientific workflow language and avoid generic SaaS claims.
+- Homepage / problem / layout: use stable responsive grids with no nested cards.
+- Homepage / problem / visual: show product mechanics such as nodes, events, files, software, and review states.
+- Homepage / problem / motion: make progression understandable and respect reduced motion.
+- Homepage / problem / accessibility: preserve semantic structure, focus states, contrast, and alt text.
+- Homepage / problem / SEO: use route-specific terms buyers search for without keyword stuffing.
+- Homepage / problem / performance: keep the surface static-first and avoid unnecessary client code.
+- Homepage / problem / compliance: support traceability messaging without implying automatic compliance.
+- Homepage / problem / CTA: make the next action specific to the reader intent.
+- Homepage / problem / responsive: verify mobile, tablet, laptop, and wide desktop behavior.
+- Homepage / problem / content model: prefer shared data arrays for repeated content.
+- Homepage / problem / tone: sound precise, enterprise-ready, scientific, and pragmatic.
+- Homepage / platform / copy: use exact scientific workflow language and avoid generic SaaS claims.
+- Homepage / platform / layout: use stable responsive grids with no nested cards.
+- Homepage / platform / visual: show product mechanics such as nodes, events, files, software, and review states.
+- Homepage / platform / motion: make progression understandable and respect reduced motion.
+- Homepage / platform / accessibility: preserve semantic structure, focus states, contrast, and alt text.
+- Homepage / platform / SEO: use route-specific terms buyers search for without keyword stuffing.
+- Homepage / platform / performance: keep the surface static-first and avoid unnecessary client code.
+- Homepage / platform / compliance: support traceability messaging without implying automatic compliance.
+- Homepage / platform / CTA: make the next action specific to the reader intent.
+- Homepage / platform / responsive: verify mobile, tablet, laptop, and wide desktop behavior.
+- Homepage / platform / content model: prefer shared data arrays for repeated content.
+- Homepage / platform / tone: sound precise, enterprise-ready, scientific, and pragmatic.
+- Homepage / workflow visual / copy: use exact scientific workflow language and avoid generic SaaS claims.
+- Homepage / workflow visual / layout: use stable responsive grids with no nested cards.
+- Homepage / workflow visual / visual: show product mechanics such as nodes, events, files, software, and review states.
+- Homepage / workflow visual / motion: make progression understandable and respect reduced motion.
+- Homepage / workflow visual / accessibility: preserve semantic structure, focus states, contrast, and alt text.
+- Homepage / workflow visual / SEO: use route-specific terms buyers search for without keyword stuffing.
+- Homepage / workflow visual / performance: keep the surface static-first and avoid unnecessary client code.
+- Homepage / workflow visual / compliance: support traceability messaging without implying automatic compliance.
+- Homepage / workflow visual / CTA: make the next action specific to the reader intent.
+- Homepage / workflow visual / responsive: verify mobile, tablet, laptop, and wide desktop behavior.
+- Homepage / workflow visual / content model: prefer shared data arrays for repeated content.
+- Homepage / workflow visual / tone: sound precise, enterprise-ready, scientific, and pragmatic.
+- Homepage / architecture / copy: use exact scientific workflow language and avoid generic SaaS claims.
+- Homepage / architecture / layout: use stable responsive grids with no nested cards.
+- Homepage / architecture / visual: show product mechanics such as nodes, events, files, software, and review states.
+- Homepage / architecture / motion: make progression understandable and respect reduced motion.
+- Homepage / architecture / accessibility: preserve semantic structure, focus states, contrast, and alt text.
+- Homepage / architecture / SEO: use route-specific terms buyers search for without keyword stuffing.
+- Homepage / architecture / performance: keep the surface static-first and avoid unnecessary client code.
+- Homepage / architecture / compliance: support traceability messaging without implying automatic compliance.
+- Homepage / architecture / CTA: make the next action specific to the reader intent.
+- Homepage / architecture / responsive: verify mobile, tablet, laptop, and wide desktop behavior.
+- Homepage / architecture / content model: prefer shared data arrays for repeated content.
+- Homepage / architecture / tone: sound precise, enterprise-ready, scientific, and pragmatic.
+- Homepage / integration grid / copy: use exact scientific workflow language and avoid generic SaaS claims.
+- Homepage / integration grid / layout: use stable responsive grids with no nested cards.
+- Homepage / integration grid / visual: show product mechanics such as nodes, events, files, software, and review states.
+- Homepage / integration grid / motion: make progression understandable and respect reduced motion.
+- Homepage / integration grid / accessibility: preserve semantic structure, focus states, contrast, and alt text.
+- Homepage / integration grid / SEO: use route-specific terms buyers search for without keyword stuffing.
+- Homepage / integration grid / performance: keep the surface static-first and avoid unnecessary client code.
+- Homepage / integration grid / compliance: support traceability messaging without implying automatic compliance.
+- Homepage / integration grid / CTA: make the next action specific to the reader intent.
+- Homepage / integration grid / responsive: verify mobile, tablet, laptop, and wide desktop behavior.
+- Homepage / integration grid / content model: prefer shared data arrays for repeated content.
+- Homepage / integration grid / tone: sound precise, enterprise-ready, scientific, and pragmatic.
+- Homepage / audit trail / copy: use exact scientific workflow language and avoid generic SaaS claims.
+- Homepage / audit trail / layout: use stable responsive grids with no nested cards.
+- Homepage / audit trail / visual: show product mechanics such as nodes, events, files, software, and review states.
+- Homepage / audit trail / motion: make progression understandable and respect reduced motion.
+- Homepage / audit trail / accessibility: preserve semantic structure, focus states, contrast, and alt text.
+- Homepage / audit trail / SEO: use route-specific terms buyers search for without keyword stuffing.
+- Homepage / audit trail / performance: keep the surface static-first and avoid unnecessary client code.
+- Homepage / audit trail / compliance: support traceability messaging without implying automatic compliance.
+- Homepage / audit trail / CTA: make the next action specific to the reader intent.
+- Homepage / audit trail / responsive: verify mobile, tablet, laptop, and wide desktop behavior.
+- Homepage / audit trail / content model: prefer shared data arrays for repeated content.
+- Homepage / audit trail / tone: sound precise, enterprise-ready, scientific, and pragmatic.
+- Homepage / compliance proof / copy: use exact scientific workflow language and avoid generic SaaS claims.
+- Homepage / compliance proof / layout: use stable responsive grids with no nested cards.
+- Homepage / compliance proof / visual: show product mechanics such as nodes, events, files, software, and review states.
+- Homepage / compliance proof / motion: make progression understandable and respect reduced motion.
+- Homepage / compliance proof / accessibility: preserve semantic structure, focus states, contrast, and alt text.
+- Homepage / compliance proof / SEO: use route-specific terms buyers search for without keyword stuffing.
+- Homepage / compliance proof / performance: keep the surface static-first and avoid unnecessary client code.
+- Homepage / compliance proof / compliance: support traceability messaging without implying automatic compliance.
+- Homepage / compliance proof / CTA: make the next action specific to the reader intent.
+- Homepage / compliance proof / responsive: verify mobile, tablet, laptop, and wide desktop behavior.
+- Homepage / compliance proof / content model: prefer shared data arrays for repeated content.
+- Homepage / compliance proof / tone: sound precise, enterprise-ready, scientific, and pragmatic.
+- Homepage / security posture / copy: use exact scientific workflow language and avoid generic SaaS claims.
+- Homepage / security posture / layout: use stable responsive grids with no nested cards.
+- Homepage / security posture / visual: show product mechanics such as nodes, events, files, software, and review states.
+- Homepage / security posture / motion: make progression understandable and respect reduced motion.
+- Homepage / security posture / accessibility: preserve semantic structure, focus states, contrast, and alt text.
+- Homepage / security posture / SEO: use route-specific terms buyers search for without keyword stuffing.
+- Homepage / security posture / performance: keep the surface static-first and avoid unnecessary client code.
+- Homepage / security posture / compliance: support traceability messaging without implying automatic compliance.
+- Homepage / security posture / CTA: make the next action specific to the reader intent.
+- Homepage / security posture / responsive: verify mobile, tablet, laptop, and wide desktop behavior.
+- Homepage / security posture / content model: prefer shared data arrays for repeated content.
+- Homepage / security posture / tone: sound precise, enterprise-ready, scientific, and pragmatic.
+- Homepage / solution cards / copy: use exact scientific workflow language and avoid generic SaaS claims.
+- Homepage / solution cards / layout: use stable responsive grids with no nested cards.
+- Homepage / solution cards / visual: show product mechanics such as nodes, events, files, software, and review states.
+- Homepage / solution cards / motion: make progression understandable and respect reduced motion.
+- Homepage / solution cards / accessibility: preserve semantic structure, focus states, contrast, and alt text.
+- Homepage / solution cards / SEO: use route-specific terms buyers search for without keyword stuffing.
+- Homepage / solution cards / performance: keep the surface static-first and avoid unnecessary client code.
+- Homepage / solution cards / compliance: support traceability messaging without implying automatic compliance.
+- Homepage / solution cards / CTA: make the next action specific to the reader intent.
+- Homepage / solution cards / responsive: verify mobile, tablet, laptop, and wide desktop behavior.
+- Homepage / solution cards / content model: prefer shared data arrays for repeated content.
+- Homepage / solution cards / tone: sound precise, enterprise-ready, scientific, and pragmatic.
+- Homepage / CTA band / copy: use exact scientific workflow language and avoid generic SaaS claims.
+- Homepage / CTA band / layout: use stable responsive grids with no nested cards.
+- Homepage / CTA band / visual: show product mechanics such as nodes, events, files, software, and review states.
+- Homepage / CTA band / motion: make progression understandable and respect reduced motion.
+- Homepage / CTA band / accessibility: preserve semantic structure, focus states, contrast, and alt text.
+- Homepage / CTA band / SEO: use route-specific terms buyers search for without keyword stuffing.
+- Homepage / CTA band / performance: keep the surface static-first and avoid unnecessary client code.
+- Homepage / CTA band / compliance: support traceability messaging without implying automatic compliance.
+- Homepage / CTA band / CTA: make the next action specific to the reader intent.
+- Homepage / CTA band / responsive: verify mobile, tablet, laptop, and wide desktop behavior.
+- Homepage / CTA band / content model: prefer shared data arrays for repeated content.
+- Homepage / CTA band / tone: sound precise, enterprise-ready, scientific, and pragmatic.
+- Homepage / footer / copy: use exact scientific workflow language and avoid generic SaaS claims.
+- Homepage / footer / layout: use stable responsive grids with no nested cards.
+- Homepage / footer / visual: show product mechanics such as nodes, events, files, software, and review states.
+- Homepage / footer / motion: make progression understandable and respect reduced motion.
+- Homepage / footer / accessibility: preserve semantic structure, focus states, contrast, and alt text.
+- Homepage / footer / SEO: use route-specific terms buyers search for without keyword stuffing.
+- Homepage / footer / performance: keep the surface static-first and avoid unnecessary client code.
+- Homepage / footer / compliance: support traceability messaging without implying automatic compliance.
+- Homepage / footer / CTA: make the next action specific to the reader intent.
+- Homepage / footer / responsive: verify mobile, tablet, laptop, and wide desktop behavior.
+- Homepage / footer / content model: prefer shared data arrays for repeated content.
+- Homepage / footer / tone: sound precise, enterprise-ready, scientific, and pragmatic.
+
+#### Product
+- Purpose: use this page for platform capability explanation.
+- Product / hero / copy: use exact scientific workflow language and avoid generic SaaS claims.
+- Product / hero / layout: use stable responsive grids with no nested cards.
+- Product / hero / visual: show product mechanics such as nodes, events, files, software, and review states.
+- Product / hero / motion: make progression understandable and respect reduced motion.
+- Product / hero / accessibility: preserve semantic structure, focus states, contrast, and alt text.
+- Product / hero / SEO: use route-specific terms buyers search for without keyword stuffing.
+- Product / hero / performance: keep the surface static-first and avoid unnecessary client code.
+- Product / hero / compliance: support traceability messaging without implying automatic compliance.
+- Product / hero / CTA: make the next action specific to the reader intent.
+- Product / hero / responsive: verify mobile, tablet, laptop, and wide desktop behavior.
+- Product / hero / content model: prefer shared data arrays for repeated content.
+- Product / hero / tone: sound precise, enterprise-ready, scientific, and pragmatic.
+- Product / problem / copy: use exact scientific workflow language and avoid generic SaaS claims.
+- Product / problem / layout: use stable responsive grids with no nested cards.
+- Product / problem / visual: show product mechanics such as nodes, events, files, software, and review states.
+- Product / problem / motion: make progression understandable and respect reduced motion.
+- Product / problem / accessibility: preserve semantic structure, focus states, contrast, and alt text.
+- Product / problem / SEO: use route-specific terms buyers search for without keyword stuffing.
+- Product / problem / performance: keep the surface static-first and avoid unnecessary client code.
+- Product / problem / compliance: support traceability messaging without implying automatic compliance.
+- Product / problem / CTA: make the next action specific to the reader intent.
+- Product / problem / responsive: verify mobile, tablet, laptop, and wide desktop behavior.
+- Product / problem / content model: prefer shared data arrays for repeated content.
+- Product / problem / tone: sound precise, enterprise-ready, scientific, and pragmatic.
+- Product / platform / copy: use exact scientific workflow language and avoid generic SaaS claims.
+- Product / platform / layout: use stable responsive grids with no nested cards.
+- Product / platform / visual: show product mechanics such as nodes, events, files, software, and review states.
+- Product / platform / motion: make progression understandable and respect reduced motion.
+- Product / platform / accessibility: preserve semantic structure, focus states, contrast, and alt text.
+- Product / platform / SEO: use route-specific terms buyers search for without keyword stuffing.
+- Product / platform / performance: keep the surface static-first and avoid unnecessary client code.
+- Product / platform / compliance: support traceability messaging without implying automatic compliance.
+- Product / platform / CTA: make the next action specific to the reader intent.
+- Product / platform / responsive: verify mobile, tablet, laptop, and wide desktop behavior.
+- Product / platform / content model: prefer shared data arrays for repeated content.
+- Product / platform / tone: sound precise, enterprise-ready, scientific, and pragmatic.
+- Product / workflow visual / copy: use exact scientific workflow language and avoid generic SaaS claims.
+- Product / workflow visual / layout: use stable responsive grids with no nested cards.
+- Product / workflow visual / visual: show product mechanics such as nodes, events, files, software, and review states.
+- Product / workflow visual / motion: make progression understandable and respect reduced motion.
+- Product / workflow visual / accessibility: preserve semantic structure, focus states, contrast, and alt text.
+- Product / workflow visual / SEO: use route-specific terms buyers search for without keyword stuffing.
+- Product / workflow visual / performance: keep the surface static-first and avoid unnecessary client code.
+- Product / workflow visual / compliance: support traceability messaging without implying automatic compliance.
+- Product / workflow visual / CTA: make the next action specific to the reader intent.
+- Product / workflow visual / responsive: verify mobile, tablet, laptop, and wide desktop behavior.
+- Product / workflow visual / content model: prefer shared data arrays for repeated content.
+- Product / workflow visual / tone: sound precise, enterprise-ready, scientific, and pragmatic.
+- Product / architecture / copy: use exact scientific workflow language and avoid generic SaaS claims.
+- Product / architecture / layout: use stable responsive grids with no nested cards.
+- Product / architecture / visual: show product mechanics such as nodes, events, files, software, and review states.
+- Product / architecture / motion: make progression understandable and respect reduced motion.
+- Product / architecture / accessibility: preserve semantic structure, focus states, contrast, and alt text.
+- Product / architecture / SEO: use route-specific terms buyers search for without keyword stuffing.
+- Product / architecture / performance: keep the surface static-first and avoid unnecessary client code.
+- Product / architecture / compliance: support traceability messaging without implying automatic compliance.
+- Product / architecture / CTA: make the next action specific to the reader intent.
+- Product / architecture / responsive: verify mobile, tablet, laptop, and wide desktop behavior.
+- Product / architecture / content model: prefer shared data arrays for repeated content.
+- Product / architecture / tone: sound precise, enterprise-ready, scientific, and pragmatic.
+- Product / integration grid / copy: use exact scientific workflow language and avoid generic SaaS claims.
+- Product / integration grid / layout: use stable responsive grids with no nested cards.
+- Product / integration grid / visual: show product mechanics such as nodes, events, files, software, and review states.
+- Product / integration grid / motion: make progression understandable and respect reduced motion.
+- Product / integration grid / accessibility: preserve semantic structure, focus states, contrast, and alt text.
+- Product / integration grid / SEO: use route-specific terms buyers search for without keyword stuffing.
+- Product / integration grid / performance: keep the surface static-first and avoid unnecessary client code.
+- Product / integration grid / compliance: support traceability messaging without implying automatic compliance.
+- Product / integration grid / CTA: make the next action specific to the reader intent.
+- Product / integration grid / responsive: verify mobile, tablet, laptop, and wide desktop behavior.
+- Product / integration grid / content model: prefer shared data arrays for repeated content.
+- Product / integration grid / tone: sound precise, enterprise-ready, scientific, and pragmatic.
+- Product / audit trail / copy: use exact scientific workflow language and avoid generic SaaS claims.
+- Product / audit trail / layout: use stable responsive grids with no nested cards.
+- Product / audit trail / visual: show product mechanics such as nodes, events, files, software, and review states.
+- Product / audit trail / motion: make progression understandable and respect reduced motion.
+- Product / audit trail / accessibility: preserve semantic structure, focus states, contrast, and alt text.
+- Product / audit trail / SEO: use route-specific terms buyers search for without keyword stuffing.
+- Product / audit trail / performance: keep the surface static-first and avoid unnecessary client code.
+- Product / audit trail / compliance: support traceability messaging without implying automatic compliance.
+- Product / audit trail / CTA: make the next action specific to the reader intent.
+- Product / audit trail / responsive: verify mobile, tablet, laptop, and wide desktop behavior.
+- Product / audit trail / content model: prefer shared data arrays for repeated content.
+- Product / audit trail / tone: sound precise, enterprise-ready, scientific, and pragmatic.
+- Product / compliance proof / copy: use exact scientific workflow language and avoid generic SaaS claims.
+- Product / compliance proof / layout: use stable responsive grids with no nested cards.
+- Product / compliance proof / visual: show product mechanics such as nodes, events, files, software, and review states.
+- Product / compliance proof / motion: make progression understandable and respect reduced motion.
+- Product / compliance proof / accessibility: preserve semantic structure, focus states, contrast, and alt text.
+- Product / compliance proof / SEO: use route-specific terms buyers search for without keyword stuffing.
+- Product / compliance proof / performance: keep the surface static-first and avoid unnecessary client code.
+- Product / compliance proof / compliance: support traceability messaging without implying automatic compliance.
+- Product / compliance proof / CTA: make the next action specific to the reader intent.
+- Product / compliance proof / responsive: verify mobile, tablet, laptop, and wide desktop behavior.
+- Product / compliance proof / content model: prefer shared data arrays for repeated content.
+- Product / compliance proof / tone: sound precise, enterprise-ready, scientific, and pragmatic.
+- Product / security posture / copy: use exact scientific workflow language and avoid generic SaaS claims.
+- Product / security posture / layout: use stable responsive grids with no nested cards.
+- Product / security posture / visual: show product mechanics such as nodes, events, files, software, and review states.
+- Product / security posture / motion: make progression understandable and respect reduced motion.
+- Product / security posture / accessibility: preserve semantic structure, focus states, contrast, and alt text.
+- Product / security posture / SEO: use route-specific terms buyers search for without keyword stuffing.
+- Product / security posture / performance: keep the surface static-first and avoid unnecessary client code.
+- Product / security posture / compliance: support traceability messaging without implying automatic compliance.
+- Product / security posture / CTA: make the next action specific to the reader intent.
+- Product / security posture / responsive: verify mobile, tablet, laptop, and wide desktop behavior.
+- Product / security posture / content model: prefer shared data arrays for repeated content.
+- Product / security posture / tone: sound precise, enterprise-ready, scientific, and pragmatic.
+- Product / solution cards / copy: use exact scientific workflow language and avoid generic SaaS claims.
+- Product / solution cards / layout: use stable responsive grids with no nested cards.
+- Product / solution cards / visual: show product mechanics such as nodes, events, files, software, and review states.
+- Product / solution cards / motion: make progression understandable and respect reduced motion.
+- Product / solution cards / accessibility: preserve semantic structure, focus states, contrast, and alt text.
+- Product / solution cards / SEO: use route-specific terms buyers search for without keyword stuffing.
+- Product / solution cards / performance: keep the surface static-first and avoid unnecessary client code.
+- Product / solution cards / compliance: support traceability messaging without implying automatic compliance.
+- Product / solution cards / CTA: make the next action specific to the reader intent.
+- Product / solution cards / responsive: verify mobile, tablet, laptop, and wide desktop behavior.
+- Product / solution cards / content model: prefer shared data arrays for repeated content.
+- Product / solution cards / tone: sound precise, enterprise-ready, scientific, and pragmatic.
+- Product / CTA band / copy: use exact scientific workflow language and avoid generic SaaS claims.
+- Product / CTA band / layout: use stable responsive grids with no nested cards.
+- Product / CTA band / visual: show product mechanics such as nodes, events, files, software, and review states.
+- Product / CTA band / motion: make progression understandable and respect reduced motion.
+- Product / CTA band / accessibility: preserve semantic structure, focus states, contrast, and alt text.
+- Product / CTA band / SEO: use route-specific terms buyers search for without keyword stuffing.
+- Product / CTA band / performance: keep the surface static-first and avoid unnecessary client code.
+- Product / CTA band / compliance: support traceability messaging without implying automatic compliance.
+- Product / CTA band / CTA: make the next action specific to the reader intent.
+- Product / CTA band / responsive: verify mobile, tablet, laptop, and wide desktop behavior.
+- Product / CTA band / content model: prefer shared data arrays for repeated content.
+- Product / CTA band / tone: sound precise, enterprise-ready, scientific, and pragmatic.
+- Product / footer / copy: use exact scientific workflow language and avoid generic SaaS claims.
+- Product / footer / layout: use stable responsive grids with no nested cards.
+- Product / footer / visual: show product mechanics such as nodes, events, files, software, and review states.
+- Product / footer / motion: make progression understandable and respect reduced motion.
+- Product / footer / accessibility: preserve semantic structure, focus states, contrast, and alt text.
+- Product / footer / SEO: use route-specific terms buyers search for without keyword stuffing.
+- Product / footer / performance: keep the surface static-first and avoid unnecessary client code.
+- Product / footer / compliance: support traceability messaging without implying automatic compliance.
+- Product / footer / CTA: make the next action specific to the reader intent.
+- Product / footer / responsive: verify mobile, tablet, laptop, and wide desktop behavior.
+- Product / footer / content model: prefer shared data arrays for repeated content.
+- Product / footer / tone: sound precise, enterprise-ready, scientific, and pragmatic.
+
+#### Regulated Life Sciences
+- Purpose: use this page for compliance-driven buyer narrative.
+- Regulated Life Sciences / hero / copy: use exact scientific workflow language and avoid generic SaaS claims.
+- Regulated Life Sciences / hero / layout: use stable responsive grids with no nested cards.
+- Regulated Life Sciences / hero / visual: show product mechanics such as nodes, events, files, software, and review states.
+- Regulated Life Sciences / hero / motion: make progression understandable and respect reduced motion.
+- Regulated Life Sciences / hero / accessibility: preserve semantic structure, focus states, contrast, and alt text.
+- Regulated Life Sciences / hero / SEO: use route-specific terms buyers search for without keyword stuffing.
+- Regulated Life Sciences / hero / performance: keep the surface static-first and avoid unnecessary client code.
+- Regulated Life Sciences / hero / compliance: support traceability messaging without implying automatic compliance.
+- Regulated Life Sciences / hero / CTA: make the next action specific to the reader intent.
+- Regulated Life Sciences / hero / responsive: verify mobile, tablet, laptop, and wide desktop behavior.
+- Regulated Life Sciences / hero / content model: prefer shared data arrays for repeated content.
+- Regulated Life Sciences / hero / tone: sound precise, enterprise-ready, scientific, and pragmatic.
+- Regulated Life Sciences / problem / copy: use exact scientific workflow language and avoid generic SaaS claims.
+- Regulated Life Sciences / problem / layout: use stable responsive grids with no nested cards.
+- Regulated Life Sciences / problem / visual: show product mechanics such as nodes, events, files, software, and review states.
+- Regulated Life Sciences / problem / motion: make progression understandable and respect reduced motion.
+- Regulated Life Sciences / problem / accessibility: preserve semantic structure, focus states, contrast, and alt text.
+- Regulated Life Sciences / problem / SEO: use route-specific terms buyers search for without keyword stuffing.
+- Regulated Life Sciences / problem / performance: keep the surface static-first and avoid unnecessary client code.
+- Regulated Life Sciences / problem / compliance: support traceability messaging without implying automatic compliance.
+- Regulated Life Sciences / problem / CTA: make the next action specific to the reader intent.
+- Regulated Life Sciences / problem / responsive: verify mobile, tablet, laptop, and wide desktop behavior.
+- Regulated Life Sciences / problem / content model: prefer shared data arrays for repeated content.
+- Regulated Life Sciences / problem / tone: sound precise, enterprise-ready, scientific, and pragmatic.
+- Regulated Life Sciences / platform / copy: use exact scientific workflow language and avoid generic SaaS claims.
+- Regulated Life Sciences / platform / layout: use stable responsive grids with no nested cards.
+- Regulated Life Sciences / platform / visual: show product mechanics such as nodes, events, files, software, and review states.
+- Regulated Life Sciences / platform / motion: make progression understandable and respect reduced motion.
+- Regulated Life Sciences / platform / accessibility: preserve semantic structure, focus states, contrast, and alt text.
+- Regulated Life Sciences / platform / SEO: use route-specific terms buyers search for without keyword stuffing.
+- Regulated Life Sciences / platform / performance: keep the surface static-first and avoid unnecessary client code.
+- Regulated Life Sciences / platform / compliance: support traceability messaging without implying automatic compliance.
+- Regulated Life Sciences / platform / CTA: make the next action specific to the reader intent.
+- Regulated Life Sciences / platform / responsive: verify mobile, tablet, laptop, and wide desktop behavior.
+- Regulated Life Sciences / platform / content model: prefer shared data arrays for repeated content.
+- Regulated Life Sciences / platform / tone: sound precise, enterprise-ready, scientific, and pragmatic.
+- Regulated Life Sciences / workflow visual / copy: use exact scientific workflow language and avoid generic SaaS claims.
+- Regulated Life Sciences / workflow visual / layout: use stable responsive grids with no nested cards.
+- Regulated Life Sciences / workflow visual / visual: show product mechanics such as nodes, events, files, software, and review states.
+- Regulated Life Sciences / workflow visual / motion: make progression understandable and respect reduced motion.
+- Regulated Life Sciences / workflow visual / accessibility: preserve semantic structure, focus states, contrast, and alt text.
+- Regulated Life Sciences / workflow visual / SEO: use route-specific terms buyers search for without keyword stuffing.
+- Regulated Life Sciences / workflow visual / performance: keep the surface static-first and avoid unnecessary client code.
+- Regulated Life Sciences / workflow visual / compliance: support traceability messaging without implying automatic compliance.
+- Regulated Life Sciences / workflow visual / CTA: make the next action specific to the reader intent.
+- Regulated Life Sciences / workflow visual / responsive: verify mobile, tablet, laptop, and wide desktop behavior.
+- Regulated Life Sciences / workflow visual / content model: prefer shared data arrays for repeated content.
+- Regulated Life Sciences / workflow visual / tone: sound precise, enterprise-ready, scientific, and pragmatic.
+- Regulated Life Sciences / architecture / copy: use exact scientific workflow language and avoid generic SaaS claims.
+- Regulated Life Sciences / architecture / layout: use stable responsive grids with no nested cards.
+- Regulated Life Sciences / architecture / visual: show product mechanics such as nodes, events, files, software, and review states.
+- Regulated Life Sciences / architecture / motion: make progression understandable and respect reduced motion.
+- Regulated Life Sciences / architecture / accessibility: preserve semantic structure, focus states, contrast, and alt text.
+- Regulated Life Sciences / architecture / SEO: use route-specific terms buyers search for without keyword stuffing.
+- Regulated Life Sciences / architecture / performance: keep the surface static-first and avoid unnecessary client code.
+- Regulated Life Sciences / architecture / compliance: support traceability messaging without implying automatic compliance.
+- Regulated Life Sciences / architecture / CTA: make the next action specific to the reader intent.
+- Regulated Life Sciences / architecture / responsive: verify mobile, tablet, laptop, and wide desktop behavior.
+- Regulated Life Sciences / architecture / content model: prefer shared data arrays for repeated content.
+- Regulated Life Sciences / architecture / tone: sound precise, enterprise-ready, scientific, and pragmatic.
+- Regulated Life Sciences / integration grid / copy: use exact scientific workflow language and avoid generic SaaS claims.
+- Regulated Life Sciences / integration grid / layout: use stable responsive grids with no nested cards.
+- Regulated Life Sciences / integration grid / visual: show product mechanics such as nodes, events, files, software, and review states.
+- Regulated Life Sciences / integration grid / motion: make progression understandable and respect reduced motion.
+- Regulated Life Sciences / integration grid / accessibility: preserve semantic structure, focus states, contrast, and alt text.
+- Regulated Life Sciences / integration grid / SEO: use route-specific terms buyers search for without keyword stuffing.
+- Regulated Life Sciences / integration grid / performance: keep the surface static-first and avoid unnecessary client code.
+- Regulated Life Sciences / integration grid / compliance: support traceability messaging without implying automatic compliance.
+- Regulated Life Sciences / integration grid / CTA: make the next action specific to the reader intent.
+- Regulated Life Sciences / integration grid / responsive: verify mobile, tablet, laptop, and wide desktop behavior.
+- Regulated Life Sciences / integration grid / content model: prefer shared data arrays for repeated content.
+- Regulated Life Sciences / integration grid / tone: sound precise, enterprise-ready, scientific, and pragmatic.
+- Regulated Life Sciences / audit trail / copy: use exact scientific workflow language and avoid generic SaaS claims.
+- Regulated Life Sciences / audit trail / layout: use stable responsive grids with no nested cards.
+- Regulated Life Sciences / audit trail / visual: show product mechanics such as nodes, events, files, software, and review states.
+- Regulated Life Sciences / audit trail / motion: make progression understandable and respect reduced motion.
+- Regulated Life Sciences / audit trail / accessibility: preserve semantic structure, focus states, contrast, and alt text.
+- Regulated Life Sciences / audit trail / SEO: use route-specific terms buyers search for without keyword stuffing.
+- Regulated Life Sciences / audit trail / performance: keep the surface static-first and avoid unnecessary client code.
+- Regulated Life Sciences / audit trail / compliance: support traceability messaging without implying automatic compliance.
+- Regulated Life Sciences / audit trail / CTA: make the next action specific to the reader intent.
+- Regulated Life Sciences / audit trail / responsive: verify mobile, tablet, laptop, and wide desktop behavior.
+- Regulated Life Sciences / audit trail / content model: prefer shared data arrays for repeated content.
+- Regulated Life Sciences / audit trail / tone: sound precise, enterprise-ready, scientific, and pragmatic.
+- Regulated Life Sciences / compliance proof / copy: use exact scientific workflow language and avoid generic SaaS claims.
+- Regulated Life Sciences / compliance proof / layout: use stable responsive grids with no nested cards.
+- Regulated Life Sciences / compliance proof / visual: show product mechanics such as nodes, events, files, software, and review states.
+- Regulated Life Sciences / compliance proof / motion: make progression understandable and respect reduced motion.
+- Regulated Life Sciences / compliance proof / accessibility: preserve semantic structure, focus states, contrast, and alt text.
+- Regulated Life Sciences / compliance proof / SEO: use route-specific terms buyers search for without keyword stuffing.
+- Regulated Life Sciences / compliance proof / performance: keep the surface static-first and avoid unnecessary client code.
+- Regulated Life Sciences / compliance proof / compliance: support traceability messaging without implying automatic compliance.
+- Regulated Life Sciences / compliance proof / CTA: make the next action specific to the reader intent.
+- Regulated Life Sciences / compliance proof / responsive: verify mobile, tablet, laptop, and wide desktop behavior.
+- Regulated Life Sciences / compliance proof / content model: prefer shared data arrays for repeated content.
+- Regulated Life Sciences / compliance proof / tone: sound precise, enterprise-ready, scientific, and pragmatic.
+- Regulated Life Sciences / security posture / copy: use exact scientific workflow language and avoid generic SaaS claims.
+- Regulated Life Sciences / security posture / layout: use stable responsive grids with no nested cards.
+- Regulated Life Sciences / security posture / visual: show product mechanics such as nodes, events, files, software, and review states.
+- Regulated Life Sciences / security posture / motion: make progression understandable and respect reduced motion.
+- Regulated Life Sciences / security posture / accessibility: preserve semantic structure, focus states, contrast, and alt text.
+- Regulated Life Sciences / security posture / SEO: use route-specific terms buyers search for without keyword stuffing.
+- Regulated Life Sciences / security posture / performance: keep the surface static-first and avoid unnecessary client code.
+- Regulated Life Sciences / security posture / compliance: support traceability messaging without implying automatic compliance.
+- Regulated Life Sciences / security posture / CTA: make the next action specific to the reader intent.
+- Regulated Life Sciences / security posture / responsive: verify mobile, tablet, laptop, and wide desktop behavior.
+- Regulated Life Sciences / security posture / content model: prefer shared data arrays for repeated content.
+- Regulated Life Sciences / security posture / tone: sound precise, enterprise-ready, scientific, and pragmatic.
+- Regulated Life Sciences / solution cards / copy: use exact scientific workflow language and avoid generic SaaS claims.
+- Regulated Life Sciences / solution cards / layout: use stable responsive grids with no nested cards.
+- Regulated Life Sciences / solution cards / visual: show product mechanics such as nodes, events, files, software, and review states.
+- Regulated Life Sciences / solution cards / motion: make progression understandable and respect reduced motion.
+- Regulated Life Sciences / solution cards / accessibility: preserve semantic structure, focus states, contrast, and alt text.
+- Regulated Life Sciences / solution cards / SEO: use route-specific terms buyers search for without keyword stuffing.
+- Regulated Life Sciences / solution cards / performance: keep the surface static-first and avoid unnecessary client code.
+- Regulated Life Sciences / solution cards / compliance: support traceability messaging without implying automatic compliance.
+- Regulated Life Sciences / solution cards / CTA: make the next action specific to the reader intent.
+- Regulated Life Sciences / solution cards / responsive: verify mobile, tablet, laptop, and wide desktop behavior.
+- Regulated Life Sciences / solution cards / content model: prefer shared data arrays for repeated content.
+- Regulated Life Sciences / solution cards / tone: sound precise, enterprise-ready, scientific, and pragmatic.
+- Regulated Life Sciences / CTA band / copy: use exact scientific workflow language and avoid generic SaaS claims.
+- Regulated Life Sciences / CTA band / layout: use stable responsive grids with no nested cards.
+- Regulated Life Sciences / CTA band / visual: show product mechanics such as nodes, events, files, software, and review states.
+- Regulated Life Sciences / CTA band / motion: make progression understandable and respect reduced motion.
+- Regulated Life Sciences / CTA band / accessibility: preserve semantic structure, focus states, contrast, and alt text.
+- Regulated Life Sciences / CTA band / SEO: use route-specific terms buyers search for without keyword stuffing.
+- Regulated Life Sciences / CTA band / performance: keep the surface static-first and avoid unnecessary client code.
+- Regulated Life Sciences / CTA band / compliance: support traceability messaging without implying automatic compliance.
+- Regulated Life Sciences / CTA band / CTA: make the next action specific to the reader intent.
+- Regulated Life Sciences / CTA band / responsive: verify mobile, tablet, laptop, and wide desktop behavior.
+- Regulated Life Sciences / CTA band / content model: prefer shared data arrays for repeated content.
+- Regulated Life Sciences / CTA band / tone: sound precise, enterprise-ready, scientific, and pragmatic.
+- Regulated Life Sciences / footer / copy: use exact scientific workflow language and avoid generic SaaS claims.
+- Regulated Life Sciences / footer / layout: use stable responsive grids with no nested cards.
+- Regulated Life Sciences / footer / visual: show product mechanics such as nodes, events, files, software, and review states.
+- Regulated Life Sciences / footer / motion: make progression understandable and respect reduced motion.
+- Regulated Life Sciences / footer / accessibility: preserve semantic structure, focus states, contrast, and alt text.
+- Regulated Life Sciences / footer / SEO: use route-specific terms buyers search for without keyword stuffing.
+- Regulated Life Sciences / footer / performance: keep the surface static-first and avoid unnecessary client code.
+- Regulated Life Sciences / footer / compliance: support traceability messaging without implying automatic compliance.
+- Regulated Life Sciences / footer / CTA: make the next action specific to the reader intent.
+- Regulated Life Sciences / footer / responsive: verify mobile, tablet, laptop, and wide desktop behavior.
+- Regulated Life Sciences / footer / content model: prefer shared data arrays for repeated content.
+- Regulated Life Sciences / footer / tone: sound precise, enterprise-ready, scientific, and pragmatic.
+
+#### Secure Research
+- Purpose: use this page for local and airgapped deployment narrative.
+- Secure Research / hero / copy: use exact scientific workflow language and avoid generic SaaS claims.
+- Secure Research / hero / layout: use stable responsive grids with no nested cards.
+- Secure Research / hero / visual: show product mechanics such as nodes, events, files, software, and review states.
+- Secure Research / hero / motion: make progression understandable and respect reduced motion.
+- Secure Research / hero / accessibility: preserve semantic structure, focus states, contrast, and alt text.
+- Secure Research / hero / SEO: use route-specific terms buyers search for without keyword stuffing.
+- Secure Research / hero / performance: keep the surface static-first and avoid unnecessary client code.
+- Secure Research / hero / compliance: support traceability messaging without implying automatic compliance.
+- Secure Research / hero / CTA: make the next action specific to the reader intent.
+- Secure Research / hero / responsive: verify mobile, tablet, laptop, and wide desktop behavior.
+- Secure Research / hero / content model: prefer shared data arrays for repeated content.
+- Secure Research / hero / tone: sound precise, enterprise-ready, scientific, and pragmatic.
+- Secure Research / problem / copy: use exact scientific workflow language and avoid generic SaaS claims.
+- Secure Research / problem / layout: use stable responsive grids with no nested cards.
+- Secure Research / problem / visual: show product mechanics such as nodes, events, files, software, and review states.
+- Secure Research / problem / motion: make progression understandable and respect reduced motion.
+- Secure Research / problem / accessibility: preserve semantic structure, focus states, contrast, and alt text.
+- Secure Research / problem / SEO: use route-specific terms buyers search for without keyword stuffing.
+- Secure Research / problem / performance: keep the surface static-first and avoid unnecessary client code.
+- Secure Research / problem / compliance: support traceability messaging without implying automatic compliance.
+- Secure Research / problem / CTA: make the next action specific to the reader intent.
+- Secure Research / problem / responsive: verify mobile, tablet, laptop, and wide desktop behavior.
+- Secure Research / problem / content model: prefer shared data arrays for repeated content.
+- Secure Research / problem / tone: sound precise, enterprise-ready, scientific, and pragmatic.
+- Secure Research / platform / copy: use exact scientific workflow language and avoid generic SaaS claims.
+- Secure Research / platform / layout: use stable responsive grids with no nested cards.
+- Secure Research / platform / visual: show product mechanics such as nodes, events, files, software, and review states.
+- Secure Research / platform / motion: make progression understandable and respect reduced motion.
+- Secure Research / platform / accessibility: preserve semantic structure, focus states, contrast, and alt text.
+- Secure Research / platform / SEO: use route-specific terms buyers search for without keyword stuffing.
+- Secure Research / platform / performance: keep the surface static-first and avoid unnecessary client code.
+- Secure Research / platform / compliance: support traceability messaging without implying automatic compliance.
+- Secure Research / platform / CTA: make the next action specific to the reader intent.
+- Secure Research / platform / responsive: verify mobile, tablet, laptop, and wide desktop behavior.
+- Secure Research / platform / content model: prefer shared data arrays for repeated content.
+- Secure Research / platform / tone: sound precise, enterprise-ready, scientific, and pragmatic.
+- Secure Research / workflow visual / copy: use exact scientific workflow language and avoid generic SaaS claims.
+- Secure Research / workflow visual / layout: use stable responsive grids with no nested cards.
+- Secure Research / workflow visual / visual: show product mechanics such as nodes, events, files, software, and review states.
+- Secure Research / workflow visual / motion: make progression understandable and respect reduced motion.
+- Secure Research / workflow visual / accessibility: preserve semantic structure, focus states, contrast, and alt text.
+- Secure Research / workflow visual / SEO: use route-specific terms buyers search for without keyword stuffing.
+- Secure Research / workflow visual / performance: keep the surface static-first and avoid unnecessary client code.
+- Secure Research / workflow visual / compliance: support traceability messaging without implying automatic compliance.
+- Secure Research / workflow visual / CTA: make the next action specific to the reader intent.
+- Secure Research / workflow visual / responsive: verify mobile, tablet, laptop, and wide desktop behavior.
+- Secure Research / workflow visual / content model: prefer shared data arrays for repeated content.
+- Secure Research / workflow visual / tone: sound precise, enterprise-ready, scientific, and pragmatic.
+- Secure Research / architecture / copy: use exact scientific workflow language and avoid generic SaaS claims.
+- Secure Research / architecture / layout: use stable responsive grids with no nested cards.
+- Secure Research / architecture / visual: show product mechanics such as nodes, events, files, software, and review states.
+- Secure Research / architecture / motion: make progression understandable and respect reduced motion.
+- Secure Research / architecture / accessibility: preserve semantic structure, focus states, contrast, and alt text.
+- Secure Research / architecture / SEO: use route-specific terms buyers search for without keyword stuffing.
+- Secure Research / architecture / performance: keep the surface static-first and avoid unnecessary client code.
+- Secure Research / architecture / compliance: support traceability messaging without implying automatic compliance.
+- Secure Research / architecture / CTA: make the next action specific to the reader intent.
+- Secure Research / architecture / responsive: verify mobile, tablet, laptop, and wide desktop behavior.
+- Secure Research / architecture / content model: prefer shared data arrays for repeated content.
+- Secure Research / architecture / tone: sound precise, enterprise-ready, scientific, and pragmatic.
+- Secure Research / integration grid / copy: use exact scientific workflow language and avoid generic SaaS claims.
+- Secure Research / integration grid / layout: use stable responsive grids with no nested cards.
+- Secure Research / integration grid / visual: show product mechanics such as nodes, events, files, software, and review states.
+- Secure Research / integration grid / motion: make progression understandable and respect reduced motion.
+- Secure Research / integration grid / accessibility: preserve semantic structure, focus states, contrast, and alt text.
+- Secure Research / integration grid / SEO: use route-specific terms buyers search for without keyword stuffing.
+- Secure Research / integration grid / performance: keep the surface static-first and avoid unnecessary client code.
+- Secure Research / integration grid / compliance: support traceability messaging without implying automatic compliance.
+- Secure Research / integration grid / CTA: make the next action specific to the reader intent.
+- Secure Research / integration grid / responsive: verify mobile, tablet, laptop, and wide desktop behavior.
+- Secure Research / integration grid / content model: prefer shared data arrays for repeated content.
+- Secure Research / integration grid / tone: sound precise, enterprise-ready, scientific, and pragmatic.
+- Secure Research / audit trail / copy: use exact scientific workflow language and avoid generic SaaS claims.
+- Secure Research / audit trail / layout: use stable responsive grids with no nested cards.
+- Secure Research / audit trail / visual: show product mechanics such as nodes, events, files, software, and review states.
+- Secure Research / audit trail / motion: make progression understandable and respect reduced motion.
+- Secure Research / audit trail / accessibility: preserve semantic structure, focus states, contrast, and alt text.
+- Secure Research / audit trail / SEO: use route-specific terms buyers search for without keyword stuffing.
+- Secure Research / audit trail / performance: keep the surface static-first and avoid unnecessary client code.
+- Secure Research / audit trail / compliance: support traceability messaging without implying automatic compliance.
+- Secure Research / audit trail / CTA: make the next action specific to the reader intent.
+- Secure Research / audit trail / responsive: verify mobile, tablet, laptop, and wide desktop behavior.
+- Secure Research / audit trail / content model: prefer shared data arrays for repeated content.
+- Secure Research / audit trail / tone: sound precise, enterprise-ready, scientific, and pragmatic.
+- Secure Research / compliance proof / copy: use exact scientific workflow language and avoid generic SaaS claims.
+- Secure Research / compliance proof / layout: use stable responsive grids with no nested cards.
+- Secure Research / compliance proof / visual: show product mechanics such as nodes, events, files, software, and review states.
+- Secure Research / compliance proof / motion: make progression understandable and respect reduced motion.
+- Secure Research / compliance proof / accessibility: preserve semantic structure, focus states, contrast, and alt text.
+- Secure Research / compliance proof / SEO: use route-specific terms buyers search for without keyword stuffing.
+- Secure Research / compliance proof / performance: keep the surface static-first and avoid unnecessary client code.
+- Secure Research / compliance proof / compliance: support traceability messaging without implying automatic compliance.
+- Secure Research / compliance proof / CTA: make the next action specific to the reader intent.
+- Secure Research / compliance proof / responsive: verify mobile, tablet, laptop, and wide desktop behavior.
+- Secure Research / compliance proof / content model: prefer shared data arrays for repeated content.
+- Secure Research / compliance proof / tone: sound precise, enterprise-ready, scientific, and pragmatic.
+- Secure Research / security posture / copy: use exact scientific workflow language and avoid generic SaaS claims.
+- Secure Research / security posture / layout: use stable responsive grids with no nested cards.
+- Secure Research / security posture / visual: show product mechanics such as nodes, events, files, software, and review states.
+- Secure Research / security posture / motion: make progression understandable and respect reduced motion.
+- Secure Research / security posture / accessibility: preserve semantic structure, focus states, contrast, and alt text.
+- Secure Research / security posture / SEO: use route-specific terms buyers search for without keyword stuffing.
+- Secure Research / security posture / performance: keep the surface static-first and avoid unnecessary client code.
+- Secure Research / security posture / compliance: support traceability messaging without implying automatic compliance.
+- Secure Research / security posture / CTA: make the next action specific to the reader intent.
+- Secure Research / security posture / responsive: verify mobile, tablet, laptop, and wide desktop behavior.
+- Secure Research / security posture / content model: prefer shared data arrays for repeated content.
+- Secure Research / security posture / tone: sound precise, enterprise-ready, scientific, and pragmatic.
+- Secure Research / solution cards / copy: use exact scientific workflow language and avoid generic SaaS claims.
+- Secure Research / solution cards / layout: use stable responsive grids with no nested cards.
+- Secure Research / solution cards / visual: show product mechanics such as nodes, events, files, software, and review states.
+- Secure Research / solution cards / motion: make progression understandable and respect reduced motion.
+- Secure Research / solution cards / accessibility: preserve semantic structure, focus states, contrast, and alt text.
+- Secure Research / solution cards / SEO: use route-specific terms buyers search for without keyword stuffing.
+- Secure Research / solution cards / performance: keep the surface static-first and avoid unnecessary client code.
+- Secure Research / solution cards / compliance: support traceability messaging without implying automatic compliance.
+- Secure Research / solution cards / CTA: make the next action specific to the reader intent.
+- Secure Research / solution cards / responsive: verify mobile, tablet, laptop, and wide desktop behavior.
+- Secure Research / solution cards / content model: prefer shared data arrays for repeated content.
+- Secure Research / solution cards / tone: sound precise, enterprise-ready, scientific, and pragmatic.
+- Secure Research / CTA band / copy: use exact scientific workflow language and avoid generic SaaS claims.
+- Secure Research / CTA band / layout: use stable responsive grids with no nested cards.
+- Secure Research / CTA band / visual: show product mechanics such as nodes, events, files, software, and review states.
+- Secure Research / CTA band / motion: make progression understandable and respect reduced motion.
+- Secure Research / CTA band / accessibility: preserve semantic structure, focus states, contrast, and alt text.
+- Secure Research / CTA band / SEO: use route-specific terms buyers search for without keyword stuffing.
+- Secure Research / CTA band / performance: keep the surface static-first and avoid unnecessary client code.
+- Secure Research / CTA band / compliance: support traceability messaging without implying automatic compliance.
+- Secure Research / CTA band / CTA: make the next action specific to the reader intent.
+- Secure Research / CTA band / responsive: verify mobile, tablet, laptop, and wide desktop behavior.
+- Secure Research / CTA band / content model: prefer shared data arrays for repeated content.
+- Secure Research / CTA band / tone: sound precise, enterprise-ready, scientific, and pragmatic.
+- Secure Research / footer / copy: use exact scientific workflow language and avoid generic SaaS claims.
+- Secure Research / footer / layout: use stable responsive grids with no nested cards.
+- Secure Research / footer / visual: show product mechanics such as nodes, events, files, software, and review states.
+- Secure Research / footer / motion: make progression understandable and respect reduced motion.
+- Secure Research / footer / accessibility: preserve semantic structure, focus states, contrast, and alt text.
+- Secure Research / footer / SEO: use route-specific terms buyers search for without keyword stuffing.
+- Secure Research / footer / performance: keep the surface static-first and avoid unnecessary client code.
+- Secure Research / footer / compliance: support traceability messaging without implying automatic compliance.
+- Secure Research / footer / CTA: make the next action specific to the reader intent.
+- Secure Research / footer / responsive: verify mobile, tablet, laptop, and wide desktop behavior.
+- Secure Research / footer / content model: prefer shared data arrays for repeated content.
+- Secure Research / footer / tone: sound precise, enterprise-ready, scientific, and pragmatic.
+
+#### Core Facilities
+- Purpose: use this page for standardization and reuse narrative.
+- Core Facilities / hero / copy: use exact scientific workflow language and avoid generic SaaS claims.
+- Core Facilities / hero / layout: use stable responsive grids with no nested cards.
+- Core Facilities / hero / visual: show product mechanics such as nodes, events, files, software, and review states.
+- Core Facilities / hero / motion: make progression understandable and respect reduced motion.
+- Core Facilities / hero / accessibility: preserve semantic structure, focus states, contrast, and alt text.
+- Core Facilities / hero / SEO: use route-specific terms buyers search for without keyword stuffing.
+- Core Facilities / hero / performance: keep the surface static-first and avoid unnecessary client code.
+- Core Facilities / hero / compliance: support traceability messaging without implying automatic compliance.
+- Core Facilities / hero / CTA: make the next action specific to the reader intent.
+- Core Facilities / hero / responsive: verify mobile, tablet, laptop, and wide desktop behavior.
+- Core Facilities / hero / content model: prefer shared data arrays for repeated content.
+- Core Facilities / hero / tone: sound precise, enterprise-ready, scientific, and pragmatic.
+- Core Facilities / problem / copy: use exact scientific workflow language and avoid generic SaaS claims.
+- Core Facilities / problem / layout: use stable responsive grids with no nested cards.
+- Core Facilities / problem / visual: show product mechanics such as nodes, events, files, software, and review states.
+- Core Facilities / problem / motion: make progression understandable and respect reduced motion.
+- Core Facilities / problem / accessibility: preserve semantic structure, focus states, contrast, and alt text.
+- Core Facilities / problem / SEO: use route-specific terms buyers search for without keyword stuffing.
+- Core Facilities / problem / performance: keep the surface static-first and avoid unnecessary client code.
+- Core Facilities / problem / compliance: support traceability messaging without implying automatic compliance.
+- Core Facilities / problem / CTA: make the next action specific to the reader intent.
+- Core Facilities / problem / responsive: verify mobile, tablet, laptop, and wide desktop behavior.
+- Core Facilities / problem / content model: prefer shared data arrays for repeated content.
+- Core Facilities / problem / tone: sound precise, enterprise-ready, scientific, and pragmatic.
+- Core Facilities / platform / copy: use exact scientific workflow language and avoid generic SaaS claims.
+- Core Facilities / platform / layout: use stable responsive grids with no nested cards.
+- Core Facilities / platform / visual: show product mechanics such as nodes, events, files, software, and review states.
+- Core Facilities / platform / motion: make progression understandable and respect reduced motion.
+- Core Facilities / platform / accessibility: preserve semantic structure, focus states, contrast, and alt text.
+- Core Facilities / platform / SEO: use route-specific terms buyers search for without keyword stuffing.
+- Core Facilities / platform / performance: keep the surface static-first and avoid unnecessary client code.
+- Core Facilities / platform / compliance: support traceability messaging without implying automatic compliance.
+- Core Facilities / platform / CTA: make the next action specific to the reader intent.
+- Core Facilities / platform / responsive: verify mobile, tablet, laptop, and wide desktop behavior.
+- Core Facilities / platform / content model: prefer shared data arrays for repeated content.
+- Core Facilities / platform / tone: sound precise, enterprise-ready, scientific, and pragmatic.
+- Core Facilities / workflow visual / copy: use exact scientific workflow language and avoid generic SaaS claims.
+- Core Facilities / workflow visual / layout: use stable responsive grids with no nested cards.
+- Core Facilities / workflow visual / visual: show product mechanics such as nodes, events, files, software, and review states.
+- Core Facilities / workflow visual / motion: make progression understandable and respect reduced motion.
+- Core Facilities / workflow visual / accessibility: preserve semantic structure, focus states, contrast, and alt text.
+- Core Facilities / workflow visual / SEO: use route-specific terms buyers search for without keyword stuffing.
+- Core Facilities / workflow visual / performance: keep the surface static-first and avoid unnecessary client code.
+- Core Facilities / workflow visual / compliance: support traceability messaging without implying automatic compliance.
+- Core Facilities / workflow visual / CTA: make the next action specific to the reader intent.
+- Core Facilities / workflow visual / responsive: verify mobile, tablet, laptop, and wide desktop behavior.
+- Core Facilities / workflow visual / content model: prefer shared data arrays for repeated content.
+- Core Facilities / workflow visual / tone: sound precise, enterprise-ready, scientific, and pragmatic.
+- Core Facilities / architecture / copy: use exact scientific workflow language and avoid generic SaaS claims.
+- Core Facilities / architecture / layout: use stable responsive grids with no nested cards.
+- Core Facilities / architecture / visual: show product mechanics such as nodes, events, files, software, and review states.
+- Core Facilities / architecture / motion: make progression understandable and respect reduced motion.
+- Core Facilities / architecture / accessibility: preserve semantic structure, focus states, contrast, and alt text.
+- Core Facilities / architecture / SEO: use route-specific terms buyers search for without keyword stuffing.
+- Core Facilities / architecture / performance: keep the surface static-first and avoid unnecessary client code.
+- Core Facilities / architecture / compliance: support traceability messaging without implying automatic compliance.
+- Core Facilities / architecture / CTA: make the next action specific to the reader intent.
+- Core Facilities / architecture / responsive: verify mobile, tablet, laptop, and wide desktop behavior.
+- Core Facilities / architecture / content model: prefer shared data arrays for repeated content.
+- Core Facilities / architecture / tone: sound precise, enterprise-ready, scientific, and pragmatic.
+- Core Facilities / integration grid / copy: use exact scientific workflow language and avoid generic SaaS claims.
+- Core Facilities / integration grid / layout: use stable responsive grids with no nested cards.
+- Core Facilities / integration grid / visual: show product mechanics such as nodes, events, files, software, and review states.
+- Core Facilities / integration grid / motion: make progression understandable and respect reduced motion.
+- Core Facilities / integration grid / accessibility: preserve semantic structure, focus states, contrast, and alt text.
+- Core Facilities / integration grid / SEO: use route-specific terms buyers search for without keyword stuffing.
+- Core Facilities / integration grid / performance: keep the surface static-first and avoid unnecessary client code.
+- Core Facilities / integration grid / compliance: support traceability messaging without implying automatic compliance.
+- Core Facilities / integration grid / CTA: make the next action specific to the reader intent.
+- Core Facilities / integration grid / responsive: verify mobile, tablet, laptop, and wide desktop behavior.
+- Core Facilities / integration grid / content model: prefer shared data arrays for repeated content.
+- Core Facilities / integration grid / tone: sound precise, enterprise-ready, scientific, and pragmatic.
+- Core Facilities / audit trail / copy: use exact scientific workflow language and avoid generic SaaS claims.
+- Core Facilities / audit trail / layout: use stable responsive grids with no nested cards.
+- Core Facilities / audit trail / visual: show product mechanics such as nodes, events, files, software, and review states.
+- Core Facilities / audit trail / motion: make progression understandable and respect reduced motion.
+- Core Facilities / audit trail / accessibility: preserve semantic structure, focus states, contrast, and alt text.
+- Core Facilities / audit trail / SEO: use route-specific terms buyers search for without keyword stuffing.
+- Core Facilities / audit trail / performance: keep the surface static-first and avoid unnecessary client code.
+- Core Facilities / audit trail / compliance: support traceability messaging without implying automatic compliance.
+- Core Facilities / audit trail / CTA: make the next action specific to the reader intent.
+- Core Facilities / audit trail / responsive: verify mobile, tablet, laptop, and wide desktop behavior.
+- Core Facilities / audit trail / content model: prefer shared data arrays for repeated content.
+- Core Facilities / audit trail / tone: sound precise, enterprise-ready, scientific, and pragmatic.
+- Core Facilities / compliance proof / copy: use exact scientific workflow language and avoid generic SaaS claims.
+- Core Facilities / compliance proof / layout: use stable responsive grids with no nested cards.
+- Core Facilities / compliance proof / visual: show product mechanics such as nodes, events, files, software, and review states.
+- Core Facilities / compliance proof / motion: make progression understandable and respect reduced motion.
+- Core Facilities / compliance proof / accessibility: preserve semantic structure, focus states, contrast, and alt text.
+- Core Facilities / compliance proof / SEO: use route-specific terms buyers search for without keyword stuffing.
+- Core Facilities / compliance proof / performance: keep the surface static-first and avoid unnecessary client code.
+- Core Facilities / compliance proof / compliance: support traceability messaging without implying automatic compliance.
+- Core Facilities / compliance proof / CTA: make the next action specific to the reader intent.
+- Core Facilities / compliance proof / responsive: verify mobile, tablet, laptop, and wide desktop behavior.
+- Core Facilities / compliance proof / content model: prefer shared data arrays for repeated content.
+- Core Facilities / compliance proof / tone: sound precise, enterprise-ready, scientific, and pragmatic.
+- Core Facilities / security posture / copy: use exact scientific workflow language and avoid generic SaaS claims.
+- Core Facilities / security posture / layout: use stable responsive grids with no nested cards.
+- Core Facilities / security posture / visual: show product mechanics such as nodes, events, files, software, and review states.
+- Core Facilities / security posture / motion: make progression understandable and respect reduced motion.
+- Core Facilities / security posture / accessibility: preserve semantic structure, focus states, contrast, and alt text.
+- Core Facilities / security posture / SEO: use route-specific terms buyers search for without keyword stuffing.
+- Core Facilities / security posture / performance: keep the surface static-first and avoid unnecessary client code.
+- Core Facilities / security posture / compliance: support traceability messaging without implying automatic compliance.
+- Core Facilities / security posture / CTA: make the next action specific to the reader intent.
+- Core Facilities / security posture / responsive: verify mobile, tablet, laptop, and wide desktop behavior.
+- Core Facilities / security posture / content model: prefer shared data arrays for repeated content.
+- Core Facilities / security posture / tone: sound precise, enterprise-ready, scientific, and pragmatic.
+- Core Facilities / solution cards / copy: use exact scientific workflow language and avoid generic SaaS claims.
+- Core Facilities / solution cards / layout: use stable responsive grids with no nested cards.
+- Core Facilities / solution cards / visual: show product mechanics such as nodes, events, files, software, and review states.
+- Core Facilities / solution cards / motion: make progression understandable and respect reduced motion.
+- Core Facilities / solution cards / accessibility: preserve semantic structure, focus states, contrast, and alt text.
+- Core Facilities / solution cards / SEO: use route-specific terms buyers search for without keyword stuffing.
+- Core Facilities / solution cards / performance: keep the surface static-first and avoid unnecessary client code.
+- Core Facilities / solution cards / compliance: support traceability messaging without implying automatic compliance.
+- Core Facilities / solution cards / CTA: make the next action specific to the reader intent.
+- Core Facilities / solution cards / responsive: verify mobile, tablet, laptop, and wide desktop behavior.
+- Core Facilities / solution cards / content model: prefer shared data arrays for repeated content.
+- Core Facilities / solution cards / tone: sound precise, enterprise-ready, scientific, and pragmatic.
+- Core Facilities / CTA band / copy: use exact scientific workflow language and avoid generic SaaS claims.
+- Core Facilities / CTA band / layout: use stable responsive grids with no nested cards.
+- Core Facilities / CTA band / visual: show product mechanics such as nodes, events, files, software, and review states.
+- Core Facilities / CTA band / motion: make progression understandable and respect reduced motion.
+- Core Facilities / CTA band / accessibility: preserve semantic structure, focus states, contrast, and alt text.
+- Core Facilities / CTA band / SEO: use route-specific terms buyers search for without keyword stuffing.
+- Core Facilities / CTA band / performance: keep the surface static-first and avoid unnecessary client code.
+- Core Facilities / CTA band / compliance: support traceability messaging without implying automatic compliance.
+- Core Facilities / CTA band / CTA: make the next action specific to the reader intent.
+- Core Facilities / CTA band / responsive: verify mobile, tablet, laptop, and wide desktop behavior.
+- Core Facilities / CTA band / content model: prefer shared data arrays for repeated content.
+- Core Facilities / CTA band / tone: sound precise, enterprise-ready, scientific, and pragmatic.
+- Core Facilities / footer / copy: use exact scientific workflow language and avoid generic SaaS claims.
+- Core Facilities / footer / layout: use stable responsive grids with no nested cards.
+- Core Facilities / footer / visual: show product mechanics such as nodes, events, files, software, and review states.
+- Core Facilities / footer / motion: make progression understandable and respect reduced motion.
+- Core Facilities / footer / accessibility: preserve semantic structure, focus states, contrast, and alt text.
+- Core Facilities / footer / SEO: use route-specific terms buyers search for without keyword stuffing.
+- Core Facilities / footer / performance: keep the surface static-first and avoid unnecessary client code.
+- Core Facilities / footer / compliance: support traceability messaging without implying automatic compliance.
+- Core Facilities / footer / CTA: make the next action specific to the reader intent.
+- Core Facilities / footer / responsive: verify mobile, tablet, laptop, and wide desktop behavior.
+- Core Facilities / footer / content model: prefer shared data arrays for repeated content.
+- Core Facilities / footer / tone: sound precise, enterprise-ready, scientific, and pragmatic.
+
+#### Integrations
+- Purpose: use this page for software ecosystem and capability profiles.
+- Integrations / hero / copy: use exact scientific workflow language and avoid generic SaaS claims.
+- Integrations / hero / layout: use stable responsive grids with no nested cards.
+- Integrations / hero / visual: show product mechanics such as nodes, events, files, software, and review states.
+- Integrations / hero / motion: make progression understandable and respect reduced motion.
+- Integrations / hero / accessibility: preserve semantic structure, focus states, contrast, and alt text.
+- Integrations / hero / SEO: use route-specific terms buyers search for without keyword stuffing.
+- Integrations / hero / performance: keep the surface static-first and avoid unnecessary client code.
+- Integrations / hero / compliance: support traceability messaging without implying automatic compliance.
+- Integrations / hero / CTA: make the next action specific to the reader intent.
+- Integrations / hero / responsive: verify mobile, tablet, laptop, and wide desktop behavior.
+- Integrations / hero / content model: prefer shared data arrays for repeated content.
+- Integrations / hero / tone: sound precise, enterprise-ready, scientific, and pragmatic.
+- Integrations / problem / copy: use exact scientific workflow language and avoid generic SaaS claims.
+- Integrations / problem / layout: use stable responsive grids with no nested cards.
+- Integrations / problem / visual: show product mechanics such as nodes, events, files, software, and review states.
+- Integrations / problem / motion: make progression understandable and respect reduced motion.
+- Integrations / problem / accessibility: preserve semantic structure, focus states, contrast, and alt text.
+- Integrations / problem / SEO: use route-specific terms buyers search for without keyword stuffing.
+- Integrations / problem / performance: keep the surface static-first and avoid unnecessary client code.
+- Integrations / problem / compliance: support traceability messaging without implying automatic compliance.
+- Integrations / problem / CTA: make the next action specific to the reader intent.
+- Integrations / problem / responsive: verify mobile, tablet, laptop, and wide desktop behavior.
+- Integrations / problem / content model: prefer shared data arrays for repeated content.
+- Integrations / problem / tone: sound precise, enterprise-ready, scientific, and pragmatic.
+- Integrations / platform / copy: use exact scientific workflow language and avoid generic SaaS claims.
+- Integrations / platform / layout: use stable responsive grids with no nested cards.
+- Integrations / platform / visual: show product mechanics such as nodes, events, files, software, and review states.
+- Integrations / platform / motion: make progression understandable and respect reduced motion.
+- Integrations / platform / accessibility: preserve semantic structure, focus states, contrast, and alt text.
+- Integrations / platform / SEO: use route-specific terms buyers search for without keyword stuffing.
+- Integrations / platform / performance: keep the surface static-first and avoid unnecessary client code.
+- Integrations / platform / compliance: support traceability messaging without implying automatic compliance.
+- Integrations / platform / CTA: make the next action specific to the reader intent.
+- Integrations / platform / responsive: verify mobile, tablet, laptop, and wide desktop behavior.
+- Integrations / platform / content model: prefer shared data arrays for repeated content.
+- Integrations / platform / tone: sound precise, enterprise-ready, scientific, and pragmatic.
+- Integrations / workflow visual / copy: use exact scientific workflow language and avoid generic SaaS claims.
+- Integrations / workflow visual / layout: use stable responsive grids with no nested cards.
+- Integrations / workflow visual / visual: show product mechanics such as nodes, events, files, software, and review states.
+- Integrations / workflow visual / motion: make progression understandable and respect reduced motion.
+- Integrations / workflow visual / accessibility: preserve semantic structure, focus states, contrast, and alt text.
+- Integrations / workflow visual / SEO: use route-specific terms buyers search for without keyword stuffing.
+- Integrations / workflow visual / performance: keep the surface static-first and avoid unnecessary client code.
+- Integrations / workflow visual / compliance: support traceability messaging without implying automatic compliance.
+- Integrations / workflow visual / CTA: make the next action specific to the reader intent.
+- Integrations / workflow visual / responsive: verify mobile, tablet, laptop, and wide desktop behavior.
+- Integrations / workflow visual / content model: prefer shared data arrays for repeated content.
+- Integrations / workflow visual / tone: sound precise, enterprise-ready, scientific, and pragmatic.
+- Integrations / architecture / copy: use exact scientific workflow language and avoid generic SaaS claims.
+- Integrations / architecture / layout: use stable responsive grids with no nested cards.
+- Integrations / architecture / visual: show product mechanics such as nodes, events, files, software, and review states.
+- Integrations / architecture / motion: make progression understandable and respect reduced motion.
+- Integrations / architecture / accessibility: preserve semantic structure, focus states, contrast, and alt text.
+- Integrations / architecture / SEO: use route-specific terms buyers search for without keyword stuffing.
+- Integrations / architecture / performance: keep the surface static-first and avoid unnecessary client code.
+- Integrations / architecture / compliance: support traceability messaging without implying automatic compliance.
+- Integrations / architecture / CTA: make the next action specific to the reader intent.
+- Integrations / architecture / responsive: verify mobile, tablet, laptop, and wide desktop behavior.
+- Integrations / architecture / content model: prefer shared data arrays for repeated content.
+- Integrations / architecture / tone: sound precise, enterprise-ready, scientific, and pragmatic.
+- Integrations / integration grid / copy: use exact scientific workflow language and avoid generic SaaS claims.
+- Integrations / integration grid / layout: use stable responsive grids with no nested cards.
+- Integrations / integration grid / visual: show product mechanics such as nodes, events, files, software, and review states.
+- Integrations / integration grid / motion: make progression understandable and respect reduced motion.
+- Integrations / integration grid / accessibility: preserve semantic structure, focus states, contrast, and alt text.
+- Integrations / integration grid / SEO: use route-specific terms buyers search for without keyword stuffing.
+- Integrations / integration grid / performance: keep the surface static-first and avoid unnecessary client code.
+- Integrations / integration grid / compliance: support traceability messaging without implying automatic compliance.
+- Integrations / integration grid / CTA: make the next action specific to the reader intent.
+- Integrations / integration grid / responsive: verify mobile, tablet, laptop, and wide desktop behavior.
+- Integrations / integration grid / content model: prefer shared data arrays for repeated content.
+- Integrations / integration grid / tone: sound precise, enterprise-ready, scientific, and pragmatic.
+- Integrations / audit trail / copy: use exact scientific workflow language and avoid generic SaaS claims.
+- Integrations / audit trail / layout: use stable responsive grids with no nested cards.
+- Integrations / audit trail / visual: show product mechanics such as nodes, events, files, software, and review states.
+- Integrations / audit trail / motion: make progression understandable and respect reduced motion.
+- Integrations / audit trail / accessibility: preserve semantic structure, focus states, contrast, and alt text.
+- Integrations / audit trail / SEO: use route-specific terms buyers search for without keyword stuffing.
+- Integrations / audit trail / performance: keep the surface static-first and avoid unnecessary client code.
+- Integrations / audit trail / compliance: support traceability messaging without implying automatic compliance.
+- Integrations / audit trail / CTA: make the next action specific to the reader intent.
+- Integrations / audit trail / responsive: verify mobile, tablet, laptop, and wide desktop behavior.
+- Integrations / audit trail / content model: prefer shared data arrays for repeated content.
+- Integrations / audit trail / tone: sound precise, enterprise-ready, scientific, and pragmatic.
+- Integrations / compliance proof / copy: use exact scientific workflow language and avoid generic SaaS claims.
+- Integrations / compliance proof / layout: use stable responsive grids with no nested cards.
+- Integrations / compliance proof / visual: show product mechanics such as nodes, events, files, software, and review states.
+- Integrations / compliance proof / motion: make progression understandable and respect reduced motion.
+- Integrations / compliance proof / accessibility: preserve semantic structure, focus states, contrast, and alt text.
+- Integrations / compliance proof / SEO: use route-specific terms buyers search for without keyword stuffing.
+- Integrations / compliance proof / performance: keep the surface static-first and avoid unnecessary client code.
+- Integrations / compliance proof / compliance: support traceability messaging without implying automatic compliance.
+- Integrations / compliance proof / CTA: make the next action specific to the reader intent.
+- Integrations / compliance proof / responsive: verify mobile, tablet, laptop, and wide desktop behavior.
+- Integrations / compliance proof / content model: prefer shared data arrays for repeated content.
+- Integrations / compliance proof / tone: sound precise, enterprise-ready, scientific, and pragmatic.
+- Integrations / security posture / copy: use exact scientific workflow language and avoid generic SaaS claims.
+- Integrations / security posture / layout: use stable responsive grids with no nested cards.
+- Integrations / security posture / visual: show product mechanics such as nodes, events, files, software, and review states.
+- Integrations / security posture / motion: make progression understandable and respect reduced motion.
+- Integrations / security posture / accessibility: preserve semantic structure, focus states, contrast, and alt text.
+- Integrations / security posture / SEO: use route-specific terms buyers search for without keyword stuffing.
+- Integrations / security posture / performance: keep the surface static-first and avoid unnecessary client code.
+- Integrations / security posture / compliance: support traceability messaging without implying automatic compliance.
+- Integrations / security posture / CTA: make the next action specific to the reader intent.
+- Integrations / security posture / responsive: verify mobile, tablet, laptop, and wide desktop behavior.
+- Integrations / security posture / content model: prefer shared data arrays for repeated content.
+- Integrations / security posture / tone: sound precise, enterprise-ready, scientific, and pragmatic.
+- Integrations / solution cards / copy: use exact scientific workflow language and avoid generic SaaS claims.
+- Integrations / solution cards / layout: use stable responsive grids with no nested cards.
+- Integrations / solution cards / visual: show product mechanics such as nodes, events, files, software, and review states.
+- Integrations / solution cards / motion: make progression understandable and respect reduced motion.
+- Integrations / solution cards / accessibility: preserve semantic structure, focus states, contrast, and alt text.
+- Integrations / solution cards / SEO: use route-specific terms buyers search for without keyword stuffing.
+- Integrations / solution cards / performance: keep the surface static-first and avoid unnecessary client code.
+- Integrations / solution cards / compliance: support traceability messaging without implying automatic compliance.
+- Integrations / solution cards / CTA: make the next action specific to the reader intent.
+- Integrations / solution cards / responsive: verify mobile, tablet, laptop, and wide desktop behavior.
+- Integrations / solution cards / content model: prefer shared data arrays for repeated content.
+- Integrations / solution cards / tone: sound precise, enterprise-ready, scientific, and pragmatic.
+- Integrations / CTA band / copy: use exact scientific workflow language and avoid generic SaaS claims.
+- Integrations / CTA band / layout: use stable responsive grids with no nested cards.
+- Integrations / CTA band / visual: show product mechanics such as nodes, events, files, software, and review states.
+- Integrations / CTA band / motion: make progression understandable and respect reduced motion.
+- Integrations / CTA band / accessibility: preserve semantic structure, focus states, contrast, and alt text.
+- Integrations / CTA band / SEO: use route-specific terms buyers search for without keyword stuffing.
+- Integrations / CTA band / performance: keep the surface static-first and avoid unnecessary client code.
+- Integrations / CTA band / compliance: support traceability messaging without implying automatic compliance.
+- Integrations / CTA band / CTA: make the next action specific to the reader intent.
+- Integrations / CTA band / responsive: verify mobile, tablet, laptop, and wide desktop behavior.
+- Integrations / CTA band / content model: prefer shared data arrays for repeated content.
+- Integrations / CTA band / tone: sound precise, enterprise-ready, scientific, and pragmatic.
+- Integrations / footer / copy: use exact scientific workflow language and avoid generic SaaS claims.
+- Integrations / footer / layout: use stable responsive grids with no nested cards.
+- Integrations / footer / visual: show product mechanics such as nodes, events, files, software, and review states.
+- Integrations / footer / motion: make progression understandable and respect reduced motion.
+- Integrations / footer / accessibility: preserve semantic structure, focus states, contrast, and alt text.
+- Integrations / footer / SEO: use route-specific terms buyers search for without keyword stuffing.
+- Integrations / footer / performance: keep the surface static-first and avoid unnecessary client code.
+- Integrations / footer / compliance: support traceability messaging without implying automatic compliance.
+- Integrations / footer / CTA: make the next action specific to the reader intent.
+- Integrations / footer / responsive: verify mobile, tablet, laptop, and wide desktop behavior.
+- Integrations / footer / content model: prefer shared data arrays for repeated content.
+- Integrations / footer / tone: sound precise, enterprise-ready, scientific, and pragmatic.
+
+#### Compliance
+- Purpose: use this page for data integrity and review evidence.
+- Compliance / hero / copy: use exact scientific workflow language and avoid generic SaaS claims.
+- Compliance / hero / layout: use stable responsive grids with no nested cards.
+- Compliance / hero / visual: show product mechanics such as nodes, events, files, software, and review states.
+- Compliance / hero / motion: make progression understandable and respect reduced motion.
+- Compliance / hero / accessibility: preserve semantic structure, focus states, contrast, and alt text.
+- Compliance / hero / SEO: use route-specific terms buyers search for without keyword stuffing.
+- Compliance / hero / performance: keep the surface static-first and avoid unnecessary client code.
+- Compliance / hero / compliance: support traceability messaging without implying automatic compliance.
+- Compliance / hero / CTA: make the next action specific to the reader intent.
+- Compliance / hero / responsive: verify mobile, tablet, laptop, and wide desktop behavior.
+- Compliance / hero / content model: prefer shared data arrays for repeated content.
+- Compliance / hero / tone: sound precise, enterprise-ready, scientific, and pragmatic.
+- Compliance / problem / copy: use exact scientific workflow language and avoid generic SaaS claims.
+- Compliance / problem / layout: use stable responsive grids with no nested cards.
+- Compliance / problem / visual: show product mechanics such as nodes, events, files, software, and review states.
+- Compliance / problem / motion: make progression understandable and respect reduced motion.
+- Compliance / problem / accessibility: preserve semantic structure, focus states, contrast, and alt text.
+- Compliance / problem / SEO: use route-specific terms buyers search for without keyword stuffing.
+- Compliance / problem / performance: keep the surface static-first and avoid unnecessary client code.
+- Compliance / problem / compliance: support traceability messaging without implying automatic compliance.
+- Compliance / problem / CTA: make the next action specific to the reader intent.
+- Compliance / problem / responsive: verify mobile, tablet, laptop, and wide desktop behavior.
+- Compliance / problem / content model: prefer shared data arrays for repeated content.
+- Compliance / problem / tone: sound precise, enterprise-ready, scientific, and pragmatic.
+- Compliance / platform / copy: use exact scientific workflow language and avoid generic SaaS claims.
+- Compliance / platform / layout: use stable responsive grids with no nested cards.
+- Compliance / platform / visual: show product mechanics such as nodes, events, files, software, and review states.
+- Compliance / platform / motion: make progression understandable and respect reduced motion.
+- Compliance / platform / accessibility: preserve semantic structure, focus states, contrast, and alt text.
+- Compliance / platform / SEO: use route-specific terms buyers search for without keyword stuffing.
+- Compliance / platform / performance: keep the surface static-first and avoid unnecessary client code.
+- Compliance / platform / compliance: support traceability messaging without implying automatic compliance.
+- Compliance / platform / CTA: make the next action specific to the reader intent.
+- Compliance / platform / responsive: verify mobile, tablet, laptop, and wide desktop behavior.
+- Compliance / platform / content model: prefer shared data arrays for repeated content.
+- Compliance / platform / tone: sound precise, enterprise-ready, scientific, and pragmatic.
+- Compliance / workflow visual / copy: use exact scientific workflow language and avoid generic SaaS claims.
+- Compliance / workflow visual / layout: use stable responsive grids with no nested cards.
+- Compliance / workflow visual / visual: show product mechanics such as nodes, events, files, software, and review states.
+- Compliance / workflow visual / motion: make progression understandable and respect reduced motion.
+- Compliance / workflow visual / accessibility: preserve semantic structure, focus states, contrast, and alt text.
+- Compliance / workflow visual / SEO: use route-specific terms buyers search for without keyword stuffing.
+- Compliance / workflow visual / performance: keep the surface static-first and avoid unnecessary client code.
+- Compliance / workflow visual / compliance: support traceability messaging without implying automatic compliance.
+- Compliance / workflow visual / CTA: make the next action specific to the reader intent.
+- Compliance / workflow visual / responsive: verify mobile, tablet, laptop, and wide desktop behavior.
+- Compliance / workflow visual / content model: prefer shared data arrays for repeated content.
+- Compliance / workflow visual / tone: sound precise, enterprise-ready, scientific, and pragmatic.
+- Compliance / architecture / copy: use exact scientific workflow language and avoid generic SaaS claims.
+- Compliance / architecture / layout: use stable responsive grids with no nested cards.
+- Compliance / architecture / visual: show product mechanics such as nodes, events, files, software, and review states.
+- Compliance / architecture / motion: make progression understandable and respect reduced motion.
+- Compliance / architecture / accessibility: preserve semantic structure, focus states, contrast, and alt text.
+- Compliance / architecture / SEO: use route-specific terms buyers search for without keyword stuffing.
+- Compliance / architecture / performance: keep the surface static-first and avoid unnecessary client code.
+- Compliance / architecture / compliance: support traceability messaging without implying automatic compliance.
+- Compliance / architecture / CTA: make the next action specific to the reader intent.
+- Compliance / architecture / responsive: verify mobile, tablet, laptop, and wide desktop behavior.
+- Compliance / architecture / content model: prefer shared data arrays for repeated content.
+- Compliance / architecture / tone: sound precise, enterprise-ready, scientific, and pragmatic.
+- Compliance / integration grid / copy: use exact scientific workflow language and avoid generic SaaS claims.
+- Compliance / integration grid / layout: use stable responsive grids with no nested cards.
+- Compliance / integration grid / visual: show product mechanics such as nodes, events, files, software, and review states.
+- Compliance / integration grid / motion: make progression understandable and respect reduced motion.
+- Compliance / integration grid / accessibility: preserve semantic structure, focus states, contrast, and alt text.
+- Compliance / integration grid / SEO: use route-specific terms buyers search for without keyword stuffing.
+- Compliance / integration grid / performance: keep the surface static-first and avoid unnecessary client code.
+- Compliance / integration grid / compliance: support traceability messaging without implying automatic compliance.
+- Compliance / integration grid / CTA: make the next action specific to the reader intent.
+- Compliance / integration grid / responsive: verify mobile, tablet, laptop, and wide desktop behavior.
+- Compliance / integration grid / content model: prefer shared data arrays for repeated content.
+- Compliance / integration grid / tone: sound precise, enterprise-ready, scientific, and pragmatic.
+- Compliance / audit trail / copy: use exact scientific workflow language and avoid generic SaaS claims.
+- Compliance / audit trail / layout: use stable responsive grids with no nested cards.
+- Compliance / audit trail / visual: show product mechanics such as nodes, events, files, software, and review states.
+- Compliance / audit trail / motion: make progression understandable and respect reduced motion.
+- Compliance / audit trail / accessibility: preserve semantic structure, focus states, contrast, and alt text.
+- Compliance / audit trail / SEO: use route-specific terms buyers search for without keyword stuffing.
+- Compliance / audit trail / performance: keep the surface static-first and avoid unnecessary client code.
+- Compliance / audit trail / compliance: support traceability messaging without implying automatic compliance.
+- Compliance / audit trail / CTA: make the next action specific to the reader intent.
+- Compliance / audit trail / responsive: verify mobile, tablet, laptop, and wide desktop behavior.
+- Compliance / audit trail / content model: prefer shared data arrays for repeated content.
+- Compliance / audit trail / tone: sound precise, enterprise-ready, scientific, and pragmatic.
+- Compliance / compliance proof / copy: use exact scientific workflow language and avoid generic SaaS claims.
+- Compliance / compliance proof / layout: use stable responsive grids with no nested cards.
+- Compliance / compliance proof / visual: show product mechanics such as nodes, events, files, software, and review states.
+- Compliance / compliance proof / motion: make progression understandable and respect reduced motion.
+- Compliance / compliance proof / accessibility: preserve semantic structure, focus states, contrast, and alt text.
+- Compliance / compliance proof / SEO: use route-specific terms buyers search for without keyword stuffing.
+- Compliance / compliance proof / performance: keep the surface static-first and avoid unnecessary client code.
+- Compliance / compliance proof / compliance: support traceability messaging without implying automatic compliance.
+- Compliance / compliance proof / CTA: make the next action specific to the reader intent.
+- Compliance / compliance proof / responsive: verify mobile, tablet, laptop, and wide desktop behavior.
+- Compliance / compliance proof / content model: prefer shared data arrays for repeated content.
+- Compliance / compliance proof / tone: sound precise, enterprise-ready, scientific, and pragmatic.
+- Compliance / security posture / copy: use exact scientific workflow language and avoid generic SaaS claims.
+- Compliance / security posture / layout: use stable responsive grids with no nested cards.
+- Compliance / security posture / visual: show product mechanics such as nodes, events, files, software, and review states.
+- Compliance / security posture / motion: make progression understandable and respect reduced motion.
+- Compliance / security posture / accessibility: preserve semantic structure, focus states, contrast, and alt text.
+- Compliance / security posture / SEO: use route-specific terms buyers search for without keyword stuffing.
+- Compliance / security posture / performance: keep the surface static-first and avoid unnecessary client code.
+- Compliance / security posture / compliance: support traceability messaging without implying automatic compliance.
+- Compliance / security posture / CTA: make the next action specific to the reader intent.
+- Compliance / security posture / responsive: verify mobile, tablet, laptop, and wide desktop behavior.
+- Compliance / security posture / content model: prefer shared data arrays for repeated content.
+- Compliance / security posture / tone: sound precise, enterprise-ready, scientific, and pragmatic.
+- Compliance / solution cards / copy: use exact scientific workflow language and avoid generic SaaS claims.
+- Compliance / solution cards / layout: use stable responsive grids with no nested cards.
+- Compliance / solution cards / visual: show product mechanics such as nodes, events, files, software, and review states.
+- Compliance / solution cards / motion: make progression understandable and respect reduced motion.
+- Compliance / solution cards / accessibility: preserve semantic structure, focus states, contrast, and alt text.
+- Compliance / solution cards / SEO: use route-specific terms buyers search for without keyword stuffing.
+- Compliance / solution cards / performance: keep the surface static-first and avoid unnecessary client code.
+- Compliance / solution cards / compliance: support traceability messaging without implying automatic compliance.
+- Compliance / solution cards / CTA: make the next action specific to the reader intent.
+- Compliance / solution cards / responsive: verify mobile, tablet, laptop, and wide desktop behavior.
+- Compliance / solution cards / content model: prefer shared data arrays for repeated content.
+- Compliance / solution cards / tone: sound precise, enterprise-ready, scientific, and pragmatic.
+- Compliance / CTA band / copy: use exact scientific workflow language and avoid generic SaaS claims.
+- Compliance / CTA band / layout: use stable responsive grids with no nested cards.
+- Compliance / CTA band / visual: show product mechanics such as nodes, events, files, software, and review states.
+- Compliance / CTA band / motion: make progression understandable and respect reduced motion.
+- Compliance / CTA band / accessibility: preserve semantic structure, focus states, contrast, and alt text.
+- Compliance / CTA band / SEO: use route-specific terms buyers search for without keyword stuffing.
+- Compliance / CTA band / performance: keep the surface static-first and avoid unnecessary client code.
+- Compliance / CTA band / compliance: support traceability messaging without implying automatic compliance.
+- Compliance / CTA band / CTA: make the next action specific to the reader intent.
+- Compliance / CTA band / responsive: verify mobile, tablet, laptop, and wide desktop behavior.
+- Compliance / CTA band / content model: prefer shared data arrays for repeated content.
+- Compliance / CTA band / tone: sound precise, enterprise-ready, scientific, and pragmatic.
+- Compliance / footer / copy: use exact scientific workflow language and avoid generic SaaS claims.
+- Compliance / footer / layout: use stable responsive grids with no nested cards.
+- Compliance / footer / visual: show product mechanics such as nodes, events, files, software, and review states.
+- Compliance / footer / motion: make progression understandable and respect reduced motion.
+- Compliance / footer / accessibility: preserve semantic structure, focus states, contrast, and alt text.
+- Compliance / footer / SEO: use route-specific terms buyers search for without keyword stuffing.
+- Compliance / footer / performance: keep the surface static-first and avoid unnecessary client code.
+- Compliance / footer / compliance: support traceability messaging without implying automatic compliance.
+- Compliance / footer / CTA: make the next action specific to the reader intent.
+- Compliance / footer / responsive: verify mobile, tablet, laptop, and wide desktop behavior.
+- Compliance / footer / content model: prefer shared data arrays for repeated content.
+- Compliance / footer / tone: sound precise, enterprise-ready, scientific, and pragmatic.
+
+#### Security
+- Purpose: use this page for local-first architecture and controls.
+- Security / hero / copy: use exact scientific workflow language and avoid generic SaaS claims.
+- Security / hero / layout: use stable responsive grids with no nested cards.
+- Security / hero / visual: show product mechanics such as nodes, events, files, software, and review states.
+- Security / hero / motion: make progression understandable and respect reduced motion.
+- Security / hero / accessibility: preserve semantic structure, focus states, contrast, and alt text.
+- Security / hero / SEO: use route-specific terms buyers search for without keyword stuffing.
+- Security / hero / performance: keep the surface static-first and avoid unnecessary client code.
+- Security / hero / compliance: support traceability messaging without implying automatic compliance.
+- Security / hero / CTA: make the next action specific to the reader intent.
+- Security / hero / responsive: verify mobile, tablet, laptop, and wide desktop behavior.
+- Security / hero / content model: prefer shared data arrays for repeated content.
+- Security / hero / tone: sound precise, enterprise-ready, scientific, and pragmatic.
+- Security / problem / copy: use exact scientific workflow language and avoid generic SaaS claims.
+- Security / problem / layout: use stable responsive grids with no nested cards.
+- Security / problem / visual: show product mechanics such as nodes, events, files, software, and review states.
+- Security / problem / motion: make progression understandable and respect reduced motion.
+- Security / problem / accessibility: preserve semantic structure, focus states, contrast, and alt text.
+- Security / problem / SEO: use route-specific terms buyers search for without keyword stuffing.
+- Security / problem / performance: keep the surface static-first and avoid unnecessary client code.
+- Security / problem / compliance: support traceability messaging without implying automatic compliance.
+- Security / problem / CTA: make the next action specific to the reader intent.
+- Security / problem / responsive: verify mobile, tablet, laptop, and wide desktop behavior.
+- Security / problem / content model: prefer shared data arrays for repeated content.
+- Security / problem / tone: sound precise, enterprise-ready, scientific, and pragmatic.
+- Security / platform / copy: use exact scientific workflow language and avoid generic SaaS claims.
+- Security / platform / layout: use stable responsive grids with no nested cards.
+- Security / platform / visual: show product mechanics such as nodes, events, files, software, and review states.
+- Security / platform / motion: make progression understandable and respect reduced motion.
+- Security / platform / accessibility: preserve semantic structure, focus states, contrast, and alt text.
+- Security / platform / SEO: use route-specific terms buyers search for without keyword stuffing.
+- Security / platform / performance: keep the surface static-first and avoid unnecessary client code.
+- Security / platform / compliance: support traceability messaging without implying automatic compliance.
+- Security / platform / CTA: make the next action specific to the reader intent.
+- Security / platform / responsive: verify mobile, tablet, laptop, and wide desktop behavior.
+- Security / platform / content model: prefer shared data arrays for repeated content.
+- Security / platform / tone: sound precise, enterprise-ready, scientific, and pragmatic.
+- Security / workflow visual / copy: use exact scientific workflow language and avoid generic SaaS claims.
+- Security / workflow visual / layout: use stable responsive grids with no nested cards.
+- Security / workflow visual / visual: show product mechanics such as nodes, events, files, software, and review states.
+- Security / workflow visual / motion: make progression understandable and respect reduced motion.
+- Security / workflow visual / accessibility: preserve semantic structure, focus states, contrast, and alt text.
+- Security / workflow visual / SEO: use route-specific terms buyers search for without keyword stuffing.
+- Security / workflow visual / performance: keep the surface static-first and avoid unnecessary client code.
+- Security / workflow visual / compliance: support traceability messaging without implying automatic compliance.
+- Security / workflow visual / CTA: make the next action specific to the reader intent.
+- Security / workflow visual / responsive: verify mobile, tablet, laptop, and wide desktop behavior.
+- Security / workflow visual / content model: prefer shared data arrays for repeated content.
+- Security / workflow visual / tone: sound precise, enterprise-ready, scientific, and pragmatic.
+- Security / architecture / copy: use exact scientific workflow language and avoid generic SaaS claims.
+- Security / architecture / layout: use stable responsive grids with no nested cards.
+- Security / architecture / visual: show product mechanics such as nodes, events, files, software, and review states.
+- Security / architecture / motion: make progression understandable and respect reduced motion.
+- Security / architecture / accessibility: preserve semantic structure, focus states, contrast, and alt text.
+- Security / architecture / SEO: use route-specific terms buyers search for without keyword stuffing.
+- Security / architecture / performance: keep the surface static-first and avoid unnecessary client code.
+- Security / architecture / compliance: support traceability messaging without implying automatic compliance.
+- Security / architecture / CTA: make the next action specific to the reader intent.
+- Security / architecture / responsive: verify mobile, tablet, laptop, and wide desktop behavior.
+- Security / architecture / content model: prefer shared data arrays for repeated content.
+- Security / architecture / tone: sound precise, enterprise-ready, scientific, and pragmatic.
+- Security / integration grid / copy: use exact scientific workflow language and avoid generic SaaS claims.
+- Security / integration grid / layout: use stable responsive grids with no nested cards.
+- Security / integration grid / visual: show product mechanics such as nodes, events, files, software, and review states.
+- Security / integration grid / motion: make progression understandable and respect reduced motion.
+- Security / integration grid / accessibility: preserve semantic structure, focus states, contrast, and alt text.
+- Security / integration grid / SEO: use route-specific terms buyers search for without keyword stuffing.
+- Security / integration grid / performance: keep the surface static-first and avoid unnecessary client code.
+- Security / integration grid / compliance: support traceability messaging without implying automatic compliance.
+- Security / integration grid / CTA: make the next action specific to the reader intent.
+- Security / integration grid / responsive: verify mobile, tablet, laptop, and wide desktop behavior.
+- Security / integration grid / content model: prefer shared data arrays for repeated content.
+- Security / integration grid / tone: sound precise, enterprise-ready, scientific, and pragmatic.
+- Security / audit trail / copy: use exact scientific workflow language and avoid generic SaaS claims.
+- Security / audit trail / layout: use stable responsive grids with no nested cards.
+- Security / audit trail / visual: show product mechanics such as nodes, events, files, software, and review states.
+- Security / audit trail / motion: make progression understandable and respect reduced motion.
+- Security / audit trail / accessibility: preserve semantic structure, focus states, contrast, and alt text.
+- Security / audit trail / SEO: use route-specific terms buyers search for without keyword stuffing.
+- Security / audit trail / performance: keep the surface static-first and avoid unnecessary client code.
+- Security / audit trail / compliance: support traceability messaging without implying automatic compliance.
+- Security / audit trail / CTA: make the next action specific to the reader intent.
+- Security / audit trail / responsive: verify mobile, tablet, laptop, and wide desktop behavior.
+- Security / audit trail / content model: prefer shared data arrays for repeated content.
+- Security / audit trail / tone: sound precise, enterprise-ready, scientific, and pragmatic.
+- Security / compliance proof / copy: use exact scientific workflow language and avoid generic SaaS claims.
+- Security / compliance proof / layout: use stable responsive grids with no nested cards.
+- Security / compliance proof / visual: show product mechanics such as nodes, events, files, software, and review states.
+- Security / compliance proof / motion: make progression understandable and respect reduced motion.
+- Security / compliance proof / accessibility: preserve semantic structure, focus states, contrast, and alt text.
+- Security / compliance proof / SEO: use route-specific terms buyers search for without keyword stuffing.
+- Security / compliance proof / performance: keep the surface static-first and avoid unnecessary client code.
+- Security / compliance proof / compliance: support traceability messaging without implying automatic compliance.
+- Security / compliance proof / CTA: make the next action specific to the reader intent.
+- Security / compliance proof / responsive: verify mobile, tablet, laptop, and wide desktop behavior.
+- Security / compliance proof / content model: prefer shared data arrays for repeated content.
+- Security / compliance proof / tone: sound precise, enterprise-ready, scientific, and pragmatic.
+- Security / security posture / copy: use exact scientific workflow language and avoid generic SaaS claims.
+- Security / security posture / layout: use stable responsive grids with no nested cards.
+- Security / security posture / visual: show product mechanics such as nodes, events, files, software, and review states.
+- Security / security posture / motion: make progression understandable and respect reduced motion.
+- Security / security posture / accessibility: preserve semantic structure, focus states, contrast, and alt text.
+- Security / security posture / SEO: use route-specific terms buyers search for without keyword stuffing.
+- Security / security posture / performance: keep the surface static-first and avoid unnecessary client code.
+- Security / security posture / compliance: support traceability messaging without implying automatic compliance.
+- Security / security posture / CTA: make the next action specific to the reader intent.
+- Security / security posture / responsive: verify mobile, tablet, laptop, and wide desktop behavior.
+- Security / security posture / content model: prefer shared data arrays for repeated content.
+- Security / security posture / tone: sound precise, enterprise-ready, scientific, and pragmatic.
+- Security / solution cards / copy: use exact scientific workflow language and avoid generic SaaS claims.
+- Security / solution cards / layout: use stable responsive grids with no nested cards.
+- Security / solution cards / visual: show product mechanics such as nodes, events, files, software, and review states.
+- Security / solution cards / motion: make progression understandable and respect reduced motion.
+- Security / solution cards / accessibility: preserve semantic structure, focus states, contrast, and alt text.
+- Security / solution cards / SEO: use route-specific terms buyers search for without keyword stuffing.
+- Security / solution cards / performance: keep the surface static-first and avoid unnecessary client code.
+- Security / solution cards / compliance: support traceability messaging without implying automatic compliance.
+- Security / solution cards / CTA: make the next action specific to the reader intent.
+- Security / solution cards / responsive: verify mobile, tablet, laptop, and wide desktop behavior.
+- Security / solution cards / content model: prefer shared data arrays for repeated content.
+- Security / solution cards / tone: sound precise, enterprise-ready, scientific, and pragmatic.
+- Security / CTA band / copy: use exact scientific workflow language and avoid generic SaaS claims.
+- Security / CTA band / layout: use stable responsive grids with no nested cards.
+- Security / CTA band / visual: show product mechanics such as nodes, events, files, software, and review states.
+- Security / CTA band / motion: make progression understandable and respect reduced motion.
+- Security / CTA band / accessibility: preserve semantic structure, focus states, contrast, and alt text.
+- Security / CTA band / SEO: use route-specific terms buyers search for without keyword stuffing.
+- Security / CTA band / performance: keep the surface static-first and avoid unnecessary client code.
+- Security / CTA band / compliance: support traceability messaging without implying automatic compliance.
+- Security / CTA band / CTA: make the next action specific to the reader intent.
+- Security / CTA band / responsive: verify mobile, tablet, laptop, and wide desktop behavior.
+- Security / CTA band / content model: prefer shared data arrays for repeated content.
+- Security / CTA band / tone: sound precise, enterprise-ready, scientific, and pragmatic.
+- Security / footer / copy: use exact scientific workflow language and avoid generic SaaS claims.
+- Security / footer / layout: use stable responsive grids with no nested cards.
+- Security / footer / visual: show product mechanics such as nodes, events, files, software, and review states.
+- Security / footer / motion: make progression understandable and respect reduced motion.
+- Security / footer / accessibility: preserve semantic structure, focus states, contrast, and alt text.
+- Security / footer / SEO: use route-specific terms buyers search for without keyword stuffing.
+- Security / footer / performance: keep the surface static-first and avoid unnecessary client code.
+- Security / footer / compliance: support traceability messaging without implying automatic compliance.
+- Security / footer / CTA: make the next action specific to the reader intent.
+- Security / footer / responsive: verify mobile, tablet, laptop, and wide desktop behavior.
+- Security / footer / content model: prefer shared data arrays for repeated content.
+- Security / footer / tone: sound precise, enterprise-ready, scientific, and pragmatic.
+
+#### Workflow Automation
+- Purpose: use this page for graph execution and operator workflow.
+- Workflow Automation / hero / copy: use exact scientific workflow language and avoid generic SaaS claims.
+- Workflow Automation / hero / layout: use stable responsive grids with no nested cards.
+- Workflow Automation / hero / visual: show product mechanics such as nodes, events, files, software, and review states.
+- Workflow Automation / hero / motion: make progression understandable and respect reduced motion.
+- Workflow Automation / hero / accessibility: preserve semantic structure, focus states, contrast, and alt text.
+- Workflow Automation / hero / SEO: use route-specific terms buyers search for without keyword stuffing.
+- Workflow Automation / hero / performance: keep the surface static-first and avoid unnecessary client code.
+- Workflow Automation / hero / compliance: support traceability messaging without implying automatic compliance.
+- Workflow Automation / hero / CTA: make the next action specific to the reader intent.
+- Workflow Automation / hero / responsive: verify mobile, tablet, laptop, and wide desktop behavior.
+- Workflow Automation / hero / content model: prefer shared data arrays for repeated content.
+- Workflow Automation / hero / tone: sound precise, enterprise-ready, scientific, and pragmatic.
+- Workflow Automation / problem / copy: use exact scientific workflow language and avoid generic SaaS claims.
+- Workflow Automation / problem / layout: use stable responsive grids with no nested cards.
+- Workflow Automation / problem / visual: show product mechanics such as nodes, events, files, software, and review states.
+- Workflow Automation / problem / motion: make progression understandable and respect reduced motion.
+- Workflow Automation / problem / accessibility: preserve semantic structure, focus states, contrast, and alt text.
+- Workflow Automation / problem / SEO: use route-specific terms buyers search for without keyword stuffing.
+- Workflow Automation / problem / performance: keep the surface static-first and avoid unnecessary client code.
+- Workflow Automation / problem / compliance: support traceability messaging without implying automatic compliance.
+- Workflow Automation / problem / CTA: make the next action specific to the reader intent.
+- Workflow Automation / problem / responsive: verify mobile, tablet, laptop, and wide desktop behavior.
+- Workflow Automation / problem / content model: prefer shared data arrays for repeated content.
+- Workflow Automation / problem / tone: sound precise, enterprise-ready, scientific, and pragmatic.
+- Workflow Automation / platform / copy: use exact scientific workflow language and avoid generic SaaS claims.
+- Workflow Automation / platform / layout: use stable responsive grids with no nested cards.
+- Workflow Automation / platform / visual: show product mechanics such as nodes, events, files, software, and review states.
+- Workflow Automation / platform / motion: make progression understandable and respect reduced motion.
+- Workflow Automation / platform / accessibility: preserve semantic structure, focus states, contrast, and alt text.
+- Workflow Automation / platform / SEO: use route-specific terms buyers search for without keyword stuffing.
+- Workflow Automation / platform / performance: keep the surface static-first and avoid unnecessary client code.
+- Workflow Automation / platform / compliance: support traceability messaging without implying automatic compliance.
+- Workflow Automation / platform / CTA: make the next action specific to the reader intent.
+- Workflow Automation / platform / responsive: verify mobile, tablet, laptop, and wide desktop behavior.
+- Workflow Automation / platform / content model: prefer shared data arrays for repeated content.
+- Workflow Automation / platform / tone: sound precise, enterprise-ready, scientific, and pragmatic.
+- Workflow Automation / workflow visual / copy: use exact scientific workflow language and avoid generic SaaS claims.
+- Workflow Automation / workflow visual / layout: use stable responsive grids with no nested cards.
+- Workflow Automation / workflow visual / visual: show product mechanics such as nodes, events, files, software, and review states.
+- Workflow Automation / workflow visual / motion: make progression understandable and respect reduced motion.
+- Workflow Automation / workflow visual / accessibility: preserve semantic structure, focus states, contrast, and alt text.
+- Workflow Automation / workflow visual / SEO: use route-specific terms buyers search for without keyword stuffing.
+- Workflow Automation / workflow visual / performance: keep the surface static-first and avoid unnecessary client code.
+- Workflow Automation / workflow visual / compliance: support traceability messaging without implying automatic compliance.
+- Workflow Automation / workflow visual / CTA: make the next action specific to the reader intent.
+- Workflow Automation / workflow visual / responsive: verify mobile, tablet, laptop, and wide desktop behavior.
+- Workflow Automation / workflow visual / content model: prefer shared data arrays for repeated content.
+- Workflow Automation / workflow visual / tone: sound precise, enterprise-ready, scientific, and pragmatic.
+- Workflow Automation / architecture / copy: use exact scientific workflow language and avoid generic SaaS claims.
+- Workflow Automation / architecture / layout: use stable responsive grids with no nested cards.
+- Workflow Automation / architecture / visual: show product mechanics such as nodes, events, files, software, and review states.
+- Workflow Automation / architecture / motion: make progression understandable and respect reduced motion.
+- Workflow Automation / architecture / accessibility: preserve semantic structure, focus states, contrast, and alt text.
+- Workflow Automation / architecture / SEO: use route-specific terms buyers search for without keyword stuffing.
+- Workflow Automation / architecture / performance: keep the surface static-first and avoid unnecessary client code.
+- Workflow Automation / architecture / compliance: support traceability messaging without implying automatic compliance.
+- Workflow Automation / architecture / CTA: make the next action specific to the reader intent.
+- Workflow Automation / architecture / responsive: verify mobile, tablet, laptop, and wide desktop behavior.
+- Workflow Automation / architecture / content model: prefer shared data arrays for repeated content.
+- Workflow Automation / architecture / tone: sound precise, enterprise-ready, scientific, and pragmatic.
+- Workflow Automation / integration grid / copy: use exact scientific workflow language and avoid generic SaaS claims.
+- Workflow Automation / integration grid / layout: use stable responsive grids with no nested cards.
+- Workflow Automation / integration grid / visual: show product mechanics such as nodes, events, files, software, and review states.
+- Workflow Automation / integration grid / motion: make progression understandable and respect reduced motion.
+- Workflow Automation / integration grid / accessibility: preserve semantic structure, focus states, contrast, and alt text.
+- Workflow Automation / integration grid / SEO: use route-specific terms buyers search for without keyword stuffing.
+- Workflow Automation / integration grid / performance: keep the surface static-first and avoid unnecessary client code.
+- Workflow Automation / integration grid / compliance: support traceability messaging without implying automatic compliance.
+- Workflow Automation / integration grid / CTA: make the next action specific to the reader intent.
+- Workflow Automation / integration grid / responsive: verify mobile, tablet, laptop, and wide desktop behavior.
+- Workflow Automation / integration grid / content model: prefer shared data arrays for repeated content.
+- Workflow Automation / integration grid / tone: sound precise, enterprise-ready, scientific, and pragmatic.
+- Workflow Automation / audit trail / copy: use exact scientific workflow language and avoid generic SaaS claims.
+- Workflow Automation / audit trail / layout: use stable responsive grids with no nested cards.
+- Workflow Automation / audit trail / visual: show product mechanics such as nodes, events, files, software, and review states.
+- Workflow Automation / audit trail / motion: make progression understandable and respect reduced motion.
+- Workflow Automation / audit trail / accessibility: preserve semantic structure, focus states, contrast, and alt text.
+- Workflow Automation / audit trail / SEO: use route-specific terms buyers search for without keyword stuffing.
+- Workflow Automation / audit trail / performance: keep the surface static-first and avoid unnecessary client code.
+- Workflow Automation / audit trail / compliance: support traceability messaging without implying automatic compliance.
+- Workflow Automation / audit trail / CTA: make the next action specific to the reader intent.
+- Workflow Automation / audit trail / responsive: verify mobile, tablet, laptop, and wide desktop behavior.
+- Workflow Automation / audit trail / content model: prefer shared data arrays for repeated content.
+- Workflow Automation / audit trail / tone: sound precise, enterprise-ready, scientific, and pragmatic.
+- Workflow Automation / compliance proof / copy: use exact scientific workflow language and avoid generic SaaS claims.
+- Workflow Automation / compliance proof / layout: use stable responsive grids with no nested cards.
+- Workflow Automation / compliance proof / visual: show product mechanics such as nodes, events, files, software, and review states.
+- Workflow Automation / compliance proof / motion: make progression understandable and respect reduced motion.
+- Workflow Automation / compliance proof / accessibility: preserve semantic structure, focus states, contrast, and alt text.
+- Workflow Automation / compliance proof / SEO: use route-specific terms buyers search for without keyword stuffing.
+- Workflow Automation / compliance proof / performance: keep the surface static-first and avoid unnecessary client code.
+- Workflow Automation / compliance proof / compliance: support traceability messaging without implying automatic compliance.
+- Workflow Automation / compliance proof / CTA: make the next action specific to the reader intent.
+- Workflow Automation / compliance proof / responsive: verify mobile, tablet, laptop, and wide desktop behavior.
+- Workflow Automation / compliance proof / content model: prefer shared data arrays for repeated content.
+- Workflow Automation / compliance proof / tone: sound precise, enterprise-ready, scientific, and pragmatic.
+- Workflow Automation / security posture / copy: use exact scientific workflow language and avoid generic SaaS claims.
+- Workflow Automation / security posture / layout: use stable responsive grids with no nested cards.
+- Workflow Automation / security posture / visual: show product mechanics such as nodes, events, files, software, and review states.
+- Workflow Automation / security posture / motion: make progression understandable and respect reduced motion.
+- Workflow Automation / security posture / accessibility: preserve semantic structure, focus states, contrast, and alt text.
+- Workflow Automation / security posture / SEO: use route-specific terms buyers search for without keyword stuffing.
+- Workflow Automation / security posture / performance: keep the surface static-first and avoid unnecessary client code.
+- Workflow Automation / security posture / compliance: support traceability messaging without implying automatic compliance.
+- Workflow Automation / security posture / CTA: make the next action specific to the reader intent.
+- Workflow Automation / security posture / responsive: verify mobile, tablet, laptop, and wide desktop behavior.
+- Workflow Automation / security posture / content model: prefer shared data arrays for repeated content.
+- Workflow Automation / security posture / tone: sound precise, enterprise-ready, scientific, and pragmatic.
+- Workflow Automation / solution cards / copy: use exact scientific workflow language and avoid generic SaaS claims.
+- Workflow Automation / solution cards / layout: use stable responsive grids with no nested cards.
+- Workflow Automation / solution cards / visual: show product mechanics such as nodes, events, files, software, and review states.
+- Workflow Automation / solution cards / motion: make progression understandable and respect reduced motion.
+- Workflow Automation / solution cards / accessibility: preserve semantic structure, focus states, contrast, and alt text.
+- Workflow Automation / solution cards / SEO: use route-specific terms buyers search for without keyword stuffing.
+- Workflow Automation / solution cards / performance: keep the surface static-first and avoid unnecessary client code.
+- Workflow Automation / solution cards / compliance: support traceability messaging without implying automatic compliance.
+- Workflow Automation / solution cards / CTA: make the next action specific to the reader intent.
+- Workflow Automation / solution cards / responsive: verify mobile, tablet, laptop, and wide desktop behavior.
+- Workflow Automation / solution cards / content model: prefer shared data arrays for repeated content.
+- Workflow Automation / solution cards / tone: sound precise, enterprise-ready, scientific, and pragmatic.
+- Workflow Automation / CTA band / copy: use exact scientific workflow language and avoid generic SaaS claims.
+- Workflow Automation / CTA band / layout: use stable responsive grids with no nested cards.
+- Workflow Automation / CTA band / visual: show product mechanics such as nodes, events, files, software, and review states.
+- Workflow Automation / CTA band / motion: make progression understandable and respect reduced motion.
+- Workflow Automation / CTA band / accessibility: preserve semantic structure, focus states, contrast, and alt text.
+- Workflow Automation / CTA band / SEO: use route-specific terms buyers search for without keyword stuffing.
+- Workflow Automation / CTA band / performance: keep the surface static-first and avoid unnecessary client code.
+- Workflow Automation / CTA band / compliance: support traceability messaging without implying automatic compliance.
+- Workflow Automation / CTA band / CTA: make the next action specific to the reader intent.
+- Workflow Automation / CTA band / responsive: verify mobile, tablet, laptop, and wide desktop behavior.
+- Workflow Automation / CTA band / content model: prefer shared data arrays for repeated content.
+- Workflow Automation / CTA band / tone: sound precise, enterprise-ready, scientific, and pragmatic.
+- Workflow Automation / footer / copy: use exact scientific workflow language and avoid generic SaaS claims.
+- Workflow Automation / footer / layout: use stable responsive grids with no nested cards.
+- Workflow Automation / footer / visual: show product mechanics such as nodes, events, files, software, and review states.
+- Workflow Automation / footer / motion: make progression understandable and respect reduced motion.
+- Workflow Automation / footer / accessibility: preserve semantic structure, focus states, contrast, and alt text.
+- Workflow Automation / footer / SEO: use route-specific terms buyers search for without keyword stuffing.
+- Workflow Automation / footer / performance: keep the surface static-first and avoid unnecessary client code.
+- Workflow Automation / footer / compliance: support traceability messaging without implying automatic compliance.
+- Workflow Automation / footer / CTA: make the next action specific to the reader intent.
+- Workflow Automation / footer / responsive: verify mobile, tablet, laptop, and wide desktop behavior.
+- Workflow Automation / footer / content model: prefer shared data arrays for repeated content.
+- Workflow Automation / footer / tone: sound precise, enterprise-ready, scientific, and pragmatic.
+
+#### Resources
+- Purpose: use this page for education and evaluation support.
+- Resources / hero / copy: use exact scientific workflow language and avoid generic SaaS claims.
+- Resources / hero / layout: use stable responsive grids with no nested cards.
+- Resources / hero / visual: show product mechanics such as nodes, events, files, software, and review states.
+- Resources / hero / motion: make progression understandable and respect reduced motion.
+- Resources / hero / accessibility: preserve semantic structure, focus states, contrast, and alt text.
+- Resources / hero / SEO: use route-specific terms buyers search for without keyword stuffing.
+- Resources / hero / performance: keep the surface static-first and avoid unnecessary client code.
+- Resources / hero / compliance: support traceability messaging without implying automatic compliance.
+- Resources / hero / CTA: make the next action specific to the reader intent.
+- Resources / hero / responsive: verify mobile, tablet, laptop, and wide desktop behavior.
+- Resources / hero / content model: prefer shared data arrays for repeated content.
+- Resources / hero / tone: sound precise, enterprise-ready, scientific, and pragmatic.
+- Resources / problem / copy: use exact scientific workflow language and avoid generic SaaS claims.
+- Resources / problem / layout: use stable responsive grids with no nested cards.
+- Resources / problem / visual: show product mechanics such as nodes, events, files, software, and review states.
+- Resources / problem / motion: make progression understandable and respect reduced motion.
+- Resources / problem / accessibility: preserve semantic structure, focus states, contrast, and alt text.
+- Resources / problem / SEO: use route-specific terms buyers search for without keyword stuffing.
+- Resources / problem / performance: keep the surface static-first and avoid unnecessary client code.
+- Resources / problem / compliance: support traceability messaging without implying automatic compliance.
+- Resources / problem / CTA: make the next action specific to the reader intent.
+- Resources / problem / responsive: verify mobile, tablet, laptop, and wide desktop behavior.
+- Resources / problem / content model: prefer shared data arrays for repeated content.
+- Resources / problem / tone: sound precise, enterprise-ready, scientific, and pragmatic.
+- Resources / platform / copy: use exact scientific workflow language and avoid generic SaaS claims.
+- Resources / platform / layout: use stable responsive grids with no nested cards.
+- Resources / platform / visual: show product mechanics such as nodes, events, files, software, and review states.
+- Resources / platform / motion: make progression understandable and respect reduced motion.
+- Resources / platform / accessibility: preserve semantic structure, focus states, contrast, and alt text.
+- Resources / platform / SEO: use route-specific terms buyers search for without keyword stuffing.
+- Resources / platform / performance: keep the surface static-first and avoid unnecessary client code.
+- Resources / platform / compliance: support traceability messaging without implying automatic compliance.
+- Resources / platform / CTA: make the next action specific to the reader intent.
+- Resources / platform / responsive: verify mobile, tablet, laptop, and wide desktop behavior.
+- Resources / platform / content model: prefer shared data arrays for repeated content.
+- Resources / platform / tone: sound precise, enterprise-ready, scientific, and pragmatic.
+- Resources / workflow visual / copy: use exact scientific workflow language and avoid generic SaaS claims.
+- Resources / workflow visual / layout: use stable responsive grids with no nested cards.
+- Resources / workflow visual / visual: show product mechanics such as nodes, events, files, software, and review states.
+- Resources / workflow visual / motion: make progression understandable and respect reduced motion.
+- Resources / workflow visual / accessibility: preserve semantic structure, focus states, contrast, and alt text.
+- Resources / workflow visual / SEO: use route-specific terms buyers search for without keyword stuffing.
+- Resources / workflow visual / performance: keep the surface static-first and avoid unnecessary client code.
+- Resources / workflow visual / compliance: support traceability messaging without implying automatic compliance.
+- Resources / workflow visual / CTA: make the next action specific to the reader intent.
+- Resources / workflow visual / responsive: verify mobile, tablet, laptop, and wide desktop behavior.
+- Resources / workflow visual / content model: prefer shared data arrays for repeated content.
+- Resources / workflow visual / tone: sound precise, enterprise-ready, scientific, and pragmatic.
+- Resources / architecture / copy: use exact scientific workflow language and avoid generic SaaS claims.
+- Resources / architecture / layout: use stable responsive grids with no nested cards.
+- Resources / architecture / visual: show product mechanics such as nodes, events, files, software, and review states.
+- Resources / architecture / motion: make progression understandable and respect reduced motion.
+- Resources / architecture / accessibility: preserve semantic structure, focus states, contrast, and alt text.
+- Resources / architecture / SEO: use route-specific terms buyers search for without keyword stuffing.
+- Resources / architecture / performance: keep the surface static-first and avoid unnecessary client code.
+- Resources / architecture / compliance: support traceability messaging without implying automatic compliance.
+- Resources / architecture / CTA: make the next action specific to the reader intent.
+- Resources / architecture / responsive: verify mobile, tablet, laptop, and wide desktop behavior.
+- Resources / architecture / content model: prefer shared data arrays for repeated content.
+- Resources / architecture / tone: sound precise, enterprise-ready, scientific, and pragmatic.
+- Resources / integration grid / copy: use exact scientific workflow language and avoid generic SaaS claims.
+- Resources / integration grid / layout: use stable responsive grids with no nested cards.
+- Resources / integration grid / visual: show product mechanics such as nodes, events, files, software, and review states.
+- Resources / integration grid / motion: make progression understandable and respect reduced motion.
+- Resources / integration grid / accessibility: preserve semantic structure, focus states, contrast, and alt text.
+- Resources / integration grid / SEO: use route-specific terms buyers search for without keyword stuffing.
+- Resources / integration grid / performance: keep the surface static-first and avoid unnecessary client code.
+- Resources / integration grid / compliance: support traceability messaging without implying automatic compliance.
+- Resources / integration grid / CTA: make the next action specific to the reader intent.
+- Resources / integration grid / responsive: verify mobile, tablet, laptop, and wide desktop behavior.
+- Resources / integration grid / content model: prefer shared data arrays for repeated content.
+- Resources / integration grid / tone: sound precise, enterprise-ready, scientific, and pragmatic.
+- Resources / audit trail / copy: use exact scientific workflow language and avoid generic SaaS claims.
+- Resources / audit trail / layout: use stable responsive grids with no nested cards.
+- Resources / audit trail / visual: show product mechanics such as nodes, events, files, software, and review states.
+- Resources / audit trail / motion: make progression understandable and respect reduced motion.
+- Resources / audit trail / accessibility: preserve semantic structure, focus states, contrast, and alt text.
+- Resources / audit trail / SEO: use route-specific terms buyers search for without keyword stuffing.
+- Resources / audit trail / performance: keep the surface static-first and avoid unnecessary client code.
+- Resources / audit trail / compliance: support traceability messaging without implying automatic compliance.
+- Resources / audit trail / CTA: make the next action specific to the reader intent.
+- Resources / audit trail / responsive: verify mobile, tablet, laptop, and wide desktop behavior.
+- Resources / audit trail / content model: prefer shared data arrays for repeated content.
+- Resources / audit trail / tone: sound precise, enterprise-ready, scientific, and pragmatic.
+- Resources / compliance proof / copy: use exact scientific workflow language and avoid generic SaaS claims.
+- Resources / compliance proof / layout: use stable responsive grids with no nested cards.
+- Resources / compliance proof / visual: show product mechanics such as nodes, events, files, software, and review states.
+- Resources / compliance proof / motion: make progression understandable and respect reduced motion.
+- Resources / compliance proof / accessibility: preserve semantic structure, focus states, contrast, and alt text.
+- Resources / compliance proof / SEO: use route-specific terms buyers search for without keyword stuffing.
+- Resources / compliance proof / performance: keep the surface static-first and avoid unnecessary client code.
+- Resources / compliance proof / compliance: support traceability messaging without implying automatic compliance.
+- Resources / compliance proof / CTA: make the next action specific to the reader intent.
+- Resources / compliance proof / responsive: verify mobile, tablet, laptop, and wide desktop behavior.
+- Resources / compliance proof / content model: prefer shared data arrays for repeated content.
+- Resources / compliance proof / tone: sound precise, enterprise-ready, scientific, and pragmatic.
+- Resources / security posture / copy: use exact scientific workflow language and avoid generic SaaS claims.
+- Resources / security posture / layout: use stable responsive grids with no nested cards.
+- Resources / security posture / visual: show product mechanics such as nodes, events, files, software, and review states.
+- Resources / security posture / motion: make progression understandable and respect reduced motion.
+- Resources / security posture / accessibility: preserve semantic structure, focus states, contrast, and alt text.
+- Resources / security posture / SEO: use route-specific terms buyers search for without keyword stuffing.
+- Resources / security posture / performance: keep the surface static-first and avoid unnecessary client code.
+- Resources / security posture / compliance: support traceability messaging without implying automatic compliance.
+- Resources / security posture / CTA: make the next action specific to the reader intent.
+- Resources / security posture / responsive: verify mobile, tablet, laptop, and wide desktop behavior.
+- Resources / security posture / content model: prefer shared data arrays for repeated content.
+- Resources / security posture / tone: sound precise, enterprise-ready, scientific, and pragmatic.
+- Resources / solution cards / copy: use exact scientific workflow language and avoid generic SaaS claims.
+- Resources / solution cards / layout: use stable responsive grids with no nested cards.
+- Resources / solution cards / visual: show product mechanics such as nodes, events, files, software, and review states.
+- Resources / solution cards / motion: make progression understandable and respect reduced motion.
+- Resources / solution cards / accessibility: preserve semantic structure, focus states, contrast, and alt text.
+- Resources / solution cards / SEO: use route-specific terms buyers search for without keyword stuffing.
+- Resources / solution cards / performance: keep the surface static-first and avoid unnecessary client code.
+- Resources / solution cards / compliance: support traceability messaging without implying automatic compliance.
+- Resources / solution cards / CTA: make the next action specific to the reader intent.
+- Resources / solution cards / responsive: verify mobile, tablet, laptop, and wide desktop behavior.
+- Resources / solution cards / content model: prefer shared data arrays for repeated content.
+- Resources / solution cards / tone: sound precise, enterprise-ready, scientific, and pragmatic.
+- Resources / CTA band / copy: use exact scientific workflow language and avoid generic SaaS claims.
+- Resources / CTA band / layout: use stable responsive grids with no nested cards.
+- Resources / CTA band / visual: show product mechanics such as nodes, events, files, software, and review states.
+- Resources / CTA band / motion: make progression understandable and respect reduced motion.
+- Resources / CTA band / accessibility: preserve semantic structure, focus states, contrast, and alt text.
+- Resources / CTA band / SEO: use route-specific terms buyers search for without keyword stuffing.
+- Resources / CTA band / performance: keep the surface static-first and avoid unnecessary client code.
+- Resources / CTA band / compliance: support traceability messaging without implying automatic compliance.
+- Resources / CTA band / CTA: make the next action specific to the reader intent.
+- Resources / CTA band / responsive: verify mobile, tablet, laptop, and wide desktop behavior.
+- Resources / CTA band / content model: prefer shared data arrays for repeated content.
+- Resources / CTA band / tone: sound precise, enterprise-ready, scientific, and pragmatic.
+- Resources / footer / copy: use exact scientific workflow language and avoid generic SaaS claims.
+- Resources / footer / layout: use stable responsive grids with no nested cards.
+- Resources / footer / visual: show product mechanics such as nodes, events, files, software, and review states.
+- Resources / footer / motion: make progression understandable and respect reduced motion.
+- Resources / footer / accessibility: preserve semantic structure, focus states, contrast, and alt text.
+- Resources / footer / SEO: use route-specific terms buyers search for without keyword stuffing.
+- Resources / footer / performance: keep the surface static-first and avoid unnecessary client code.
+- Resources / footer / compliance: support traceability messaging without implying automatic compliance.
+- Resources / footer / CTA: make the next action specific to the reader intent.
+- Resources / footer / responsive: verify mobile, tablet, laptop, and wide desktop behavior.
+- Resources / footer / content model: prefer shared data arrays for repeated content.
+- Resources / footer / tone: sound precise, enterprise-ready, scientific, and pragmatic.
+
+#### Company
+- Purpose: use this page for mission and category thesis.
+- Company / hero / copy: use exact scientific workflow language and avoid generic SaaS claims.
+- Company / hero / layout: use stable responsive grids with no nested cards.
+- Company / hero / visual: show product mechanics such as nodes, events, files, software, and review states.
+- Company / hero / motion: make progression understandable and respect reduced motion.
+- Company / hero / accessibility: preserve semantic structure, focus states, contrast, and alt text.
+- Company / hero / SEO: use route-specific terms buyers search for without keyword stuffing.
+- Company / hero / performance: keep the surface static-first and avoid unnecessary client code.
+- Company / hero / compliance: support traceability messaging without implying automatic compliance.
+- Company / hero / CTA: make the next action specific to the reader intent.
+- Company / hero / responsive: verify mobile, tablet, laptop, and wide desktop behavior.
+- Company / hero / content model: prefer shared data arrays for repeated content.
+- Company / hero / tone: sound precise, enterprise-ready, scientific, and pragmatic.
+- Company / problem / copy: use exact scientific workflow language and avoid generic SaaS claims.
+- Company / problem / layout: use stable responsive grids with no nested cards.
+- Company / problem / visual: show product mechanics such as nodes, events, files, software, and review states.
+- Company / problem / motion: make progression understandable and respect reduced motion.
+- Company / problem / accessibility: preserve semantic structure, focus states, contrast, and alt text.
+- Company / problem / SEO: use route-specific terms buyers search for without keyword stuffing.
+- Company / problem / performance: keep the surface static-first and avoid unnecessary client code.
+- Company / problem / compliance: support traceability messaging without implying automatic compliance.
+- Company / problem / CTA: make the next action specific to the reader intent.
+- Company / problem / responsive: verify mobile, tablet, laptop, and wide desktop behavior.
+- Company / problem / content model: prefer shared data arrays for repeated content.
+- Company / problem / tone: sound precise, enterprise-ready, scientific, and pragmatic.
+- Company / platform / copy: use exact scientific workflow language and avoid generic SaaS claims.
+- Company / platform / layout: use stable responsive grids with no nested cards.
+- Company / platform / visual: show product mechanics such as nodes, events, files, software, and review states.
+- Company / platform / motion: make progression understandable and respect reduced motion.
+- Company / platform / accessibility: preserve semantic structure, focus states, contrast, and alt text.
+- Company / platform / SEO: use route-specific terms buyers search for without keyword stuffing.
+- Company / platform / performance: keep the surface static-first and avoid unnecessary client code.
+- Company / platform / compliance: support traceability messaging without implying automatic compliance.
+- Company / platform / CTA: make the next action specific to the reader intent.
+- Company / platform / responsive: verify mobile, tablet, laptop, and wide desktop behavior.
+- Company / platform / content model: prefer shared data arrays for repeated content.
+- Company / platform / tone: sound precise, enterprise-ready, scientific, and pragmatic.
+- Company / workflow visual / copy: use exact scientific workflow language and avoid generic SaaS claims.
+- Company / workflow visual / layout: use stable responsive grids with no nested cards.
+- Company / workflow visual / visual: show product mechanics such as nodes, events, files, software, and review states.
+- Company / workflow visual / motion: make progression understandable and respect reduced motion.
+- Company / workflow visual / accessibility: preserve semantic structure, focus states, contrast, and alt text.
+- Company / workflow visual / SEO: use route-specific terms buyers search for without keyword stuffing.
+- Company / workflow visual / performance: keep the surface static-first and avoid unnecessary client code.
+- Company / workflow visual / compliance: support traceability messaging without implying automatic compliance.
+- Company / workflow visual / CTA: make the next action specific to the reader intent.
+- Company / workflow visual / responsive: verify mobile, tablet, laptop, and wide desktop behavior.
+- Company / workflow visual / content model: prefer shared data arrays for repeated content.
+- Company / workflow visual / tone: sound precise, enterprise-ready, scientific, and pragmatic.
+- Company / architecture / copy: use exact scientific workflow language and avoid generic SaaS claims.
+- Company / architecture / layout: use stable responsive grids with no nested cards.
+- Company / architecture / visual: show product mechanics such as nodes, events, files, software, and review states.
+- Company / architecture / motion: make progression understandable and respect reduced motion.
+- Company / architecture / accessibility: preserve semantic structure, focus states, contrast, and alt text.
+- Company / architecture / SEO: use route-specific terms buyers search for without keyword stuffing.
+- Company / architecture / performance: keep the surface static-first and avoid unnecessary client code.
+- Company / architecture / compliance: support traceability messaging without implying automatic compliance.
+- Company / architecture / CTA: make the next action specific to the reader intent.
+- Company / architecture / responsive: verify mobile, tablet, laptop, and wide desktop behavior.
+- Company / architecture / content model: prefer shared data arrays for repeated content.
+- Company / architecture / tone: sound precise, enterprise-ready, scientific, and pragmatic.
+- Company / integration grid / copy: use exact scientific workflow language and avoid generic SaaS claims.
+- Company / integration grid / layout: use stable responsive grids with no nested cards.
+- Company / integration grid / visual: show product mechanics such as nodes, events, files, software, and review states.
+- Company / integration grid / motion: make progression understandable and respect reduced motion.
+- Company / integration grid / accessibility: preserve semantic structure, focus states, contrast, and alt text.
+- Company / integration grid / SEO: use route-specific terms buyers search for without keyword stuffing.
+- Company / integration grid / performance: keep the surface static-first and avoid unnecessary client code.
+- Company / integration grid / compliance: support traceability messaging without implying automatic compliance.
+- Company / integration grid / CTA: make the next action specific to the reader intent.
+- Company / integration grid / responsive: verify mobile, tablet, laptop, and wide desktop behavior.
+- Company / integration grid / content model: prefer shared data arrays for repeated content.
+- Company / integration grid / tone: sound precise, enterprise-ready, scientific, and pragmatic.
+- Company / audit trail / copy: use exact scientific workflow language and avoid generic SaaS claims.
+- Company / audit trail / layout: use stable responsive grids with no nested cards.
+- Company / audit trail / visual: show product mechanics such as nodes, events, files, software, and review states.
+- Company / audit trail / motion: make progression understandable and respect reduced motion.
+- Company / audit trail / accessibility: preserve semantic structure, focus states, contrast, and alt text.
+- Company / audit trail / SEO: use route-specific terms buyers search for without keyword stuffing.
+- Company / audit trail / performance: keep the surface static-first and avoid unnecessary client code.
+- Company / audit trail / compliance: support traceability messaging without implying automatic compliance.
+- Company / audit trail / CTA: make the next action specific to the reader intent.
+- Company / audit trail / responsive: verify mobile, tablet, laptop, and wide desktop behavior.
+- Company / audit trail / content model: prefer shared data arrays for repeated content.
+- Company / audit trail / tone: sound precise, enterprise-ready, scientific, and pragmatic.
+- Company / compliance proof / copy: use exact scientific workflow language and avoid generic SaaS claims.
+- Company / compliance proof / layout: use stable responsive grids with no nested cards.
+- Company / compliance proof / visual: show product mechanics such as nodes, events, files, software, and review states.
+- Company / compliance proof / motion: make progression understandable and respect reduced motion.
+- Company / compliance proof / accessibility: preserve semantic structure, focus states, contrast, and alt text.
+- Company / compliance proof / SEO: use route-specific terms buyers search for without keyword stuffing.
+- Company / compliance proof / performance: keep the surface static-first and avoid unnecessary client code.
+- Company / compliance proof / compliance: support traceability messaging without implying automatic compliance.
+- Company / compliance proof / CTA: make the next action specific to the reader intent.
+- Company / compliance proof / responsive: verify mobile, tablet, laptop, and wide desktop behavior.
+- Company / compliance proof / content model: prefer shared data arrays for repeated content.
+- Company / compliance proof / tone: sound precise, enterprise-ready, scientific, and pragmatic.
+- Company / security posture / copy: use exact scientific workflow language and avoid generic SaaS claims.
+- Company / security posture / layout: use stable responsive grids with no nested cards.
+- Company / security posture / visual: show product mechanics such as nodes, events, files, software, and review states.
+- Company / security posture / motion: make progression understandable and respect reduced motion.
+- Company / security posture / accessibility: preserve semantic structure, focus states, contrast, and alt text.
+- Company / security posture / SEO: use route-specific terms buyers search for without keyword stuffing.
+- Company / security posture / performance: keep the surface static-first and avoid unnecessary client code.
+- Company / security posture / compliance: support traceability messaging without implying automatic compliance.
+- Company / security posture / CTA: make the next action specific to the reader intent.
+- Company / security posture / responsive: verify mobile, tablet, laptop, and wide desktop behavior.
+- Company / security posture / content model: prefer shared data arrays for repeated content.
+- Company / security posture / tone: sound precise, enterprise-ready, scientific, and pragmatic.
+- Company / solution cards / copy: use exact scientific workflow language and avoid generic SaaS claims.
+- Company / solution cards / layout: use stable responsive grids with no nested cards.
+- Company / solution cards / visual: show product mechanics such as nodes, events, files, software, and review states.
+- Company / solution cards / motion: make progression understandable and respect reduced motion.
+- Company / solution cards / accessibility: preserve semantic structure, focus states, contrast, and alt text.
+- Company / solution cards / SEO: use route-specific terms buyers search for without keyword stuffing.
+- Company / solution cards / performance: keep the surface static-first and avoid unnecessary client code.
+- Company / solution cards / compliance: support traceability messaging without implying automatic compliance.
+- Company / solution cards / CTA: make the next action specific to the reader intent.
+- Company / solution cards / responsive: verify mobile, tablet, laptop, and wide desktop behavior.
+- Company / solution cards / content model: prefer shared data arrays for repeated content.
+- Company / solution cards / tone: sound precise, enterprise-ready, scientific, and pragmatic.
+- Company / CTA band / copy: use exact scientific workflow language and avoid generic SaaS claims.
+- Company / CTA band / layout: use stable responsive grids with no nested cards.
+- Company / CTA band / visual: show product mechanics such as nodes, events, files, software, and review states.
+- Company / CTA band / motion: make progression understandable and respect reduced motion.
+- Company / CTA band / accessibility: preserve semantic structure, focus states, contrast, and alt text.
+- Company / CTA band / SEO: use route-specific terms buyers search for without keyword stuffing.
+- Company / CTA band / performance: keep the surface static-first and avoid unnecessary client code.
+- Company / CTA band / compliance: support traceability messaging without implying automatic compliance.
+- Company / CTA band / CTA: make the next action specific to the reader intent.
+- Company / CTA band / responsive: verify mobile, tablet, laptop, and wide desktop behavior.
+- Company / CTA band / content model: prefer shared data arrays for repeated content.
+- Company / CTA band / tone: sound precise, enterprise-ready, scientific, and pragmatic.
+- Company / footer / copy: use exact scientific workflow language and avoid generic SaaS claims.
+- Company / footer / layout: use stable responsive grids with no nested cards.
+- Company / footer / visual: show product mechanics such as nodes, events, files, software, and review states.
+- Company / footer / motion: make progression understandable and respect reduced motion.
+- Company / footer / accessibility: preserve semantic structure, focus states, contrast, and alt text.
+- Company / footer / SEO: use route-specific terms buyers search for without keyword stuffing.
+- Company / footer / performance: keep the surface static-first and avoid unnecessary client code.
+- Company / footer / compliance: support traceability messaging without implying automatic compliance.
+- Company / footer / CTA: make the next action specific to the reader intent.
+- Company / footer / responsive: verify mobile, tablet, laptop, and wide desktop behavior.
+- Company / footer / content model: prefer shared data arrays for repeated content.
+- Company / footer / tone: sound precise, enterprise-ready, scientific, and pragmatic.
+
+#### Contact
+- Purpose: use this page for qualified demo capture.
+- Contact / hero / copy: use exact scientific workflow language and avoid generic SaaS claims.
+- Contact / hero / layout: use stable responsive grids with no nested cards.
+- Contact / hero / visual: show product mechanics such as nodes, events, files, software, and review states.
+- Contact / hero / motion: make progression understandable and respect reduced motion.
+- Contact / hero / accessibility: preserve semantic structure, focus states, contrast, and alt text.
+- Contact / hero / SEO: use route-specific terms buyers search for without keyword stuffing.
+- Contact / hero / performance: keep the surface static-first and avoid unnecessary client code.
+- Contact / hero / compliance: support traceability messaging without implying automatic compliance.
+- Contact / hero / CTA: make the next action specific to the reader intent.
+- Contact / hero / responsive: verify mobile, tablet, laptop, and wide desktop behavior.
+- Contact / hero / content model: prefer shared data arrays for repeated content.
+- Contact / hero / tone: sound precise, enterprise-ready, scientific, and pragmatic.
+- Contact / problem / copy: use exact scientific workflow language and avoid generic SaaS claims.
+- Contact / problem / layout: use stable responsive grids with no nested cards.
+- Contact / problem / visual: show product mechanics such as nodes, events, files, software, and review states.
+- Contact / problem / motion: make progression understandable and respect reduced motion.
+- Contact / problem / accessibility: preserve semantic structure, focus states, contrast, and alt text.
+- Contact / problem / SEO: use route-specific terms buyers search for without keyword stuffing.
+- Contact / problem / performance: keep the surface static-first and avoid unnecessary client code.
+- Contact / problem / compliance: support traceability messaging without implying automatic compliance.
+- Contact / problem / CTA: make the next action specific to the reader intent.
+- Contact / problem / responsive: verify mobile, tablet, laptop, and wide desktop behavior.
+- Contact / problem / content model: prefer shared data arrays for repeated content.
+- Contact / problem / tone: sound precise, enterprise-ready, scientific, and pragmatic.
+- Contact / platform / copy: use exact scientific workflow language and avoid generic SaaS claims.
+- Contact / platform / layout: use stable responsive grids with no nested cards.
+- Contact / platform / visual: show product mechanics such as nodes, events, files, software, and review states.
+- Contact / platform / motion: make progression understandable and respect reduced motion.
+- Contact / platform / accessibility: preserve semantic structure, focus states, contrast, and alt text.
+- Contact / platform / SEO: use route-specific terms buyers search for without keyword stuffing.
+- Contact / platform / performance: keep the surface static-first and avoid unnecessary client code.
+- Contact / platform / compliance: support traceability messaging without implying automatic compliance.
+- Contact / platform / CTA: make the next action specific to the reader intent.
+- Contact / platform / responsive: verify mobile, tablet, laptop, and wide desktop behavior.
+- Contact / platform / content model: prefer shared data arrays for repeated content.
+- Contact / platform / tone: sound precise, enterprise-ready, scientific, and pragmatic.
+- Contact / workflow visual / copy: use exact scientific workflow language and avoid generic SaaS claims.
+- Contact / workflow visual / layout: use stable responsive grids with no nested cards.
+- Contact / workflow visual / visual: show product mechanics such as nodes, events, files, software, and review states.
+- Contact / workflow visual / motion: make progression understandable and respect reduced motion.
+- Contact / workflow visual / accessibility: preserve semantic structure, focus states, contrast, and alt text.
+- Contact / workflow visual / SEO: use route-specific terms buyers search for without keyword stuffing.
+- Contact / workflow visual / performance: keep the surface static-first and avoid unnecessary client code.
+- Contact / workflow visual / compliance: support traceability messaging without implying automatic compliance.
+- Contact / workflow visual / CTA: make the next action specific to the reader intent.
+- Contact / workflow visual / responsive: verify mobile, tablet, laptop, and wide desktop behavior.
+- Contact / workflow visual / content model: prefer shared data arrays for repeated content.
+- Contact / workflow visual / tone: sound precise, enterprise-ready, scientific, and pragmatic.
+- Contact / architecture / copy: use exact scientific workflow language and avoid generic SaaS claims.
+- Contact / architecture / layout: use stable responsive grids with no nested cards.
+- Contact / architecture / visual: show product mechanics such as nodes, events, files, software, and review states.
+- Contact / architecture / motion: make progression understandable and respect reduced motion.
+- Contact / architecture / accessibility: preserve semantic structure, focus states, contrast, and alt text.
+- Contact / architecture / SEO: use route-specific terms buyers search for without keyword stuffing.
+- Contact / architecture / performance: keep the surface static-first and avoid unnecessary client code.
+- Contact / architecture / compliance: support traceability messaging without implying automatic compliance.
+- Contact / architecture / CTA: make the next action specific to the reader intent.
+- Contact / architecture / responsive: verify mobile, tablet, laptop, and wide desktop behavior.
+- Contact / architecture / content model: prefer shared data arrays for repeated content.
+- Contact / architecture / tone: sound precise, enterprise-ready, scientific, and pragmatic.
+- Contact / integration grid / copy: use exact scientific workflow language and avoid generic SaaS claims.
+- Contact / integration grid / layout: use stable responsive grids with no nested cards.
+- Contact / integration grid / visual: show product mechanics such as nodes, events, files, software, and review states.
+- Contact / integration grid / motion: make progression understandable and respect reduced motion.
+- Contact / integration grid / accessibility: preserve semantic structure, focus states, contrast, and alt text.
+- Contact / integration grid / SEO: use route-specific terms buyers search for without keyword stuffing.
+- Contact / integration grid / performance: keep the surface static-first and avoid unnecessary client code.
+- Contact / integration grid / compliance: support traceability messaging without implying automatic compliance.
+- Contact / integration grid / CTA: make the next action specific to the reader intent.
+- Contact / integration grid / responsive: verify mobile, tablet, laptop, and wide desktop behavior.
+- Contact / integration grid / content model: prefer shared data arrays for repeated content.
+- Contact / integration grid / tone: sound precise, enterprise-ready, scientific, and pragmatic.
+- Contact / audit trail / copy: use exact scientific workflow language and avoid generic SaaS claims.
+- Contact / audit trail / layout: use stable responsive grids with no nested cards.
+- Contact / audit trail / visual: show product mechanics such as nodes, events, files, software, and review states.
+- Contact / audit trail / motion: make progression understandable and respect reduced motion.
+- Contact / audit trail / accessibility: preserve semantic structure, focus states, contrast, and alt text.
+- Contact / audit trail / SEO: use route-specific terms buyers search for without keyword stuffing.
+- Contact / audit trail / performance: keep the surface static-first and avoid unnecessary client code.
+- Contact / audit trail / compliance: support traceability messaging without implying automatic compliance.
+- Contact / audit trail / CTA: make the next action specific to the reader intent.
+- Contact / audit trail / responsive: verify mobile, tablet, laptop, and wide desktop behavior.
+- Contact / audit trail / content model: prefer shared data arrays for repeated content.
+- Contact / audit trail / tone: sound precise, enterprise-ready, scientific, and pragmatic.
+- Contact / compliance proof / copy: use exact scientific workflow language and avoid generic SaaS claims.
+- Contact / compliance proof / layout: use stable responsive grids with no nested cards.
+- Contact / compliance proof / visual: show product mechanics such as nodes, events, files, software, and review states.
+- Contact / compliance proof / motion: make progression understandable and respect reduced motion.
+- Contact / compliance proof / accessibility: preserve semantic structure, focus states, contrast, and alt text.
+- Contact / compliance proof / SEO: use route-specific terms buyers search for without keyword stuffing.
+- Contact / compliance proof / performance: keep the surface static-first and avoid unnecessary client code.
+- Contact / compliance proof / compliance: support traceability messaging without implying automatic compliance.
+- Contact / compliance proof / CTA: make the next action specific to the reader intent.
+- Contact / compliance proof / responsive: verify mobile, tablet, laptop, and wide desktop behavior.
+- Contact / compliance proof / content model: prefer shared data arrays for repeated content.
+- Contact / compliance proof / tone: sound precise, enterprise-ready, scientific, and pragmatic.
+- Contact / security posture / copy: use exact scientific workflow language and avoid generic SaaS claims.
+- Contact / security posture / layout: use stable responsive grids with no nested cards.
+- Contact / security posture / visual: show product mechanics such as nodes, events, files, software, and review states.
+- Contact / security posture / motion: make progression understandable and respect reduced motion.
+- Contact / security posture / accessibility: preserve semantic structure, focus states, contrast, and alt text.
+- Contact / security posture / SEO: use route-specific terms buyers search for without keyword stuffing.
+- Contact / security posture / performance: keep the surface static-first and avoid unnecessary client code.
+- Contact / security posture / compliance: support traceability messaging without implying automatic compliance.
+- Contact / security posture / CTA: make the next action specific to the reader intent.
+- Contact / security posture / responsive: verify mobile, tablet, laptop, and wide desktop behavior.
+- Contact / security posture / content model: prefer shared data arrays for repeated content.
+- Contact / security posture / tone: sound precise, enterprise-ready, scientific, and pragmatic.
+- Contact / solution cards / copy: use exact scientific workflow language and avoid generic SaaS claims.
+- Contact / solution cards / layout: use stable responsive grids with no nested cards.
+- Contact / solution cards / visual: show product mechanics such as nodes, events, files, software, and review states.
+- Contact / solution cards / motion: make progression understandable and respect reduced motion.
+- Contact / solution cards / accessibility: preserve semantic structure, focus states, contrast, and alt text.
+- Contact / solution cards / SEO: use route-specific terms buyers search for without keyword stuffing.
+- Contact / solution cards / performance: keep the surface static-first and avoid unnecessary client code.
+- Contact / solution cards / compliance: support traceability messaging without implying automatic compliance.
+- Contact / solution cards / CTA: make the next action specific to the reader intent.
+- Contact / solution cards / responsive: verify mobile, tablet, laptop, and wide desktop behavior.
+- Contact / solution cards / content model: prefer shared data arrays for repeated content.
+- Contact / solution cards / tone: sound precise, enterprise-ready, scientific, and pragmatic.
+- Contact / CTA band / copy: use exact scientific workflow language and avoid generic SaaS claims.
+- Contact / CTA band / layout: use stable responsive grids with no nested cards.
+- Contact / CTA band / visual: show product mechanics such as nodes, events, files, software, and review states.
+- Contact / CTA band / motion: make progression understandable and respect reduced motion.
+- Contact / CTA band / accessibility: preserve semantic structure, focus states, contrast, and alt text.
+- Contact / CTA band / SEO: use route-specific terms buyers search for without keyword stuffing.
+- Contact / CTA band / performance: keep the surface static-first and avoid unnecessary client code.
+- Contact / CTA band / compliance: support traceability messaging without implying automatic compliance.
+- Contact / CTA band / CTA: make the next action specific to the reader intent.
+- Contact / CTA band / responsive: verify mobile, tablet, laptop, and wide desktop behavior.
+- Contact / CTA band / content model: prefer shared data arrays for repeated content.
+- Contact / CTA band / tone: sound precise, enterprise-ready, scientific, and pragmatic.
+- Contact / footer / copy: use exact scientific workflow language and avoid generic SaaS claims.
+- Contact / footer / layout: use stable responsive grids with no nested cards.
+- Contact / footer / visual: show product mechanics such as nodes, events, files, software, and review states.
+- Contact / footer / motion: make progression understandable and respect reduced motion.
+- Contact / footer / accessibility: preserve semantic structure, focus states, contrast, and alt text.
+- Contact / footer / SEO: use route-specific terms buyers search for without keyword stuffing.
+- Contact / footer / performance: keep the surface static-first and avoid unnecessary client code.
+- Contact / footer / compliance: support traceability messaging without implying automatic compliance.
+- Contact / footer / CTA: make the next action specific to the reader intent.
+- Contact / footer / responsive: verify mobile, tablet, laptop, and wide desktop behavior.
+- Contact / footer / content model: prefer shared data arrays for repeated content.
+- Contact / footer / tone: sound precise, enterprise-ready, scientific, and pragmatic.
+
+### Product Capability Directives
+#### Workflow canvas
+- Product facts to reflect: nodes, edges, variables, data bus, add-step dialog, integration palette, console, preview, notes, IDE.
+- Website role: show workflow canvas as part of one orchestration platform, not as a disconnected feature tile.
+- Visual treatment: create a product-inspired representation that can be understood without screenshots.
+- Copy treatment: describe what the user can do, what evidence is created, and why it matters in controlled scientific environments.
+- Compliance treatment: include traceability only where relevant and avoid implying certification.
+- Technical treatment: mention local-first architecture when the capability depends on local runtime, local files, local software, or local models.
+- Buyer treatment: connect the capability to QC, R&D operations, lab IT, core facilities, secure research, or technical evaluators.
+- Responsive treatment: provide a compact mobile version that does not require tiny unreadable UI text.
+
+#### Chat workspace
+- Product facts to reflect: persisted sessions, tabs, attachments, artifacts, software mentions, voice as optional extension, working-directory context.
+- Website role: show chat workspace as part of one orchestration platform, not as a disconnected feature tile.
+- Visual treatment: create a product-inspired representation that can be understood without screenshots.
+- Copy treatment: describe what the user can do, what evidence is created, and why it matters in controlled scientific environments.
+- Compliance treatment: include traceability only where relevant and avoid implying certification.
+- Technical treatment: mention local-first architecture when the capability depends on local runtime, local files, local software, or local models.
+- Buyer treatment: connect the capability to QC, R&D operations, lab IT, core facilities, secure research, or technical evaluators.
+- Responsive treatment: provide a compact mobile version that does not require tiny unreadable UI text.
+
+#### Software catalog
+- Product facts to reflect: backend-owned profiles, local detection overlay, setup guides, capabilities, input/output formats, statuses.
+- Website role: show software catalog as part of one orchestration platform, not as a disconnected feature tile.
+- Visual treatment: create a product-inspired representation that can be understood without screenshots.
+- Copy treatment: describe what the user can do, what evidence is created, and why it matters in controlled scientific environments.
+- Compliance treatment: include traceability only where relevant and avoid implying certification.
+- Technical treatment: mention local-first architecture when the capability depends on local runtime, local files, local software, or local models.
+- Buyer treatment: connect the capability to QC, R&D operations, lab IT, core facilities, secure research, or technical evaluators.
+- Responsive treatment: provide a compact mobile version that does not require tiny unreadable UI text.
+
+#### Audit logs
+- Product facts to reflect: current-user records, summary, detail, export request, severity/category/status, metadata, compliance summary.
+- Website role: show audit logs as part of one orchestration platform, not as a disconnected feature tile.
+- Visual treatment: create a product-inspired representation that can be understood without screenshots.
+- Copy treatment: describe what the user can do, what evidence is created, and why it matters in controlled scientific environments.
+- Compliance treatment: include traceability only where relevant and avoid implying certification.
+- Technical treatment: mention local-first architecture when the capability depends on local runtime, local files, local software, or local models.
+- Buyer treatment: connect the capability to QC, R&D operations, lab IT, core facilities, secure research, or technical evaluators.
+- Responsive treatment: provide a compact mobile version that does not require tiny unreadable UI text.
+
+#### Execution runtime
+- Product facts to reflect: workflow execution, WebSocket progress, artifacts, run history, safety, human checkpoints.
+- Website role: show execution runtime as part of one orchestration platform, not as a disconnected feature tile.
+- Visual treatment: create a product-inspired representation that can be understood without screenshots.
+- Copy treatment: describe what the user can do, what evidence is created, and why it matters in controlled scientific environments.
+- Compliance treatment: include traceability only where relevant and avoid implying certification.
+- Technical treatment: mention local-first architecture when the capability depends on local runtime, local files, local software, or local models.
+- Buyer treatment: connect the capability to QC, R&D operations, lab IT, core facilities, secure research, or technical evaluators.
+- Responsive treatment: provide a compact mobile version that does not require tiny unreadable UI text.
+
+#### Template center
+- Product facts to reflect: reusable workflow templates, filtering, details panel, save workflow template flows.
+- Website role: show template center as part of one orchestration platform, not as a disconnected feature tile.
+- Visual treatment: create a product-inspired representation that can be understood without screenshots.
+- Copy treatment: describe what the user can do, what evidence is created, and why it matters in controlled scientific environments.
+- Compliance treatment: include traceability only where relevant and avoid implying certification.
+- Technical treatment: mention local-first architecture when the capability depends on local runtime, local files, local software, or local models.
+- Buyer treatment: connect the capability to QC, R&D operations, lab IT, core facilities, secure research, or technical evaluators.
+- Responsive treatment: provide a compact mobile version that does not require tiny unreadable UI text.
+
+#### Prompt studio
+- Product facts to reflect: structured prompt/application surface where useful as a secondary product capability.
+- Website role: show prompt studio as part of one orchestration platform, not as a disconnected feature tile.
+- Visual treatment: create a product-inspired representation that can be understood without screenshots.
+- Copy treatment: describe what the user can do, what evidence is created, and why it matters in controlled scientific environments.
+- Compliance treatment: include traceability only where relevant and avoid implying certification.
+- Technical treatment: mention local-first architecture when the capability depends on local runtime, local files, local software, or local models.
+- Buyer treatment: connect the capability to QC, R&D operations, lab IT, core facilities, secure research, or technical evaluators.
+- Responsive treatment: provide a compact mobile version that does not require tiny unreadable UI text.
+
+#### Local AI runtime
+- Product facts to reflect: Ollama, llama.cpp/GGUF, embeddings, local model routing, production cloud gating.
+- Website role: show local ai runtime as part of one orchestration platform, not as a disconnected feature tile.
+- Visual treatment: create a product-inspired representation that can be understood without screenshots.
+- Copy treatment: describe what the user can do, what evidence is created, and why it matters in controlled scientific environments.
+- Compliance treatment: include traceability only where relevant and avoid implying certification.
+- Technical treatment: mention local-first architecture when the capability depends on local runtime, local files, local software, or local models.
+- Buyer treatment: connect the capability to QC, R&D operations, lab IT, core facilities, secure research, or technical evaluators.
+- Responsive treatment: provide a compact mobile version that does not require tiny unreadable UI text.
+
+#### Filesystem access
+- Product facts to reflect: working directories, local files, file monitor, format conversion, controlled paths.
+- Website role: show filesystem access as part of one orchestration platform, not as a disconnected feature tile.
+- Visual treatment: create a product-inspired representation that can be understood without screenshots.
+- Copy treatment: describe what the user can do, what evidence is created, and why it matters in controlled scientific environments.
+- Compliance treatment: include traceability only where relevant and avoid implying certification.
+- Technical treatment: mention local-first architecture when the capability depends on local runtime, local files, local software, or local models.
+- Buyer treatment: connect the capability to QC, R&D operations, lab IT, core facilities, secure research, or technical evaluators.
+- Responsive treatment: provide a compact mobile version that does not require tiny unreadable UI text.
+
+#### Security controls
+- Product facts to reflect: auth, sessions, RBAC, audit logging, backup, PHI encryption surfaces, policy gates.
+- Website role: show security controls as part of one orchestration platform, not as a disconnected feature tile.
+- Visual treatment: create a product-inspired representation that can be understood without screenshots.
+- Copy treatment: describe what the user can do, what evidence is created, and why it matters in controlled scientific environments.
+- Compliance treatment: include traceability only where relevant and avoid implying certification.
+- Technical treatment: mention local-first architecture when the capability depends on local runtime, local files, local software, or local models.
+- Buyer treatment: connect the capability to QC, R&D operations, lab IT, core facilities, secure research, or technical evaluators.
+- Responsive treatment: provide a compact mobile version that does not require tiny unreadable UI text.
+
+### Regulated Workflow Messaging Directives
+#### Batch record and execution-record workflows
+- Batch record and execution-record workflows / buyer pain: Manual reconstruction makes batch record and execution-record workflows slow, brittle, and difficult to review.
+- Batch record and execution-record workflows / Pixesci fit: Pixesci should be framed as helping stitch evidence from instrument, analysis, LIMS/ELN, and review queues.
+- Batch record and execution-record workflows / visual idea: Use an event timeline, linked record, or workflow graph rather than a generic shield icon.
+- Batch record and execution-record workflows / copy rule: Use operational language and avoid legal guarantees.
+- Batch record and execution-record workflows / compliance caution: State that customer validation, SOPs, and quality-system configuration remain required.
+- Batch record and execution-record workflows / CTA tie-in: Offer a workflow-specific demo or mapping conversation.
+- Batch record and execution-record workflows / proof requirement: Do not invent certifications, audit outcomes, or customer names.
+- Batch record and execution-record workflows / implementation note: Place shared compliance language in a content module so it stays consistent across pages.
+
+#### Audit-trail review workflows
+- Audit-trail review workflows / buyer pain: Manual reconstruction makes audit-trail review workflows slow, brittle, and difficult to review.
+- Audit-trail review workflows / Pixesci fit: Pixesci should be framed as helping make who-changed-what-when-and-why evidence easier to inspect.
+- Audit-trail review workflows / visual idea: Use an event timeline, linked record, or workflow graph rather than a generic shield icon.
+- Audit-trail review workflows / copy rule: Use operational language and avoid legal guarantees.
+- Audit-trail review workflows / compliance caution: State that customer validation, SOPs, and quality-system configuration remain required.
+- Audit-trail review workflows / CTA tie-in: Offer a workflow-specific demo or mapping conversation.
+- Audit-trail review workflows / proof requirement: Do not invent certifications, audit outcomes, or customer names.
+- Audit-trail review workflows / implementation note: Place shared compliance language in a content module so it stays consistent across pages.
+
+#### Laboratory data integrity workflows
+- Laboratory data integrity workflows / buyer pain: Manual reconstruction makes laboratory data integrity workflows slow, brittle, and difficult to review.
+- Laboratory data integrity workflows / Pixesci fit: Pixesci should be framed as helping preserve raw data lineage, metadata, transformations, transfers, and review checkpoints.
+- Laboratory data integrity workflows / visual idea: Use an event timeline, linked record, or workflow graph rather than a generic shield icon.
+- Laboratory data integrity workflows / copy rule: Use operational language and avoid legal guarantees.
+- Laboratory data integrity workflows / compliance caution: State that customer validation, SOPs, and quality-system configuration remain required.
+- Laboratory data integrity workflows / CTA tie-in: Offer a workflow-specific demo or mapping conversation.
+- Laboratory data integrity workflows / proof requirement: Do not invent certifications, audit outcomes, or customer names.
+- Laboratory data integrity workflows / implementation note: Place shared compliance language in a content module so it stays consistent across pages.
+
+#### OOS investigation workflows
+- OOS investigation workflows / buyer pain: Manual reconstruction makes oos investigation workflows slow, brittle, and difficult to review.
+- OOS investigation workflows / Pixesci fit: Pixesci should be framed as helping capture source files, parameters, operator identity, sequence, reprocessing, and review history.
+- OOS investigation workflows / visual idea: Use an event timeline, linked record, or workflow graph rather than a generic shield icon.
+- OOS investigation workflows / copy rule: Use operational language and avoid legal guarantees.
+- OOS investigation workflows / compliance caution: State that customer validation, SOPs, and quality-system configuration remain required.
+- OOS investigation workflows / CTA tie-in: Offer a workflow-specific demo or mapping conversation.
+- OOS investigation workflows / proof requirement: Do not invent certifications, audit outcomes, or customer names.
+- OOS investigation workflows / implementation note: Place shared compliance language in a content module so it stays consistent across pages.
+
+#### Deviation and CAPA workflows
+- Deviation and CAPA workflows / buyer pain: Manual reconstruction makes deviation and capa workflows slow, brittle, and difficult to review.
+- Deviation and CAPA workflows / Pixesci fit: Pixesci should be framed as helping produce event history and system-context packages for assessment.
+- Deviation and CAPA workflows / visual idea: Use an event timeline, linked record, or workflow graph rather than a generic shield icon.
+- Deviation and CAPA workflows / copy rule: Use operational language and avoid legal guarantees.
+- Deviation and CAPA workflows / compliance caution: State that customer validation, SOPs, and quality-system configuration remain required.
+- Deviation and CAPA workflows / CTA tie-in: Offer a workflow-specific demo or mapping conversation.
+- Deviation and CAPA workflows / proof requirement: Do not invent certifications, audit outcomes, or customer names.
+- Deviation and CAPA workflows / implementation note: Place shared compliance language in a content module so it stays consistent across pages.
+
+#### Change-control workflows
+- Change-control workflows / buyer pain: Manual reconstruction makes change-control workflows slow, brittle, and difficult to review.
+- Change-control workflows / Pixesci fit: Pixesci should be framed as helping version workflow templates, connector settings, and execution logic.
+- Change-control workflows / visual idea: Use an event timeline, linked record, or workflow graph rather than a generic shield icon.
+- Change-control workflows / copy rule: Use operational language and avoid legal guarantees.
+- Change-control workflows / compliance caution: State that customer validation, SOPs, and quality-system configuration remain required.
+- Change-control workflows / CTA tie-in: Offer a workflow-specific demo or mapping conversation.
+- Change-control workflows / proof requirement: Do not invent certifications, audit outcomes, or customer names.
+- Change-control workflows / implementation note: Place shared compliance language in a content module so it stays consistent across pages.
+
+#### Production record review workflows
+- Production record review workflows / buyer pain: Manual reconstruction makes production record review workflows slow, brittle, and difficult to review.
+- Production record review workflows / Pixesci fit: Pixesci should be framed as helping present exceptions, changes, transfers, and approvals in one stitched run record.
+- Production record review workflows / visual idea: Use an event timeline, linked record, or workflow graph rather than a generic shield icon.
+- Production record review workflows / copy rule: Use operational language and avoid legal guarantees.
+- Production record review workflows / compliance caution: State that customer validation, SOPs, and quality-system configuration remain required.
+- Production record review workflows / CTA tie-in: Offer a workflow-specific demo or mapping conversation.
+- Production record review workflows / proof requirement: Do not invent certifications, audit outcomes, or customer names.
+- Production record review workflows / implementation note: Place shared compliance language in a content module so it stays consistent across pages.
+
+#### Electronic record and signature workflows
+- Electronic record and signature workflows / buyer pain: Manual reconstruction makes electronic record and signature workflows slow, brittle, and difficult to review.
+- Electronic record and signature workflows / Pixesci fit: Pixesci should be framed as helping link approvals and confirmations to underlying activity where implemented.
+- Electronic record and signature workflows / visual idea: Use an event timeline, linked record, or workflow graph rather than a generic shield icon.
+- Electronic record and signature workflows / copy rule: Use operational language and avoid legal guarantees.
+- Electronic record and signature workflows / compliance caution: State that customer validation, SOPs, and quality-system configuration remain required.
+- Electronic record and signature workflows / CTA tie-in: Offer a workflow-specific demo or mapping conversation.
+- Electronic record and signature workflows / proof requirement: Do not invent certifications, audit outcomes, or customer names.
+- Electronic record and signature workflows / implementation note: Place shared compliance language in a content module so it stays consistent across pages.
+
+### Integration Matrix Directives
+#### Imaging & Microscopy
+- Imaging & Microscopy / CLI execution: describe the channel as a possible Pixesci orchestration path only where product context supports it; otherwise present it as a capability category, not a guaranteed connector.
+- Imaging & Microscopy / GUI automation: describe the channel as a possible Pixesci orchestration path only where product context supports it; otherwise present it as a capability category, not a guaranteed connector.
+- Imaging & Microscopy / macro generation: describe the channel as a possible Pixesci orchestration path only where product context supports it; otherwise present it as a capability category, not a guaranteed connector.
+- Imaging & Microscopy / REST/API connector: describe the channel as a possible Pixesci orchestration path only where product context supports it; otherwise present it as a capability category, not a guaranteed connector.
+- Imaging & Microscopy / file monitor: describe the channel as a possible Pixesci orchestration path only where product context supports it; otherwise present it as a capability category, not a guaranteed connector.
+- Imaging & Microscopy / format conversion: describe the channel as a possible Pixesci orchestration path only where product context supports it; otherwise present it as a capability category, not a guaranteed connector.
+- Imaging & Microscopy / Python/R/MATLAB script: describe the channel as a possible Pixesci orchestration path only where product context supports it; otherwise present it as a capability category, not a guaranteed connector.
+- Imaging & Microscopy / human-in-the-loop review: describe the channel as a possible Pixesci orchestration path only where product context supports it; otherwise present it as a capability category, not a guaranteed connector.
+- Imaging & Microscopy / local detection: describe the channel as a possible Pixesci orchestration path only where product context supports it; otherwise present it as a capability category, not a guaranteed connector.
+- Imaging & Microscopy / setup configuration: describe the channel as a possible Pixesci orchestration path only where product context supports it; otherwise present it as a capability category, not a guaranteed connector.
+
+#### Bioinformatics & Omics
+- Bioinformatics & Omics / CLI execution: describe the channel as a possible Pixesci orchestration path only where product context supports it; otherwise present it as a capability category, not a guaranteed connector.
+- Bioinformatics & Omics / GUI automation: describe the channel as a possible Pixesci orchestration path only where product context supports it; otherwise present it as a capability category, not a guaranteed connector.
+- Bioinformatics & Omics / macro generation: describe the channel as a possible Pixesci orchestration path only where product context supports it; otherwise present it as a capability category, not a guaranteed connector.
+- Bioinformatics & Omics / REST/API connector: describe the channel as a possible Pixesci orchestration path only where product context supports it; otherwise present it as a capability category, not a guaranteed connector.
+- Bioinformatics & Omics / file monitor: describe the channel as a possible Pixesci orchestration path only where product context supports it; otherwise present it as a capability category, not a guaranteed connector.
+- Bioinformatics & Omics / format conversion: describe the channel as a possible Pixesci orchestration path only where product context supports it; otherwise present it as a capability category, not a guaranteed connector.
+- Bioinformatics & Omics / Python/R/MATLAB script: describe the channel as a possible Pixesci orchestration path only where product context supports it; otherwise present it as a capability category, not a guaranteed connector.
+- Bioinformatics & Omics / human-in-the-loop review: describe the channel as a possible Pixesci orchestration path only where product context supports it; otherwise present it as a capability category, not a guaranteed connector.
+- Bioinformatics & Omics / local detection: describe the channel as a possible Pixesci orchestration path only where product context supports it; otherwise present it as a capability category, not a guaranteed connector.
+- Bioinformatics & Omics / setup configuration: describe the channel as a possible Pixesci orchestration path only where product context supports it; otherwise present it as a capability category, not a guaranteed connector.
+
+#### ELN & LIMS
+- ELN & LIMS / CLI execution: describe the channel as a possible Pixesci orchestration path only where product context supports it; otherwise present it as a capability category, not a guaranteed connector.
+- ELN & LIMS / GUI automation: describe the channel as a possible Pixesci orchestration path only where product context supports it; otherwise present it as a capability category, not a guaranteed connector.
+- ELN & LIMS / macro generation: describe the channel as a possible Pixesci orchestration path only where product context supports it; otherwise present it as a capability category, not a guaranteed connector.
+- ELN & LIMS / REST/API connector: describe the channel as a possible Pixesci orchestration path only where product context supports it; otherwise present it as a capability category, not a guaranteed connector.
+- ELN & LIMS / file monitor: describe the channel as a possible Pixesci orchestration path only where product context supports it; otherwise present it as a capability category, not a guaranteed connector.
+- ELN & LIMS / format conversion: describe the channel as a possible Pixesci orchestration path only where product context supports it; otherwise present it as a capability category, not a guaranteed connector.
+- ELN & LIMS / Python/R/MATLAB script: describe the channel as a possible Pixesci orchestration path only where product context supports it; otherwise present it as a capability category, not a guaranteed connector.
+- ELN & LIMS / human-in-the-loop review: describe the channel as a possible Pixesci orchestration path only where product context supports it; otherwise present it as a capability category, not a guaranteed connector.
+- ELN & LIMS / local detection: describe the channel as a possible Pixesci orchestration path only where product context supports it; otherwise present it as a capability category, not a guaranteed connector.
+- ELN & LIMS / setup configuration: describe the channel as a possible Pixesci orchestration path only where product context supports it; otherwise present it as a capability category, not a guaranteed connector.
+
+#### Analytical Chemistry
+- Analytical Chemistry / CLI execution: describe the channel as a possible Pixesci orchestration path only where product context supports it; otherwise present it as a capability category, not a guaranteed connector.
+- Analytical Chemistry / GUI automation: describe the channel as a possible Pixesci orchestration path only where product context supports it; otherwise present it as a capability category, not a guaranteed connector.
+- Analytical Chemistry / macro generation: describe the channel as a possible Pixesci orchestration path only where product context supports it; otherwise present it as a capability category, not a guaranteed connector.
+- Analytical Chemistry / REST/API connector: describe the channel as a possible Pixesci orchestration path only where product context supports it; otherwise present it as a capability category, not a guaranteed connector.
+- Analytical Chemistry / file monitor: describe the channel as a possible Pixesci orchestration path only where product context supports it; otherwise present it as a capability category, not a guaranteed connector.
+- Analytical Chemistry / format conversion: describe the channel as a possible Pixesci orchestration path only where product context supports it; otherwise present it as a capability category, not a guaranteed connector.
+- Analytical Chemistry / Python/R/MATLAB script: describe the channel as a possible Pixesci orchestration path only where product context supports it; otherwise present it as a capability category, not a guaranteed connector.
+- Analytical Chemistry / human-in-the-loop review: describe the channel as a possible Pixesci orchestration path only where product context supports it; otherwise present it as a capability category, not a guaranteed connector.
+- Analytical Chemistry / local detection: describe the channel as a possible Pixesci orchestration path only where product context supports it; otherwise present it as a capability category, not a guaranteed connector.
+- Analytical Chemistry / setup configuration: describe the channel as a possible Pixesci orchestration path only where product context supports it; otherwise present it as a capability category, not a guaranteed connector.
+
+#### Flow Cytometry & Immunology
+- Flow Cytometry & Immunology / CLI execution: describe the channel as a possible Pixesci orchestration path only where product context supports it; otherwise present it as a capability category, not a guaranteed connector.
+- Flow Cytometry & Immunology / GUI automation: describe the channel as a possible Pixesci orchestration path only where product context supports it; otherwise present it as a capability category, not a guaranteed connector.
+- Flow Cytometry & Immunology / macro generation: describe the channel as a possible Pixesci orchestration path only where product context supports it; otherwise present it as a capability category, not a guaranteed connector.
+- Flow Cytometry & Immunology / REST/API connector: describe the channel as a possible Pixesci orchestration path only where product context supports it; otherwise present it as a capability category, not a guaranteed connector.
+- Flow Cytometry & Immunology / file monitor: describe the channel as a possible Pixesci orchestration path only where product context supports it; otherwise present it as a capability category, not a guaranteed connector.
+- Flow Cytometry & Immunology / format conversion: describe the channel as a possible Pixesci orchestration path only where product context supports it; otherwise present it as a capability category, not a guaranteed connector.
+- Flow Cytometry & Immunology / Python/R/MATLAB script: describe the channel as a possible Pixesci orchestration path only where product context supports it; otherwise present it as a capability category, not a guaranteed connector.
+- Flow Cytometry & Immunology / human-in-the-loop review: describe the channel as a possible Pixesci orchestration path only where product context supports it; otherwise present it as a capability category, not a guaranteed connector.
+- Flow Cytometry & Immunology / local detection: describe the channel as a possible Pixesci orchestration path only where product context supports it; otherwise present it as a capability category, not a guaranteed connector.
+- Flow Cytometry & Immunology / setup configuration: describe the channel as a possible Pixesci orchestration path only where product context supports it; otherwise present it as a capability category, not a guaranteed connector.
+
+#### Data Analysis & Statistics
+- Data Analysis & Statistics / CLI execution: describe the channel as a possible Pixesci orchestration path only where product context supports it; otherwise present it as a capability category, not a guaranteed connector.
+- Data Analysis & Statistics / GUI automation: describe the channel as a possible Pixesci orchestration path only where product context supports it; otherwise present it as a capability category, not a guaranteed connector.
+- Data Analysis & Statistics / macro generation: describe the channel as a possible Pixesci orchestration path only where product context supports it; otherwise present it as a capability category, not a guaranteed connector.
+- Data Analysis & Statistics / REST/API connector: describe the channel as a possible Pixesci orchestration path only where product context supports it; otherwise present it as a capability category, not a guaranteed connector.
+- Data Analysis & Statistics / file monitor: describe the channel as a possible Pixesci orchestration path only where product context supports it; otherwise present it as a capability category, not a guaranteed connector.
+- Data Analysis & Statistics / format conversion: describe the channel as a possible Pixesci orchestration path only where product context supports it; otherwise present it as a capability category, not a guaranteed connector.
+- Data Analysis & Statistics / Python/R/MATLAB script: describe the channel as a possible Pixesci orchestration path only where product context supports it; otherwise present it as a capability category, not a guaranteed connector.
+- Data Analysis & Statistics / human-in-the-loop review: describe the channel as a possible Pixesci orchestration path only where product context supports it; otherwise present it as a capability category, not a guaranteed connector.
+- Data Analysis & Statistics / local detection: describe the channel as a possible Pixesci orchestration path only where product context supports it; otherwise present it as a capability category, not a guaranteed connector.
+- Data Analysis & Statistics / setup configuration: describe the channel as a possible Pixesci orchestration path only where product context supports it; otherwise present it as a capability category, not a guaranteed connector.
+
+#### Molecular Biology
+- Molecular Biology / CLI execution: describe the channel as a possible Pixesci orchestration path only where product context supports it; otherwise present it as a capability category, not a guaranteed connector.
+- Molecular Biology / GUI automation: describe the channel as a possible Pixesci orchestration path only where product context supports it; otherwise present it as a capability category, not a guaranteed connector.
+- Molecular Biology / macro generation: describe the channel as a possible Pixesci orchestration path only where product context supports it; otherwise present it as a capability category, not a guaranteed connector.
+- Molecular Biology / REST/API connector: describe the channel as a possible Pixesci orchestration path only where product context supports it; otherwise present it as a capability category, not a guaranteed connector.
+- Molecular Biology / file monitor: describe the channel as a possible Pixesci orchestration path only where product context supports it; otherwise present it as a capability category, not a guaranteed connector.
+- Molecular Biology / format conversion: describe the channel as a possible Pixesci orchestration path only where product context supports it; otherwise present it as a capability category, not a guaranteed connector.
+- Molecular Biology / Python/R/MATLAB script: describe the channel as a possible Pixesci orchestration path only where product context supports it; otherwise present it as a capability category, not a guaranteed connector.
+- Molecular Biology / human-in-the-loop review: describe the channel as a possible Pixesci orchestration path only where product context supports it; otherwise present it as a capability category, not a guaranteed connector.
+- Molecular Biology / local detection: describe the channel as a possible Pixesci orchestration path only where product context supports it; otherwise present it as a capability category, not a guaranteed connector.
+- Molecular Biology / setup configuration: describe the channel as a possible Pixesci orchestration path only where product context supports it; otherwise present it as a capability category, not a guaranteed connector.
+
+#### Reporting & Export
+- Reporting & Export / CLI execution: describe the channel as a possible Pixesci orchestration path only where product context supports it; otherwise present it as a capability category, not a guaranteed connector.
+- Reporting & Export / GUI automation: describe the channel as a possible Pixesci orchestration path only where product context supports it; otherwise present it as a capability category, not a guaranteed connector.
+- Reporting & Export / macro generation: describe the channel as a possible Pixesci orchestration path only where product context supports it; otherwise present it as a capability category, not a guaranteed connector.
+- Reporting & Export / REST/API connector: describe the channel as a possible Pixesci orchestration path only where product context supports it; otherwise present it as a capability category, not a guaranteed connector.
+- Reporting & Export / file monitor: describe the channel as a possible Pixesci orchestration path only where product context supports it; otherwise present it as a capability category, not a guaranteed connector.
+- Reporting & Export / format conversion: describe the channel as a possible Pixesci orchestration path only where product context supports it; otherwise present it as a capability category, not a guaranteed connector.
+- Reporting & Export / Python/R/MATLAB script: describe the channel as a possible Pixesci orchestration path only where product context supports it; otherwise present it as a capability category, not a guaranteed connector.
+- Reporting & Export / human-in-the-loop review: describe the channel as a possible Pixesci orchestration path only where product context supports it; otherwise present it as a capability category, not a guaranteed connector.
+- Reporting & Export / local detection: describe the channel as a possible Pixesci orchestration path only where product context supports it; otherwise present it as a capability category, not a guaranteed connector.
+- Reporting & Export / setup configuration: describe the channel as a possible Pixesci orchestration path only where product context supports it; otherwise present it as a capability category, not a guaranteed connector.
+
+#### RPA Automation
+- RPA Automation / CLI execution: describe the channel as a possible Pixesci orchestration path only where product context supports it; otherwise present it as a capability category, not a guaranteed connector.
+- RPA Automation / GUI automation: describe the channel as a possible Pixesci orchestration path only where product context supports it; otherwise present it as a capability category, not a guaranteed connector.
+- RPA Automation / macro generation: describe the channel as a possible Pixesci orchestration path only where product context supports it; otherwise present it as a capability category, not a guaranteed connector.
+- RPA Automation / REST/API connector: describe the channel as a possible Pixesci orchestration path only where product context supports it; otherwise present it as a capability category, not a guaranteed connector.
+- RPA Automation / file monitor: describe the channel as a possible Pixesci orchestration path only where product context supports it; otherwise present it as a capability category, not a guaranteed connector.
+- RPA Automation / format conversion: describe the channel as a possible Pixesci orchestration path only where product context supports it; otherwise present it as a capability category, not a guaranteed connector.
+- RPA Automation / Python/R/MATLAB script: describe the channel as a possible Pixesci orchestration path only where product context supports it; otherwise present it as a capability category, not a guaranteed connector.
+- RPA Automation / human-in-the-loop review: describe the channel as a possible Pixesci orchestration path only where product context supports it; otherwise present it as a capability category, not a guaranteed connector.
+- RPA Automation / local detection: describe the channel as a possible Pixesci orchestration path only where product context supports it; otherwise present it as a capability category, not a guaranteed connector.
+- RPA Automation / setup configuration: describe the channel as a possible Pixesci orchestration path only where product context supports it; otherwise present it as a capability category, not a guaranteed connector.
+
+#### API Connectors
+- API Connectors / CLI execution: describe the channel as a possible Pixesci orchestration path only where product context supports it; otherwise present it as a capability category, not a guaranteed connector.
+- API Connectors / GUI automation: describe the channel as a possible Pixesci orchestration path only where product context supports it; otherwise present it as a capability category, not a guaranteed connector.
+- API Connectors / macro generation: describe the channel as a possible Pixesci orchestration path only where product context supports it; otherwise present it as a capability category, not a guaranteed connector.
+- API Connectors / REST/API connector: describe the channel as a possible Pixesci orchestration path only where product context supports it; otherwise present it as a capability category, not a guaranteed connector.
+- API Connectors / file monitor: describe the channel as a possible Pixesci orchestration path only where product context supports it; otherwise present it as a capability category, not a guaranteed connector.
+- API Connectors / format conversion: describe the channel as a possible Pixesci orchestration path only where product context supports it; otherwise present it as a capability category, not a guaranteed connector.
+- API Connectors / Python/R/MATLAB script: describe the channel as a possible Pixesci orchestration path only where product context supports it; otherwise present it as a capability category, not a guaranteed connector.
+- API Connectors / human-in-the-loop review: describe the channel as a possible Pixesci orchestration path only where product context supports it; otherwise present it as a capability category, not a guaranteed connector.
+- API Connectors / local detection: describe the channel as a possible Pixesci orchestration path only where product context supports it; otherwise present it as a capability category, not a guaranteed connector.
+- API Connectors / setup configuration: describe the channel as a possible Pixesci orchestration path only where product context supports it; otherwise present it as a capability category, not a guaranteed connector.
+
+#### File & Data Pipeline
+- File & Data Pipeline / CLI execution: describe the channel as a possible Pixesci orchestration path only where product context supports it; otherwise present it as a capability category, not a guaranteed connector.
+- File & Data Pipeline / GUI automation: describe the channel as a possible Pixesci orchestration path only where product context supports it; otherwise present it as a capability category, not a guaranteed connector.
+- File & Data Pipeline / macro generation: describe the channel as a possible Pixesci orchestration path only where product context supports it; otherwise present it as a capability category, not a guaranteed connector.
+- File & Data Pipeline / REST/API connector: describe the channel as a possible Pixesci orchestration path only where product context supports it; otherwise present it as a capability category, not a guaranteed connector.
+- File & Data Pipeline / file monitor: describe the channel as a possible Pixesci orchestration path only where product context supports it; otherwise present it as a capability category, not a guaranteed connector.
+- File & Data Pipeline / format conversion: describe the channel as a possible Pixesci orchestration path only where product context supports it; otherwise present it as a capability category, not a guaranteed connector.
+- File & Data Pipeline / Python/R/MATLAB script: describe the channel as a possible Pixesci orchestration path only where product context supports it; otherwise present it as a capability category, not a guaranteed connector.
+- File & Data Pipeline / human-in-the-loop review: describe the channel as a possible Pixesci orchestration path only where product context supports it; otherwise present it as a capability category, not a guaranteed connector.
+- File & Data Pipeline / local detection: describe the channel as a possible Pixesci orchestration path only where product context supports it; otherwise present it as a capability category, not a guaranteed connector.
+- File & Data Pipeline / setup configuration: describe the channel as a possible Pixesci orchestration path only where product context supports it; otherwise present it as a capability category, not a guaranteed connector.
+
+#### Compliance & Quality
+- Compliance & Quality / CLI execution: describe the channel as a possible Pixesci orchestration path only where product context supports it; otherwise present it as a capability category, not a guaranteed connector.
+- Compliance & Quality / GUI automation: describe the channel as a possible Pixesci orchestration path only where product context supports it; otherwise present it as a capability category, not a guaranteed connector.
+- Compliance & Quality / macro generation: describe the channel as a possible Pixesci orchestration path only where product context supports it; otherwise present it as a capability category, not a guaranteed connector.
+- Compliance & Quality / REST/API connector: describe the channel as a possible Pixesci orchestration path only where product context supports it; otherwise present it as a capability category, not a guaranteed connector.
+- Compliance & Quality / file monitor: describe the channel as a possible Pixesci orchestration path only where product context supports it; otherwise present it as a capability category, not a guaranteed connector.
+- Compliance & Quality / format conversion: describe the channel as a possible Pixesci orchestration path only where product context supports it; otherwise present it as a capability category, not a guaranteed connector.
+- Compliance & Quality / Python/R/MATLAB script: describe the channel as a possible Pixesci orchestration path only where product context supports it; otherwise present it as a capability category, not a guaranteed connector.
+- Compliance & Quality / human-in-the-loop review: describe the channel as a possible Pixesci orchestration path only where product context supports it; otherwise present it as a capability category, not a guaranteed connector.
+- Compliance & Quality / local detection: describe the channel as a possible Pixesci orchestration path only where product context supports it; otherwise present it as a capability category, not a guaranteed connector.
+- Compliance & Quality / setup configuration: describe the channel as a possible Pixesci orchestration path only where product context supports it; otherwise present it as a capability category, not a guaranteed connector.
+
+### Data Integrity Directives
+#### Accuracy
+- Meaning for website: represent observed scientific data and workflow state faithfully.
+- Homepage treatment: mention accuracy only if it supports the main Pixesci story.
+- Compliance page treatment: connect accuracy to audit trails, metadata, execution records, or review workflows.
+- Visual treatment: show accuracy through records, timelines, IDs, hashes, parameters, or linked files.
+- Copy caution: do not turn accuracy into an unsupported certification claim.
+
+#### Completeness
+- Meaning for website: preserve enough context, metadata, and outputs to reconstruct work.
+- Homepage treatment: mention completeness only if it supports the main Pixesci story.
+- Compliance page treatment: connect completeness to audit trails, metadata, execution records, or review workflows.
+- Visual treatment: show completeness through records, timelines, IDs, hashes, parameters, or linked files.
+- Copy caution: do not turn completeness into an unsupported certification claim.
+
+#### Reproducibility
+- Meaning for website: make collection and processing repeatable through workflows, versions, variables, and scripts.
+- Homepage treatment: mention reproducibility only if it supports the main Pixesci story.
+- Compliance page treatment: connect reproducibility to audit trails, metadata, execution records, or review workflows.
+- Visual treatment: show reproducibility through records, timelines, IDs, hashes, parameters, or linked files.
+- Copy caution: do not turn reproducibility into an unsupported certification claim.
+
+#### Understandability
+- Meaning for website: make data and workflow steps clear to reviewers and collaborators.
+- Homepage treatment: mention understandability only if it supports the main Pixesci story.
+- Compliance page treatment: connect understandability to audit trails, metadata, execution records, or review workflows.
+- Visual treatment: show understandability through records, timelines, IDs, hashes, parameters, or linked files.
+- Copy caution: do not turn understandability into an unsupported certification claim.
+
+#### Interpretability
+- Meaning for website: avoid ambiguous labels, categories, and summaries.
+- Homepage treatment: mention interpretability only if it supports the main Pixesci story.
+- Compliance page treatment: connect interpretability to audit trails, metadata, execution records, or review workflows.
+- Visual treatment: show interpretability through records, timelines, IDs, hashes, parameters, or linked files.
+- Copy caution: do not turn interpretability into an unsupported certification claim.
+
+#### Transferability
+- Meaning for website: support movement between tools and durable formats where possible.
+- Homepage treatment: mention transferability only if it supports the main Pixesci story.
+- Compliance page treatment: connect transferability to audit trails, metadata, execution records, or review workflows.
+- Visual treatment: show transferability through records, timelines, IDs, hashes, parameters, or linked files.
+- Copy caution: do not turn transferability into an unsupported certification claim.
+
+#### Attributability
+- Meaning for website: associate actions with user/session/operator context.
+- Homepage treatment: mention attributability only if it supports the main Pixesci story.
+- Compliance page treatment: connect attributability to audit trails, metadata, execution records, or review workflows.
+- Visual treatment: show attributability through records, timelines, IDs, hashes, parameters, or linked files.
+- Copy caution: do not turn attributability into an unsupported certification claim.
+
+#### Contemporaneous capture
+- Meaning for website: record actions and events as work happens.
+- Homepage treatment: mention contemporaneous capture only if it supports the main Pixesci story.
+- Compliance page treatment: connect contemporaneous capture to audit trails, metadata, execution records, or review workflows.
+- Visual treatment: show contemporaneous capture through records, timelines, IDs, hashes, parameters, or linked files.
+- Copy caution: do not turn contemporaneous capture into an unsupported certification claim.
+
+#### Original or true copy
+- Meaning for website: avoid implying static printouts replace dynamic records.
+- Homepage treatment: mention original or true copy only if it supports the main Pixesci story.
+- Compliance page treatment: connect original or true copy to audit trails, metadata, execution records, or review workflows.
+- Visual treatment: show original or true copy through records, timelines, IDs, hashes, parameters, or linked files.
+- Copy caution: do not turn original or true copy into an unsupported certification claim.
+
+#### Reviewability
+- Meaning for website: make events, exceptions, and metadata inspectable.
+- Homepage treatment: mention reviewability only if it supports the main Pixesci story.
+- Compliance page treatment: connect reviewability to audit trails, metadata, execution records, or review workflows.
+- Visual treatment: show reviewability through records, timelines, IDs, hashes, parameters, or linked files.
+- Copy caution: do not turn reviewability into an unsupported certification claim.
+
+### Ordered Implementation Runbook
+- Step 01: Read AGENTS.md and this prompt first.
+- Step 02: Inspect existing package and Next 16 docs.
+- Step 03: Define content data models.
+- Step 04: Define global tokens.
+- Step 05: Build site shell.
+- Step 06: Build homepage hero.
+- Step 07: Build product visuals.
+- Step 08: Build reusable sections.
+- Step 09: Build secondary routes.
+- Step 10: Build contact page.
+- Step 11: Add metadata.
+- Step 12: Add sitemap and robots if routes exist.
+- Step 13: Run lint.
+- Step 14: Run typecheck.
+- Step 15: Run build.
+- Step 16: Start dev server.
+- Step 17: Inspect desktop.
+- Step 18: Inspect tablet.
+- Step 19: Inspect mobile.
+- Step 20: Fix visual issues.
+- Step 21: Review compliance language.
+- Step 22: Review overclaim risk.
+- Step 23: Review performance.
+- Step 24: Prepare final summary.
+
+### Final Review Matrix
+- Review Homepage for brand fit: it must support category definition and conversion while preserving the Pixesci scientific workflow orchestration position.
+- Review Product for brand fit: it must support platform capability explanation while preserving the Pixesci scientific workflow orchestration position.
+- Review Regulated Life Sciences for brand fit: it must support compliance-driven buyer narrative while preserving the Pixesci scientific workflow orchestration position.
+- Review Secure Research for brand fit: it must support local and airgapped deployment narrative while preserving the Pixesci scientific workflow orchestration position.
+- Review Core Facilities for brand fit: it must support standardization and reuse narrative while preserving the Pixesci scientific workflow orchestration position.
+- Review Integrations for brand fit: it must support software ecosystem and capability profiles while preserving the Pixesci scientific workflow orchestration position.
+- Review Compliance for brand fit: it must support data integrity and review evidence while preserving the Pixesci scientific workflow orchestration position.
+- Review Security for brand fit: it must support local-first architecture and controls while preserving the Pixesci scientific workflow orchestration position.
+- Review Workflow Automation for brand fit: it must support graph execution and operator workflow while preserving the Pixesci scientific workflow orchestration position.
+- Review Resources for brand fit: it must support education and evaluation support while preserving the Pixesci scientific workflow orchestration position.
+- Review Company for brand fit: it must support mission and category thesis while preserving the Pixesci scientific workflow orchestration position.
+- Review Contact for brand fit: it must support qualified demo capture while preserving the Pixesci scientific workflow orchestration position.
+
+- Review Homepage for product accuracy: it must support category definition and conversion while preserving the Pixesci scientific workflow orchestration position.
+- Review Product for product accuracy: it must support platform capability explanation while preserving the Pixesci scientific workflow orchestration position.
+- Review Regulated Life Sciences for product accuracy: it must support compliance-driven buyer narrative while preserving the Pixesci scientific workflow orchestration position.
+- Review Secure Research for product accuracy: it must support local and airgapped deployment narrative while preserving the Pixesci scientific workflow orchestration position.
+- Review Core Facilities for product accuracy: it must support standardization and reuse narrative while preserving the Pixesci scientific workflow orchestration position.
+- Review Integrations for product accuracy: it must support software ecosystem and capability profiles while preserving the Pixesci scientific workflow orchestration position.
+- Review Compliance for product accuracy: it must support data integrity and review evidence while preserving the Pixesci scientific workflow orchestration position.
+- Review Security for product accuracy: it must support local-first architecture and controls while preserving the Pixesci scientific workflow orchestration position.
+- Review Workflow Automation for product accuracy: it must support graph execution and operator workflow while preserving the Pixesci scientific workflow orchestration position.
+- Review Resources for product accuracy: it must support education and evaluation support while preserving the Pixesci scientific workflow orchestration position.
+- Review Company for product accuracy: it must support mission and category thesis while preserving the Pixesci scientific workflow orchestration position.
+- Review Contact for product accuracy: it must support qualified demo capture while preserving the Pixesci scientific workflow orchestration position.
+
+- Review Homepage for compliance caution: it must support category definition and conversion while preserving the Pixesci scientific workflow orchestration position.
+- Review Product for compliance caution: it must support platform capability explanation while preserving the Pixesci scientific workflow orchestration position.
+- Review Regulated Life Sciences for compliance caution: it must support compliance-driven buyer narrative while preserving the Pixesci scientific workflow orchestration position.
+- Review Secure Research for compliance caution: it must support local and airgapped deployment narrative while preserving the Pixesci scientific workflow orchestration position.
+- Review Core Facilities for compliance caution: it must support standardization and reuse narrative while preserving the Pixesci scientific workflow orchestration position.
+- Review Integrations for compliance caution: it must support software ecosystem and capability profiles while preserving the Pixesci scientific workflow orchestration position.
+- Review Compliance for compliance caution: it must support data integrity and review evidence while preserving the Pixesci scientific workflow orchestration position.
+- Review Security for compliance caution: it must support local-first architecture and controls while preserving the Pixesci scientific workflow orchestration position.
+- Review Workflow Automation for compliance caution: it must support graph execution and operator workflow while preserving the Pixesci scientific workflow orchestration position.
+- Review Resources for compliance caution: it must support education and evaluation support while preserving the Pixesci scientific workflow orchestration position.
+- Review Company for compliance caution: it must support mission and category thesis while preserving the Pixesci scientific workflow orchestration position.
+- Review Contact for compliance caution: it must support qualified demo capture while preserving the Pixesci scientific workflow orchestration position.
+
+- Review Homepage for local-first clarity: it must support category definition and conversion while preserving the Pixesci scientific workflow orchestration position.
+- Review Product for local-first clarity: it must support platform capability explanation while preserving the Pixesci scientific workflow orchestration position.
+- Review Regulated Life Sciences for local-first clarity: it must support compliance-driven buyer narrative while preserving the Pixesci scientific workflow orchestration position.
+- Review Secure Research for local-first clarity: it must support local and airgapped deployment narrative while preserving the Pixesci scientific workflow orchestration position.
+- Review Core Facilities for local-first clarity: it must support standardization and reuse narrative while preserving the Pixesci scientific workflow orchestration position.
+- Review Integrations for local-first clarity: it must support software ecosystem and capability profiles while preserving the Pixesci scientific workflow orchestration position.
+- Review Compliance for local-first clarity: it must support data integrity and review evidence while preserving the Pixesci scientific workflow orchestration position.
+- Review Security for local-first clarity: it must support local-first architecture and controls while preserving the Pixesci scientific workflow orchestration position.
+- Review Workflow Automation for local-first clarity: it must support graph execution and operator workflow while preserving the Pixesci scientific workflow orchestration position.
+- Review Resources for local-first clarity: it must support education and evaluation support while preserving the Pixesci scientific workflow orchestration position.
+- Review Company for local-first clarity: it must support mission and category thesis while preserving the Pixesci scientific workflow orchestration position.
+- Review Contact for local-first clarity: it must support qualified demo capture while preserving the Pixesci scientific workflow orchestration position.
+
+- Review Homepage for workflow specificity: it must support category definition and conversion while preserving the Pixesci scientific workflow orchestration position.
+- Review Product for workflow specificity: it must support platform capability explanation while preserving the Pixesci scientific workflow orchestration position.
+- Review Regulated Life Sciences for workflow specificity: it must support compliance-driven buyer narrative while preserving the Pixesci scientific workflow orchestration position.
+- Review Secure Research for workflow specificity: it must support local and airgapped deployment narrative while preserving the Pixesci scientific workflow orchestration position.
+- Review Core Facilities for workflow specificity: it must support standardization and reuse narrative while preserving the Pixesci scientific workflow orchestration position.
+- Review Integrations for workflow specificity: it must support software ecosystem and capability profiles while preserving the Pixesci scientific workflow orchestration position.
+- Review Compliance for workflow specificity: it must support data integrity and review evidence while preserving the Pixesci scientific workflow orchestration position.
+- Review Security for workflow specificity: it must support local-first architecture and controls while preserving the Pixesci scientific workflow orchestration position.
+- Review Workflow Automation for workflow specificity: it must support graph execution and operator workflow while preserving the Pixesci scientific workflow orchestration position.
+- Review Resources for workflow specificity: it must support education and evaluation support while preserving the Pixesci scientific workflow orchestration position.
+- Review Company for workflow specificity: it must support mission and category thesis while preserving the Pixesci scientific workflow orchestration position.
+- Review Contact for workflow specificity: it must support qualified demo capture while preserving the Pixesci scientific workflow orchestration position.
+
+- Review Homepage for integration honesty: it must support category definition and conversion while preserving the Pixesci scientific workflow orchestration position.
+- Review Product for integration honesty: it must support platform capability explanation while preserving the Pixesci scientific workflow orchestration position.
+- Review Regulated Life Sciences for integration honesty: it must support compliance-driven buyer narrative while preserving the Pixesci scientific workflow orchestration position.
+- Review Secure Research for integration honesty: it must support local and airgapped deployment narrative while preserving the Pixesci scientific workflow orchestration position.
+- Review Core Facilities for integration honesty: it must support standardization and reuse narrative while preserving the Pixesci scientific workflow orchestration position.
+- Review Integrations for integration honesty: it must support software ecosystem and capability profiles while preserving the Pixesci scientific workflow orchestration position.
+- Review Compliance for integration honesty: it must support data integrity and review evidence while preserving the Pixesci scientific workflow orchestration position.
+- Review Security for integration honesty: it must support local-first architecture and controls while preserving the Pixesci scientific workflow orchestration position.
+- Review Workflow Automation for integration honesty: it must support graph execution and operator workflow while preserving the Pixesci scientific workflow orchestration position.
+- Review Resources for integration honesty: it must support education and evaluation support while preserving the Pixesci scientific workflow orchestration position.
+- Review Company for integration honesty: it must support mission and category thesis while preserving the Pixesci scientific workflow orchestration position.
+- Review Contact for integration honesty: it must support qualified demo capture while preserving the Pixesci scientific workflow orchestration position.
+
+- Review Homepage for responsive polish: it must support category definition and conversion while preserving the Pixesci scientific workflow orchestration position.
+- Review Product for responsive polish: it must support platform capability explanation while preserving the Pixesci scientific workflow orchestration position.
+- Review Regulated Life Sciences for responsive polish: it must support compliance-driven buyer narrative while preserving the Pixesci scientific workflow orchestration position.
+- Review Secure Research for responsive polish: it must support local and airgapped deployment narrative while preserving the Pixesci scientific workflow orchestration position.
+- Review Core Facilities for responsive polish: it must support standardization and reuse narrative while preserving the Pixesci scientific workflow orchestration position.
+- Review Integrations for responsive polish: it must support software ecosystem and capability profiles while preserving the Pixesci scientific workflow orchestration position.
+- Review Compliance for responsive polish: it must support data integrity and review evidence while preserving the Pixesci scientific workflow orchestration position.
+- Review Security for responsive polish: it must support local-first architecture and controls while preserving the Pixesci scientific workflow orchestration position.
+- Review Workflow Automation for responsive polish: it must support graph execution and operator workflow while preserving the Pixesci scientific workflow orchestration position.
+- Review Resources for responsive polish: it must support education and evaluation support while preserving the Pixesci scientific workflow orchestration position.
+- Review Company for responsive polish: it must support mission and category thesis while preserving the Pixesci scientific workflow orchestration position.
+- Review Contact for responsive polish: it must support qualified demo capture while preserving the Pixesci scientific workflow orchestration position.
+
+- Review Homepage for accessibility: it must support category definition and conversion while preserving the Pixesci scientific workflow orchestration position.
+- Review Product for accessibility: it must support platform capability explanation while preserving the Pixesci scientific workflow orchestration position.
+- Review Regulated Life Sciences for accessibility: it must support compliance-driven buyer narrative while preserving the Pixesci scientific workflow orchestration position.
+- Review Secure Research for accessibility: it must support local and airgapped deployment narrative while preserving the Pixesci scientific workflow orchestration position.
+- Review Core Facilities for accessibility: it must support standardization and reuse narrative while preserving the Pixesci scientific workflow orchestration position.
+- Review Integrations for accessibility: it must support software ecosystem and capability profiles while preserving the Pixesci scientific workflow orchestration position.
+- Review Compliance for accessibility: it must support data integrity and review evidence while preserving the Pixesci scientific workflow orchestration position.
+- Review Security for accessibility: it must support local-first architecture and controls while preserving the Pixesci scientific workflow orchestration position.
+- Review Workflow Automation for accessibility: it must support graph execution and operator workflow while preserving the Pixesci scientific workflow orchestration position.
+- Review Resources for accessibility: it must support education and evaluation support while preserving the Pixesci scientific workflow orchestration position.
+- Review Company for accessibility: it must support mission and category thesis while preserving the Pixesci scientific workflow orchestration position.
+- Review Contact for accessibility: it must support qualified demo capture while preserving the Pixesci scientific workflow orchestration position.
+
+- Review Homepage for SEO: it must support category definition and conversion while preserving the Pixesci scientific workflow orchestration position.
+- Review Product for SEO: it must support platform capability explanation while preserving the Pixesci scientific workflow orchestration position.
+- Review Regulated Life Sciences for SEO: it must support compliance-driven buyer narrative while preserving the Pixesci scientific workflow orchestration position.
+- Review Secure Research for SEO: it must support local and airgapped deployment narrative while preserving the Pixesci scientific workflow orchestration position.
+- Review Core Facilities for SEO: it must support standardization and reuse narrative while preserving the Pixesci scientific workflow orchestration position.
+- Review Integrations for SEO: it must support software ecosystem and capability profiles while preserving the Pixesci scientific workflow orchestration position.
+- Review Compliance for SEO: it must support data integrity and review evidence while preserving the Pixesci scientific workflow orchestration position.
+- Review Security for SEO: it must support local-first architecture and controls while preserving the Pixesci scientific workflow orchestration position.
+- Review Workflow Automation for SEO: it must support graph execution and operator workflow while preserving the Pixesci scientific workflow orchestration position.
+- Review Resources for SEO: it must support education and evaluation support while preserving the Pixesci scientific workflow orchestration position.
+- Review Company for SEO: it must support mission and category thesis while preserving the Pixesci scientific workflow orchestration position.
+- Review Contact for SEO: it must support qualified demo capture while preserving the Pixesci scientific workflow orchestration position.
+
+- Review Homepage for performance: it must support category definition and conversion while preserving the Pixesci scientific workflow orchestration position.
+- Review Product for performance: it must support platform capability explanation while preserving the Pixesci scientific workflow orchestration position.
+- Review Regulated Life Sciences for performance: it must support compliance-driven buyer narrative while preserving the Pixesci scientific workflow orchestration position.
+- Review Secure Research for performance: it must support local and airgapped deployment narrative while preserving the Pixesci scientific workflow orchestration position.
+- Review Core Facilities for performance: it must support standardization and reuse narrative while preserving the Pixesci scientific workflow orchestration position.
+- Review Integrations for performance: it must support software ecosystem and capability profiles while preserving the Pixesci scientific workflow orchestration position.
+- Review Compliance for performance: it must support data integrity and review evidence while preserving the Pixesci scientific workflow orchestration position.
+- Review Security for performance: it must support local-first architecture and controls while preserving the Pixesci scientific workflow orchestration position.
+- Review Workflow Automation for performance: it must support graph execution and operator workflow while preserving the Pixesci scientific workflow orchestration position.
+- Review Resources for performance: it must support education and evaluation support while preserving the Pixesci scientific workflow orchestration position.
+- Review Company for performance: it must support mission and category thesis while preserving the Pixesci scientific workflow orchestration position.
+- Review Contact for performance: it must support qualified demo capture while preserving the Pixesci scientific workflow orchestration position.
+
+- Review Homepage for component reuse: it must support category definition and conversion while preserving the Pixesci scientific workflow orchestration position.
+- Review Product for component reuse: it must support platform capability explanation while preserving the Pixesci scientific workflow orchestration position.
+- Review Regulated Life Sciences for component reuse: it must support compliance-driven buyer narrative while preserving the Pixesci scientific workflow orchestration position.
+- Review Secure Research for component reuse: it must support local and airgapped deployment narrative while preserving the Pixesci scientific workflow orchestration position.
+- Review Core Facilities for component reuse: it must support standardization and reuse narrative while preserving the Pixesci scientific workflow orchestration position.
+- Review Integrations for component reuse: it must support software ecosystem and capability profiles while preserving the Pixesci scientific workflow orchestration position.
+- Review Compliance for component reuse: it must support data integrity and review evidence while preserving the Pixesci scientific workflow orchestration position.
+- Review Security for component reuse: it must support local-first architecture and controls while preserving the Pixesci scientific workflow orchestration position.
+- Review Workflow Automation for component reuse: it must support graph execution and operator workflow while preserving the Pixesci scientific workflow orchestration position.
+- Review Resources for component reuse: it must support education and evaluation support while preserving the Pixesci scientific workflow orchestration position.
+- Review Company for component reuse: it must support mission and category thesis while preserving the Pixesci scientific workflow orchestration position.
+- Review Contact for component reuse: it must support qualified demo capture while preserving the Pixesci scientific workflow orchestration position.
+
+- Review Homepage for content maintainability: it must support category definition and conversion while preserving the Pixesci scientific workflow orchestration position.
+- Review Product for content maintainability: it must support platform capability explanation while preserving the Pixesci scientific workflow orchestration position.
+- Review Regulated Life Sciences for content maintainability: it must support compliance-driven buyer narrative while preserving the Pixesci scientific workflow orchestration position.
+- Review Secure Research for content maintainability: it must support local and airgapped deployment narrative while preserving the Pixesci scientific workflow orchestration position.
+- Review Core Facilities for content maintainability: it must support standardization and reuse narrative while preserving the Pixesci scientific workflow orchestration position.
+- Review Integrations for content maintainability: it must support software ecosystem and capability profiles while preserving the Pixesci scientific workflow orchestration position.
+- Review Compliance for content maintainability: it must support data integrity and review evidence while preserving the Pixesci scientific workflow orchestration position.
+- Review Security for content maintainability: it must support local-first architecture and controls while preserving the Pixesci scientific workflow orchestration position.
+- Review Workflow Automation for content maintainability: it must support graph execution and operator workflow while preserving the Pixesci scientific workflow orchestration position.
+- Review Resources for content maintainability: it must support education and evaluation support while preserving the Pixesci scientific workflow orchestration position.
+- Review Company for content maintainability: it must support mission and category thesis while preserving the Pixesci scientific workflow orchestration position.
+- Review Contact for content maintainability: it must support qualified demo capture while preserving the Pixesci scientific workflow orchestration position.
+
+- Review Homepage for visual quality: it must support category definition and conversion while preserving the Pixesci scientific workflow orchestration position.
+- Review Product for visual quality: it must support platform capability explanation while preserving the Pixesci scientific workflow orchestration position.
+- Review Regulated Life Sciences for visual quality: it must support compliance-driven buyer narrative while preserving the Pixesci scientific workflow orchestration position.
+- Review Secure Research for visual quality: it must support local and airgapped deployment narrative while preserving the Pixesci scientific workflow orchestration position.
+- Review Core Facilities for visual quality: it must support standardization and reuse narrative while preserving the Pixesci scientific workflow orchestration position.
+- Review Integrations for visual quality: it must support software ecosystem and capability profiles while preserving the Pixesci scientific workflow orchestration position.
+- Review Compliance for visual quality: it must support data integrity and review evidence while preserving the Pixesci scientific workflow orchestration position.
+- Review Security for visual quality: it must support local-first architecture and controls while preserving the Pixesci scientific workflow orchestration position.
+- Review Workflow Automation for visual quality: it must support graph execution and operator workflow while preserving the Pixesci scientific workflow orchestration position.
+- Review Resources for visual quality: it must support education and evaluation support while preserving the Pixesci scientific workflow orchestration position.
+- Review Company for visual quality: it must support mission and category thesis while preserving the Pixesci scientific workflow orchestration position.
+- Review Contact for visual quality: it must support qualified demo capture while preserving the Pixesci scientific workflow orchestration position.
+
+- Review Homepage for CTA clarity: it must support category definition and conversion while preserving the Pixesci scientific workflow orchestration position.
+- Review Product for CTA clarity: it must support platform capability explanation while preserving the Pixesci scientific workflow orchestration position.
+- Review Regulated Life Sciences for CTA clarity: it must support compliance-driven buyer narrative while preserving the Pixesci scientific workflow orchestration position.
+- Review Secure Research for CTA clarity: it must support local and airgapped deployment narrative while preserving the Pixesci scientific workflow orchestration position.
+- Review Core Facilities for CTA clarity: it must support standardization and reuse narrative while preserving the Pixesci scientific workflow orchestration position.
+- Review Integrations for CTA clarity: it must support software ecosystem and capability profiles while preserving the Pixesci scientific workflow orchestration position.
+- Review Compliance for CTA clarity: it must support data integrity and review evidence while preserving the Pixesci scientific workflow orchestration position.
+- Review Security for CTA clarity: it must support local-first architecture and controls while preserving the Pixesci scientific workflow orchestration position.
+- Review Workflow Automation for CTA clarity: it must support graph execution and operator workflow while preserving the Pixesci scientific workflow orchestration position.
+- Review Resources for CTA clarity: it must support education and evaluation support while preserving the Pixesci scientific workflow orchestration position.
+- Review Company for CTA clarity: it must support mission and category thesis while preserving the Pixesci scientific workflow orchestration position.
+- Review Contact for CTA clarity: it must support qualified demo capture while preserving the Pixesci scientific workflow orchestration position.
+
+- Review Homepage for technical credibility: it must support category definition and conversion while preserving the Pixesci scientific workflow orchestration position.
+- Review Product for technical credibility: it must support platform capability explanation while preserving the Pixesci scientific workflow orchestration position.
+- Review Regulated Life Sciences for technical credibility: it must support compliance-driven buyer narrative while preserving the Pixesci scientific workflow orchestration position.
+- Review Secure Research for technical credibility: it must support local and airgapped deployment narrative while preserving the Pixesci scientific workflow orchestration position.
+- Review Core Facilities for technical credibility: it must support standardization and reuse narrative while preserving the Pixesci scientific workflow orchestration position.
+- Review Integrations for technical credibility: it must support software ecosystem and capability profiles while preserving the Pixesci scientific workflow orchestration position.
+- Review Compliance for technical credibility: it must support data integrity and review evidence while preserving the Pixesci scientific workflow orchestration position.
+- Review Security for technical credibility: it must support local-first architecture and controls while preserving the Pixesci scientific workflow orchestration position.
+- Review Workflow Automation for technical credibility: it must support graph execution and operator workflow while preserving the Pixesci scientific workflow orchestration position.
+- Review Resources for technical credibility: it must support education and evaluation support while preserving the Pixesci scientific workflow orchestration position.
+- Review Company for technical credibility: it must support mission and category thesis while preserving the Pixesci scientific workflow orchestration position.
+- Review Contact for technical credibility: it must support qualified demo capture while preserving the Pixesci scientific workflow orchestration position.
+
+### Supplemental Precision Directives
+- Precision directive 0001: demonstrate audit events during the integration-page matrix; keep the statement specific to Pixesci and remove it if it would fit any generic SaaS site unchanged.
+- Precision directive 0002: connect capability profiles during the compliance review scan; keep the statement specific to Pixesci and remove it if it would fit any generic SaaS site unchanged.
+- Precision directive 0003: differentiate responsive layout during the technical evaluator scan; keep the statement specific to Pixesci and remove it if it would fit any generic SaaS site unchanged.
+- Precision directive 0004: validate software handoffs during the architecture diagram; keep the statement specific to Pixesci and remove it if it would fit any generic SaaS site unchanged.
+- Precision directive 0005: simplify operator review during the homepage first viewport; keep the statement specific to Pixesci and remove it if it would fit any generic SaaS site unchanged.
+- Precision directive 0006: ground enterprise CTA during the mobile reader scan; keep the statement specific to Pixesci and remove it if it would fit any generic SaaS site unchanged.
+- Precision directive 0007: prioritize local deployment during the final CTA; keep the statement specific to Pixesci and remove it if it would fit any generic SaaS site unchanged.
+- Precision directive 0008: tighten data lineage during the solution-page narrative; keep the statement specific to Pixesci and remove it if it would fit any generic SaaS site unchanged.
+- Precision directive 0009: verify scientific context during the security review scan; keep the statement specific to Pixesci and remove it if it would fit any generic SaaS site unchanged.
+- Precision directive 0010: clarify workflow evidence during the regulated buyer scan; keep the statement specific to Pixesci and remove it if it would fit any generic SaaS site unchanged.
+- Precision directive 0011: demonstrate audit events during the integration-page matrix; keep the statement specific to Pixesci and remove it if it would fit any generic SaaS site unchanged.
+- Precision directive 0012: connect capability profiles during the compliance review scan; keep the statement specific to Pixesci and remove it if it would fit any generic SaaS site unchanged.
+- Precision directive 0013: differentiate responsive layout during the technical evaluator scan; keep the statement specific to Pixesci and remove it if it would fit any generic SaaS site unchanged.
+- Precision directive 0014: validate software handoffs during the architecture diagram; keep the statement specific to Pixesci and remove it if it would fit any generic SaaS site unchanged.
+- Precision directive 0015: simplify operator review during the homepage first viewport; keep the statement specific to Pixesci and remove it if it would fit any generic SaaS site unchanged.
+- Precision directive 0016: ground enterprise CTA during the mobile reader scan; keep the statement specific to Pixesci and remove it if it would fit any generic SaaS site unchanged.
+- Precision directive 0017: prioritize local deployment during the final CTA; keep the statement specific to Pixesci and remove it if it would fit any generic SaaS site unchanged.
+- Precision directive 0018: tighten data lineage during the solution-page narrative; keep the statement specific to Pixesci and remove it if it would fit any generic SaaS site unchanged.
+- Precision directive 0019: verify scientific context during the security review scan; keep the statement specific to Pixesci and remove it if it would fit any generic SaaS site unchanged.
+- Precision directive 0020: clarify workflow evidence during the regulated buyer scan; keep the statement specific to Pixesci and remove it if it would fit any generic SaaS site unchanged.
+- Precision directive 0021: demonstrate audit events during the integration-page matrix; keep the statement specific to Pixesci and remove it if it would fit any generic SaaS site unchanged.
+- Precision directive 0022: connect capability profiles during the compliance review scan; keep the statement specific to Pixesci and remove it if it would fit any generic SaaS site unchanged.
+- Precision directive 0023: differentiate responsive layout during the technical evaluator scan; keep the statement specific to Pixesci and remove it if it would fit any generic SaaS site unchanged.
+- Precision directive 0024: validate software handoffs during the architecture diagram; keep the statement specific to Pixesci and remove it if it would fit any generic SaaS site unchanged.
+- Precision directive 0025: simplify operator review during the homepage first viewport; keep the statement specific to Pixesci and remove it if it would fit any generic SaaS site unchanged.
+- Precision directive 0026: ground enterprise CTA during the mobile reader scan; keep the statement specific to Pixesci and remove it if it would fit any generic SaaS site unchanged.
+- Precision directive 0027: prioritize local deployment during the final CTA; keep the statement specific to Pixesci and remove it if it would fit any generic SaaS site unchanged.
+- Precision directive 0028: tighten data lineage during the solution-page narrative; keep the statement specific to Pixesci and remove it if it would fit any generic SaaS site unchanged.
+- Precision directive 0029: verify scientific context during the security review scan; keep the statement specific to Pixesci and remove it if it would fit any generic SaaS site unchanged.
+- Precision directive 0030: clarify workflow evidence during the regulated buyer scan; keep the statement specific to Pixesci and remove it if it would fit any generic SaaS site unchanged.
+- Precision directive 0031: demonstrate audit events during the integration-page matrix; keep the statement specific to Pixesci and remove it if it would fit any generic SaaS site unchanged.
+- Precision directive 0032: connect capability profiles during the compliance review scan; keep the statement specific to Pixesci and remove it if it would fit any generic SaaS site unchanged.
+- Precision directive 0033: differentiate responsive layout during the technical evaluator scan; keep the statement specific to Pixesci and remove it if it would fit any generic SaaS site unchanged.
+- Precision directive 0034: validate software handoffs during the architecture diagram; keep the statement specific to Pixesci and remove it if it would fit any generic SaaS site unchanged.
+- Precision directive 0035: simplify operator review during the homepage first viewport; keep the statement specific to Pixesci and remove it if it would fit any generic SaaS site unchanged.
+- Precision directive 0036: ground enterprise CTA during the mobile reader scan; keep the statement specific to Pixesci and remove it if it would fit any generic SaaS site unchanged.
+- Precision directive 0037: prioritize local deployment during the final CTA; keep the statement specific to Pixesci and remove it if it would fit any generic SaaS site unchanged.
+- Precision directive 0038: tighten data lineage during the solution-page narrative; keep the statement specific to Pixesci and remove it if it would fit any generic SaaS site unchanged.
+- Precision directive 0039: verify scientific context during the security review scan; keep the statement specific to Pixesci and remove it if it would fit any generic SaaS site unchanged.
+- Precision directive 0040: clarify workflow evidence during the regulated buyer scan; keep the statement specific to Pixesci and remove it if it would fit any generic SaaS site unchanged.
+- Precision directive 0041: demonstrate audit events during the integration-page matrix; keep the statement specific to Pixesci and remove it if it would fit any generic SaaS site unchanged.
+- Precision directive 0042: connect capability profiles during the compliance review scan; keep the statement specific to Pixesci and remove it if it would fit any generic SaaS site unchanged.
+- Precision directive 0043: differentiate responsive layout during the technical evaluator scan; keep the statement specific to Pixesci and remove it if it would fit any generic SaaS site unchanged.
+- Precision directive 0044: validate software handoffs during the architecture diagram; keep the statement specific to Pixesci and remove it if it would fit any generic SaaS site unchanged.
+- Precision directive 0045: simplify operator review during the homepage first viewport; keep the statement specific to Pixesci and remove it if it would fit any generic SaaS site unchanged.
+- Precision directive 0046: ground enterprise CTA during the mobile reader scan; keep the statement specific to Pixesci and remove it if it would fit any generic SaaS site unchanged.
+- Precision directive 0047: prioritize local deployment during the final CTA; keep the statement specific to Pixesci and remove it if it would fit any generic SaaS site unchanged.
+- Precision directive 0048: tighten data lineage during the solution-page narrative; keep the statement specific to Pixesci and remove it if it would fit any generic SaaS site unchanged.
+- Precision directive 0049: verify scientific context during the security review scan; keep the statement specific to Pixesci and remove it if it would fit any generic SaaS site unchanged.
+- Precision directive 0050: clarify workflow evidence during the regulated buyer scan; keep the statement specific to Pixesci and remove it if it would fit any generic SaaS site unchanged.
+- Precision directive 0051: demonstrate audit events during the integration-page matrix; keep the statement specific to Pixesci and remove it if it would fit any generic SaaS site unchanged.
+- Precision directive 0052: connect capability profiles during the compliance review scan; keep the statement specific to Pixesci and remove it if it would fit any generic SaaS site unchanged.
+- Precision directive 0053: differentiate responsive layout during the technical evaluator scan; keep the statement specific to Pixesci and remove it if it would fit any generic SaaS site unchanged.
+- Precision directive 0054: validate software handoffs during the architecture diagram; keep the statement specific to Pixesci and remove it if it would fit any generic SaaS site unchanged.
+- Precision directive 0055: simplify operator review during the homepage first viewport; keep the statement specific to Pixesci and remove it if it would fit any generic SaaS site unchanged.
+- Precision directive 0056: ground enterprise CTA during the mobile reader scan; keep the statement specific to Pixesci and remove it if it would fit any generic SaaS site unchanged.
+- Precision directive 0057: prioritize local deployment during the final CTA; keep the statement specific to Pixesci and remove it if it would fit any generic SaaS site unchanged.
+- Precision directive 0058: tighten data lineage during the solution-page narrative; keep the statement specific to Pixesci and remove it if it would fit any generic SaaS site unchanged.
+- Precision directive 0059: verify scientific context during the security review scan; keep the statement specific to Pixesci and remove it if it would fit any generic SaaS site unchanged.
+- Precision directive 0060: clarify workflow evidence during the regulated buyer scan; keep the statement specific to Pixesci and remove it if it would fit any generic SaaS site unchanged.
+- Precision directive 0061: demonstrate audit events during the integration-page matrix; keep the statement specific to Pixesci and remove it if it would fit any generic SaaS site unchanged.
+- Precision directive 0062: connect capability profiles during the compliance review scan; keep the statement specific to Pixesci and remove it if it would fit any generic SaaS site unchanged.
+- Precision directive 0063: differentiate responsive layout during the technical evaluator scan; keep the statement specific to Pixesci and remove it if it would fit any generic SaaS site unchanged.
+- Precision directive 0064: validate software handoffs during the architecture diagram; keep the statement specific to Pixesci and remove it if it would fit any generic SaaS site unchanged.
+- Precision directive 0065: simplify operator review during the homepage first viewport; keep the statement specific to Pixesci and remove it if it would fit any generic SaaS site unchanged.
+- Precision directive 0066: ground enterprise CTA during the mobile reader scan; keep the statement specific to Pixesci and remove it if it would fit any generic SaaS site unchanged.
+- Precision directive 0067: prioritize local deployment during the final CTA; keep the statement specific to Pixesci and remove it if it would fit any generic SaaS site unchanged.
+- Precision directive 0068: tighten data lineage during the solution-page narrative; keep the statement specific to Pixesci and remove it if it would fit any generic SaaS site unchanged.
+- Precision directive 0069: verify scientific context during the security review scan; keep the statement specific to Pixesci and remove it if it would fit any generic SaaS site unchanged.
+- Precision directive 0070: clarify workflow evidence during the regulated buyer scan; keep the statement specific to Pixesci and remove it if it would fit any generic SaaS site unchanged.
+- Precision directive 0071: demonstrate audit events during the integration-page matrix; keep the statement specific to Pixesci and remove it if it would fit any generic SaaS site unchanged.
+- Precision directive 0072: connect capability profiles during the compliance review scan; keep the statement specific to Pixesci and remove it if it would fit any generic SaaS site unchanged.
+- Precision directive 0073: differentiate responsive layout during the technical evaluator scan; keep the statement specific to Pixesci and remove it if it would fit any generic SaaS site unchanged.
+- Precision directive 0074: validate software handoffs during the architecture diagram; keep the statement specific to Pixesci and remove it if it would fit any generic SaaS site unchanged.
+- Precision directive 0075: simplify operator review during the homepage first viewport; keep the statement specific to Pixesci and remove it if it would fit any generic SaaS site unchanged.
+- Precision directive 0076: ground enterprise CTA during the mobile reader scan; keep the statement specific to Pixesci and remove it if it would fit any generic SaaS site unchanged.
+- Precision directive 0077: prioritize local deployment during the final CTA; keep the statement specific to Pixesci and remove it if it would fit any generic SaaS site unchanged.
+- Precision directive 0078: tighten data lineage during the solution-page narrative; keep the statement specific to Pixesci and remove it if it would fit any generic SaaS site unchanged.
+- Precision directive 0079: verify scientific context during the security review scan; keep the statement specific to Pixesci and remove it if it would fit any generic SaaS site unchanged.
+- Precision directive 0080: clarify workflow evidence during the regulated buyer scan; keep the statement specific to Pixesci and remove it if it would fit any generic SaaS site unchanged.
+- Precision directive 0081: demonstrate audit events during the integration-page matrix; keep the statement specific to Pixesci and remove it if it would fit any generic SaaS site unchanged.
+- Precision directive 0082: connect capability profiles during the compliance review scan; keep the statement specific to Pixesci and remove it if it would fit any generic SaaS site unchanged.
+- Precision directive 0083: differentiate responsive layout during the technical evaluator scan; keep the statement specific to Pixesci and remove it if it would fit any generic SaaS site unchanged.
+- Precision directive 0084: validate software handoffs during the architecture diagram; keep the statement specific to Pixesci and remove it if it would fit any generic SaaS site unchanged.
+- Precision directive 0085: simplify operator review during the homepage first viewport; keep the statement specific to Pixesci and remove it if it would fit any generic SaaS site unchanged.
+- Precision directive 0086: ground enterprise CTA during the mobile reader scan; keep the statement specific to Pixesci and remove it if it would fit any generic SaaS site unchanged.
+- Precision directive 0087: prioritize local deployment during the final CTA; keep the statement specific to Pixesci and remove it if it would fit any generic SaaS site unchanged.
+- Precision directive 0088: tighten data lineage during the solution-page narrative; keep the statement specific to Pixesci and remove it if it would fit any generic SaaS site unchanged.
+- Precision directive 0089: verify scientific context during the security review scan; keep the statement specific to Pixesci and remove it if it would fit any generic SaaS site unchanged.
+- Precision directive 0090: clarify workflow evidence during the regulated buyer scan; keep the statement specific to Pixesci and remove it if it would fit any generic SaaS site unchanged.
+- Precision directive 0091: demonstrate audit events during the integration-page matrix; keep the statement specific to Pixesci and remove it if it would fit any generic SaaS site unchanged.
+- Precision directive 0092: connect capability profiles during the compliance review scan; keep the statement specific to Pixesci and remove it if it would fit any generic SaaS site unchanged.
+- Precision directive 0093: differentiate responsive layout during the technical evaluator scan; keep the statement specific to Pixesci and remove it if it would fit any generic SaaS site unchanged.
+- Precision directive 0094: validate software handoffs during the architecture diagram; keep the statement specific to Pixesci and remove it if it would fit any generic SaaS site unchanged.
+- Precision directive 0095: simplify operator review during the homepage first viewport; keep the statement specific to Pixesci and remove it if it would fit any generic SaaS site unchanged.
+- Precision directive 0096: ground enterprise CTA during the mobile reader scan; keep the statement specific to Pixesci and remove it if it would fit any generic SaaS site unchanged.
+- Precision directive 0097: prioritize local deployment during the final CTA; keep the statement specific to Pixesci and remove it if it would fit any generic SaaS site unchanged.
+- Precision directive 0098: tighten data lineage during the solution-page narrative; keep the statement specific to Pixesci and remove it if it would fit any generic SaaS site unchanged.
+- Precision directive 0099: verify scientific context during the security review scan; keep the statement specific to Pixesci and remove it if it would fit any generic SaaS site unchanged.
+- Precision directive 0100: clarify workflow evidence during the regulated buyer scan; keep the statement specific to Pixesci and remove it if it would fit any generic SaaS site unchanged.
+- Precision directive 0101: demonstrate audit events during the integration-page matrix; keep the statement specific to Pixesci and remove it if it would fit any generic SaaS site unchanged.
+- Precision directive 0102: connect capability profiles during the compliance review scan; keep the statement specific to Pixesci and remove it if it would fit any generic SaaS site unchanged.
+- Precision directive 0103: differentiate responsive layout during the technical evaluator scan; keep the statement specific to Pixesci and remove it if it would fit any generic SaaS site unchanged.
+- Precision directive 0104: validate software handoffs during the architecture diagram; keep the statement specific to Pixesci and remove it if it would fit any generic SaaS site unchanged.
+- Precision directive 0105: simplify operator review during the homepage first viewport; keep the statement specific to Pixesci and remove it if it would fit any generic SaaS site unchanged.
+- Precision directive 0106: ground enterprise CTA during the mobile reader scan; keep the statement specific to Pixesci and remove it if it would fit any generic SaaS site unchanged.
+- Precision directive 0107: prioritize local deployment during the final CTA; keep the statement specific to Pixesci and remove it if it would fit any generic SaaS site unchanged.
+- Precision directive 0108: tighten data lineage during the solution-page narrative; keep the statement specific to Pixesci and remove it if it would fit any generic SaaS site unchanged.
+- Precision directive 0109: verify scientific context during the security review scan; keep the statement specific to Pixesci and remove it if it would fit any generic SaaS site unchanged.
+- Precision directive 0110: clarify workflow evidence during the regulated buyer scan; keep the statement specific to Pixesci and remove it if it would fit any generic SaaS site unchanged.
+- Precision directive 0111: demonstrate audit events during the integration-page matrix; keep the statement specific to Pixesci and remove it if it would fit any generic SaaS site unchanged.
+- Precision directive 0112: connect capability profiles during the compliance review scan; keep the statement specific to Pixesci and remove it if it would fit any generic SaaS site unchanged.
+- Precision directive 0113: differentiate responsive layout during the technical evaluator scan; keep the statement specific to Pixesci and remove it if it would fit any generic SaaS site unchanged.
+- Precision directive 0114: validate software handoffs during the architecture diagram; keep the statement specific to Pixesci and remove it if it would fit any generic SaaS site unchanged.
+- Precision directive 0115: simplify operator review during the homepage first viewport; keep the statement specific to Pixesci and remove it if it would fit any generic SaaS site unchanged.
+- Precision directive 0116: ground enterprise CTA during the mobile reader scan; keep the statement specific to Pixesci and remove it if it would fit any generic SaaS site unchanged.
+- Precision directive 0117: prioritize local deployment during the final CTA; keep the statement specific to Pixesci and remove it if it would fit any generic SaaS site unchanged.
+- Precision directive 0118: tighten data lineage during the solution-page narrative; keep the statement specific to Pixesci and remove it if it would fit any generic SaaS site unchanged.
+- Precision directive 0119: verify scientific context during the security review scan; keep the statement specific to Pixesci and remove it if it would fit any generic SaaS site unchanged.
+- Precision directive 0120: clarify workflow evidence during the regulated buyer scan; keep the statement specific to Pixesci and remove it if it would fit any generic SaaS site unchanged.
+- Precision directive 0121: demonstrate audit events during the integration-page matrix; keep the statement specific to Pixesci and remove it if it would fit any generic SaaS site unchanged.
+- Precision directive 0122: connect capability profiles during the compliance review scan; keep the statement specific to Pixesci and remove it if it would fit any generic SaaS site unchanged.
+- Precision directive 0123: differentiate responsive layout during the technical evaluator scan; keep the statement specific to Pixesci and remove it if it would fit any generic SaaS site unchanged.
+- Precision directive 0124: validate software handoffs during the architecture diagram; keep the statement specific to Pixesci and remove it if it would fit any generic SaaS site unchanged.
+- Precision directive 0125: simplify operator review during the homepage first viewport; keep the statement specific to Pixesci and remove it if it would fit any generic SaaS site unchanged.
+- Precision directive 0126: ground enterprise CTA during the mobile reader scan; keep the statement specific to Pixesci and remove it if it would fit any generic SaaS site unchanged.
+- Precision directive 0127: prioritize local deployment during the final CTA; keep the statement specific to Pixesci and remove it if it would fit any generic SaaS site unchanged.
+- Precision directive 0128: tighten data lineage during the solution-page narrative; keep the statement specific to Pixesci and remove it if it would fit any generic SaaS site unchanged.
+- Precision directive 0129: verify scientific context during the security review scan; keep the statement specific to Pixesci and remove it if it would fit any generic SaaS site unchanged.
+- Precision directive 0130: clarify workflow evidence during the regulated buyer scan; keep the statement specific to Pixesci and remove it if it would fit any generic SaaS site unchanged.
+- Precision directive 0131: demonstrate audit events during the integration-page matrix; keep the statement specific to Pixesci and remove it if it would fit any generic SaaS site unchanged.
+- Precision directive 0132: connect capability profiles during the compliance review scan; keep the statement specific to Pixesci and remove it if it would fit any generic SaaS site unchanged.
+- Precision directive 0133: differentiate responsive layout during the technical evaluator scan; keep the statement specific to Pixesci and remove it if it would fit any generic SaaS site unchanged.
+- Precision directive 0134: validate software handoffs during the architecture diagram; keep the statement specific to Pixesci and remove it if it would fit any generic SaaS site unchanged.
+- Precision directive 0135: simplify operator review during the homepage first viewport; keep the statement specific to Pixesci and remove it if it would fit any generic SaaS site unchanged.
+- Precision directive 0136: ground enterprise CTA during the mobile reader scan; keep the statement specific to Pixesci and remove it if it would fit any generic SaaS site unchanged.
+- Precision directive 0137: prioritize local deployment during the final CTA; keep the statement specific to Pixesci and remove it if it would fit any generic SaaS site unchanged.
+- Precision directive 0138: tighten data lineage during the solution-page narrative; keep the statement specific to Pixesci and remove it if it would fit any generic SaaS site unchanged.
+- Precision directive 0139: verify scientific context during the security review scan; keep the statement specific to Pixesci and remove it if it would fit any generic SaaS site unchanged.
+- Precision directive 0140: clarify workflow evidence during the regulated buyer scan; keep the statement specific to Pixesci and remove it if it would fit any generic SaaS site unchanged.
+- Precision directive 0141: demonstrate audit events during the integration-page matrix; keep the statement specific to Pixesci and remove it if it would fit any generic SaaS site unchanged.
+- Precision directive 0142: connect capability profiles during the compliance review scan; keep the statement specific to Pixesci and remove it if it would fit any generic SaaS site unchanged.
+- Precision directive 0143: differentiate responsive layout during the technical evaluator scan; keep the statement specific to Pixesci and remove it if it would fit any generic SaaS site unchanged.
+- Precision directive 0144: validate software handoffs during the architecture diagram; keep the statement specific to Pixesci and remove it if it would fit any generic SaaS site unchanged.
+- Precision directive 0145: simplify operator review during the homepage first viewport; keep the statement specific to Pixesci and remove it if it would fit any generic SaaS site unchanged.
+- Precision directive 0146: ground enterprise CTA during the mobile reader scan; keep the statement specific to Pixesci and remove it if it would fit any generic SaaS site unchanged.
+- Precision directive 0147: prioritize local deployment during the final CTA; keep the statement specific to Pixesci and remove it if it would fit any generic SaaS site unchanged.
+- Precision directive 0148: tighten data lineage during the solution-page narrative; keep the statement specific to Pixesci and remove it if it would fit any generic SaaS site unchanged.
+- Precision directive 0149: verify scientific context during the security review scan; keep the statement specific to Pixesci and remove it if it would fit any generic SaaS site unchanged.
+- Precision directive 0150: clarify workflow evidence during the regulated buyer scan; keep the statement specific to Pixesci and remove it if it would fit any generic SaaS site unchanged.
+- Precision directive 0151: demonstrate audit events during the integration-page matrix; keep the statement specific to Pixesci and remove it if it would fit any generic SaaS site unchanged.
+- Precision directive 0152: connect capability profiles during the compliance review scan; keep the statement specific to Pixesci and remove it if it would fit any generic SaaS site unchanged.
+- Precision directive 0153: differentiate responsive layout during the technical evaluator scan; keep the statement specific to Pixesci and remove it if it would fit any generic SaaS site unchanged.
+- Precision directive 0154: validate software handoffs during the architecture diagram; keep the statement specific to Pixesci and remove it if it would fit any generic SaaS site unchanged.
+- Precision directive 0155: simplify operator review during the homepage first viewport; keep the statement specific to Pixesci and remove it if it would fit any generic SaaS site unchanged.
+- Precision directive 0156: ground enterprise CTA during the mobile reader scan; keep the statement specific to Pixesci and remove it if it would fit any generic SaaS site unchanged.
+- Precision directive 0157: prioritize local deployment during the final CTA; keep the statement specific to Pixesci and remove it if it would fit any generic SaaS site unchanged.
+- Precision directive 0158: tighten data lineage during the solution-page narrative; keep the statement specific to Pixesci and remove it if it would fit any generic SaaS site unchanged.
+- Precision directive 0159: verify scientific context during the security review scan; keep the statement specific to Pixesci and remove it if it would fit any generic SaaS site unchanged.
+- Precision directive 0160: clarify workflow evidence during the regulated buyer scan; keep the statement specific to Pixesci and remove it if it would fit any generic SaaS site unchanged.
+- Precision directive 0161: demonstrate audit events during the integration-page matrix; keep the statement specific to Pixesci and remove it if it would fit any generic SaaS site unchanged.
+- Precision directive 0162: connect capability profiles during the compliance review scan; keep the statement specific to Pixesci and remove it if it would fit any generic SaaS site unchanged.
+- Precision directive 0163: differentiate responsive layout during the technical evaluator scan; keep the statement specific to Pixesci and remove it if it would fit any generic SaaS site unchanged.
+- Precision directive 0164: validate software handoffs during the architecture diagram; keep the statement specific to Pixesci and remove it if it would fit any generic SaaS site unchanged.
+- Precision directive 0165: simplify operator review during the homepage first viewport; keep the statement specific to Pixesci and remove it if it would fit any generic SaaS site unchanged.
+- Precision directive 0166: ground enterprise CTA during the mobile reader scan; keep the statement specific to Pixesci and remove it if it would fit any generic SaaS site unchanged.
+- Precision directive 0167: prioritize local deployment during the final CTA; keep the statement specific to Pixesci and remove it if it would fit any generic SaaS site unchanged.
+- Precision directive 0168: tighten data lineage during the solution-page narrative; keep the statement specific to Pixesci and remove it if it would fit any generic SaaS site unchanged.
+- Precision directive 0169: verify scientific context during the security review scan; keep the statement specific to Pixesci and remove it if it would fit any generic SaaS site unchanged.
+- Precision directive 0170: clarify workflow evidence during the regulated buyer scan; keep the statement specific to Pixesci and remove it if it would fit any generic SaaS site unchanged.
+- Precision directive 0171: demonstrate audit events during the integration-page matrix; keep the statement specific to Pixesci and remove it if it would fit any generic SaaS site unchanged.
+- Precision directive 0172: connect capability profiles during the compliance review scan; keep the statement specific to Pixesci and remove it if it would fit any generic SaaS site unchanged.
+- Precision directive 0173: differentiate responsive layout during the technical evaluator scan; keep the statement specific to Pixesci and remove it if it would fit any generic SaaS site unchanged.
+- Precision directive 0174: validate software handoffs during the architecture diagram; keep the statement specific to Pixesci and remove it if it would fit any generic SaaS site unchanged.
+- Precision directive 0175: simplify operator review during the homepage first viewport; keep the statement specific to Pixesci and remove it if it would fit any generic SaaS site unchanged.
+- Precision directive 0176: ground enterprise CTA during the mobile reader scan; keep the statement specific to Pixesci and remove it if it would fit any generic SaaS site unchanged.
+- Precision directive 0177: prioritize local deployment during the final CTA; keep the statement specific to Pixesci and remove it if it would fit any generic SaaS site unchanged.
+- Precision directive 0178: tighten data lineage during the solution-page narrative; keep the statement specific to Pixesci and remove it if it would fit any generic SaaS site unchanged.
+- Precision directive 0179: verify scientific context during the security review scan; keep the statement specific to Pixesci and remove it if it would fit any generic SaaS site unchanged.
+- Precision directive 0180: clarify workflow evidence during the regulated buyer scan; keep the statement specific to Pixesci and remove it if it would fit any generic SaaS site unchanged.
+- Precision directive 0181: demonstrate audit events during the integration-page matrix; keep the statement specific to Pixesci and remove it if it would fit any generic SaaS site unchanged.
+- Precision directive 0182: connect capability profiles during the compliance review scan; keep the statement specific to Pixesci and remove it if it would fit any generic SaaS site unchanged.
+- Precision directive 0183: differentiate responsive layout during the technical evaluator scan; keep the statement specific to Pixesci and remove it if it would fit any generic SaaS site unchanged.
+- Precision directive 0184: validate software handoffs during the architecture diagram; keep the statement specific to Pixesci and remove it if it would fit any generic SaaS site unchanged.
+- Precision directive 0185: simplify operator review during the homepage first viewport; keep the statement specific to Pixesci and remove it if it would fit any generic SaaS site unchanged.
+- Precision directive 0186: ground enterprise CTA during the mobile reader scan; keep the statement specific to Pixesci and remove it if it would fit any generic SaaS site unchanged.
+- Precision directive 0187: prioritize local deployment during the final CTA; keep the statement specific to Pixesci and remove it if it would fit any generic SaaS site unchanged.
+- Precision directive 0188: tighten data lineage during the solution-page narrative; keep the statement specific to Pixesci and remove it if it would fit any generic SaaS site unchanged.
+- Precision directive 0189: verify scientific context during the security review scan; keep the statement specific to Pixesci and remove it if it would fit any generic SaaS site unchanged.
+- Precision directive 0190: clarify workflow evidence during the regulated buyer scan; keep the statement specific to Pixesci and remove it if it would fit any generic SaaS site unchanged.
+- Precision directive 0191: demonstrate audit events during the integration-page matrix; keep the statement specific to Pixesci and remove it if it would fit any generic SaaS site unchanged.
+- Precision directive 0192: connect capability profiles during the compliance review scan; keep the statement specific to Pixesci and remove it if it would fit any generic SaaS site unchanged.
+- Precision directive 0193: differentiate responsive layout during the technical evaluator scan; keep the statement specific to Pixesci and remove it if it would fit any generic SaaS site unchanged.
