@@ -1,10 +1,17 @@
 import {
+  Activity,
   CheckCircle2,
+  Code2,
   Database,
   FileBarChart,
   FileInput,
+  FileText,
+  FolderOpen,
   Microscope,
+  MonitorPlay,
   ShieldCheck,
+  Terminal,
+  Variable,
 } from "lucide-react"
 
 import { cn } from "@/lib/utils"
@@ -68,8 +75,44 @@ export function WorkflowVisual({
           workflow / v3.4
         </span>
       </figcaption>
-      <div className="workflow-grid absolute inset-x-0 bottom-0 top-11" aria-hidden="true" />
-      <div className="relative grid gap-3 p-5 pt-8 sm:p-8 lg:grid-cols-5 lg:items-center lg:gap-2">
+      <div className="relative z-10 flex flex-wrap items-center justify-between gap-3 border-b border-border bg-background/88 px-4 py-2 backdrop-blur sm:px-5">
+        <div className="flex items-center gap-1">
+          {[
+            ["Preview", MonitorPlay],
+            ["Console", Terminal],
+            ["IDE", Code2],
+            ["Notes", FileText],
+          ].map(([label, Icon], index) => (
+            <span
+              key={label as string}
+              className={cn(
+                "inline-flex items-center gap-1.5 rounded-md px-2 py-1 text-[9px]",
+                index === 0
+                  ? "bg-muted font-medium text-foreground"
+                  : "text-muted-foreground",
+              )}
+            >
+              <Icon className="size-3" />
+              <span className="hidden sm:inline">{label as string}</span>
+            </span>
+          ))}
+        </div>
+        <div className="flex items-center gap-2 text-[9px] text-muted-foreground">
+          <span className="inline-flex items-center gap-1">
+            <FolderOpen className="size-3 text-primary" />
+            plate-7-review
+          </span>
+          <span className="hidden items-center gap-1 sm:inline-flex">
+            <Variable className="size-3" />7 variables
+          </span>
+          <span className="hidden items-center gap-1 sm:inline-flex">
+            <Activity className="size-3 text-emerald-500" />
+            connected
+          </span>
+        </div>
+      </div>
+      <div className="workflow-grid absolute inset-x-0 bottom-0 top-[83px]" aria-hidden="true" />
+      <div className="relative grid gap-3 p-5 pt-7 sm:p-8 lg:grid-cols-5 lg:items-center lg:gap-2">
         {nodes.map((node, index) => {
           const Icon = node.icon
           return (

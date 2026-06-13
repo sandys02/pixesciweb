@@ -83,7 +83,11 @@ export function MarketingPage({ data, disclaimer }: MarketingPageProps) {
               <div
                 className={cn(
                   "grid gap-10 lg:grid-cols-2 lg:items-start lg:gap-16",
-                  index % 2 === 1 && "lg:[&>*:first-child]:order-2",
+                  section.layout === "stacked" &&
+                    "lg:grid-cols-1 lg:gap-10",
+                  section.layout !== "stacked" &&
+                    index % 2 === 1 &&
+                    "lg:[&>*:first-child]:order-2",
                 )}
               >
                 <div>
@@ -100,14 +104,19 @@ export function MarketingPage({ data, disclaimer }: MarketingPageProps) {
                   <h2 className="mt-3 text-3xl font-semibold leading-tight sm:text-4xl">
                     {section.title}
                   </h2>
-                  <p
+                  <div
                     className={cn(
-                      "mt-5 text-base leading-7 text-muted-foreground",
+                      "mt-5 space-y-4 text-base leading-7 text-muted-foreground",
                       section.dark && "text-white/62",
                     )}
                   >
-                    {section.description}
-                  </p>
+                    {(Array.isArray(section.description)
+                      ? section.description
+                      : [section.description]
+                    ).map((paragraph) => (
+                      <p key={paragraph}>{paragraph}</p>
+                    ))}
+                  </div>
                   {section.bullets ? (
                     <ul className="mt-7 space-y-3">
                       {section.bullets.map((bullet) => (
@@ -132,7 +141,7 @@ export function MarketingPage({ data, disclaimer }: MarketingPageProps) {
                     <FeatureGrid
                       items={section.features}
                       dark={section.dark}
-                      columns={2}
+                      columns={section.layout === "stacked" ? 3 : 2}
                     />
                   ) : null}
                 </div>

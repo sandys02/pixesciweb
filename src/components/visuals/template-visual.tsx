@@ -1,22 +1,35 @@
-import { Clock3, FileStack, Microscope, ScanSearch } from "lucide-react"
+import {
+  CheckCircle2,
+  Clock3,
+  FileStack,
+  Microscope,
+  Search,
+  ScanSearch,
+} from "lucide-react"
 
 const templates = [
   {
     title: "Microscopy quantification",
-    category: "Imaging",
+    category: "Microscopy",
     steps: "6 nodes",
+    time: "25 min",
+    difficulty: "Intermediate",
     icon: Microscope,
   },
   {
     title: "Flow cytometry review",
     category: "QC",
     steps: "5 nodes",
+    time: "15 min",
+    difficulty: "Advanced",
     icon: ScanSearch,
   },
   {
     title: "Facility report package",
     category: "Reporting",
     steps: "4 nodes",
+    time: "10 min",
+    difficulty: "Basic",
     icon: FileStack,
   },
 ]
@@ -30,8 +43,28 @@ export function TemplateVisual() {
       {/* TODO: Replace with real Pixesci template center screenshot. */}
       <figcaption className="visual-toolbar">
         <span>Template center</span>
-        <span className="text-muted-foreground">System workflow templates</span>
+        <span className="text-muted-foreground">Published workflow templates</span>
       </figcaption>
+      <div className="flex flex-wrap items-center gap-2 border-b border-border bg-muted/20 px-4 py-3">
+        <div className="flex min-w-44 flex-1 items-center gap-2 rounded-md border border-border bg-background px-3 py-2 text-[10px] text-muted-foreground">
+          <Search className="size-3" />
+          Search templates
+        </div>
+        {["All", "Quality Control", "Microscopy", "Reporting"].map(
+          (category, index) => (
+            <span
+              key={category}
+              className={
+                index === 0
+                  ? "rounded-md bg-foreground px-2.5 py-1.5 text-[9px] text-background"
+                  : "rounded-md px-2.5 py-1.5 text-[9px] text-muted-foreground"
+              }
+            >
+              {category}
+            </span>
+          ),
+        )}
+      </div>
       <div className="grid gap-3 p-4 sm:grid-cols-3 sm:p-6">
         {templates.map((template, index) => {
           const Icon = template.icon
@@ -50,9 +83,23 @@ export function TemplateVisual() {
               <p className="mt-2 text-xs text-muted-foreground">
                 {template.category}
               </p>
-              <div className="mt-5 flex items-center gap-1.5 border-t border-border pt-4 text-[10px] text-muted-foreground">
-                <Clock3 className="size-3" />
-                {template.steps} · review included
+              <div className="mt-4 flex flex-wrap gap-1.5 text-[9px] text-muted-foreground">
+                <span className="rounded border border-border px-1.5 py-0.5">
+                  {template.difficulty}
+                </span>
+                <span className="rounded border border-border px-1.5 py-0.5">
+                  {template.steps}
+                </span>
+              </div>
+              <div className="mt-4 space-y-2 border-t border-border pt-4 text-[10px] text-muted-foreground">
+                <div className="flex items-center gap-1.5">
+                  <Clock3 className="size-3" />
+                  {template.time} estimated
+                </div>
+                <div className="flex items-center gap-1.5 text-emerald-600">
+                  <CheckCircle2 className="size-3" />
+                  Pixesci · published
+                </div>
               </div>
             </div>
           )

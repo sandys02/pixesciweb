@@ -1,3 +1,5 @@
+// @/content/pages.ts
+
 import type { LucideIcon } from "lucide-react"
 import {
   Archive,
@@ -48,7 +50,8 @@ export type PageFeature = {
 export type PageSection = {
   eyebrow?: string
   title: string
-  description: string
+  description: string | string[]
+  layout?: "split" | "stacked"
   features?: PageFeature[]
   bullets?: string[]
   visual?: "workflow" | "audit" | "architecture" | "catalog" | "console" | "templates"
@@ -73,7 +76,7 @@ export const productPage: MarketingPageData = {
   eyebrow: "Product",
   title: "One orchestration layer across scientific software.",
   description:
-    "Pixesci turns plain-language scientific intent into a reviewable graph built from capability profiles, then executes locally with templates, run summaries, artifacts, and audit records.",
+    "Pixesci turns scientific intent into reviewable, reusable workflows that run close to your software and data, with outputs, decisions, and execution history kept together.",
   primaryCta: "Request a demo",
   primaryHref: "/contact",
   secondaryCta: "See workflow automation",
@@ -83,17 +86,17 @@ export const productPage: MarketingPageData = {
       eyebrow: "Authoring",
       title: "Build the execution plan as a graph.",
       description:
-        "Nodes reference software capabilities and execution units. Edges carry dependencies, variables, and data bindings without making a legacy ordered step list the source of truth.",
+        "Model software steps, dependencies, inputs, outputs, and review points in a visual graph. Teams can inspect the full execution path before running it and reuse proven workflows without rebuilding each handoff.",
       visual: "workflow",
       features: [
         {
           title: "Workflow canvas",
-          description: "Nodes, edges, layout, variables, data bus, and add-step validation.",
+          description: "Map software steps, dependencies, variables, and required inputs.",
           icon: GitBranch,
         },
         {
           title: "Operator surfaces",
-          description: "Console, preview, notes, IDE, local files, and integration palette.",
+          description: "Keep execution, files, notes, previews, and technical tools in context.",
           icon: PanelTop,
         },
         {
@@ -106,23 +109,25 @@ export const productPage: MarketingPageData = {
     {
       eyebrow: "Capability contracts",
       title: "Know what each software step can do before execution.",
-      description:
-        "Backend-owned profiles describe setup, requirements, formats, supported workflows, channels, risk, and user-input requirements. Local detection remains a separate machine-specific signal.",
+      description: [
+        "Pixesci describes each connected application in terms of supported work, required inputs, expected outputs, setup needs, and operational constraints. Teams can review whether a step is suitable before adding it to an execution path.",
+        "Environment checks show whether the required software is available where the workflow will run. This helps teams standardize workflows while accounting for differences between workstations, instruments, and sites.",
+      ],
       visual: "catalog",
       features: [
         {
           title: "Software catalog",
-          description: "Profiles and capabilities stay backend-owned and packageable.",
+          description: "Review supported applications, operations, formats, and setup needs.",
           icon: Blocks,
         },
         {
           title: "Local detection",
-          description: "Overlay machine availability without changing canonical metadata.",
+          description: "Confirm software availability in the target execution environment.",
           icon: MonitorCog,
         },
         {
-          title: "Offline profile packs",
-          description: "Distribute approved profile content in controlled environments.",
+          title: "Offline distribution",
+          description: "Distribute approved software definitions in controlled environments.",
           icon: PackageCheck,
         },
       ],
@@ -131,7 +136,7 @@ export const productPage: MarketingPageData = {
       eyebrow: "Runtime",
       title: "Execute locally and stream what happens.",
       description:
-        "The local FastAPI sidecar runs workflows, emits WebSocket progress, manages artifacts, and pauses for human input when a controlled step requires it.",
+        "Run workflows close to scientific software and data while monitoring progress, outputs, failures, and required decisions. Controlled steps can pause for operator input or approval before execution continues.",
       visual: "console",
       dark: true,
       features: [
@@ -156,7 +161,7 @@ export const productPage: MarketingPageData = {
       eyebrow: "Interface",
       title: "Start in plain language. Continue through validated capabilities.",
       description:
-        "Scientists can describe a goal without learning every application sequence first. Chat sessions carry working-directory context, attachments, software mentions, artifacts, and activity events, while deterministic adapters and operator review remain central.",
+        "Scientists can describe a goal without first mastering every application sequence. Pixesci turns that intent into explicit workflow choices that remain grounded in supported software capabilities and subject to operator review.",
       features: [
         {
           title: "Context-aware workspace",
@@ -165,12 +170,12 @@ export const productPage: MarketingPageData = {
         },
         {
           title: "Local model routing",
-          description: "Ollama or embedded GGUF options for controlled deployments.",
+          description: "Support private AI-assisted planning within controlled deployments.",
           icon: BrainCircuit,
         },
         {
           title: "Constrained decisions",
-          description: "Move from intent to capability schema, explicit choices, and reviewed execution.",
+          description: "Turn intent into explicit, reviewable workflow choices.",
           icon: CheckCheck,
         },
       ],
@@ -195,7 +200,7 @@ export const regulatedPage: MarketingPageData = {
     {
       title: "Replace reconstruction with a linked execution record.",
       description:
-        "A result often crosses instrument software, analysis tools, spreadsheets, LIMS or ELN, and a review queue. Pixesci connects those handoffs into a reusable workflow with explicit inputs, parameters, outputs, actors, and review points. The same graph can preserve process context as work moves from early R&D and publication through CRO handoff, SOP development, MSAT, tech transfer, and manufacturing.",
+        "Scientific results often cross instrument software, analysis tools, spreadsheets, LIMS or ELN, and review queues. Pixesci connects those handoffs into a reusable workflow that preserves inputs, parameters, outputs, responsibilities, and review points across the process lifecycle.",
       visual: "workflow",
       bullets: [
         "FlowJo → GraphPad Prism → LIMS / ELN",
@@ -207,8 +212,10 @@ export const regulatedPage: MarketingPageData = {
     {
       eyebrow: "Operational evidence",
       title: "Make exceptions and reprocessing easier to review.",
-      description:
-        "Capture source files, processing parameters, operator identity, event order, output artifacts, and change reasons around the execution path.",
+      description: [
+        "Keep source references, parameters, operator actions, outputs, and documented change reasons connected to each run. Reviewers gain a clearer view of what happened without piecing together disconnected logs and notes.",
+        "For deviations, exceptions, or reprocessing, teams can inspect the relevant execution history within their established investigation, validation, and quality procedures.",
+      ],
       visual: "audit",
       features: [
         {
@@ -223,7 +230,7 @@ export const regulatedPage: MarketingPageData = {
         },
         {
           title: "Change control",
-          description: "Version workflow templates, settings, and execution logic.",
+          description: "Track approved changes to workflow templates and settings.",
           icon: FileCog,
         },
       ],
@@ -231,8 +238,10 @@ export const regulatedPage: MarketingPageData = {
     {
       eyebrow: "Controlled deployment",
       title: "Keep the runtime close to the software and data.",
-      description:
-        "Deploy on workstations or managed on-prem infrastructure. The canonical runtime is a desktop interface talking to a local backend and local data stores.",
+      description: [
+        "Deploy Pixesci on scientific workstations or managed on-prem infrastructure so execution stays close to applications, instruments, files, and governed data stores.",
+        "The local-first architecture fits existing network boundaries, access policies, backup procedures, and infrastructure controls without requiring a cloud-hosted execution layer.",
+      ],
       visual: "architecture",
       dark: true,
       features: [
@@ -273,7 +282,7 @@ export const secureResearchPage: MarketingPageData = {
     {
       title: "Connect complex research pipelines across local boundaries.",
       description:
-        "Pixesci turns file-based and software-specific procedures into explicit graphs with identifiers, versions, variables, processing steps, and output registration.",
+        "Turn file-based and software-specific procedures into explicit, reusable workflows that preserve versions, parameters, processing context, and registered outputs.",
       visual: "workflow",
       bullets: [
         "VASP → VESTA → OriginPro → HDF5 / SQL",
@@ -286,7 +295,7 @@ export const secureResearchPage: MarketingPageData = {
       eyebrow: "Airgapped operation",
       title: "Distribute capabilities without depending on the public internet.",
       description:
-        "Use local model packs, software profile packages, and approved internal shares. Deployment policy can block connector tiers that require external connectivity.",
+        "Distribute approved software definitions and AI resources through controlled internal channels. Deployment policies can prevent workflows from using integrations that require external connectivity.",
       visual: "architecture",
       dark: true,
       features: [
@@ -297,12 +306,12 @@ export const secureResearchPage: MarketingPageData = {
         },
         {
           title: "Policy gates",
-          description: "Separate local, on-prem, and internet-dependent connector tiers.",
+          description: "Restrict integrations according to deployment and connectivity policy.",
           icon: CloudOff,
         },
         {
           title: "Local secrets",
-          description: "Keep provider and runtime credentials out of frontend code.",
+          description: "Keep integration credentials within controlled local configuration.",
           icon: KeyRound,
         },
       ],
@@ -311,16 +320,16 @@ export const secureResearchPage: MarketingPageData = {
       eyebrow: "Reproducibility",
       title: "Preserve enough context to run the work again.",
       description:
-        "Keep raw-data references, identifiers, package versions, parameters, scripts, processing events, and produced artifacts tied to one execution history.",
+        "Keep source references, software versions, parameters, scripts, processing history, and produced artifacts connected so teams can understand and reproduce prior work.",
       features: [
         {
           title: "File lineage",
-          description: "Track source, transform, destination, and durable identifiers.",
+          description: "Connect source files, processing steps, destinations, and identifiers.",
           icon: Network,
         },
         {
           title: "Scripted processing",
-          description: "Use Python, R, MATLAB, or CLI steps where deterministic replay matters.",
+          description: "Include approved scripts where repeatable processing matters.",
           icon: Code2,
         },
         {
@@ -374,12 +383,12 @@ export const coreFacilitiesPage: MarketingPageData = {
       eyebrow: "Local operations",
       title: "Work with the software already installed at the facility.",
       description:
-        "Catalog metadata describes capabilities while local detection and setup configuration reflect each workstation.",
+        "Maintain a shared view of supported software while accounting for the applications, versions, and setup available on each workstation.",
       visual: "catalog",
       features: [
         {
           title: "Local detection",
-          description: "Show availability without rewriting the shared software profile.",
+          description: "Show which supported applications are available on each workstation.",
           icon: ScanLine,
         },
         {
@@ -438,8 +447,10 @@ export const compliancePage: MarketingPageData = {
   sections: [
     {
       title: "A connected record of who did what, when, and why.",
-      description:
-        "FDA data-integrity guidance emphasizes complete, consistent, accurate, attributable, contemporaneous, and reviewable records. Pixesci audit concepts include event ID, actor and role, action, resource, timestamp, source module, status, severity, request context, checksum, metadata, and review status.",
+      description: [
+        "FDA data-integrity guidance emphasizes records that are complete, consistent, accurate, attributable, contemporaneous, and available for review. Pixesci connects relevant actions, responsibilities, timestamps, outcomes, integrity signals, and review state around each workflow run.",
+        "This history helps teams reconstruct activity, verify review steps, and prepare evidence for quality processes or inspections. Organizations remain responsible for configuring and validating records against their own requirements.",
+      ],
       visual: "audit",
       features: [
         {
@@ -463,7 +474,7 @@ export const compliancePage: MarketingPageData = {
       eyebrow: "Data integrity",
       title: "Keep data, metadata, and the execution path together.",
       description:
-        "Completeness and reproducibility depend on source references, metadata, identifiers, versions, parameters, scripts, changes, and documented processing. Run summaries and workflow graphs provide a high-level view without replacing the underlying dynamic records.",
+        "Keep source references, metadata, versions, parameters, scripts, changes, and processing history connected. Workflow views and run summaries make that context easier to inspect without replacing underlying records.",
       features: [
         {
           title: "Metadata",
@@ -472,7 +483,7 @@ export const compliancePage: MarketingPageData = {
         },
         {
           title: "Versioning",
-          description: "Track workflow templates, capability references, and processing logic.",
+          description: "Track workflow versions and the software context used for each run.",
           icon: GitBranch,
         },
         {
@@ -485,14 +496,16 @@ export const compliancePage: MarketingPageData = {
     {
       eyebrow: "Controls",
       title: "Put review and access decisions in the workflow path.",
-      description:
-        "Human checkpoints, session controls, role concepts, backups, retention, and local deployment support controlled operation when configured and validated appropriately.",
+      description: [
+        "Human checkpoints, access controls, backups, retention policies, and local deployment help teams govern how workflows are accessed, reviewed, approved, and preserved.",
+        "These controls support accountable decisions and traceable procedures when configured and validated against the organization’s quality, security, and compliance requirements.",
+      ],
       visual: "architecture",
       dark: true,
       features: [
         {
           title: "Access controls",
-          description: "Authentication, sessions, roles, and permission-aware endpoints.",
+          description: "Use authenticated sessions and roles to govern access.",
           icon: LockKeyhole,
         },
         {
@@ -518,7 +531,7 @@ export const securityPage: MarketingPageData = {
   eyebrow: "Security and deployment",
   title: "A local-first runtime designed for deployment control.",
   description:
-    "The Pixesci desktop interface talks to a local FastAPI sidecar, local data stores, local models, profile packs, and scientific software adapters.",
+    "Pixesci keeps workflow execution, operational data, and scientific software connections within customer-controlled environments by default.",
   primaryCta: "Discuss deployment requirements",
   primaryHref: "/contact",
   secondaryCta: "Explore the platform",
@@ -527,26 +540,27 @@ export const securityPage: MarketingPageData = {
     {
       title: "The default control plane is the workstation.",
       description:
-        "Product data, logs, models, profile packs, and execution services can remain local. Managed deployments can use approved internal shares without requiring an external hosted service for correctness.",
+        "Workflow data, logs, AI resources, software definitions, and execution services can remain local. Managed deployments can use approved internal infrastructure without depending on an external hosted control plane.",
       visual: "architecture",
       dark: true,
       bullets: [
-        "Tauri desktop shell and Next.js interface",
-        "FastAPI over localhost HTTP and WebSocket",
-        "SQLite by default with SQLCipher support",
-        "Ollama or embedded GGUF local model routing",
-        "Local profile packs, model packs, logs, and audit data",
+        "Local desktop operation",
+        "Customer-controlled execution services",
+        "Local data storage with encryption options",
+        "Private AI-assisted planning options",
+        "Locally managed software definitions, logs, and audit records",
       ],
     },
     {
       eyebrow: "Controls",
       title: "Keep connectivity, paths, and credentials explicit.",
       description:
-        "Deployment mode, connector tier, directory access, session policy, and backend secrets define what the runtime may reach.",
+        "Define which integrations, directories, users, and services each deployment may access. Credentials remain within controlled runtime configuration rather than exposed to the user interface.",
+      layout: "stacked",
       features: [
         {
           title: "Airgap policy",
-          description: "Block internet-required connector tiers in airgapped mode.",
+          description: "Block integrations that require internet access in airgapped environments.",
           icon: CloudOff,
         },
         {
@@ -556,12 +570,12 @@ export const securityPage: MarketingPageData = {
         },
         {
           title: "Secret handling",
-          description: "Keep credentials in backend or local runtime configuration.",
+          description: "Keep credentials within controlled local configuration.",
           icon: KeyRound,
         },
         {
           title: "Session and RBAC concepts",
-          description: "Protect endpoints and audit access with authenticated sessions and roles.",
+          description: "Use authenticated sessions and roles to govern access.",
           icon: Users,
         },
         {
@@ -579,17 +593,19 @@ export const securityPage: MarketingPageData = {
     {
       eyebrow: "Deployment shapes",
       title: "Start on one workstation. Operate under managed policy.",
-      description:
-        "Use the same local runtime pattern for standalone workstations, managed lab installs, and enterprise on-prem environments.",
+      description: [
+        "Begin on a standalone workstation, then extend the same operating model to managed laboratory or enterprise on-prem environments.",
+        "Administrators can apply established policies for versions, access, configuration, data location, retention, backup, and review while keeping execution close to scientific software and data.",
+      ],
       features: [
         {
           title: "Standalone workstation",
-          description: "Desktop app supervises one local backend and local data store.",
+          description: "Run workflows and retain operational data on one workstation.",
           icon: Laptop,
         },
         {
           title: "Managed lab install",
-          description: "Distribute approved configuration, profiles, and model packs.",
+          description: "Distribute approved configuration and software definitions across the lab.",
           icon: MonitorCog,
         },
         {
@@ -610,16 +626,16 @@ export const workflowAutomationPage: MarketingPageData = {
   eyebrow: "Workflow automation",
   title: "Describe the work. Review the graph. Execute with evidence.",
   description:
-    "Use natural language to clarify scientific intent, then author capability-aware nodes, bind variables and files, review high-risk actions, stream execution events, and reuse the result as a template.",
+    "Use natural language to clarify scientific intent, shape it into a reviewable workflow, approve controlled actions, monitor execution, and reuse proven processes as templates.",
   primaryCta: "See a workflow demo",
   primaryHref: "/contact",
   secondaryCta: "Explore integrations",
   secondaryHref: "/integrations",
   sections: [
     {
-      title: "Build the workflow around real product mechanics.",
+      title: "Build the workflow around real scientific work.",
       description:
-        "The canvas brings graph layout, integration palette, add-step schemas, variables, local files, notes, preview, console, and IDE surfaces into one authoring environment.",
+        "Bring software steps, files, variables, notes, previews, and technical tools into one visual authoring environment. Teams can inspect dependencies and required inputs before execution.",
       visual: "workflow",
       features: [
         {
@@ -628,13 +644,13 @@ export const workflowAutomationPage: MarketingPageData = {
           icon: GitBranch,
         },
         {
-          title: "Variables and data bus",
-          description: "Bind step inputs and outputs without losing context.",
+          title: "Connected inputs and outputs",
+          description: "Connect step inputs and outputs while preserving context.",
           icon: Variable,
         },
         {
           title: "Capability validation",
-          description: "Load adapter schemas and validate node configuration before creation.",
+          description: "Check step requirements and configuration before execution.",
           icon: CheckCheck,
         },
       ],
@@ -643,13 +659,13 @@ export const workflowAutomationPage: MarketingPageData = {
       eyebrow: "Execution",
       title: "Stream progress and finish with a reviewable run summary.",
       description:
-        "Execution records can include status, completion, duration, attempts, step logs, outputs, screenshots, artifacts, errors, approvals, blocked actions, and a summary of the completed path.",
+        "Monitor status, timing, outputs, errors, approvals, and controlled actions as work progresses. Each run concludes with a connected summary that supports review and troubleshooting.",
       visual: "console",
       dark: true,
       features: [
         {
           title: "Live events",
-          description: "Use authenticated WebSocket updates for execution monitoring.",
+          description: "Monitor workflow progress through secure live updates.",
           icon: RadioTower,
         },
         {
@@ -668,7 +684,7 @@ export const workflowAutomationPage: MarketingPageData = {
       eyebrow: "Control",
       title: "Make human review part of the graph.",
       description:
-        "High-risk external, instrument, GUI, or file mutations can pause for approval. AI-generated plans remain subject to capability constraints and operator review.",
+        "Controlled actions involving instruments, external systems, interfaces, or files can pause for approval. AI-assisted plans remain bounded by supported capabilities and operator review.",
       visual: "audit",
       features: [
         {

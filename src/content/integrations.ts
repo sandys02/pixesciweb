@@ -113,6 +113,7 @@ export const capabilityFields = [
   "Execution channels",
   "Risk level",
   "GUI and user-input flags",
+  "Versioning"
 ] as const
 
 export const adapterChannels = [

@@ -1,7 +1,7 @@
 import { CheckCircle2, CircleDashed, PauseCircle } from "lucide-react"
 
 const logs = [
-  ["09:42:16.104", "run.started", "sample-set-042"],
+  ["09:42:16.104", "run.started", "run_01J8Q / trace_7F2"],
   ["09:42:18.892", "file.validated", "source/FCS/plate-7"],
   ["09:43:08.220", "node.completed", "flowjo-gating"],
   ["09:44:51.609", "artifact.created", "gating-summary.csv"],
@@ -16,7 +16,7 @@ export function ExecutionConsole() {
     >
       {/* TODO: Replace with real Pixesci execution monitor screenshot. */}
       <figcaption className="visual-toolbar border-white/10 bg-white/[0.025] text-white">
-        <span>Live execution / run_01J8Q</span>
+        <span>Live monitor / run_01J8Q</span>
         <span className="inline-flex items-center gap-1.5 text-amber-300">
           <PauseCircle className="size-3.5" />
           Awaiting review
@@ -42,7 +42,7 @@ export function ExecutionConsole() {
         </div>
         <div className="border-t border-white/10 bg-white/[0.025] p-5 md:border-l md:border-t-0">
           <p className="text-[10px] uppercase tracking-[0.14em] text-white/35">
-            Run state
+            Run summary
           </p>
           <div className="mt-5 space-y-4 text-xs">
             <div className="flex items-center justify-between text-white/65">
@@ -54,12 +54,26 @@ export function ExecutionConsole() {
             </div>
             <div className="flex items-center gap-2 text-emerald-300">
               <CheckCircle2 className="size-3.5" />
-              2 artifacts secured
+              3 executed
             </div>
             <div className="flex items-center gap-2 text-amber-300">
               <CircleDashed className="size-3.5" />
-              Human checkpoint
+              1 approval required
             </div>
+            <dl className="space-y-2 border-t border-white/10 pt-3 font-mono text-[9px] text-white/45">
+              <div className="flex justify-between gap-3">
+                <dt>events</dt>
+                <dd>12</dd>
+              </div>
+              <div className="flex justify-between gap-3">
+                <dt>artifacts</dt>
+                <dd>2</dd>
+              </div>
+              <div className="flex justify-between gap-3">
+                <dt>blocked</dt>
+                <dd>0</dd>
+              </div>
+            </dl>
           </div>
         </div>
       </div>

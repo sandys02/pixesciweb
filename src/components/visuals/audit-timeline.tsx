@@ -11,24 +11,32 @@ const events = [
     time: "09:42:16",
     action: "Workflow execution started",
     resource: "wf-flow-review-042",
+    category: "workflow",
+    severity: "info",
     status: "success",
   },
   {
     time: "09:43:08",
     action: "Analysis parameters applied",
     resource: "analysis-v3.json",
+    category: "data",
+    severity: "info",
     status: "success",
   },
   {
     time: "09:44:51",
     action: "Output checksum recorded",
     resource: "sha256: 8c7a…9f2e",
+    category: "compliance",
+    severity: "success",
     status: "success",
   },
   {
     time: "09:46:03",
     action: "Operator review requested",
     resource: "review / qc-director",
+    category: "compliance",
+    severity: "warning",
     status: "review",
   },
 ]
@@ -44,12 +52,27 @@ export function AuditTimeline({ dark }: AuditTimelineProps) {
     >
       {/* TODO: Replace with real Pixesci audit log screenshot. */}
       <figcaption className="visual-toolbar">
-        <span>Execution record</span>
+        <span>Audit logs / current user</span>
         <span className="inline-flex items-center gap-1.5 text-emerald-600">
           <ShieldCheck className="size-3.5" />
           Integrity checks present
         </span>
       </figcaption>
+      <div className="grid grid-cols-4 divide-x divide-border border-b border-border bg-muted/20 text-center">
+        {[
+          ["12", "events"],
+          ["00", "failed"],
+          ["01", "review"],
+          ["12", "tamper"],
+        ].map(([value, label]) => (
+          <div key={label} className="px-2 py-2.5">
+            <p className="font-mono text-[10px] font-semibold">{value}</p>
+            <p className="mt-0.5 text-[8px] uppercase tracking-[0.1em] text-muted-foreground">
+              {label}
+            </p>
+          </div>
+        ))}
+      </div>
       <div className="grid gap-0 md:grid-cols-[1fr_210px]">
         <div className="divide-y divide-border">
           {events.map((event, index) => (
@@ -61,7 +84,24 @@ export function AuditTimeline({ dark }: AuditTimelineProps) {
                 {event.time}
               </span>
               <div>
-                <p className="text-xs font-medium">{event.action}</p>
+                <div className="flex flex-wrap items-center gap-1.5">
+                  <p className="text-xs font-medium">{event.action}</p>
+                  <span className="rounded border border-border px-1.5 py-0.5 text-[8px] text-muted-foreground">
+                    {event.category}
+                  </span>
+                  <span
+                    className={cn(
+                      "text-[8px]",
+                      event.severity === "warning"
+                        ? "text-amber-600"
+                        : event.severity === "success"
+                          ? "text-emerald-600"
+                          : "text-muted-foreground",
+                    )}
+                  >
+                    {event.severity}
+                  </span>
+                </div>
                 <p className="mt-1 break-all font-mono text-[9px] text-muted-foreground">
                   {event.resource}
                 </p>
@@ -95,6 +135,8 @@ export function AuditTimeline({ dark }: AuditTimelineProps) {
               ["Category", "workflow"],
               ["Severity", "info"],
               ["Review", "required"],
+              ["Tamper evident", "yes"],
+              ["Change reason", "parameter set approved"],
               ["Event ID", "evt_01J8QF"],
             ].map(([term, value]) => (
               <div key={term}>
