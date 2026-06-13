@@ -53,7 +53,7 @@ export const organizationJsonLd = {
   name: "Pixesci",
   url: siteUrl,
   description:
-    "Local-first scientific workflow orchestration infrastructure for software integration, reproducible execution, auditability, and controlled deployment.",
+    "PixeSci is a compliance-first AI platform that automates regulated biotech workflows, integrates QC software, and delivers reproducible, audit-ready scientific operations through natural language commands.",
 }
 
 export const websiteJsonLd = {

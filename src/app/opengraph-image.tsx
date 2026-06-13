@@ -1,7 +1,7 @@
 import { ImageResponse } from "next/og"
 
 export const alt =
-  "Pixesci local-first scientific workflow orchestration infrastructure"
+  "PixeSci: Compliance-First AI Workflow Orchestration Infrastructure"
 export const size = {
   width: 1200,
   height: 630,
