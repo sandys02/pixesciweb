@@ -1,3 +1,6 @@
+"use client"
+
+import * as React from "react"
 import {
   Bot,
   Check,
@@ -18,41 +21,38 @@ type StepStatus = "completed" | "running" | "review" | "queued"
 type WorkflowStep = {
   label: string
   detail: string
-  status: StepStatus
 }
 
 const workflowSteps: WorkflowStep[] = [
   {
     label: "Instrument output detected",
     detail: "plate-7 / sample-set-042",
-    status: "completed",
   },
   {
     label: "Flow analysis started",
     detail: "validated capability / gating-v3",
-    status: "completed",
   },
   {
     label: "Parameters captured",
     detail: "12 variables / checksum recorded",
-    status: "completed",
   },
   {
     label: "Review checkpoint required",
     detail: "QC reviewer approval",
-    status: "review",
   },
   {
     label: "Evidence package generating",
     detail: "events / metadata / artifacts",
-    status: "running",
   },
   {
     label: "LIMS / ELN record queued",
     detail: "pending approved evidence",
-    status: "queued",
   },
 ]
+
+const finalPhase = workflowSteps.length + 1
+const reviewStepIndex = 3
+const phaseDurations = [700, 1100, 1100, 1100, 1900, 1200, 1200, 1900]
 
 const statusLabel: Record<StepStatus, string> = {
   completed: "Completed",
@@ -73,7 +73,55 @@ function StepIcon({ status }: { status: StepStatus }) {
   return <CircleDashed className="size-3" />
 }
 
+function getStepStatus(stepIndex: number, phase: number): StepStatus {
+  if (phase === finalPhase || stepIndex < phase - 1) {
+    return "completed"
+  }
+
+  if (stepIndex > phase - 1 || phase === 0) {
+    return "queued"
+  }
+
+  return stepIndex === reviewStepIndex ? "review" : "running"
+}
+
 export function HeroAgentMockup() {
+  const [phase, setPhase] = React.useState(0)
+  const [reduceMotion, setReduceMotion] = React.useState(false)
+
+  React.useEffect(() => {
+    const media = window.matchMedia("(prefers-reduced-motion: reduce)")
+    const updatePreference = () => setReduceMotion(media.matches)
+
+    updatePreference()
+    media.addEventListener("change", updatePreference)
+
+    return () => media.removeEventListener("change", updatePreference)
+  }, [])
+
+  React.useEffect(() => {
+    if (reduceMotion) {
+      return
+    }
+
+    const timer = window.setTimeout(() => {
+      setPhase((currentPhase) => (currentPhase + 1) % (finalPhase + 1))
+    }, phaseDurations[phase] ?? 1100)
+
+    return () => window.clearTimeout(timer)
+  }, [phase, reduceMotion])
+
+  const displayedPhase = reduceMotion ? reviewStepIndex + 1 : phase
+  const activeStepIndex = displayedPhase - 1
+  const reviewRequired = activeStepIndex === reviewStepIndex
+  const executionComplete = displayedPhase === finalPhase
+  const readiness = executionComplete
+    ? 100
+    : Math.max(16, Math.round((displayedPhase / finalPhase) * 100))
+  const completedSteps = workflowSteps.filter(
+    (_, index) => getStepStatus(index, displayedPhase) === "completed",
+  ).length
+
   return (
     <figure
       className="visual-frame hero-agent-mockup relative min-h-[520px] overflow-hidden border-white/12 bg-[#071015] text-white shadow-[0_24px_80px_rgba(7,16,21,0.28)]"
@@ -118,9 +166,13 @@ export function HeroAgentMockup() {
                 </p>
               </div>
               <p className="mt-3 text-xs leading-5 text-white/78">
-                Building validated workflow graph
+                {displayedPhase === 0
+                  ? "Building validated workflow graph"
+                  : executionComplete
+                    ? "Workflow completed with audit-ready evidence"
+                    : "Executing validated workflow graph"}
                 <span className="hero-agent-typing-cursor ml-0.5 text-cyan-300">
-                  ...
+                  {executionComplete ? "." : "..."}
                 </span>
               </p>
               <div className="mt-3 flex flex-wrap gap-1.5">
@@ -141,10 +193,15 @@ export function HeroAgentMockup() {
               <span className="text-[9px] uppercase tracking-[0.12em] text-white/35">
                 Workflow readiness
               </span>
-              <span className="font-mono text-[9px] text-cyan-300">68%</span>
+              <span className="font-mono text-[9px] text-cyan-300">
+                {readiness}%
+              </span>
             </div>
             <div className="mt-2.5 h-1 overflow-hidden rounded-full bg-white/8">
-              <div className="hero-agent-progress h-full w-[68%] rounded-full bg-cyan-300" />
+              <div
+                className="hero-agent-progress h-full rounded-full bg-cyan-300 transition-[width] duration-500"
+                style={{ width: `${readiness}%` }}
+              />
             </div>
           </div>
         </div>
@@ -159,61 +216,102 @@ export function HeroAgentMockup() {
                 Flow cytometry review
               </p>
             </div>
-            <span className="inline-flex items-center gap-1.5 rounded-full border border-amber-300/20 bg-amber-300/[0.08] px-2.5 py-1 text-[8px] font-medium uppercase tracking-[0.1em] text-amber-300">
-              <Pause className="size-3" />
-              Review gate
+            <span
+              className={cn(
+                "inline-flex items-center gap-1.5 rounded-full border px-2.5 py-1 text-[8px] font-medium uppercase tracking-[0.1em] transition-colors",
+                reviewRequired &&
+                  "border-amber-300/20 bg-amber-300/[0.08] text-amber-300",
+                !reviewRequired &&
+                  !executionComplete &&
+                  "border-cyan-300/20 bg-cyan-300/[0.08] text-cyan-300",
+                executionComplete &&
+                  "border-emerald-300/20 bg-emerald-300/[0.08] text-emerald-300",
+              )}
+            >
+              {reviewRequired ? (
+                <Pause className="size-3" />
+              ) : executionComplete ? (
+                <Check className="size-3" />
+              ) : (
+                <CircleDashed className="hero-agent-running size-3" />
+              )}
+              {reviewRequired
+                ? "Review gate"
+                : executionComplete
+                  ? "Audit ready"
+                  : "Executing"}
             </span>
           </div>
 
           <div className="mt-4 flex-1 rounded-md border border-white/10 bg-black/15">
-            {workflowSteps.map((step) => (
-              <div
-                key={step.label}
-                className="hero-agent-step grid grid-cols-[24px_minmax(0,1fr)_auto] items-center gap-2.5 border-b border-white/8 px-3 py-2.5 last:border-b-0"
-              >
-                <span
+            {workflowSteps.map((step, index) => {
+              const status = getStepStatus(index, displayedPhase)
+
+              return (
+                <div
+                  key={step.label}
                   className={cn(
-                    "flex size-6 items-center justify-center rounded-full border",
-                    step.status === "completed" &&
-                      "border-emerald-300/25 bg-emerald-300/10 text-emerald-300",
-                    step.status === "running" &&
-                      "hero-agent-running border-cyan-300/25 bg-cyan-300/10 text-cyan-300",
-                    step.status === "review" &&
-                      "border-amber-300/30 bg-amber-300/10 text-amber-300",
-                    step.status === "queued" &&
-                      "border-white/10 bg-white/[0.04] text-white/30",
+                    "hero-agent-step grid grid-cols-[24px_minmax(0,1fr)_auto] items-center gap-2.5 border-b border-white/8 px-3 py-2.5 transition-colors duration-300 last:border-b-0",
+                    status === "running" && "bg-cyan-300/[0.035]",
+                    status === "review" && "bg-amber-300/[0.04]",
                   )}
                 >
-                  <StepIcon status={step.status} />
-                </span>
-                <span className="min-w-0">
-                  <span className="block truncate text-[10px] font-medium text-white/78">
-                    {step.label}
+                  <span
+                    className={cn(
+                      "flex size-6 items-center justify-center rounded-full border transition-colors duration-300",
+                      status === "completed" &&
+                        "border-emerald-300/25 bg-emerald-300/10 text-emerald-300",
+                      status === "running" &&
+                        "hero-agent-running border-cyan-300/25 bg-cyan-300/10 text-cyan-300",
+                      status === "review" &&
+                        "border-amber-300/30 bg-amber-300/10 text-amber-300",
+                      status === "queued" &&
+                        "border-white/10 bg-white/[0.04] text-white/30",
+                    )}
+                  >
+                    <StepIcon status={status} />
                   </span>
-                  <span className="mt-0.5 block truncate font-mono text-[8px] text-white/32">
-                    {step.detail}
+                  <span className="min-w-0">
+                    <span className="block truncate text-[10px] font-medium text-white/78">
+                      {step.label}
+                    </span>
+                    <span className="mt-0.5 block truncate font-mono text-[8px] text-white/32">
+                      {step.detail}
+                    </span>
                   </span>
-                </span>
-                <span
-                  className={cn(
-                    "font-mono text-[7px] uppercase tracking-[0.08em]",
-                    step.status === "completed" && "text-emerald-300/75",
-                    step.status === "running" && "text-cyan-300",
-                    step.status === "review" && "text-amber-300",
-                    step.status === "queued" && "text-white/25",
-                  )}
-                >
-                  {statusLabel[step.status]}
-                </span>
-              </div>
-            ))}
+                  <span
+                    className={cn(
+                      "font-mono text-[7px] uppercase tracking-[0.08em] transition-colors duration-300",
+                      status === "completed" && "text-emerald-300/75",
+                      status === "running" && "text-cyan-300",
+                      status === "review" && "text-amber-300",
+                      status === "queued" && "text-white/25",
+                    )}
+                  >
+                    {statusLabel[status]}
+                  </span>
+                </div>
+              )
+            })}
           </div>
 
           <div className="mt-3 grid grid-cols-3 divide-x divide-white/10 rounded-md border border-white/10 bg-white/[0.025]">
             {[
-              { value: "18", label: "events", icon: Sparkles },
-              { value: "04", label: "artifacts", icon: FileCheck2 },
-              { value: "01", label: "record", icon: Database },
+              {
+                value: String(4 + displayedPhase * 2).padStart(2, "0"),
+                label: "events",
+                icon: Sparkles,
+              },
+              {
+                value: String(Math.min(completedSteps, 4)).padStart(2, "0"),
+                label: "artifacts",
+                icon: FileCheck2,
+              },
+              {
+                value: executionComplete ? "01" : "00",
+                label: "record",
+                icon: Database,
+              },
             ].map((metric) => {
               const Icon = metric.icon
               return (
@@ -230,13 +328,34 @@ export function HeroAgentMockup() {
             })}
           </div>
 
-          <div className="mt-3 flex items-center justify-between gap-3 rounded-md border border-emerald-300/15 bg-emerald-300/[0.055] px-3 py-2">
-            <span className="flex items-center gap-2 text-[9px] text-emerald-200/80">
+          <div
+            className={cn(
+              "mt-3 flex items-center justify-between gap-3 rounded-md border px-3 py-2 transition-colors duration-300",
+              executionComplete
+                ? "border-emerald-300/15 bg-emerald-300/[0.055]"
+                : "border-cyan-300/12 bg-cyan-300/[0.035]",
+            )}
+          >
+            <span
+              className={cn(
+                "flex items-center gap-2 text-[9px]",
+                executionComplete
+                  ? "text-emerald-200/80"
+                  : "text-cyan-200/70",
+              )}
+            >
               <FlaskConical className="size-3.5" />
-              Evidence chain active
+              {executionComplete
+                ? "Evidence package complete"
+                : "Evidence chain active"}
             </span>
-            <span className="font-mono text-[8px] text-emerald-300">
-              audit-ready
+            <span
+              className={cn(
+                "font-mono text-[8px]",
+                executionComplete ? "text-emerald-300" : "text-cyan-300",
+              )}
+            >
+              {executionComplete ? "audit-ready" : "capturing"}
             </span>
           </div>
         </div>
