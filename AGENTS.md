@@ -4,11 +4,11 @@
 This version has breaking changes — APIs, conventions, and file structure may all differ from your training data. Read the relevant guide in `node_modules/next/dist/docs/` before writing any code. Heed deprecation notices.
 <!-- END:nextjs-agent-rules -->
 
-# Pixesci Website Agent Guide
+# PixeSci Website Agent Guide
 
 ## Project Purpose
 
-This repository is the public marketing website for Pixesci, a local-first scientific workflow orchestration platform for high-control scientific environments. The website must communicate Pixesci as serious infrastructure for scientific software integration, reproducible workflow execution, auditability, and local/on-prem deployment. It is not a generic AI SaaS landing page and must not drift into vague automation copy.
+This repository is the public marketing website for PixeSci, a local-first scientific workflow orchestration platform for high-control scientific environments. The website must communicate PixeSci as serious infrastructure for scientific software integration, reproducible workflow execution, auditability, and local/on-prem deployment. It is not a generic AI SaaS landing page and must not drift into vague automation copy.
 
 Primary audiences are regulated life-sciences teams, lab operations leaders, QC and R&D leaders, core facility staff, national lab teams, scientific software operators, and technical buyers who care about traceability, reproducibility, data locality, deployment control, and integration with existing scientific tools.
 
@@ -16,7 +16,7 @@ Primary audiences are regulated life-sciences teams, lab operations leaders, QC 
 
 Use Vercel as the primary inspiration for restraint, precision, spacing, technical confidence, crisp navigation, modular product storytelling, and enterprise conversion structure. Use ElevenLabs only for selective polish: immersive media moments, confident product category framing, and high-end interactive feel. Use Sunburst only for visual storytelling patterns around process, guided workflows, and product-in-context sequences. Never copy layouts, text, components, gradients, animations, or visual signatures directly from any inspiration site.
 
-The Pixesci brand should feel:
+The PixeSci brand should feel:
 
 - modern, premium, technical, elegant, and enterprise-ready
 - precise rather than decorative
@@ -64,7 +64,7 @@ Keep components small and composable, but do not split every tiny element into i
 - Use lucide icons from `lucide-react` instead of hand-drawn SVG icons when an icon exists.
 - Keep comments rare and useful.
 - Do not introduce backend calls for marketing content unless the implementation prompt explicitly requests them.
-- Do not hardcode claims that Pixesci is certified, FDA-approved, HIPAA-certified, SOC 2 certified, or Part 11 validated unless documentation is added proving that status.
+- Do not hardcode claims that PixeSci is certified, FDA-approved, HIPAA-certified, SOC 2 certified, or Part 11 validated unless documentation is added proving that status.
 
 ## Styling Principles
 
@@ -91,21 +91,21 @@ Keep components small and composable, but do not split every tiny element into i
 
 Design mobile-first and verify desktop, tablet, and mobile layouts. Navigation must collapse cleanly. Product mockups must remain legible and not overflow on small screens. Section spacing should compress on mobile without losing hierarchy. Use stable dimensions, grids, and aspect ratios for workflow diagrams, integration matrices, and UI mockups so dynamic content cannot shift the layout.
 
-## Pixesci Messaging Rules
+## PixeSci Messaging Rules
 
 Always preserve the core positioning:
 
-- Pixesci is integration, automation, and compliance infrastructure for fragmented scientific software.
-- Pixesci is a local-first orchestration and execution layer, not a cloud-only agent.
-- Pixesci helps teams turn manual multi-tool scientific work into reusable, traceable workflows.
-- Pixesci supports reproducibility through graph-native workflows, variables, execution events, run history, audit records, and review checkpoints.
-- Pixesci speaks to high-control scientific environments: regulated life sciences, pharma, biotech, CROs, CDMOs, core facilities, national labs, and secure R&D.
+- PixeSci is integration, automation, and compliance infrastructure for fragmented scientific software.
+- PixeSci is a local-first orchestration and execution layer, not a cloud-only agent.
+- PixeSci helps teams turn manual multi-tool scientific work into reusable, traceable workflows.
+- PixeSci supports reproducibility through graph-native workflows, variables, execution events, run history, audit records, and review checkpoints.
+- PixeSci speaks to high-control scientific environments: regulated life sciences, pharma, biotech, CROs, CDMOs, core facilities, national labs, and secure R&D.
 
-Do not reduce Pixesci to generic AI chat. Chat is one interface into the workflow system; the core product is the orchestration layer across scientific tools.
+Do not reduce PixeSci to generic AI chat. Chat is one interface into the workflow system; the core product is the orchestration layer across scientific tools.
 
 ## Compliance Messaging Rules
 
-Be precise. Pixesci can be described as helping teams produce traceable execution records, audit trails, reproducible workflow runs, local/on-prem deployment, and compliance-supporting evidence. Avoid implying that using Pixesci automatically makes a customer compliant. Use language such as `supports`, `helps`, `designed for`, `built around`, and `compliance-ready workflows` rather than unsupported certification claims.
+Be precise. PixeSci can be described as helping teams produce traceable execution records, audit trails, reproducible workflow runs, local/on-prem deployment, and compliance-supporting evidence. Avoid implying that using PixeSci automatically makes a customer compliant. Use language such as `supports`, `helps`, `designed for`, `built around`, and `compliance-ready workflows` rather than unsupported certification claims.
 
 ## Verification
 

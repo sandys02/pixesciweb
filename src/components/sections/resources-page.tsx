@@ -136,7 +136,7 @@ export function ResourcesPage() {
             <div className="max-w-4xl">
               <p className="eyebrow">Resources</p>
               <h1 className="mt-5 text-4xl leading-[1.05] font-semibold sm:text-6xl lg:text-7xl">
-                Evaluate Pixesci through architecture, workflow, and evidence.
+                Evaluate PixeSci through architecture, workflow, and evidence.
               </h1>
               <p className="mt-6 max-w-3xl text-base leading-7 text-muted-foreground sm:text-lg sm:leading-8">
                 A starting library for technical buyers, quality teams, lab IT,
@@ -230,7 +230,7 @@ export function ResourcesPage() {
       <CTASection
         title="Turn evaluation questions into a workflow review."
         description="Bring your software stack, deployment constraints, data flow, and evidence requirements."
-        cta="Contact Pixesci"
+        cta="Contact PixeSci"
       />
     </>
   )

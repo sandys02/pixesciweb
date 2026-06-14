@@ -110,7 +110,7 @@ export const productPage: MarketingPageData = {
       eyebrow: "Capability contracts",
       title: "Know what each software step can do before execution.",
       description: [
-        "Pixesci describes each connected application through its supported operations, required inputs, expected outputs, setup requirements, and operational constraints. Teams can confirm that a software step is suitable before adding it to a workflow.",
+        "PixeSci describes each connected application through its supported operations, required inputs, expected outputs, setup requirements, and operational constraints. Teams can confirm that a software step is suitable before adding it to a workflow.",
         "Environment checks show whether the required scientific software is available where the workflow will run. Teams can standardize processes while accounting for differences among workstations, instruments, and sites.",
       ],
       visual: "catalog",
@@ -200,7 +200,7 @@ export const regulatedPage: MarketingPageData = {
     {
       title: "Replace reconstruction with a linked execution record.",
       description:
-        "Scientific results often move among instrument software, analysis tools, spreadsheets, LIMS or ELN systems, and review queues. Pixesci connects these handoffs in a reusable workflow that preserves inputs, parameters, outputs, responsibilities, and review points throughout the process.",
+        "Scientific results often move among instrument software, analysis tools, spreadsheets, LIMS or ELN systems, and review queues. PixeSci connects these handoffs in a reusable workflow that preserves inputs, parameters, outputs, responsibilities, and review points throughout the process.",
       visual: "workflow",
       bullets: [
         "FlowJo → GraphPad Prism → LIMS / ELN",
@@ -239,7 +239,7 @@ export const regulatedPage: MarketingPageData = {
       eyebrow: "Controlled deployment",
       title: "Keep execution, data, and records under your control.",
       description: [
-        "Deploy Pixesci on scientific workstations or managed on-prem infrastructure so workflow execution stays close to applications, instruments, files, and governed data stores.",
+        "Deploy PixeSci on scientific workstations or managed on-prem infrastructure so workflow execution stays close to applications, instruments, files, and governed data stores.",
         "Its local-first architecture works within existing network boundaries, access policies, backup procedures, and infrastructure controls without requiring a cloud-hosted execution layer.",
       ],
       visual: "architecture",
@@ -340,7 +340,7 @@ export const secureResearchPage: MarketingPageData = {
       ],
     },
   ],
-  finalTitle: "Fit Pixesci to your controlled research environment.",
+  finalTitle: "Fit PixeSci to your controlled research environment.",
   finalDescription:
     "Discuss workstation, on-prem, and airgapped deployment, including capability distribution and internal repository requirements.",
   finalCta: "Discuss secure deployment",
@@ -439,7 +439,7 @@ export const compliancePage: MarketingPageData = {
   eyebrow: "Compliance and data integrity",
   title: "Build reviewable evidence into scientific execution.",
   description:
-    "Pixesci helps teams preserve audit events, metadata, attribution, outcomes, checksums, and review state across multi-tool scientific workflows. These controls support evaluation against ALCOA data-integrity principles but do not make a configured workflow automatically compliant.",
+    "PixeSci helps teams preserve audit events, metadata, attribution, outcomes, checksums, and review state across multi-tool scientific workflows. These controls support evaluation against ALCOA data-integrity principles but do not make a configured workflow automatically compliant.",
   primaryCta: "Review compliance workflows",
   primaryHref: demoBookingUrl,
   secondaryCta: "See regulated solutions",
@@ -448,7 +448,7 @@ export const compliancePage: MarketingPageData = {
     {
       title: "A connected record of who did what, when, and why.",
       description: [
-        "FDA data-integrity guidance emphasizes records that are complete, consistent, accurate, attributable, contemporaneous, and available for review. Pixesci connects actions, responsibilities, timestamps, outcomes, integrity signals, and review states to each workflow run.",
+        "FDA data-integrity guidance emphasizes records that are complete, consistent, accurate, attributable, contemporaneous, and available for review. PixeSci connects actions, responsibilities, timestamps, outcomes, integrity signals, and review states to each workflow run.",
         "This history helps teams reconstruct activity, verify review steps, and prepare evidence for quality processes or inspections. Each organization remains responsible for configuring and validating records against its own requirements.",
       ],
       visual: "audit",
@@ -521,7 +521,7 @@ export const compliancePage: MarketingPageData = {
       ],
     },
   ],
-  finalTitle: "Review Pixesci against your workflow and quality system.",
+  finalTitle: "Review PixeSci against your workflow and quality system.",
   finalDescription:
     "We will review your evidence requirements, approval points, deployment controls, and customer validation responsibilities.",
   finalCta: "Review compliance workflows",
@@ -531,7 +531,7 @@ export const securityPage: MarketingPageData = {
   eyebrow: "Security and deployment",
   title: "A local-first runtime designed for deployment control.",
   description:
-    "Pixesci provides local-first scientific workflow orchestration that keeps execution, operational data, and software connections within customer-controlled environments by default.",
+    "PixeSci provides local-first scientific workflow orchestration that keeps execution, operational data, and software connections within customer-controlled environments by default.",
   primaryCta: "Discuss deployment requirements",
   primaryHref: demoBookingUrl,
   secondaryCta: "Explore the platform",
@@ -616,7 +616,7 @@ export const securityPage: MarketingPageData = {
       ],
     },
   ],
-  finalTitle: "Review your deployment boundary with Pixesci.",
+  finalTitle: "Review your deployment boundary with PixeSci.",
   finalDescription:
     "Discuss workstation policies, on-prem services, airgapped operation, encryption options, access controls, and offline package distribution.",
   finalCta: "Discuss deployment requirements",

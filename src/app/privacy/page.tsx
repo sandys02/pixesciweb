@@ -6,7 +6,7 @@ import { createMetadata } from "@/lib/seo"
 export const metadata: Metadata = createMetadata({
   title: "Privacy",
   description:
-    "Learn how the Pixesci website uses privacy-conscious traffic measurement, performance monitoring, and external booking services.",
+    "Learn how the PixeSci website uses privacy-conscious traffic measurement, performance monitoring, and external booking services.",
   path: "/privacy",
 })
 
@@ -15,13 +15,13 @@ const sections = [
     title: "Information this website processes",
     paragraphs: [
       "This marketing website does not currently provide user accounts, accept file uploads, or operate a contact form. When you browse the site, standard request information may be processed by the hosting platform to deliver pages securely and reliably.",
-      "Pixesci uses Vercel Web Analytics to understand page usage and demo-booking conversions, and Vercel Speed Insights to measure real-world website performance. Conversion events contain the page path, CTA label, and CTA location. They are not designed to include names, email addresses, scientific data, or other form content.",
+      "PixeSci uses Vercel Web Analytics to understand page usage and demo-booking conversions, and Vercel Speed Insights to measure real-world website performance. Conversion events contain the page path, CTA label, and CTA location. They are not designed to include names, email addresses, scientific data, or other form content.",
     ],
   },
   {
     title: "External booking",
     paragraphs: [
-      "Demo links open a Pixesci booking page hosted by Cal.com in a new browser tab. Information submitted on that page is processed by Cal.com and Pixesci according to the choices and notices shown there.",
+      "Demo links open a PixeSci booking page hosted by Cal.com in a new browser tab. Information submitted on that page is processed by Cal.com and PixeSci according to the choices and notices shown there.",
     ],
   },
   {
@@ -34,7 +34,7 @@ const sections = [
     title: "Your choices",
     paragraphs: [
       "You can limit analytics through browser privacy controls, content blockers, or network-level tools. Blocking measurement scripts does not prevent access to the website's primary content.",
-      "For privacy questions related to this website, contact Pixesci at hello@pixesci.com.",
+      "For privacy questions related to this website, contact PixeSci at hello@pixesci.com.",
     ],
   },
 ] as const
@@ -63,7 +63,7 @@ export default function Page() {
           <div>
             <p className="eyebrow">Website scope</p>
             <p className="mt-4 max-w-sm text-sm leading-6 text-muted-foreground">
-              This notice applies to the public Pixesci marketing website. A
+              This notice applies to the public PixeSci marketing website. A
               customer product or deployment may be governed by separate
               agreements and notices.
             </p>

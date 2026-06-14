@@ -48,7 +48,7 @@ export default function Image() {
           >
             +
           </div>
-          Pixesci
+          PixeSci
         </div>
         <div style={{ display: "flex", flexDirection: "column", gap: "28px" }}>
           <div

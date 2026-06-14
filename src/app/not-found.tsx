@@ -9,7 +9,7 @@ export default function NotFound() {
         <p className="eyebrow">404</p>
         <h1 className="mt-4 text-4xl font-semibold">Page not found.</h1>
         <p className="mt-4 text-base leading-7 text-muted-foreground">
-          The requested Pixesci marketing page does not exist.
+          The requested PixeSci marketing page does not exist.
         </p>
         <Button asChild size="lg" className="mt-8 px-4">
           <Link href="/">Return home</Link>

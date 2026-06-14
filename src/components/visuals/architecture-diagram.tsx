@@ -21,9 +21,9 @@ export function ArchitectureDiagram() {
   return (
     <figure
       className="visual-frame overflow-hidden border-white/12 bg-white/[0.035]"
-      aria-label="Illustrative Pixesci local-first architecture from desktop interface through localhost backend to local data, models, profile packs, and scientific software"
+      aria-label="Illustrative PixeSci local-first architecture from desktop interface through localhost backend to local data, models, profile packs, and scientific software"
     >
-      {/* TODO: Replace with final reviewed Pixesci architecture artwork. */}
+      {/* TODO: Replace with final reviewed PixeSci architecture artwork. */}
       <figcaption className="visual-toolbar border-white/10 bg-white/[0.025] text-white">
         <span>Customer-controlled runtime</span>
         <span className="inline-flex items-center gap-1.5 text-cyan-300">

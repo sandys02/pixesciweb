@@ -40,7 +40,7 @@ export function TemplateVisual() {
       className="visual-frame overflow-hidden"
       aria-label="Illustrative workflow template center with reusable scientific workflow templates"
     >
-      {/* TODO: Replace with real Pixesci template center screenshot. */}
+      {/* TODO: Replace with real PixeSci template center screenshot. */}
       <figcaption className="visual-toolbar">
         <span>Template center</span>
         <span className="text-muted-foreground">Published workflow templates</span>
@@ -98,7 +98,7 @@ export function TemplateVisual() {
                 </div>
                 <div className="flex items-center gap-1.5 text-emerald-600">
                   <CheckCircle2 className="size-3" />
-                  Pixesci · published
+                  PixeSci · published
                 </div>
               </div>
             </div>

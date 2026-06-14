@@ -10,7 +10,7 @@ import { createFaqJsonLd, createMetadata } from "@/lib/seo"
 export const metadata: Metadata = createMetadata({
   title: "Scientific workflow orchestration resources",
   description:
-    "Architecture, compliance, workflow automation, integration, security, and data integrity resources for evaluating Pixesci.",
+    "Architecture, compliance, workflow automation, integration, security, and data integrity resources for evaluating PixeSci.",
   path: "/resources",
 })
 

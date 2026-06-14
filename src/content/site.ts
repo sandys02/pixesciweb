@@ -60,7 +60,7 @@ export const primaryNavigation: NavItem[] = [
   {
     label: "Company",
     href: "/company",
-    description: "Why Pixesci is building the missing scientific software layer.",
+    description: "Why PixeSci is building the missing scientific software layer.",
   },
 ]
 
@@ -232,7 +232,7 @@ export const resourceCards = [
 ] as const
 
 export const complianceDisclaimer =
-  "Pixesci supports compliance-oriented workflows and reviewable execution evidence. Customers remain responsible for validation, configuration, SOPs, training, and use within their quality system."
+  "PixeSci supports compliance-oriented workflows and reviewable execution evidence. Customers remain responsible for validation, configuration, SOPs, training, and use within their quality system."
 
 export const securityHighlights: FeatureItem[] = [
   {

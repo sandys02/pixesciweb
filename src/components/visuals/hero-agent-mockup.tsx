@@ -160,14 +160,14 @@ export function HeroAgentMockup() {
   return (
     <figure
       className="visual-frame hero-agent-mockup relative min-h-[520px] overflow-hidden bg-card text-card-foreground shadow-[0_24px_80px_rgba(21,36,45,0.14)] dark:border-white/12 dark:bg-[#071015] dark:text-white dark:shadow-[0_24px_80px_rgba(7,16,21,0.28)]"
-      aria-label="Illustrative Pixesci AI agent converting a plain-language flow cytometry request into a controlled workflow with execution status, human review, and audit-ready evidence"
+      aria-label="Illustrative PixeSci AI agent converting a plain-language flow cytometry request into a controlled workflow with execution status, human review, and audit-ready evidence"
     >
       <div className="workflow-grid absolute inset-0 opacity-65 dark:hidden" aria-hidden="true" />
       <div className="workflow-grid-dark absolute inset-0 hidden opacity-70 dark:block" aria-hidden="true" />
       <figcaption className="visual-toolbar relative z-10 bg-muted/45 text-foreground dark:border-white/10 dark:bg-white/[0.035] dark:text-white">
         <span className="flex items-center gap-2">
           <span className="hero-agent-status-dot size-2 rounded-full bg-emerald-400" />
-          Pixesci AI Agent
+          PixeSci AI Agent
         </span>
         <span className="inline-flex items-center gap-1.5 font-mono text-[9px] text-primary dark:text-cyan-300">
           <ShieldCheck className="size-3.5" />
@@ -198,7 +198,7 @@ export function HeroAgentMockup() {
                   <Bot className="size-3.5 text-primary dark:text-cyan-300" />
                 </span>
                 <p className="text-[9px] font-medium uppercase tracking-[0.12em] text-primary dark:text-cyan-300">
-                  Pixesci
+                  PixeSci
                 </p>
               </div>
               <p className="mt-3 text-xs leading-5 text-foreground/80 dark:text-white/78">

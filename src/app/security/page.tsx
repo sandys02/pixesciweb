@@ -7,7 +7,7 @@ import { createMetadata } from "@/lib/seo"
 export const metadata: Metadata = createMetadata({
   title: "Local-first security and on-prem deployment",
   description:
-    "Review Pixesci local desktop architecture, localhost FastAPI runtime, local data and model stores, policy gates, and airgapped operation.",
+    "Review PixeSci local desktop architecture, localhost FastAPI runtime, local data and model stores, policy gates, and airgapped operation.",
   path: "/security",
 })
 

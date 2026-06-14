@@ -63,7 +63,7 @@ export function WorkflowVisual({
         compact ? "min-h-[390px]" : "min-h-[500px]",
         className,
       )}
-      aria-label="Illustrative Pixesci workflow graph connecting instrument output, analysis, statistics, review, and a system of record"
+      aria-label="Illustrative PixeSci workflow graph connecting instrument output, analysis, statistics, review, and a system of record"
     >
       {/* TODO: Replace with real workflow canvas screenshot. */}
       <figcaption className="visual-toolbar">

@@ -37,7 +37,7 @@ export function CompanyPage() {
                 Building the missing execution layer between scientific tools.
               </h1>
               <p className="mt-6 max-w-3xl text-base leading-7 text-muted-foreground sm:text-lg sm:leading-8">
-                Pixesci is a compliance-first AI agent that connects and
+                PixeSci is a compliance-first AI agent that connects and
                 automates QC software and workflows in regulated biotech,
                 replacing hours of manual cross-system work with simple
                 natural-language commands while preserving reviewable,
@@ -45,7 +45,7 @@ export function CompanyPage() {
               </p>
               <Button asChild size="lg" className="mt-8 px-4">
                 <DemoBookingLink source="company_hero">
-                  Contact Pixesci
+                  Contact PixeSci
                   <ArrowRight className="size-4" />
                 </DemoBookingLink>
               </Button>
@@ -126,7 +126,7 @@ export function CompanyPage() {
       <CTASection
         title="Let's Map Your Scientific Workflows"
         description="Start with the gaps between your scientific systems. We'll help identify software handoffs, review bottlenecks, compliance requirements, and reproducibility challenges that can be addressed through workflow orchestration."
-        cta="Contact Pixesci"
+        cta="Contact PixeSci"
       />
     </>
   )

@@ -4,9 +4,9 @@ import { CompanyPage } from "@/components/sections/company-page"
 import { createMetadata } from "@/lib/seo"
 
 export const metadata: Metadata = createMetadata({
-  title: "About Pixesci",
+  title: "About PixeSci",
   description:
-    "Pixesci is building compliance-first workflow orchestration between specialized scientific software for controlled research and regulated laboratories.",
+    "PixeSci is building compliance-first workflow orchestration between specialized scientific software for controlled research and regulated laboratories.",
   path: "/company",
 })
 

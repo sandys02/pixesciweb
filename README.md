@@ -1,10 +1,10 @@
-# Pixesci Website
+# PixeSci Website
 
-Public marketing website for [Pixesci](https://pixesci.com), a local-first
+Public marketing website for [PixeSci](https://pixesci.com), a local-first
 scientific workflow orchestration platform for regulated life sciences, secure
 research, core facilities, and other high-control scientific environments.
 
-The site presents Pixesci as the integration, automation, execution, and
+The site presents PixeSci as the integration, automation, execution, and
 traceability layer between fragmented scientific tools. Its messaging focuses
 on reproducible workflows, audit evidence, deployment control, local execution,
 and integration with existing scientific software.
@@ -22,7 +22,7 @@ and integration with existing scientific software.
 - Desktop navigation and an accessible native-dialog mobile menu.
 - Per-route metadata, canonical URLs, Open Graph and Twitter metadata, JSON-LD,
   a generated Open Graph image, `robots.txt`, and `sitemap.xml`.
-- Direct demo booking through Pixesci's external Cal.com calendar.
+- Direct demo booking through PixeSci's external Cal.com calendar.
 - Vercel Web Analytics, Speed Insights, and demo-booking conversion events.
 - Site-wide browser security headers and scheduled production uptime checks.
 - Compliance language that distinguishes product support from customer
@@ -284,7 +284,7 @@ For visual or navigation changes, also run the development server and inspect:
 
 ## Content And Compliance Guardrails
 
-- Position Pixesci as local-first scientific workflow orchestration
+- Position PixeSci as local-first scientific workflow orchestration
   infrastructure, not generic AI chat.
 - Keep scientific software integration, reproducibility, traceability,
   auditability, and deployment control central.
@@ -304,11 +304,11 @@ secrets or external backend services.
 After deployment, confirm:
 
 - `https://pixesci.com` matches the actual canonical production domain.
-- Cal.com links open the expected Pixesci booking page.
+- Cal.com links open the expected PixeSci booking page.
 - `/contact` and `/talk-to-sales` return permanent redirects.
 - `/robots.txt`, `/sitemap.xml`, and `/opengraph-image` are reachable.
 - The scheduled uptime workflow is enabled on the default branch.
 
 ## License
 
-Proprietary. Copyright Pixesci. All rights reserved.
+Proprietary. Copyright PixeSci. All rights reserved.

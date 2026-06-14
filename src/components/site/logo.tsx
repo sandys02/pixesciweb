@@ -8,7 +8,7 @@ export function Logo() {
     <Link
       href="/"
       className="group inline-flex items-center gap-1 rounded-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
-      aria-label="Pixesci home"
+      aria-label="PixeSci home"
     >
       <Image
         src="/pixesci-logo.png"

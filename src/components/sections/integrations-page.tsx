@@ -28,7 +28,7 @@ export function IntegrationsPage() {
                 Capability profiles for the scientific software you already use.
               </h1>
               <p className="mt-6 max-w-3xl text-base leading-7 text-muted-foreground sm:text-lg sm:leading-8">
-                Pixesci models software through requirements, formats, setup,
+                PixeSci models software through requirements, formats, setup,
                 execution channels, risk, and user-input needs. The examples
                 below describe the target ecosystem, not a claim that every
                 connector is production-ready.

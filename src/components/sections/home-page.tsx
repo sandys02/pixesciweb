@@ -49,7 +49,7 @@ export function HomePage() {
                   Connect scientific software into traceable workflows.
                 </h1>
                 <p className="mt-6 max-w-2xl text-base leading-7 text-muted-foreground sm:text-lg sm:leading-8">
-                  Pixesci turns fragmented scientific software handoffs into
+                  PixeSci turns fragmented scientific software handoffs into
                   reusable workflow graphs with local execution, complete run
                   history, review checkpoints, and audit-ready evidence.
                 </p>
@@ -91,7 +91,7 @@ export function HomePage() {
         <section className="section-space border-t border-border">
           <div className="site-container">
             <div className="max-w-3xl">
-              <p className="eyebrow">The Pixesci platform</p>
+              <p className="eyebrow">The PixeSci platform</p>
               <h2 className="mt-3 text-3xl leading-tight font-semibold sm:text-5xl">
                 An orchestration layer between the tools you already use.
               </h2>
@@ -368,7 +368,7 @@ export function HomePage() {
         </section>
       </main>
       <CTASection
-        title="Map one scientific workflow with Pixesci."
+        title="Map one scientific workflow with PixeSci."
         description="Show us the software, files, manual handoffs, review points, and deployment constraints. We will turn the process into an orchestration plan."
         cta="Request a demo"
       />
