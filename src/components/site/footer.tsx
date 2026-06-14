@@ -20,7 +20,7 @@ export function SiteFooter() {
               href="/contact"
               className="mt-6 inline-flex text-sm font-medium text-primary hover:underline"
             >
-              Contact Pixesci
+              Request a demo
             </Link>
           </div>
           <div className="grid grid-cols-2 gap-8 sm:grid-cols-4">

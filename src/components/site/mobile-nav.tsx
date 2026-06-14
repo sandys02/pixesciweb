@@ -69,12 +69,13 @@ export function MobileNav() {
               ))}
             </ul>
           </nav>
-          <div className="grid gap-2 border-t border-border p-5">
-            <Link href="/contact" className="button button-primary">
+          <div className="border-t border-border p-5">
+            <Link
+              href="/contact"
+              onClick={() => setOpen(false)}
+              className="button button-primary w-full"
+            >
               Request a demo
-            </Link>
-            <Link href="/contact" className="button button-secondary">
-              Talk to sales
             </Link>
           </div>
         </div>

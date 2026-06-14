@@ -14,50 +14,59 @@ export function ContactForm() {
   return (
     <form onSubmit={handleSubmit} className="grid gap-5" noValidate={false}>
       <div className="grid gap-5 sm:grid-cols-2">
-        <Field label="Name" name="name" required />
-        <Field label="Work email" name="email" type="email" required />
-      </div>
-      <div className="grid gap-5 sm:grid-cols-2">
-        <Field label="Organization" name="organization" required />
-        <Field label="Role" name="role" required />
-      </div>
-      <div className="grid gap-5 sm:grid-cols-2">
-        <SelectField
-          label="Scientific domain"
-          name="domain"
-          options={[
-            "Regulated life sciences",
-            "Secure research",
-            "Core facility",
-            "Other",
-          ]}
-        />
-        <SelectField
-          label="Deployment requirement"
-          name="deployment"
-          options={[
-            "Workstation",
-            "On-prem",
-            "Airgapped / controlled",
-            "Unsure",
-          ]}
-        />
-      </div>
-      <label className="text-sm font-medium">
-        Software stack
-        <textarea
-          name="software-stack"
-          className="field"
-          placeholder="Scientific applications, instruments, LIMS / ELN, scripts, repositories"
+        <Field label="Name" name="name" autoComplete="name" required />
+        <Field
+          label="Work email"
+          name="email"
+          type="email"
+          autoComplete="email"
           required
         />
-      </label>
+      </div>
+      <div className="grid gap-5 sm:grid-cols-2">
+        <Field
+          label="Organization"
+          name="organization"
+          autoComplete="organization"
+          required
+        />
+        <Field
+          label="Role"
+          name="role"
+          autoComplete="organization-title"
+          required
+        />
+      </div>
+      <div className="grid gap-5 sm:grid-cols-2">
+        <SelectField
+          label="How can we help?"
+          name="inquiry-type"
+          options={[
+            "Request a product demo",
+            "Map a workflow or software stack",
+            "Plan a pilot or evaluation",
+            "Discuss pricing or procurement",
+            "Review security or deployment",
+          ]}
+        />
+        <SelectField
+          label="Deployment priority"
+          name="deployment"
+          options={[
+            "Managed workstation",
+            "On-prem infrastructure",
+            "Airgapped / controlled environment",
+            "Hybrid environment",
+            "Still evaluating",
+          ]}
+        />
+      </div>
       <label className="text-sm font-medium">
-        Workflow pain
+        What are you trying to improve?
         <textarea
-          name="workflow-pain"
+          name="objective"
           className="field"
-          placeholder="Describe the manual handoffs, review gaps, or reproducibility problem"
+          placeholder="For example: reduce QC handoffs, standardize execution, improve traceability, or connect a scientific software stack"
           required
         />
       </label>
@@ -66,7 +75,7 @@ export function ContactForm() {
         <textarea
           name="message"
           className="field"
-          placeholder="Validation, security, timing, or facility requirements"
+          placeholder="Software, teams, sites, validation expectations, security review, or timing"
         />
       </label>
       <div className="flex flex-col gap-3 border-t border-border pt-5 sm:flex-row sm:items-center sm:justify-between">
@@ -75,7 +84,7 @@ export function ContactForm() {
           external form provider has been configured.
         </p>
         <button type="submit" className="button button-primary">
-          Request demo
+          Request a demo
         </button>
       </div>
       {submitted ? (
@@ -97,6 +106,7 @@ type FieldProps = {
   label: string
   name: string
   type?: string
+  autoComplete?: string
   required?: boolean
 }
 
@@ -104,6 +114,7 @@ function Field({
   label,
   name,
   type = "text",
+  autoComplete,
   required = false,
 }: FieldProps) {
   return (
@@ -114,7 +125,7 @@ function Field({
         type={type}
         name={name}
         required={required}
-        autoComplete={name}
+        autoComplete={autoComplete}
       />
     </label>
   )

@@ -97,7 +97,6 @@ export const footerNavigation = [
     title: "Company",
     links: [
       { label: "About", href: "/company" },
-      { label: "Contact", href: "/contact" },
       { label: "Request a demo", href: "/contact" },
     ],
   },
@@ -154,7 +153,8 @@ export const proofPoints = [
   "Graph execution",
   "Audit history",
   "Capability profiles",
-] as const
+  "Human oversight",
+] as const;
 
 export const problems: FeatureItem[] = [
   {

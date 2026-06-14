@@ -24,10 +24,7 @@ export function SiteHeader() {
             ))}
           </ul>
         </nav>
-        <div className="hidden items-center gap-2 lg:flex">
-          <Link href="/contact" className="button button-ghost">
-            Talk to sales
-          </Link>
+        <div className="hidden lg:flex">
           <Link href="/contact" className="button button-primary">
             Request a demo
           </Link>

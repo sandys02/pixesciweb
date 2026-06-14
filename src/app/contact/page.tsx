@@ -2,9 +2,9 @@ import { ContactPage } from "@/components/sections/contact-page"
 import { createMetadata } from "@/lib/seo"
 
 export const metadata = createMetadata({
-  title: "Request a Pixesci demo",
+  title: "Request a demo",
   description:
-    "Map your scientific software stack, workflow handoffs, review requirements, and local or on-prem deployment needs with Pixesci.",
+    "Request a Pixesci demo or discuss workflow fit, deployment requirements, evaluation planning, security review, and rollout.",
   path: "/contact",
 })
 

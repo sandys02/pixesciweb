@@ -1,7 +1,7 @@
 import {
+  Building2,
   CheckCircle2,
-  ClipboardList,
-  MapPinned,
+  ClipboardCheck,
   ShieldCheck,
 } from "lucide-react"
 
@@ -16,31 +16,32 @@ export function ContactPage() {
             <div>
               <p className="eyebrow">Request a demo</p>
               <h1 className="mt-5 text-4xl font-semibold leading-[1.05] sm:text-6xl">
-                Map a scientific workflow with Pixesci.
+                Evaluate Pixesci for your scientific operation.
               </h1>
               <p className="mt-6 text-base leading-7 text-muted-foreground sm:text-lg">
-                Tell us which software, files, manual handoffs, review points,
-                and deployment constraints define the process.
+                Tell us what you are evaluating. We can map a workflow, review
+                deployment and compliance needs, or discuss a pilot and
+                commercial fit in the same conversation.
               </p>
               <div className="mt-8 space-y-5 border-t border-border pt-6">
                 {[
                   {
-                    title: "Workflow mapping",
+                    title: "Use case and workflow",
                     description:
-                      "Identify capability nodes, data flow, variables, and human checkpoints.",
-                    icon: MapPinned,
+                      "Review the software, handoffs, teams, and evidence requirements in scope.",
+                    icon: Building2,
                   },
                   {
-                    title: "Deployment review",
+                    title: "Deployment and compliance",
                     description:
-                      "Discuss workstation, on-prem, controlled, and airgapped requirements.",
+                      "Discuss local, on-prem, controlled, and airgapped requirements.",
                     icon: ShieldCheck,
                   },
                   {
-                    title: "Evidence requirements",
+                    title: "Evaluation and rollout",
                     description:
-                      "Clarify run history, metadata, audit records, artifacts, and reviewer needs.",
-                    icon: ClipboardList,
+                      "Define pilot goals, technical stakeholders, security review, and next steps.",
+                    icon: ClipboardCheck,
                   },
                 ].map((item) => {
                   const Icon = item.icon
@@ -68,9 +69,9 @@ export function ContactPage() {
       <section className="border-b border-border bg-muted/25">
         <div className="site-container grid gap-6 py-8 sm:grid-cols-3">
           {[
-            "No cloud control plane assumed",
-            "No unsupported compliance claims",
-            "Connector readiness reviewed per stack",
+            "Workflow and stakeholder alignment",
+            "Security and deployment review",
+            "Pilot scope and success criteria",
           ].map((item) => (
             <div
               key={item}

@@ -36,8 +36,8 @@ export function HomePage() {
     <>
       <main>
         <section className="hero-grid overflow-hidden border-b border-border">
-          <div className="site-container py-16 sm:py-22 lg:py-24">
-            <div className="grid items-center gap-12 lg:grid-cols-[1fr_1.1fr] lg:gap-12">
+          <div className="site-container pt-16 pb-16 sm:pb-22 lg:pb-24">
+            <div className="grid items-center gap-4 lg:grid-cols-[0.75fr_1.1fr]">
               <div>
                 <div className="inline-flex items-center gap-2 rounded-full border border-border bg-background px-3 py-1.5 text-xs text-muted-foreground">
                   <CircleDot className="size-3 text-emerald-500" />
@@ -66,7 +66,7 @@ export function HomePage() {
               </div>
               <HeroAgentMockup />
             </div>
-            <div className="mt-12 grid grid-cols-2 border-l border-t border-border sm:grid-cols-5 lg:mt-16">
+            <div className="mt-12 grid grid-cols-2 border-l border-t border-border sm:grid-cols-6 lg:mt-16">
               {proofPoints.map((point) => (
                 <div
                   key={point}
