@@ -1,12 +1,16 @@
+// @/components/sections/home-page.tsx
+
 import {
   ArrowRight,
   CheckCircle2,
   CircleDot,
+  CloudOff,
+  FolderLock,
+  ShieldCheck,
 } from "lucide-react"
 import Link from "next/link"
 
 import {
-  architectureLayers,
   complianceDisclaimer,
   platformCapabilities,
   problems,
@@ -33,20 +37,19 @@ export function HomePage() {
       <main>
         <section className="hero-grid overflow-hidden border-b border-border">
           <div className="site-container py-16 sm:py-22 lg:py-24">
-            <div className="grid items-center gap-12 lg:grid-cols-[0.9fr_1.1fr] lg:gap-12">
+            <div className="grid items-center gap-12 lg:grid-cols-[1fr_1.1fr] lg:gap-12">
               <div>
                 <div className="inline-flex items-center gap-2 rounded-full border border-border bg-background px-3 py-1.5 text-xs text-muted-foreground">
                   <CircleDot className="size-3 text-emerald-500" />
-                  Compliance-First AI for Scientific Workflows
+                  Compliance-first scientific workflow orchestration
                 </div>
-                <h1 className="mt-7 text-4xl font-semibold leading-[1.04] sm:text-6xl lg:text-[68px]">
+                <h1 className="mt-7 text-4xl font-semibold leading-[1.04] md:text-5xl xl:text-6xl">
                   Connect scientific software into traceable workflows.
                 </h1>
                 <p className="mt-6 max-w-2xl text-base leading-7 text-muted-foreground sm:text-lg sm:leading-8">
-                  Describe the workflow in plain language. Pixesci turns the
-                  intent and fragmented lab software handoffs into a reusable,
-                  capability-aware execution graph with local deployment, run
-                  history, and reviewable evidence.
+                  Pixesci turns fragmented scientific software handoffs into
+                  reusable workflow graphs with local execution, complete run
+                  history, review checkpoints, and audit-ready evidence.
                 </p>
                 <div className="mt-8 flex flex-col gap-3 sm:flex-row">
                   <Link href="/contact" className="button button-primary">
@@ -78,8 +81,8 @@ export function HomePage() {
 
         <SectionShell
           eyebrow="The structural problem"
-          title="Forty years of specialized scientific software. No universal execution layer."
-          description="Scientific applications are strong inside their domains. The fragile part is everything between them: files, parameters, identifiers, manual clicks, review decisions, and record handoffs."
+          title="Powerful scientific software. Fragmented scientific execution."
+          description="Scientific software evolved. Connectivity never did. Many modern laboratories still depend on specialized applications for every stage of research and quality control. Yet critical workflows still depend on manual handoffs between systems. Files, parameters, identifiers, review decisions, and records move across disconnected tools with limited traceability and significant operational risk."
         >
           <FeatureGrid items={problems} columns={3} />
         </SectionShell>
@@ -92,10 +95,11 @@ export function HomePage() {
                 An orchestration layer between the tools you already use.
               </h2>
               <p className="mt-5 text-base leading-7 text-muted-foreground sm:text-lg">
-                Natural-language planning, graph authoring, software capability
-                profiles, local execution, templates, artifacts, and audit
-                records operate as one system. The model helps express intent;
-                validated capabilities and operator review govern execution.
+                Compliance controls, natural-language planning, graph
+                authoring, software capability profiles, local execution,
+                templates, artifacts, and audit records operate as one system.
+                AI-assisted planning helps express intent, while supported
+                capabilities and operator review govern execution.
               </p>
             </div>
             <div className="mt-10">
@@ -122,23 +126,45 @@ export function HomePage() {
                   The runtime stays close to the data, software, and operator.
                 </h2>
                 <p className="mt-5 text-base leading-7 text-white/62">
-                  The desktop interface communicates with a local FastAPI
-                  sidecar over localhost. Local storage, local models, profile
-                  packs, and scientific software adapters sit inside the
-                  customer-controlled environment.
+                  Workflow services, operational data, AI resources, software
+                  definitions, and scientific application adapters can remain
+                  inside the customer-controlled environment. Managed
+                  deployments can use approved on-prem infrastructure without
+                  an external cloud control plane.
                 </p>
-                <ul className="mt-7 space-y-3">
-                  {architectureLayers.map((layer) => {
-                    const Icon = layer.icon
+                <ul className="mt-7 space-y-4">
+                  {[
+                    {
+                      title: "Customer-controlled data",
+                      description:
+                        "Keep workflow data, run history, and audit records within approved infrastructure.",
+                      icon: FolderLock,
+                    },
+                    {
+                      title: "No hosted control plane required",
+                      description:
+                        "Operate on workstations or managed on-prem services without an external execution layer.",
+                      icon: CloudOff,
+                    },
+                    {
+                      title: "Policy-controlled connectivity",
+                      description:
+                        "Apply explicit controls to software integrations, paths, credentials, and network access.",
+                      icon: ShieldCheck,
+                    },
+                  ].map((item) => {
+                    const Icon = item.icon
                     return (
-                      <li key={layer.title} className="flex items-center gap-3">
-                        <Icon className="size-4 text-cyan-300" />
-                        <span className="text-sm text-white/75">
-                          {layer.title}
-                        </span>
-                        <span className="font-mono text-[10px] text-white/35">
-                          {layer.detail}
-                        </span>
+                      <li key={item.title} className="flex gap-3">
+                        <Icon className="mt-0.5 size-4 shrink-0 text-cyan-300" />
+                        <div>
+                          <p className="text-sm font-medium text-white/85">
+                            {item.title}
+                          </p>
+                          <p className="mt-1 text-xs leading-5 text-white/48">
+                            {item.description}
+                          </p>
+                        </div>
                       </li>
                     )
                   })}
@@ -215,8 +241,10 @@ export function HomePage() {
                 </h2>
                 <p className="mt-5 text-base leading-7 text-muted-foreground">
                   Profiles describe setup, formats, requirements, channels,
-                  risk, and user-input flags. Local detection answers a
-                  different question: what is available on this machine now?
+                  operational constraints, and required user input for each
+                  supported application. Local detection then confirms which
+                  applications are available in the target execution
+                  environment.
                 </p>
                 <Link
                   href="/integrations"
@@ -234,9 +262,12 @@ export function HomePage() {
         <section className="section-space border-t border-border">
           <div className="site-container">
             <div className="max-w-3xl">
-              <p className="eyebrow">Built for high-control environments</p>
+              <p className="eyebrow">
+                Built for high-compliance, high-control environments
+              </p>
               <h2 className="mt-3 text-3xl font-semibold leading-tight sm:text-4xl">
-                Start where traceability and deployment control matter most.
+                Start where compliance, traceability, and deployment control
+                matter most.
               </h2>
             </div>
             <div className="mt-10 grid border-l border-t border-border lg:grid-cols-3">

@@ -70,7 +70,7 @@ export default function Image() {
               color: "#52636b",
             }}
           >
-            Local-first
+            Compliance-first
             <span style={{ color: "#a2b0b6" }}>·</span>
             Graph execution
             <span style={{ color: "#a2b0b6" }}>·</span>

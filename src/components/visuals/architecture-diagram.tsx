@@ -25,10 +25,10 @@ export function ArchitectureDiagram() {
     >
       {/* TODO: Replace with final reviewed Pixesci architecture artwork. */}
       <figcaption className="visual-toolbar border-white/10 bg-white/[0.025] text-white">
-        <span>Canonical workstation runtime</span>
+        <span>Customer-controlled runtime</span>
         <span className="inline-flex items-center gap-1.5 text-cyan-300">
           <HardDrive className="size-3.5" />
-          Local by default
+          Customer-controlled by default
         </span>
       </figcaption>
       <div className="workflow-grid-dark p-5 sm:p-8">

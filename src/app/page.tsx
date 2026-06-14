@@ -3,7 +3,7 @@ import { JsonLd } from "@/components/seo/json-ld"
 import { createMetadata, softwareApplicationJsonLd } from "@/lib/seo"
 
 export const metadata = createMetadata({
-  title: "PixeSci - Compliance-First AI for Scientific Workflows",
+  title: "Compliance-first scientific workflow orchestration",
   description:
     "Connect scientific software into traceable workflows with plain-language planning, local execution, capability profiles, audit history, and review checkpoints.",
   path: "/",

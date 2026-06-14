@@ -81,7 +81,7 @@ export const softwareApplicationJsonLd = {
   applicationSubCategory: "Scientific workflow orchestration",
   operatingSystem: "Windows, macOS, Linux",
   description:
-    "A local-first orchestration and execution layer that connects scientific software into reusable, traceable workflows.",
+    "A compliance-first orchestration and execution layer that connects scientific software into reusable, traceable workflows.",
   featureList: [
     "Graph-native scientific workflows",
     "Scientific software capability profiles",

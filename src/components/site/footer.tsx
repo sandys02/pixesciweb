@@ -13,7 +13,7 @@ export function SiteFooter() {
           <div className="max-w-md">
             <Logo />
             <p className="mt-5 text-sm leading-6 text-muted-foreground">
-              Local-first integration, automation, and traceability for
+              Compliance-first integration, automation, and traceability for
               fragmented scientific software.
             </p>
             <Link

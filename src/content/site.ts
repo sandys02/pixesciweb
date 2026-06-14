@@ -1,21 +1,16 @@
 import type { LucideIcon } from "lucide-react"
 import {
-  Activity,
   Boxes,
   Building2,
   CheckCircle2,
-  CircleUserRound,
-  Database,
   FileCheck2,
   FileStack,
   FlaskConical,
-  HardDrive,
   History,
   Microscope,
   Network,
   ScanSearch,
   ShieldCheck,
-  SlidersHorizontal,
   Sparkles,
   TerminalSquare,
   Workflow,
@@ -130,7 +125,7 @@ export const platformCapabilities: FeatureItem[] = [
   {
     title: "Local execution runtime",
     description:
-      "Run against local files and scientific applications through a localhost FastAPI sidecar.",
+      "Run workflows against local files and scientific applications within the customer-controlled environment.",
     icon: TerminalSquare,
   },
   {
@@ -154,7 +149,7 @@ export const platformCapabilities: FeatureItem[] = [
 ]
 
 export const proofPoints = [
-  "Local-first",
+  "Compliance-first",
   "On-prem ready",
   "Graph execution",
   "Audit history",
@@ -187,7 +182,7 @@ export const solutionCards = [
     title: "Regulated life sciences",
     href: "/solutions/regulated-life-sciences",
     description:
-      "Standardize QC and R&D workflows while preserving execution evidence and review context.",
+      "Standardize QC and R&D workflows while preserving reviewable execution evidence, audit history, and quality-system context.",
     icon: FlaskConical,
     examples: "FlowJo → Prism → LIMS / Chromeleon → batch record",
   },
@@ -206,34 +201,6 @@ export const solutionCards = [
       "Turn proven operator procedures into guided templates that many users can run consistently.",
     icon: Microscope,
     examples: "Acquisition → analysis → review → facility report",
-  },
-] as const
-
-export const architectureLayers = [
-  {
-    title: "Desktop interface",
-    detail: "Tauri shell + Next.js",
-    icon: CircleUserRound,
-  },
-  {
-    title: "Local API sidecar",
-    detail: "FastAPI over localhost",
-    icon: Activity,
-  },
-  {
-    title: "Local state",
-    detail: "SQLite / SQLCipher",
-    icon: Database,
-  },
-  {
-    title: "Local intelligence",
-    detail: "Ollama or GGUF models",
-    icon: HardDrive,
-  },
-  {
-    title: "Scientific adapters",
-    detail: "CLI, GUI, API, files, scripts",
-    icon: SlidersHorizontal,
   },
 ] as const
 
