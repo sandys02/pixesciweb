@@ -25,7 +25,7 @@ import {
   ArchitectureDiagram,
   AuditTimeline,
   CatalogVisual,
-  WorkflowVisual,
+  HeroAgentMockup,
 } from "@/components/visuals"
 
 import { FeatureGrid } from "./feature-grid"
@@ -64,7 +64,7 @@ export function HomePage() {
                   </Link>
                 </div>
               </div>
-              <WorkflowVisual />
+              <HeroAgentMockup />
             </div>
             <div className="mt-12 grid grid-cols-2 border-l border-t border-border sm:grid-cols-5 lg:mt-16">
               {proofPoints.map((point) => (
