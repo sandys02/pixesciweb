@@ -1,5 +1,7 @@
 import Link from "next/link"
 
+import { Button } from "@/components/ui/button"
+
 export default function NotFound() {
   return (
     <main className="site-container grid min-h-[65vh] place-items-center py-20 text-center">
@@ -9,9 +11,9 @@ export default function NotFound() {
         <p className="mt-4 text-base leading-7 text-muted-foreground">
           The requested Pixesci marketing page does not exist.
         </p>
-        <Link href="/" className="button button-primary mt-8">
-          Return home
-        </Link>
+        <Button asChild size="lg" className="mt-8 px-4">
+          <Link href="/">Return home</Link>
+        </Button>
       </div>
     </main>
   )

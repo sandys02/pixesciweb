@@ -5,6 +5,7 @@ import { Menu, X } from "lucide-react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 
+import { Button } from "@/components/ui/button"
 import { primaryNavigation } from "@/content/site"
 import { cn } from "@/lib/utils"
 
@@ -23,14 +24,15 @@ export function MobileNav() {
 
   return (
     <div className="lg:hidden">
-      <button
+      <Button
         type="button"
+        variant="outline"
+        size="icon-lg"
         onClick={() => setOpen(true)}
-        className="grid size-10 place-items-center rounded-md border border-border bg-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
         aria-label="Open navigation"
       >
         <Menu className="size-4" />
-      </button>
+      </Button>
       <dialog
         ref={dialogRef}
         onClose={() => setOpen(false)}
@@ -39,16 +41,20 @@ export function MobileNav() {
         <div className="flex h-full flex-col">
           <div className="flex h-16 items-center justify-between border-b border-border px-5">
             <span className="text-sm font-semibold">Navigation</span>
-            <button
+            <Button
               type="button"
+              variant="outline"
+              size="icon-lg"
               onClick={() => setOpen(false)}
-              className="grid size-10 place-items-center rounded-md border border-border focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
               aria-label="Close navigation"
             >
               <X className="size-4" />
-            </button>
+            </Button>
           </div>
-          <nav aria-label="Mobile navigation" className="flex-1 overflow-y-auto p-5">
+          <nav
+            aria-label="Mobile navigation"
+            className="flex-1 overflow-y-auto p-5"
+          >
             <ul className="divide-y divide-border border-y border-border">
               {primaryNavigation.map((item) => (
                 <li key={item.href}>
@@ -56,11 +62,13 @@ export function MobileNav() {
                     href={item.href}
                     onClick={() => setOpen(false)}
                     className={cn(
-                      "block py-5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary",
-                      pathname === item.href && "text-primary",
+                      "block py-5 focus-visible:ring-2 focus-visible:ring-primary focus-visible:outline-none",
+                      pathname === item.href && "text-primary"
                     )}
                   >
-                    <span className="block text-base font-medium">{item.label}</span>
+                    <span className="block text-base font-medium">
+                      {item.label}
+                    </span>
                     <span className="mt-1 block text-sm leading-6 text-muted-foreground">
                       {item.description}
                     </span>
@@ -70,13 +78,11 @@ export function MobileNav() {
             </ul>
           </nav>
           <div className="border-t border-border p-5">
-            <Link
-              href="/contact"
-              onClick={() => setOpen(false)}
-              className="button button-primary w-full"
-            >
-              Request a demo
-            </Link>
+            <Button asChild size="lg" className="w-full px-4">
+              <Link href="/contact" onClick={() => setOpen(false)}>
+                Request a demo
+              </Link>
+            </Button>
           </div>
         </div>
       </dialog>

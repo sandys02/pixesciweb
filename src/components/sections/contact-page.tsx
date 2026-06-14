@@ -15,7 +15,7 @@ export function ContactPage() {
           <div className="grid gap-12 lg:grid-cols-[0.8fr_1.2fr] lg:gap-16">
             <div>
               <p className="eyebrow">Request a demo</p>
-              <h1 className="mt-5 text-4xl font-semibold leading-[1.05] sm:text-6xl">
+              <h1 className="mt-5 text-4xl leading-[1.05] font-semibold sm:text-6xl">
                 Evaluate Pixesci for your scientific operation.
               </h1>
               <p className="mt-6 text-base leading-7 text-muted-foreground sm:text-lg">
@@ -60,7 +60,6 @@ export function ContactPage() {
               </div>
             </div>
             <div className="visual-frame p-5 sm:p-8">
-              {/* TODO: Connect to an approved CRM, email, or backend endpoint. */}
               <ContactForm />
             </div>
           </div>

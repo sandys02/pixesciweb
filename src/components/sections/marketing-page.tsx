@@ -6,6 +6,7 @@ import { complianceDisclaimer } from "@/content/site"
 import { cn } from "@/lib/utils"
 
 import { CTASection } from "@/components/site/cta-section"
+import { Button } from "@/components/ui/button"
 import {
   ArchitectureDiagram,
   AuditTimeline,
@@ -49,23 +50,22 @@ export function MarketingPage({ data, disclaimer }: MarketingPageProps) {
           <div className="site-container py-18 sm:py-24 lg:py-28">
             <div className="max-w-4xl">
               <p className="eyebrow">{data.eyebrow}</p>
-              <h1 className="mt-5 text-4xl font-semibold leading-[1.05] sm:text-6xl lg:text-7xl">
+              <h1 className="mt-5 text-4xl leading-[1.05] font-semibold sm:text-6xl lg:text-7xl">
                 {data.title}
               </h1>
               <p className="mt-6 max-w-3xl text-base leading-7 text-muted-foreground sm:text-lg sm:leading-8">
                 {data.description}
               </p>
               <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-                <Link href={data.primaryHref} className="button button-primary">
-                  {data.primaryCta}
-                  <ArrowRight className="size-4" />
-                </Link>
-                <Link
-                  href={data.secondaryHref}
-                  className="button button-secondary"
-                >
-                  {data.secondaryCta}
-                </Link>
+                <Button asChild size="lg" className="px-4">
+                  <Link href={data.primaryHref}>
+                    {data.primaryCta}
+                    <ArrowRight className="size-4" />
+                  </Link>
+                </Button>
+                <Button asChild size="lg" variant="outline" className="px-4">
+                  <Link href={data.secondaryHref}>{data.secondaryCta}</Link>
+                </Button>
               </div>
             </div>
           </div>
@@ -76,38 +76,34 @@ export function MarketingPage({ data, disclaimer }: MarketingPageProps) {
             key={section.title}
             className={cn(
               "section-space border-b border-border",
-              section.dark && "dark-surface border-white/10 text-white",
+              section.dark && "dark-surface border-white/10 text-white"
             )}
           >
             <div className="site-container">
               <div
                 className={cn(
                   "grid gap-10 lg:grid-cols-2 lg:items-start lg:gap-16",
-                  section.layout === "stacked" &&
-                    "lg:grid-cols-1 lg:gap-10",
+                  section.layout === "stacked" && "lg:grid-cols-1 lg:gap-10",
                   section.layout !== "stacked" &&
                     index % 2 === 1 &&
-                    "lg:[&>*:first-child]:order-2",
+                    "lg:[&>*:first-child]:order-2"
                 )}
               >
                 <div>
                   {section.eyebrow ? (
                     <p
-                      className={cn(
-                        "eyebrow",
-                        section.dark && "text-cyan-300",
-                      )}
+                      className={cn("eyebrow", section.dark && "text-cyan-300")}
                     >
                       {section.eyebrow}
                     </p>
                   ) : null}
-                  <h2 className="mt-3 text-3xl font-semibold leading-tight sm:text-4xl">
+                  <h2 className="mt-3 text-3xl leading-tight font-semibold sm:text-4xl">
                     {section.title}
                   </h2>
                   <div
                     className={cn(
                       "mt-5 space-y-4 text-base leading-7 text-muted-foreground",
-                      section.dark && "text-white/62",
+                      section.dark && "text-white/62"
                     )}
                   >
                     {(Array.isArray(section.description)
@@ -124,7 +120,7 @@ export function MarketingPage({ data, disclaimer }: MarketingPageProps) {
                           key={bullet}
                           className={cn(
                             "flex gap-3 text-sm leading-6 text-muted-foreground",
-                            section.dark && "text-white/62",
+                            section.dark && "text-white/62"
                           )}
                         >
                           <CheckCircle2 className="mt-1 size-4 shrink-0 text-primary" />

@@ -104,7 +104,7 @@
   input,
   textarea,
   select {
-    @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background;
+    @apply focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-offset-background focus-visible:outline-none;
   }
 
   dialog::backdrop {
@@ -133,23 +133,7 @@
   }
 
   .eyebrow {
-    @apply text-[10px] font-semibold uppercase tracking-[0.15em] text-primary;
-  }
-
-  .button {
-    @apply inline-flex min-h-10 items-center justify-center gap-2 rounded-md border px-4 py-2 text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50;
-  }
-
-  .button-primary {
-    @apply border-primary bg-primary text-primary-foreground hover:bg-primary/90;
-  }
-
-  .button-secondary {
-    @apply border-border bg-background text-foreground hover:bg-muted;
-  }
-
-  .button-ghost {
-    @apply border-transparent bg-transparent text-muted-foreground hover:bg-muted hover:text-foreground;
+    @apply text-[10px] font-semibold tracking-[0.15em] text-primary uppercase;
   }
 
   .visual-frame {
@@ -170,8 +154,15 @@
 
   .workflow-grid {
     background-image:
-      linear-gradient(color-mix(in oklch, var(--border) 72%, transparent) 1px, transparent 1px),
-      linear-gradient(90deg, color-mix(in oklch, var(--border) 72%, transparent) 1px, transparent 1px);
+      linear-gradient(
+        color-mix(in oklch, var(--border) 72%, transparent) 1px,
+        transparent 1px
+      ),
+      linear-gradient(
+        90deg,
+        color-mix(in oklch, var(--border) 72%, transparent) 1px,
+        transparent 1px
+      );
     background-size: 24px 24px;
     mask-image: linear-gradient(to bottom, black, transparent 95%);
   }
@@ -185,10 +176,22 @@
 
   .hero-grid {
     background-image:
-      linear-gradient(color-mix(in oklch, var(--border) 48%, transparent) 1px, transparent 1px),
-      linear-gradient(90deg, color-mix(in oklch, var(--border) 48%, transparent) 1px, transparent 1px);
+      linear-gradient(
+        color-mix(in oklch, var(--border) 48%, transparent) 1px,
+        transparent 1px
+      ),
+      linear-gradient(
+        90deg,
+        color-mix(in oklch, var(--border) 48%, transparent) 1px,
+        transparent 1px
+      );
     background-size: 64px 64px;
-    mask-image: linear-gradient(to bottom, black 0%, black 72%, transparent 100%);
+    mask-image: linear-gradient(
+      to bottom,
+      black 0%,
+      black 72%,
+      transparent 100%
+    );
   }
 
   .hero-agent-status-dot {
@@ -244,14 +247,6 @@
 
   .hero-agent-step:nth-child(6) {
     animation-delay: 350ms;
-  }
-
-  .field {
-    @apply mt-2 min-h-11 w-full rounded-md border border-input bg-background px-3 py-2 text-sm placeholder:text-muted-foreground/70;
-  }
-
-  textarea.field {
-    @apply min-h-28 resize-y;
   }
 }
 

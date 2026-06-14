@@ -2,6 +2,7 @@ import { ArrowRight, Crosshair, Layers3, Map, ShieldCheck } from "lucide-react"
 import Link from "next/link"
 
 import { CTASection } from "@/components/site/cta-section"
+import { Button } from "@/components/ui/button"
 
 const thesis = [
   {
@@ -32,7 +33,7 @@ export function CompanyPage() {
           <div className="site-container py-18 sm:py-24 lg:py-28">
             <div className="max-w-5xl">
               <p className="eyebrow">Company</p>
-              <h1 className="mt-5 text-4xl font-semibold leading-[1.05] sm:text-6xl lg:text-7xl">
+              <h1 className="mt-5 text-4xl leading-[1.05] font-semibold sm:text-6xl lg:text-7xl">
                 Building the missing execution layer between scientific tools.
               </h1>
               <p className="mt-6 max-w-3xl text-base leading-7 text-muted-foreground sm:text-lg sm:leading-8">
@@ -42,13 +43,12 @@ export function CompanyPage() {
                 natural-language commands while preserving reviewable,
                 reproducible execution across the tools teams already use.
               </p>
-              <Link
-                href="/contact"
-                className="button button-primary mt-8 w-fit"
-              >
-                Contact Pixesci
-                <ArrowRight className="size-4" />
-              </Link>
+              <Button asChild size="lg" className="mt-8 px-4">
+                <Link href="/contact">
+                  Contact Pixesci
+                  <ArrowRight className="size-4" />
+                </Link>
+              </Button>
             </div>
           </div>
         </section>
@@ -58,17 +58,17 @@ export function CompanyPage() {
             <div className="grid gap-10 lg:grid-cols-[0.65fr_1.35fr] lg:gap-16">
               <div>
                 <Map className="size-5 text-primary" />
-                <h2 className="mt-5 text-3xl font-semibold leading-tight sm:text-4xl">
+                <h2 className="mt-5 text-3xl leading-tight font-semibold sm:text-4xl">
                   Our product thesis
                 </h2>
               </div>
-              <div className="grid border-l border-t border-border">
+              <div className="grid border-t border-l border-border">
                 {thesis.map((item) => {
                   const Icon = item.icon
                   return (
                     <article
                       key={item.title}
-                      className="grid gap-5 border-b border-r border-border p-6 sm:grid-cols-[auto_1fr] sm:p-8"
+                      className="grid gap-5 border-r border-b border-border p-6 sm:grid-cols-[auto_1fr] sm:p-8"
                     >
                       <Icon className="size-5 text-primary" />
                       <div>
@@ -85,11 +85,11 @@ export function CompanyPage() {
           </div>
         </section>
 
-        <section className="section-space border-b border-white/10 dark-surface text-white">
+        <section className="section-space dark-surface border-b border-white/10 text-white">
           <div className="site-container grid gap-10 lg:grid-cols-2 lg:gap-16">
             <div>
               <p className="eyebrow text-cyan-300">Initial market focus</p>
-              <h2 className="mt-3 text-3xl font-semibold leading-tight sm:text-4xl">
+              <h2 className="mt-3 text-3xl leading-tight font-semibold sm:text-4xl">
                 High-control scientific environments first.
               </h2>
             </div>

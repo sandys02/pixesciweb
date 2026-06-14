@@ -1,4 +1,9 @@
-import { ArrowRight, CheckCircle2, Search, SlidersHorizontal } from "lucide-react"
+import {
+  ArrowRight,
+  CheckCircle2,
+  Search,
+  SlidersHorizontal,
+} from "lucide-react"
 import Link from "next/link"
 
 import {
@@ -8,6 +13,7 @@ import {
 } from "@/content/integrations"
 
 import { CTASection } from "@/components/site/cta-section"
+import { Button } from "@/components/ui/button"
 
 export function IntegrationsPage() {
   return (
@@ -17,7 +23,7 @@ export function IntegrationsPage() {
           <div className="site-container py-18 sm:py-24 lg:py-28">
             <div className="max-w-4xl">
               <p className="eyebrow">Integrations</p>
-              <h1 className="mt-5 text-4xl font-semibold leading-[1.05] sm:text-6xl lg:text-7xl">
+              <h1 className="mt-5 text-4xl leading-[1.05] font-semibold sm:text-6xl lg:text-7xl">
                 Capability profiles for the scientific software you already use.
               </h1>
               <p className="mt-6 max-w-3xl text-base leading-7 text-muted-foreground sm:text-lg sm:leading-8">
@@ -27,16 +33,17 @@ export function IntegrationsPage() {
                 connector is production-ready.
               </p>
               <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-                <Link href="/contact" className="button button-primary">
-                  Ask about your software stack
-                  <ArrowRight className="size-4" />
-                </Link>
-                <Link
-                  href="/workflow-automation"
-                  className="button button-secondary"
-                >
-                  See workflow automation
-                </Link>
+                <Button asChild size="lg" className="px-4">
+                  <Link href="/contact">
+                    Ask about your software stack
+                    <ArrowRight className="size-4" />
+                  </Link>
+                </Button>
+                <Button asChild size="lg" variant="outline" className="px-4">
+                  <Link href="/workflow-automation">
+                    See workflow automation
+                  </Link>
+                </Button>
               </div>
             </div>
           </div>
@@ -47,7 +54,7 @@ export function IntegrationsPage() {
             <div className="grid gap-10 lg:grid-cols-[0.7fr_1.3fr] lg:gap-16">
               <div>
                 <p className="eyebrow">Catalog model</p>
-                <h2 className="mt-3 text-3xl font-semibold leading-tight sm:text-4xl">
+                <h2 className="mt-3 text-3xl leading-tight font-semibold sm:text-4xl">
                   Catalog metadata and local detection stay separate.
                 </h2>
                 <p className="mt-5 text-base leading-7 text-muted-foreground">
@@ -59,11 +66,11 @@ export function IntegrationsPage() {
                   reducing the effort required to introduce or replace a tool.
                 </p>
               </div>
-              <div className="grid border-l border-t border-border sm:grid-cols-2">
+              <div className="grid border-t border-l border-border sm:grid-cols-2">
                 {capabilityFields.map((field) => (
                   <div
                     key={field}
-                    className="flex min-h-20 items-center gap-3 border-b border-r border-border p-4 text-sm"
+                    className="flex min-h-20 items-center gap-3 border-r border-b border-border p-4 text-sm"
                   >
                     <CheckCircle2 className="size-4 shrink-0 text-primary" />
                     {field}
@@ -79,7 +86,7 @@ export function IntegrationsPage() {
             <div className="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
               <div className="max-w-3xl">
                 <p className="eyebrow">Integration matrix</p>
-                <h2 className="mt-3 text-3xl font-semibold leading-tight sm:text-4xl">
+                <h2 className="mt-3 text-3xl leading-tight font-semibold sm:text-4xl">
                   Scientific categories, representative tools, and possible
                   orchestration paths.
                 </h2>
@@ -93,11 +100,11 @@ export function IntegrationsPage() {
                 <span className="ml-auto font-mono text-[9px]">UI only</span>
               </div>
             </div>
-            <div className="mt-10 grid border-l border-t border-border lg:grid-cols-2">
+            <div className="mt-10 grid border-t border-l border-border lg:grid-cols-2">
               {integrationCategories.map((category) => (
                 <article
                   key={category.name}
-                  className="border-b border-r border-border bg-background p-6 sm:p-7"
+                  className="border-r border-b border-border bg-background p-6 sm:p-7"
                 >
                   <div className="flex items-start justify-between gap-4">
                     <h3 className="text-base font-semibold">{category.name}</h3>
@@ -130,11 +137,11 @@ export function IntegrationsPage() {
           </div>
         </section>
 
-        <section className="section-space border-b border-white/10 dark-surface text-white">
+        <section className="section-space dark-surface border-b border-white/10 text-white">
           <div className="site-container grid gap-10 lg:grid-cols-[0.7fr_1.3fr] lg:gap-16">
             <div>
               <p className="eyebrow text-cyan-300">Adapter channels</p>
-              <h2 className="mt-3 text-3xl font-semibold leading-tight sm:text-4xl">
+              <h2 className="mt-3 text-3xl leading-tight font-semibold sm:text-4xl">
                 Use the integration mechanism each tool actually supports.
               </h2>
               <p className="mt-5 text-base leading-7 text-white/62">
@@ -143,11 +150,11 @@ export function IntegrationsPage() {
                 the workflow.
               </p>
             </div>
-            <div className="grid border-l border-t border-white/10 sm:grid-cols-2">
+            <div className="grid border-t border-l border-white/10 sm:grid-cols-2">
               {adapterChannels.map((channel, index) => (
                 <div
                   key={channel}
-                  className="border-b border-r border-white/10 p-5"
+                  className="border-r border-b border-white/10 p-5"
                 >
                   <span className="font-mono text-[9px] text-cyan-300">
                     0{index + 1}

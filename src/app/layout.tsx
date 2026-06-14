@@ -64,14 +64,24 @@ export default function RootLayout({
     <html
       lang="en"
       suppressHydrationWarning
-      className={cn(geist.variable, geistMono.variable, "font-sans antialiased")}
+      className={cn(
+        geist.variable,
+        geistMono.variable,
+        "font-sans antialiased"
+      )}
     >
       <body>
         <JsonLd data={[organizationJsonLd, websiteJsonLd]} />
-        <ThemeProvider defaultTheme="light" enableSystem>
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+          storageKey="pixesci-theme"
+        >
           <a
             href="#main-content"
-            className="sr-only z-[100] bg-background px-4 py-3 focus:not-sr-only focus:fixed focus:left-4 focus:top-4"
+            className="sr-only z-[100] bg-background px-4 py-3 focus:not-sr-only focus:fixed focus:top-4 focus:left-4"
           >
             Skip to content
           </a>

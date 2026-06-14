@@ -21,6 +21,7 @@ import {
 } from "@/content/site"
 
 import { CTASection } from "@/components/site/cta-section"
+import { Button } from "@/components/ui/button"
 import {
   ArchitectureDiagram,
   AuditTimeline,
@@ -43,7 +44,7 @@ export function HomePage() {
                   <CircleDot className="size-3 text-emerald-500" />
                   Compliance-first scientific workflow orchestration
                 </div>
-                <h1 className="mt-7 text-4xl font-semibold leading-[1.04] md:text-5xl xl:text-6xl">
+                <h1 className="mt-7 text-4xl leading-[1.04] font-semibold md:text-5xl xl:text-6xl">
                   Connect scientific software into traceable workflows.
                 </h1>
                 <p className="mt-6 max-w-2xl text-base leading-7 text-muted-foreground sm:text-lg sm:leading-8">
@@ -52,25 +53,24 @@ export function HomePage() {
                   history, review checkpoints, and audit-ready evidence.
                 </p>
                 <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-                  <Link href="/contact" className="button button-primary">
-                    Request a demo
-                    <ArrowRight className="size-4" />
-                  </Link>
-                  <Link
-                    href="/workflow-automation"
-                    className="button button-secondary"
-                  >
-                    See how it works
-                  </Link>
+                  <Button asChild size="lg" className="px-4">
+                    <Link href="/contact">
+                      Request a demo
+                      <ArrowRight className="size-4" />
+                    </Link>
+                  </Button>
+                  <Button asChild size="lg" variant="outline" className="px-4">
+                    <Link href="/workflow-automation">See how it works</Link>
+                  </Button>
                 </div>
               </div>
               <HeroAgentMockup />
             </div>
-            <div className="mt-12 grid grid-cols-2 border-l border-t border-border sm:grid-cols-6 lg:mt-16">
+            <div className="mt-12 grid grid-cols-2 border-t border-l border-border sm:grid-cols-6 lg:mt-16">
               {proofPoints.map((point) => (
                 <div
                   key={point}
-                  className="border-b border-r border-border px-3 py-4 text-center text-[10px] font-medium uppercase tracking-[0.12em] text-muted-foreground"
+                  className="border-r border-b border-border px-3 py-4 text-center text-[10px] font-medium tracking-[0.12em] text-muted-foreground uppercase"
                 >
                   {point}
                 </div>
@@ -91,15 +91,15 @@ export function HomePage() {
           <div className="site-container">
             <div className="max-w-3xl">
               <p className="eyebrow">The Pixesci platform</p>
-              <h2 className="mt-3 text-3xl font-semibold leading-tight sm:text-5xl">
+              <h2 className="mt-3 text-3xl leading-tight font-semibold sm:text-5xl">
                 An orchestration layer between the tools you already use.
               </h2>
               <p className="mt-5 text-base leading-7 text-muted-foreground sm:text-lg">
-                Compliance controls, natural-language planning, graph
-                authoring, software capability profiles, local execution,
-                templates, artifacts, and audit records operate as one system.
-                AI-assisted planning helps express intent, while supported
-                capabilities and operator review govern execution.
+                Compliance controls, natural-language planning, graph authoring,
+                software capability profiles, local execution, templates,
+                artifacts, and audit records operate as one system. AI-assisted
+                planning helps express intent, while supported capabilities and
+                operator review govern execution.
               </p>
             </div>
             <div className="mt-10">
@@ -117,20 +117,22 @@ export function HomePage() {
           </div>
         </section>
 
-        <section className="section-space border-t border-white/10 dark-surface text-white">
+        <section className="section-space dark-surface border-t border-white/10 text-white">
           <div className="site-container">
             <div className="grid gap-10 lg:grid-cols-[0.72fr_1.28fr] lg:items-center lg:gap-16">
               <div>
-                <p className="eyebrow text-cyan-300">Local-first architecture</p>
-                <h2 className="mt-3 text-3xl font-semibold leading-tight sm:text-4xl">
+                <p className="eyebrow text-cyan-300">
+                  Local-first architecture
+                </p>
+                <h2 className="mt-3 text-3xl leading-tight font-semibold sm:text-4xl">
                   The runtime stays close to the data, software, and operator.
                 </h2>
                 <p className="mt-5 text-base leading-7 text-white/62">
                   Workflow services, operational data, AI resources, software
                   definitions, and scientific application adapters can remain
                   inside the customer-controlled environment. Managed
-                  deployments can use approved on-prem infrastructure without
-                  an external cloud control plane.
+                  deployments can use approved on-prem infrastructure without an
+                  external cloud control plane.
                 </p>
                 <ul className="mt-7 space-y-4">
                   {[
@@ -187,7 +189,7 @@ export function HomePage() {
             <div className="grid gap-10 lg:grid-cols-2 lg:items-center lg:gap-16">
               <div>
                 <p className="eyebrow">Audit-ready traceability</p>
-                <h2 className="mt-3 text-3xl font-semibold leading-tight sm:text-4xl">
+                <h2 className="mt-3 text-3xl leading-tight font-semibold sm:text-4xl">
                   Every run ends with evidence teams can understand.
                 </h2>
                 <p className="mt-5 text-base leading-7 text-muted-foreground">
@@ -235,7 +237,7 @@ export function HomePage() {
             <div className="grid gap-10 lg:grid-cols-[0.72fr_1.28fr] lg:items-center lg:gap-16">
               <div>
                 <p className="eyebrow">Capability-based integrations</p>
-                <h2 className="mt-3 text-3xl font-semibold leading-tight sm:text-4xl">
+                <h2 className="mt-3 text-3xl leading-tight font-semibold sm:text-4xl">
                   Connect existing software without pretending every tool works
                   the same way.
                 </h2>
@@ -265,18 +267,18 @@ export function HomePage() {
               <p className="eyebrow">
                 Built for high-compliance, high-control environments
               </p>
-              <h2 className="mt-3 text-3xl font-semibold leading-tight sm:text-4xl">
+              <h2 className="mt-3 text-3xl leading-tight font-semibold sm:text-4xl">
                 Start where compliance, traceability, and deployment control
                 matter most.
               </h2>
             </div>
-            <div className="mt-10 grid border-l border-t border-border lg:grid-cols-3">
+            <div className="mt-10 grid border-t border-l border-border lg:grid-cols-3">
               {solutionCards.map((solution) => {
                 const Icon = solution.icon
                 return (
                   <article
                     key={solution.href}
-                    className="border-b border-r border-border p-6 sm:p-8"
+                    className="border-r border-b border-border p-6 sm:p-8"
                   >
                     <Icon className="size-5 text-primary" />
                     <h3 className="mt-10 text-lg font-semibold">
@@ -307,7 +309,7 @@ export function HomePage() {
             <div className="flex flex-col justify-between gap-5 sm:flex-row sm:items-end">
               <div className="max-w-2xl">
                 <p className="eyebrow">Evaluation resources</p>
-                <h2 className="mt-3 text-3xl font-semibold leading-tight sm:text-4xl">
+                <h2 className="mt-3 text-3xl leading-tight font-semibold sm:text-4xl">
                   Give technical and quality teams concrete material to review.
                 </h2>
               </div>
@@ -319,14 +321,16 @@ export function HomePage() {
                 <ArrowRight className="size-4" />
               </Link>
             </div>
-            <div className="mt-10 grid border-l border-t border-border lg:grid-cols-3">
+            <div className="mt-10 grid border-t border-l border-border lg:grid-cols-3">
               {resourceCards.map((resource) => (
                 <article
                   key={resource.title}
-                  className="border-b border-r border-border p-6 sm:p-8"
+                  className="border-r border-b border-border p-6 sm:p-8"
                 >
                   <p className="eyebrow">{resource.type}</p>
-                  <h3 className="mt-8 text-lg font-semibold">{resource.title}</h3>
+                  <h3 className="mt-8 text-lg font-semibold">
+                    {resource.title}
+                  </h3>
                   <p className="mt-3 text-sm leading-6 text-muted-foreground">
                     {resource.description}
                   </p>

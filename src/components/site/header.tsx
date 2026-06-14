@@ -1,5 +1,6 @@
 import Link from "next/link"
 
+import { Button } from "@/components/ui/button"
 import { primaryNavigation } from "@/content/site"
 
 import { Logo } from "./logo"
@@ -16,7 +17,7 @@ export function SiteHeader() {
               <li key={item.href}>
                 <Link
                   href={item.href}
-                  className="rounded-md px-3 py-2 text-sm text-muted-foreground transition-colors hover:bg-muted hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
+                  className="rounded-md px-3 py-2 text-sm text-muted-foreground transition-colors hover:bg-muted hover:text-foreground focus-visible:ring-2 focus-visible:ring-primary focus-visible:outline-none"
                 >
                   {item.label}
                 </Link>
@@ -25,9 +26,9 @@ export function SiteHeader() {
           </ul>
         </nav>
         <div className="hidden lg:flex">
-          <Link href="/contact" className="button button-primary">
-            Request a demo
-          </Link>
+          <Button asChild size="lg" className="px-4">
+            <Link href="/contact">Request a demo</Link>
+          </Button>
         </div>
         <MobileNav />
       </div>
