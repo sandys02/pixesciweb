@@ -46,9 +46,9 @@ export function AuditTimeline({ dark }: AuditTimelineProps) {
     <figure
       className={cn(
         "visual-frame overflow-hidden",
-        dark && "border-white/12 bg-white/[0.035]",
+        dark && "border-white/12 bg-white/[0.035]"
       )}
-      aria-label="Illustrative audit timeline with workflow events, resources, timestamps, checksums, and review state"
+      aria-label="Audit timeline with workflow events, items, times, checksums, and review status"
     >
       {/* TODO: Replace with real PixeSci audit log screenshot. */}
       <figcaption className="visual-toolbar">
@@ -67,7 +67,7 @@ export function AuditTimeline({ dark }: AuditTimelineProps) {
         ].map(([value, label]) => (
           <div key={label} className="px-2 py-2.5">
             <p className="font-mono text-[10px] font-semibold">{value}</p>
-            <p className="mt-0.5 text-[8px] uppercase tracking-[0.1em] text-muted-foreground">
+            <p className="mt-0.5 text-[8px] tracking-[0.1em] text-muted-foreground uppercase">
               {label}
             </p>
           </div>
@@ -96,13 +96,13 @@ export function AuditTimeline({ dark }: AuditTimelineProps) {
                         ? "text-amber-600"
                         : event.severity === "success"
                           ? "text-emerald-600"
-                          : "text-muted-foreground",
+                          : "text-muted-foreground"
                     )}
                   >
                     {event.severity}
                   </span>
                 </div>
-                <p className="mt-1 break-all font-mono text-[9px] text-muted-foreground">
+                <p className="mt-1 font-mono text-[9px] break-all text-muted-foreground">
                   {event.resource}
                 </p>
               </div>
@@ -111,7 +111,7 @@ export function AuditTimeline({ dark }: AuditTimelineProps) {
                   "grid size-6 place-items-center rounded-full border",
                   event.status === "review"
                     ? "border-amber-400/50 bg-amber-400/10 text-amber-600"
-                    : "border-emerald-400/40 bg-emerald-400/10 text-emerald-600",
+                    : "border-emerald-400/40 bg-emerald-400/10 text-emerald-600"
                 )}
               >
                 {event.status === "review" ? (
@@ -126,7 +126,7 @@ export function AuditTimeline({ dark }: AuditTimelineProps) {
             </div>
           ))}
         </div>
-        <div className="border-t border-border bg-muted/40 p-5 md:border-l md:border-t-0">
+        <div className="border-t border-border bg-muted/40 p-5 md:border-t-0 md:border-l">
           <p className="eyebrow">Record detail</p>
           <dl className="mt-5 space-y-4 text-xs">
             {[
@@ -147,7 +147,7 @@ export function AuditTimeline({ dark }: AuditTimelineProps) {
           </dl>
           <div className="mt-6 flex items-start gap-2 border-t border-border pt-4 text-[10px] leading-4 text-muted-foreground">
             <FileWarning className="mt-0.5 size-3.5 shrink-0 text-amber-500" />
-            Customer review policy determines final disposition.
+            Customer review rules determine the final decision.
           </div>
         </div>
       </div>

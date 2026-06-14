@@ -5,9 +5,9 @@ import { coreFacilitiesPage } from "@/content/pages"
 import { createMetadata } from "@/lib/seo"
 
 export const metadata: Metadata = createMetadata({
-  title: "Core facility workflow standardization",
+  title: "Standardize core facility workflows",
   description:
-    "Turn proven acquisition, analysis, review, and reporting procedures into reusable local scientific workflow templates.",
+    "Connect acquisition, analysis, review, and reporting tools in workflows that every operator can follow.",
   path: "/solutions/core-facilities",
 })
 

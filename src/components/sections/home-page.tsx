@@ -24,9 +24,9 @@ import { CTASection } from "@/components/site/cta-section"
 import { DemoBookingLink } from "@/components/site/demo-booking-link"
 import { Button } from "@/components/ui/button"
 import {
-  ArchitectureDiagram,
   AuditTimeline,
   CatalogVisual,
+  EnvironmentControls,
   HeroAgentMockup,
 } from "@/components/visuals"
 
@@ -43,15 +43,16 @@ export function HomePage() {
               <div>
                 <div className="inline-flex items-center gap-2 rounded-full border border-border bg-background px-3 py-1.5 text-xs text-muted-foreground">
                   <CircleDot className="size-3 text-emerald-500" />
-                  Compliance-first scientific workflow orchestration
+                  Connect tools. Automate work. Track every step.
                 </div>
                 <h1 className="mt-7 text-4xl leading-[1.04] font-semibold md:text-5xl xl:text-6xl">
-                  Connect scientific software into traceable workflows.
+                  Talk to your lab in Natural Language.
                 </h1>
                 <p className="mt-6 max-w-2xl text-base leading-7 text-muted-foreground sm:text-lg sm:leading-8">
-                  PixeSci turns fragmented scientific software handoffs into
-                  reusable workflow graphs with local execution, complete run
-                  history, review checkpoints, and audit-ready evidence.
+                  PixeSci connects and automates the scientific software you
+                  already use. Tell PixeSci AI what you want to do in your own
+                  words, review the steps, and track every action, file, and
+                  result.
                 </p>
                 <div className="mt-8 flex flex-col gap-3 sm:flex-row">
                   <Button asChild size="lg" className="px-4">
@@ -81,9 +82,9 @@ export function HomePage() {
         </section>
 
         <SectionShell
-          eyebrow="The structural problem"
-          title="Powerful scientific software. Fragmented scientific execution."
-          description="Scientific software evolved. Connectivity never did. Many modern laboratories still depend on specialized applications for every stage of research and quality control. Yet critical workflows still depend on manual handoffs between systems. Files, parameters, identifiers, review decisions, and records move across disconnected tools with limited traceability and significant operational risk."
+          eyebrow="The problem"
+          title="Your scientific tools work. The handoffs do not."
+          description="Labs use different apps for instruments, analysis, statistics, review, and records. People still move files and re-enter data by hand. This makes work slower, harder to repeat, and harder to review."
         >
           <FeatureGrid items={problems} columns={3} />
         </SectionShell>
@@ -93,14 +94,13 @@ export function HomePage() {
             <div className="max-w-3xl">
               <p className="eyebrow">The PixeSci platform</p>
               <h2 className="mt-3 text-3xl leading-tight font-semibold sm:text-5xl">
-                An orchestration layer between the tools you already use.
+                Connect the tools you already use.
               </h2>
               <p className="mt-5 text-base leading-7 text-muted-foreground sm:text-lg">
-                Compliance controls, natural-language planning, graph authoring,
-                software capability profiles, local execution, templates,
-                artifacts, and audit records operate as one system. AI-assisted
-                planning helps express intent, while supported capabilities and
-                operator review govern execution.
+                PixeSci turns your request into a visual workflow, checks what
+                each tool can do, runs the work locally, and saves the results.
+                Operators can review and approve controlled steps before they
+                run.
               </p>
             </div>
             <div className="mt-10">
@@ -122,37 +122,34 @@ export function HomePage() {
           <div className="site-container">
             <div className="grid gap-10 lg:grid-cols-[0.72fr_1.28fr] lg:items-center lg:gap-16">
               <div>
-                <p className="eyebrow text-cyan-300">
-                  Local-first architecture
-                </p>
+                <p className="eyebrow text-cyan-300">Run it locally</p>
                 <h2 className="mt-3 text-3xl leading-tight font-semibold sm:text-4xl">
-                  The runtime stays close to the data, software, and operator.
+                  Run PixeSci within your own environment.
                 </h2>
                 <p className="mt-5 text-base leading-7 text-white/62">
-                  Workflow services, operational data, AI resources, software
-                  definitions, and scientific application adapters can remain
-                  inside the customer-controlled environment. Managed
-                  deployments can use approved on-prem infrastructure without an
-                  external cloud control plane.
+                  Run workflow services, work data, AI models, and software
+                  connections inside your own environment. Use lab workstations
+                  or your own servers without relying on an outside cloud
+                  service.
                 </p>
                 <ul className="mt-7 space-y-4">
                   {[
                     {
                       title: "Customer-controlled data",
                       description:
-                        "Keep workflow data, run history, and audit records within approved infrastructure.",
+                        "Keep workflow data, run history, and audit records inside approved systems.",
                       icon: FolderLock,
                     },
                     {
-                      title: "No hosted control plane required",
+                      title: "No outside cloud service required",
                       description:
-                        "Operate on workstations or managed on-prem services without an external execution layer.",
+                        "Run on workstations or your own servers without an outside execution service.",
                       icon: CloudOff,
                     },
                     {
-                      title: "Policy-controlled connectivity",
+                      title: "Controlled connections",
                       description:
-                        "Apply explicit controls to software integrations, paths, credentials, and network access.",
+                        "Choose which tools, folders, passwords, and networks PixeSci can use.",
                       icon: ShieldCheck,
                     },
                   ].map((item) => {
@@ -180,7 +177,7 @@ export function HomePage() {
                   <ArrowRight className="size-4" />
                 </Link>
               </div>
-              <ArchitectureDiagram />
+              <EnvironmentControls />
             </div>
           </div>
         </section>
@@ -189,24 +186,22 @@ export function HomePage() {
           <div className="site-container">
             <div className="grid gap-10 lg:grid-cols-2 lg:items-center lg:gap-16">
               <div>
-                <p className="eyebrow">Audit-ready traceability</p>
+                <p className="eyebrow">Track every run</p>
                 <h2 className="mt-3 text-3xl leading-tight font-semibold sm:text-4xl">
-                  Every run ends with evidence teams can understand.
+                  See what happened during every experiment.
                 </h2>
                 <p className="mt-5 text-base leading-7 text-muted-foreground">
-                  Preserve events, actor and resource context, parameters,
-                  outcomes, checksums, artifacts, and review state across the
-                  workflow run. A run summary and graphical execution path make
-                  completed steps, exceptions, approvals, and produced outputs
-                  easier to inspect without reconstructing the process from
-                  folders and application histories.
+                  PixeSci records each user, action, setting, result, file,
+                  approval, and error. The run summary shows completed steps and
+                  changes without making reviewers search through folders and
+                  app histories.
                 </p>
                 <div className="mt-7 space-y-4">
                   {[
-                    "User, role, session, and timestamp context",
-                    "Workflow, software, file, and outcome events",
-                    "Metadata, checksums, severity, and review state",
-                    "Human checkpoints for controlled actions",
+                    "Users, roles, sessions, and times",
+                    "Software actions, files, and results",
+                    "File details, checksums, errors, and reviews",
+                    "Human approval for controlled actions",
                   ].map((item) => (
                     <div
                       key={item}
@@ -237,17 +232,14 @@ export function HomePage() {
           <div className="site-container">
             <div className="grid gap-10 lg:grid-cols-[0.72fr_1.28fr] lg:items-center lg:gap-16">
               <div>
-                <p className="eyebrow">Capability-based integrations</p>
+                <p className="eyebrow">Connect your software</p>
                 <h2 className="mt-3 text-3xl leading-tight font-semibold sm:text-4xl">
-                  Connect existing software without pretending every tool works
-                  the same way.
+                  Use each tool the way it was built to work.
                 </h2>
                 <p className="mt-5 text-base leading-7 text-muted-foreground">
-                  Profiles describe setup, formats, requirements, channels,
-                  operational constraints, and required user input for each
-                  supported application. Local detection then confirms which
-                  applications are available in the target execution
-                  environment.
+                  PixeSci records how to set up each app, which files it uses,
+                  what actions it supports, and when it needs a person. It then
+                  checks which apps are installed where the workflow will run.
                 </p>
                 <Link
                   href="/integrations"
@@ -265,12 +257,9 @@ export function HomePage() {
         <section className="section-space border-t border-border">
           <div className="site-container">
             <div className="max-w-3xl">
-              <p className="eyebrow">
-                Built for high-compliance, high-control environments
-              </p>
+              <p className="eyebrow">Built for controlled scientific work</p>
               <h2 className="mt-3 text-3xl leading-tight font-semibold sm:text-4xl">
-                Start where compliance, traceability, and deployment control
-                matter most.
+                Automate work without losing control of data or records.
               </h2>
             </div>
             <div className="mt-10 grid border-t border-l border-border lg:grid-cols-3">
@@ -309,9 +298,9 @@ export function HomePage() {
           <div className="site-container">
             <div className="flex flex-col justify-between gap-5 sm:flex-row sm:items-end">
               <div className="max-w-2xl">
-                <p className="eyebrow">Evaluation resources</p>
+                <p className="eyebrow">Learn how it works</p>
                 <h2 className="mt-3 text-3xl leading-tight font-semibold sm:text-4xl">
-                  Give technical and quality teams concrete material to review.
+                  Give technical and quality teams clear information to review.
                 </h2>
               </div>
               <Link
@@ -368,8 +357,8 @@ export function HomePage() {
         </section>
       </main>
       <CTASection
-        title="Map one scientific workflow with PixeSci."
-        description="Show us the software, files, manual handoffs, review points, and deployment constraints. We will turn the process into an orchestration plan."
+        title="Show us one scientific workflow."
+        description="Bring the software, files, manual steps, and reviews. We will show how PixeSci can connect, run, and track the process."
         cta="Request a demo"
       />
     </>

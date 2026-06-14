@@ -54,7 +54,13 @@ export type PageSection = {
   layout?: "split" | "stacked"
   features?: PageFeature[]
   bullets?: string[]
-  visual?: "workflow" | "audit" | "architecture" | "catalog" | "console" | "templates"
+  visual?:
+    | "workflow"
+    | "audit"
+    | "architecture"
+    | "catalog"
+    | "console"
+    | "templates"
   dark?: boolean
 }
 
@@ -74,9 +80,9 @@ export type MarketingPageData = {
 
 export const productPage: MarketingPageData = {
   eyebrow: "Product",
-  title: "One orchestration layer across scientific software.",
+  title: "Connect and automate your scientific software.",
   description:
-    "PixeSci connects scientific software into reviewable, reusable workflows that run within your environment. Every run captures inputs, outputs, parameters, decisions, and execution history in a single traceable record for reproducible and compliant scientific operations.",
+    "PixeSci connects the tools your lab already uses. Tell PixeSci what to do in your own words, review the steps, run them locally, and track every file, setting, decision, and result.",
   primaryCta: "Request a demo",
   primaryHref: demoBookingUrl,
   secondaryCta: "See workflow automation",
@@ -84,123 +90,142 @@ export const productPage: MarketingPageData = {
   sections: [
     {
       eyebrow: "Authoring",
-      title: "Build the execution plan as a graph.",
+      title: "Build each process as a visual workflow.",
       description:
-        "Model software steps, dependencies, inputs, outputs, and review points in a visual workflow graph. Teams can inspect the complete execution path before a run and reuse proven processes without rebuilding every handoff.",
+        "Connect software steps, files, settings, and review points on one canvas. Check the full process before it runs, then save it for the next experiment.",
       visual: "workflow",
       features: [
         {
           title: "Workflow canvas",
-          description: "Map software steps, dependencies, variables, and required inputs in a visual workflow.",
+          description:
+            "Connect software steps, files, settings, and required inputs on one canvas.",
           icon: GitBranch,
         },
         {
           title: "Operator surfaces",
-          description: "Keep execution controls, files, notes, previews, and technical tools in the same workspace.",
+          description:
+            "Keep controls, files, notes, previews, and tools in one workspace.",
           icon: PanelTop,
         },
         {
           title: "Reusable templates",
-          description: "Browse, configure, run, and save templates for repeatable scientific workflows.",
+          description:
+            "Choose, set up, run, and save workflows that your team can repeat.",
           icon: Library,
         },
       ],
     },
     {
-      eyebrow: "Capability contracts",
-      title: "Know what each software step can do before execution.",
+      eyebrow: "Software catalog",
+      title: "Check what each tool can do before you run it.",
       description: [
-        "PixeSci describes each connected application through its supported operations, required inputs, expected outputs, setup requirements, and operational constraints. Teams can confirm that a software step is suitable before adding it to a workflow.",
-        "Environment checks show whether the required scientific software is available where the workflow will run. Teams can standardize processes while accounting for differences among workstations, instruments, and sites.",
+        "PixeSci shows what each connected software can do, which files it needs, what it produces, and how to set it up. Teams can check a step before adding it to a workflow.",
+        "PixeSci also checks whether the required software is available on the computer that will run the workflow. This helps teams use the same process across different workstations and sites.",
       ],
       visual: "catalog",
       features: [
         {
           title: "Software catalog",
-          description: "Review supported applications, operations, file formats, and setup requirements before execution.",
+          description:
+            "Check supported apps, actions, file types, and setup needs before a run.",
           icon: Blocks,
         },
         {
           title: "Local detection",
-          description: "Confirm that required software is available in the target execution environment.",
+          description:
+            "Confirm that the required software is installed where the workflow will run.",
           icon: MonitorCog,
         },
         {
           title: "Offline distribution",
-          description: "Distribute approved software definitions through controlled or offline environments.",
+          description:
+            "Move approved software setup files through secure or offline environments.",
           icon: PackageCheck,
         },
       ],
     },
     {
-      eyebrow: "Runtime",
-      title: "Execute locally and stream what happens.",
+      eyebrow: "Run workflows",
+      title: "Run locally and watch each step.",
       description:
-        "Run workflows close to scientific software and data while monitoring progress, outputs, failures, and required decisions in real time. Controlled steps can pause for operator input or approval before execution continues.",
+        "Run workflows where your software and data already live. Watch progress, results, errors, and decisions as they happen. Pause any controlled step until a person approves it.",
       visual: "console",
       dark: true,
       features: [
         {
           title: "Execution events",
-          description: "Record progress, attempts, duration, failures, outputs, and artifacts throughout each run.",
+          description:
+            "Record progress, retries, time, errors, and files during every run.",
           icon: RadioTower,
         },
         {
           title: "Safety gates",
-          description: "Require approval before controlled actions affect external systems, interfaces, instruments, or files.",
+          description:
+            "Ask for approval before a step changes a system, instrument, or file.",
           icon: ShieldCheck,
         },
         {
           title: "Run history",
-          description: "Review completed, failed, and interrupted workflow runs with their execution context.",
+          description:
+            "Review completed, failed, and stopped runs with all their details.",
           icon: History,
         },
       ],
     },
     {
       eyebrow: "Interface",
-      title: "Start in plain language. Continue through validated capabilities.",
+      title: "Tell PixeSci what you want to do.",
       description:
-        "Scientists describe what they want to accomplish in plain language. PixeSci AI Agent converts that intent into reviewable workflow decisions based on supported software capabilities, helping teams move from objective to execution without manually orchestrating every step.\n",
+        "Describe the work in your own words. PixeSci turns the request into clear software steps that you can review before anything runs.",
       features: [
         {
-          title: "Context-aware workspace",
-          description: "Keep sessions, tabs, local files, attachments, and software references available during planning.",
-          icon: MessageSquareText,
-        },
-        {
           title: "Local model routing",
-          description: "Use private AI-assisted planning options within controlled local or on-prem deployments.",
+          description:
+            "Use approved local AI models inside your own environment.",
           icon: BrainCircuit,
         },
         {
-          title: "Constrained decisions",
-          description: "Translate scientific intent into explicit, capability-aware workflow choices for review.",
+          title: "Checked decisions",
+          description:
+            "Turn your request into clear steps based on what each tool can do.",
           icon: CheckCheck,
+        },
+        {
+          title: "Workspace details",
+          description:
+            "Keep chats, tabs, files, attachments, and software details ready while you plan.",
+          icon: MessageSquareText,
+        },
+        {
+          title: "Choose what the AI can use",
+          description:
+            "Let the AI use the full workspace or limit it to one workflow, run, file, or investigation.",
+          icon: Network,
         },
       ],
     },
   ],
-  finalTitle: "Bring a real workflow. Leave with an execution map.",
+  finalTitle:
+    "Describe a your workflow in simple language. See how PixeSci optimizes and runs it.",
   finalDescription:
-    "We will map the software, files, review points, deployment constraints, and execution evidence required by your process.",
+    "PixeSci will map your software, files, review steps, setup needs, and required records.",
   finalCta: "Discuss your workflow",
 }
 
 export const regulatedPage: MarketingPageData = {
   eyebrow: "Regulated life sciences",
-  title: "Traceable execution across QC and R&D software handoffs.",
+  title: "Connect QC and R&D tools and track every handoff.",
   description:
-    "Standardize multi-tool QC and R&D workflows for biotech, pharma, CRO, and CDMO teams while preserving the execution context, audit history, and review evidence behind each run.",
+    "PixeSci automates work across QC and R&D software. It records each input, setting, action, review, and result so teams can repeat and inspect the process.",
   primaryCta: "Map a regulated workflow",
   primaryHref: demoBookingUrl,
   secondaryCta: "Review compliance workflows",
   secondaryHref: "/compliance",
   sections: [
     {
-      title: "Replace reconstruction with a linked execution record.",
+      title: "Keep one record across every tool.",
       description:
-        "Scientific results often move among instrument software, analysis tools, spreadsheets, LIMS or ELN systems, and review queues. PixeSci connects these handoffs in a reusable workflow that preserves inputs, parameters, outputs, responsibilities, and review points throughout the process.",
+        "Results move between instruments, analysis tools, spreadsheets, LIMS or ELN systems, and reviewers. PixeSci connects these steps and keeps the files, settings, owners, results, and approvals together.",
       visual: "workflow",
       bullets: [
         "FlowJo → GraphPad Prism → LIMS / ELN",
@@ -210,79 +235,84 @@ export const regulatedPage: MarketingPageData = {
       ],
     },
     {
-      eyebrow: "Operational evidence",
-      title: "Make exceptions and reprocessing easier to review.",
+      eyebrow: "Run records",
+      title: "Review errors, changes, and reruns faster.",
       description: [
-        "Keep source references, parameters, operator actions, outputs, and documented reasons for change connected to each run. Reviewers can understand what happened without reconstructing the process from disconnected logs and notes.",
-        "During deviations, exceptions, or reprocessing, teams can inspect the relevant execution history within their established investigation, validation, and quality procedures.",
+        "Keep source files, settings, operator actions, results, and reasons for change with each run. Reviewers can see what happened without searching through separate logs and notes.",
+        "When a deviation, exception, or rerun occurs, teams can inspect the full history and use it in their existing quality process.",
       ],
       visual: "audit",
       features: [
         {
           title: "Audit-trail review",
-          description: "Review who changed what, when it changed, which resource was affected, and the resulting outcome.",
+          description:
+            "See who changed what, when it changed, what it affected, and what happened next.",
           icon: FileSearch,
         },
         {
-          title: "OOS and OOR context",
-          description: "Preserve original results, sequence details, reruns, parameters, change reasons, and review history for investigation.",
+          title: "OOS and OOR records",
+          description:
+            "Keep original results, run details, settings, change reasons, and reviews for an investigation.",
           icon: ClipboardCheck,
         },
         {
           title: "Change control",
-          description: "Track approved changes to workflow templates, versions, and controlled settings.",
+          description:
+            "Track approved changes to workflows, versions, and settings.",
           icon: FileCog,
         },
       ],
     },
     {
       eyebrow: "Controlled deployment",
-      title: "Keep execution, data, and records under your control.",
+      title: "Keep software, data, and records under your control.",
       description: [
-        "Deploy PixeSci on scientific workstations or managed on-prem infrastructure so workflow execution stays close to applications, instruments, files, and governed data stores.",
-        "Its local-first architecture works within existing network boundaries, access policies, backup procedures, and infrastructure controls without requiring a cloud-hosted execution layer.",
+        "Run PixeSci on lab workstations or your own servers. Work stays close to your apps, instruments, files, and approved data stores.",
+        "PixeSci works within your network, access rules, and backup process. It does not need a cloud service to run workflows.",
       ],
       visual: "architecture",
       dark: true,
       features: [
         {
           title: "Local data paths",
-          description: "Run workflows against controlled directories and locally installed scientific applications.",
+          description:
+            "Run workflows with approved folders and locally installed scientific apps.",
           icon: FolderLock,
         },
         {
           title: "Review checkpoints",
-          description: "Pause high-risk or controlled workflow steps for explicit human approval.",
+          description: "Pause high-risk steps until a person approves them.",
           icon: UserCheck,
         },
         {
           title: "Validation boundary",
-          description: "Keep responsibility for validating configured workflows within the customer’s quality system.",
+          description:
+            "Validate each configured workflow under your own quality system.",
           icon: BadgeCheck,
         },
       ],
     },
   ],
-  finalTitle: "Map the handoffs behind a regulated process.",
+  finalTitle: "Show us one regulated process.",
   finalDescription:
-    "Bring one QC, analytical development, or manufacturing sciences workflow, along with its evidence and review requirements.",
+    "Bring a QC, development, or manufacturing workflow and the records and reviews it requires.",
   finalCta: "Request a compliance workflow demo",
 }
 
 export const secureResearchPage: MarketingPageData = {
   eyebrow: "Secure research",
-  title: "Scientific orchestration without an external cloud control plane.",
+  title: "Automate scientific work without an outside cloud service.",
   description:
-    "Orchestrate local scientific software, HPC outputs, internal repositories, and reproducible analysis within secure, customer-controlled research infrastructure.",
+    "PixeSci connects local software, HPC results, and internal data inside infrastructure that you control.",
   primaryCta: "Discuss secure deployment",
   primaryHref: demoBookingUrl,
   secondaryCta: "Review architecture",
   secondaryHref: "/security",
   sections: [
     {
-      title: "Connect complex research pipelines across local boundaries.",
+      title: "Connect research tools across your local environment.",
       description:
-        "Turn file-based and software-specific procedures into explicit, reusable workflows that preserve software versions, parameters, processing context, and recorded outputs.",
+        "Turn file-based procedures into clear workflows that save software versions, settings, steps, and results.",
       visual: "workflow",
       bullets: [
         "VASP → VESTA → OriginPro → HDF5 / SQL",
@@ -293,48 +323,52 @@ export const secureResearchPage: MarketingPageData = {
     },
     {
       eyebrow: "Airgapped operation",
-      title: "Distribute capabilities without depending on the public internet.",
+      title: "Set up tools without using the public internet.",
       description:
-        "Distribute approved software definitions and AI resources through controlled internal channels. Deployment policies can block workflow integrations that require external connectivity.",
+        "Move approved software setup and AI models through your internal network or offline packages. Block any connection that needs the public internet.",
       visual: "architecture",
       dark: true,
       features: [
         {
           title: "Offline packages",
-          description: "Move approved software and model definitions through controlled internal or offline channels.",
+          description:
+            "Move approved software setup and models through internal or offline channels.",
           icon: PackageCheck,
         },
         {
           title: "Policy gates",
-          description: "Restrict integrations according to the deployment’s security and connectivity policies.",
+          description:
+            "Allow or block each connection based on your security rules.",
           icon: CloudOff,
         },
         {
           title: "Local secrets",
-          description: "Keep integration credentials within controlled local runtime configuration.",
+          description: "Keep connection passwords and keys in local settings.",
           icon: KeyRound,
         },
       ],
     },
     {
-      eyebrow: "Reproducibility",
-      title: "Preserve enough context to run the work again.",
+      eyebrow: "Repeat the work",
+      title: "Save what your team needs to run the work again.",
       description:
-        "Keep source references, software versions, parameters, scripts, processing history, and generated artifacts connected so teams can understand, review, and reproduce prior work.",
+        "Keep source files, software versions, settings, scripts, steps, and results together so teams can review and repeat past work.",
       features: [
         {
-          title: "File lineage",
-          description: "Connect source files to processing steps, destinations, outputs, and persistent identifiers.",
+          title: "File history",
+          description:
+            "Link source files to each step, destination, result, and saved ID.",
           icon: Network,
         },
         {
           title: "Scripted processing",
-          description: "Include approved scripts when consistent, repeatable data processing is required.",
+          description: "Run approved scripts the same way each time.",
           icon: Code2,
         },
         {
           title: "HPC completion",
-          description: "Continue downstream workflow steps when approved HPC jobs complete and files become available.",
+          description:
+            "Continue the workflow when an approved HPC job finishes and returns its files.",
           icon: ServerCog,
         },
       ],
@@ -342,180 +376,198 @@ export const secureResearchPage: MarketingPageData = {
   ],
   finalTitle: "Fit PixeSci to your controlled research environment.",
   finalDescription:
-    "Discuss workstation, on-prem, and airgapped deployment, including capability distribution and internal repository requirements.",
+    "Review your workstations, servers, offline setup, software packages, and internal data stores.",
   finalCta: "Discuss secure deployment",
 }
 
 export const coreFacilitiesPage: MarketingPageData = {
   eyebrow: "Core facilities",
-  title: "Turn proven operator procedures into reusable facility workflows.",
+  title: "Turn proven lab procedures into workflows everyone can follow.",
   description:
-    "Standardize acquisition, local analysis, review, and reporting across core facility software with guided, reusable workflows and connected run history.",
+    "PixeSci connects acquisition, analysis, review, and reporting tools. Save the process once, guide each operator, and track every run.",
   primaryCta: "Standardize a facility workflow",
   primaryHref: demoBookingUrl,
   secondaryCta: "Explore the platform",
   secondaryHref: "/product",
   sections: [
     {
-      title: "Capture the workflow once. Run it consistently.",
+      title: "Save the process once. Run it the same way each time.",
       description:
-        "Facility managers can define software steps, parameters, operator instructions, local paths, review points, and expected outputs in a reusable workflow template.",
+        "Facility managers can save software steps, settings, instructions, folders, reviews, and expected results in one reusable workflow.",
       visual: "templates",
       features: [
         {
           title: "Template center",
-          description: "Browse, inspect, configure, run, and save standardized facility workflow templates.",
+          description:
+            "Choose, review, set up, run, and save facility workflows.",
           icon: Library,
         },
         {
           title: "Guided execution",
-          description: "Keep variables, working directories, required inputs, and operator decisions explicit during execution.",
+          description:
+            "Show required settings, folders, files, and operator choices during a run.",
           icon: ListChecks,
         },
         {
           title: "Operator notes",
-          description: "Keep practical instructions and process context alongside the workflow graph and run controls.",
+          description:
+            "Keep instructions beside the workflow and its controls.",
           icon: FileText,
         },
       ],
     },
     {
       eyebrow: "Local operations",
-      title: "Work with the software already installed at the facility.",
+      title: "Use the software already installed in your facility.",
       description:
-        "Maintain a shared catalog of supported scientific software while accounting for the applications, versions, and configuration available on each workstation.",
+        "Keep one list of supported software and show which apps, versions, and settings are available on each workstation.",
       visual: "catalog",
       features: [
         {
           title: "Local detection",
-          description: "Show which supported scientific applications and versions are available on each workstation.",
+          description:
+            "Show which scientific apps and versions are installed on each workstation.",
           icon: ScanLine,
         },
         {
           title: "Working directory",
-          description: "Keep source files, intermediate data, and outputs anchored to an explicit local working directory.",
+          description:
+            "Keep source files, working data, and results in a named local folder.",
           icon: FolderLock,
         },
         {
           title: "Batch execution",
-          description: "Apply consistent, repeatable processing to defined sample or file sets.",
+          description:
+            "Run the same process across a defined set of samples or files.",
           icon: SlidersHorizontal,
         },
       ],
     },
     {
       eyebrow: "Facility evidence",
-      title: "Give operators and reviewers one run history.",
+      title: "Give operators and reviewers one clear run history.",
       description:
-        "Keep execution events, output artifacts, review checkpoints, operator decisions, and failure context connected to each workflow run.",
+        "Keep each step, result, review, operator decision, and error with the workflow run.",
       visual: "audit",
       dark: true,
       features: [
         {
           title: "Run history",
-          description: "Review run status, duration, completed steps, operator actions, and generated outputs.",
+          description:
+            "Review status, time, completed steps, operator actions, and results.",
           icon: History,
         },
         {
           title: "Review points",
-          description: "Require operator or reviewer confirmation before publication or external handoff.",
+          description:
+            "Require approval before publishing or sending results outside the facility.",
           icon: UserCheck,
         },
         {
           title: "Reporting",
-          description: "Assemble approved results and artifacts into a consistent facility report or deliverable.",
+          description:
+            "Build a standard facility report from approved results and files.",
           icon: FileText,
         },
       ],
     },
   ],
-  finalTitle: "Standardize one facility workflow end to end.",
+  finalTitle: "Standardize one facility workflow from start to finish.",
   finalDescription:
-    "Map the acquisition software, analysis tools, operator decisions, review steps, and final reports your users depend on.",
+    "Show us the acquisition tools, analysis apps, operator choices, reviews, and reports you use.",
   finalCta: "Standardize a facility workflow",
 }
 
 export const compliancePage: MarketingPageData = {
   eyebrow: "Compliance and data integrity",
-  title: "Build reviewable evidence into scientific execution.",
+  title: "Track compliance work throughout every experiment.",
   description:
-    "PixeSci helps teams preserve audit events, metadata, attribution, outcomes, checksums, and review state across multi-tool scientific workflows. These controls support evaluation against ALCOA data-integrity principles but do not make a configured workflow automatically compliant.",
+    "PixeSci records who did what, when it happened, what changed, and what result followed. These records can support ALCOA data integrity reviews, but software alone does not make a workflow compliant.",
   primaryCta: "Review compliance workflows",
   primaryHref: demoBookingUrl,
   secondaryCta: "See regulated solutions",
   secondaryHref: "/solutions/regulated-life-sciences",
   sections: [
     {
-      title: "A connected record of who did what, when, and why.",
+      title: "See who did what, when they did it, and why.",
       description: [
-        "FDA data-integrity guidance emphasizes records that are complete, consistent, accurate, attributable, contemporaneous, and available for review. PixeSci connects actions, responsibilities, timestamps, outcomes, integrity signals, and review states to each workflow run.",
-        "This history helps teams reconstruct activity, verify review steps, and prepare evidence for quality processes or inspections. Each organization remains responsible for configuring and validating records against its own requirements.",
+        "FDA guidance calls for records that are complete, consistent, accurate, linked to a person, recorded on time, and ready for review. PixeSci links actions, owners, times, results, file checks, and reviews to each run.",
+        "Teams can use this history to check reviews and prepare records for quality work or inspections. Each organization must still set up and validate those records for its own needs.",
       ],
       visual: "audit",
       features: [
         {
           title: "Attributable",
-          description: "Associate workflow activity with the relevant user, role, session, and resource context.",
+          description:
+            "Link each workflow action to the right user, role, session, and item.",
           icon: Fingerprint,
         },
         {
           title: "Contemporaneous",
-          description: "Record execution and audit events as scientific work progresses.",
+          description:
+            "Record workflow and audit events while the work happens.",
           icon: FileClock,
         },
         {
           title: "Reviewable",
-          description: "Filter execution records, inspect supporting metadata, and prepare controlled exports for review.",
+          description:
+            "Filter records, check their details, and prepare approved exports for review.",
           icon: BookOpenCheck,
         },
       ],
     },
     {
       eyebrow: "Data integrity",
-      title: "Keep data, metadata, and the execution path together.",
+      title: "Keep data, details, and workflow steps together.",
       description:
-        "Keep source references, metadata, software versions, parameters, scripts, changes, and processing history connected. Workflow views and run summaries make this context easier to inspect without replacing the underlying records.",
+        "Link source files, file details, software versions, settings, scripts, changes, and processing steps. Workflow views make this information easier to inspect without replacing the original records.",
       features: [
         {
-          title: "Metadata",
-          description: "Preserve timestamps, actors, software context, file formats, parameters, and outputs.",
+          title: "Run details",
+          description:
+            "Save times, users, software, file types, settings, and results.",
           icon: FileKey2,
         },
         {
           title: "Versioning",
-          description: "Track workflow versions and the software configuration associated with each run.",
+          description:
+            "Track each workflow version and the software settings used for every run.",
           icon: GitBranch,
         },
         {
           title: "Checksums",
-          description: "Use checksums and related integrity signals to support inspection of records and files.",
+          description:
+            "Use checksums to help reviewers confirm that records and files have not changed.",
           icon: BadgeCheck,
         },
       ],
     },
     {
       eyebrow: "Controls",
-      title: "Put review and access decisions in the workflow path.",
+      title: "Add reviews and access rules to the workflow.",
       description: [
-        "Human checkpoints, role-based access, backups, retention policies, and local deployment help teams govern how workflows are accessed, reviewed, approved, and preserved.",
-        "When configured and validated against the organization’s requirements, these controls support accountable decisions, traceable procedures, and compliance-ready workflow evidence.",
+        "Use approval steps, role-based access, backups, retention rules, and local deployment to control who can run, review, approve, and keep each workflow.",
+        "When your organization sets up and validates these controls, they can help teams show how decisions were made and procedures were followed.",
       ],
       visual: "architecture",
       dark: true,
       features: [
         {
           title: "Access controls",
-          description: "Use authenticated sessions and role-based permissions to govern workflow access.",
+          description:
+            "Use signed-in sessions and roles to control workflow access.",
           icon: LockKeyhole,
         },
         {
           title: "Review checkpoints",
-          description: "Pause workflow execution for explicit approval before high-risk or controlled actions.",
+          description:
+            "Pause the workflow for approval before a high-risk action.",
           icon: UserCheck,
         },
         {
           title: "Retention and backup",
-          description: "Support customer-controlled backup, retention, recovery, and export procedures.",
+          description:
+            "Use your own backup, retention, recovery, and export process.",
           icon: DatabaseBackup,
         },
       ],
@@ -523,94 +575,100 @@ export const compliancePage: MarketingPageData = {
   ],
   finalTitle: "Review PixeSci against your workflow and quality system.",
   finalDescription:
-    "We will review your evidence requirements, approval points, deployment controls, and customer validation responsibilities.",
+    "We will review the records, approvals, setup controls, and validation work your process requires.",
   finalCta: "Review compliance workflows",
 }
 
 export const securityPage: MarketingPageData = {
   eyebrow: "Security and deployment",
-  title: "A local-first runtime designed for deployment control.",
+  title: "Run PixeSci inside the environment you control.",
   description:
-    "PixeSci provides local-first scientific workflow orchestration that keeps execution, operational data, and software connections within customer-controlled environments by default.",
+    "PixeSci runs workflows, stores work data, and connects software inside your environment by default.",
   primaryCta: "Discuss deployment requirements",
   primaryHref: demoBookingUrl,
   secondaryCta: "Explore the platform",
   secondaryHref: "/product",
   sections: [
     {
-      title: "The default control plane is the workstation.",
+      title: "Keep scientific work inside your environment.",
       description:
-        "Workflow data, logs, AI resources, software definitions, and execution services can remain local. Managed deployments can use approved on-prem infrastructure without depending on an externally hosted control plane.",
+        "Keep workflow data, logs, AI models, and software setup local. Use approved workstations or your own servers without relying on an outside cloud service.",
       visual: "architecture",
       dark: true,
       bullets: [
-        "Local desktop operation",
-        "Customer-controlled execution services",
-        "Local data storage with encryption options",
-        "Private AI-assisted planning options",
-        "Locally managed software definitions, logs, and audit records",
+        "Run on approved workstations or customer-managed servers",
+        "Keep data in approved storage with encryption options",
+        "Use approved local AI models",
+        "Control software setup and access",
+        "Keep logs and audit records inside your environment",
       ],
     },
     {
       eyebrow: "Controls",
-      title: "Keep connectivity, paths, and credentials explicit.",
+      title: "Control connections, folders, and passwords.",
       description:
-        "Define which integrations, directories, users, and internal services each deployment may access. Credentials remain in controlled runtime configuration rather than being exposed through the user interface.",
+        "Choose which tools, folders, users, and internal services PixeSci can access. Keep passwords and keys in the local service instead of showing them in the interface.",
       layout: "stacked",
       features: [
         {
           title: "Airgap policy",
-          description: "Block integrations that require internet access when operating in an airgapped environment.",
+          description:
+            "Block tools that need internet access in an air-gapped environment.",
           icon: CloudOff,
         },
         {
           title: "Filesystem boundaries",
-          description: "Restrict workflow access to approved working directories and controlled local paths.",
+          description: "Limit workflows to approved folders and local paths.",
           icon: FolderLock,
         },
         {
           title: "Secret handling",
-          description: "Keep integration credentials within controlled local runtime configuration.",
+          description: "Keep connection passwords and keys in local settings.",
           icon: KeyRound,
         },
         {
-          title: "Session and RBAC concepts",
-          description: "Use authenticated sessions and role-based permissions to govern access.",
+          title: "Sessions and roles",
+          description: "Use signed-in sessions and roles to control access.",
           icon: Users,
         },
         {
           title: "Audit logging",
-          description: "Record relevant security, workflow, software, file, and compliance-supporting events.",
+          description:
+            "Record important security, workflow, software, file, and review events.",
           icon: FileSearch,
         },
         {
           title: "Backup and retention",
-          description: "Support customer-controlled local backup, retention, recovery, and lifecycle policies.",
+          description:
+            "Use your own rules for backup, retention, recovery, and removal.",
           icon: Archive,
         },
       ],
     },
     {
       eyebrow: "Deployment shapes",
-      title: "Start on one workstation. Operate under managed policy.",
+      title: "Start on one workstation. Expand under your rules.",
       description: [
-        "Begin on a standalone workstation, then extend the same operating model across managed laboratory or enterprise on-prem environments.",
-        "Administrators can apply established policies for software versions, access, configuration, data location, retention, backup, and review while keeping execution close to scientific software and data.",
+        "Start on one workstation, then use the same setup across managed lab computers or your own servers.",
+        "Administrators can control software versions, access, settings, data location, retention, backups, and reviews while keeping workflows close to lab software and data.",
       ],
       features: [
         {
           title: "Standalone workstation",
-          description: "Run scientific workflows and retain operational data on a single controlled workstation.",
+          description:
+            "Run workflows and keep work data on one controlled workstation.",
           icon: Laptop,
         },
         {
           title: "Managed lab install",
-          description: "Distribute approved configuration and software definitions across managed laboratory workstations.",
+          description:
+            "Send approved settings and software setup to managed lab workstations.",
           icon: MonitorCog,
         },
         {
           title: "Enterprise on-prem",
-          description: "Connect approved internal shares and services under customer-controlled enterprise policies.",
+          description:
+            "Connect approved internal storage and services under your company rules.",
           icon: ServerCog,
         },
       ],
@@ -618,96 +676,104 @@ export const securityPage: MarketingPageData = {
   ],
   finalTitle: "Review your deployment boundary with PixeSci.",
   finalDescription:
-    "Discuss workstation policies, on-prem services, airgapped operation, encryption options, access controls, and offline package distribution.",
+    "Review workstation rules, local servers, air-gapped use, encryption, access, and offline packages.",
   finalCta: "Discuss deployment requirements",
 }
 
 export const workflowAutomationPage: MarketingPageData = {
   eyebrow: "Workflow automation",
-  title: "Describe the work. Review the graph. Execute with evidence.",
+  title: "Describe the work. Review the steps. Run the workflow.",
   description:
-    "Turn plain-language scientific intent into capability-aware workflow graphs, then review controlled actions, monitor local execution, preserve run evidence, and reuse proven processes.",
+    "Tell PixeSci what you want to do in plain language. Review the workflow, run it locally, track each step, and save it for the next experiment.",
   primaryCta: "See a workflow demo",
   primaryHref: demoBookingUrl,
   secondaryCta: "Explore integrations",
   secondaryHref: "/integrations",
   sections: [
     {
-      title: "Build the workflow around real scientific work.",
+      title: "Build the workflow around the way your lab works.",
       description:
-        "Bring software steps, files, variables, notes, previews, and technical tools into one visual workflow environment. Teams can inspect dependencies, required inputs, and expected outputs before execution.",
+        "Put software steps, files, settings, notes, previews, and tools in one visual workflow. Check what each step needs and produces before it runs.",
       visual: "workflow",
       features: [
         {
-          title: "Nodes and edges",
-          description: "Represent software operations, control logic, human decisions, and processing steps explicitly.",
+          title: "Connected steps",
+          description:
+            "Show software actions, rules, human decisions, and processing steps clearly.",
           icon: GitBranch,
         },
         {
           title: "Connected inputs and outputs",
-          description: "Connect each step’s inputs and outputs while preserving file and execution context.",
+          description:
+            "Link the files each step needs to the results it produces.",
           icon: Variable,
         },
         {
-          title: "Capability validation",
-          description: "Validate software capabilities, step requirements, and configuration before execution.",
+          title: "Step checks",
+          description:
+            "Check the software, required files, and settings before a step runs.",
           icon: CheckCheck,
         },
       ],
     },
     {
       eyebrow: "Execution",
-      title: "Stream progress and finish with a reviewable run summary.",
+      title: "Watch progress and finish with a clear run summary.",
       description:
-        "Monitor status, timing, outputs, errors, approvals, and controlled actions as work progresses. Each run produces a connected execution summary for review, troubleshooting, and reproducibility.",
+        "Watch status, time, results, errors, approvals, and controlled actions as they happen. Each run ends with one summary for review, problem solving, and repeat work.",
       visual: "console",
       dark: true,
       features: [
         {
           title: "Live events",
-          description: "Monitor workflow status, step progress, and failures through secure live updates.",
+          description:
+            "Watch workflow status, step progress, and errors through live updates.",
           icon: RadioTower,
         },
         {
-          title: "Artifacts",
-          description: "Keep generated files, intermediate data, and final outputs connected to the originating run.",
+          title: "Output files",
+          description:
+            "Keep generated files, working data, and final results with the run that made them.",
           icon: FileText,
         },
         {
           title: "Execution history",
-          description: "Inspect prior workflow runs without reconstructing their history from disconnected folders and logs.",
+          description:
+            "Review past runs without searching through separate folders and logs.",
           icon: History,
         },
       ],
     },
     {
       eyebrow: "Control",
-      title: "Make human review part of the graph.",
+      title: "Make human review part of the workflow.",
       description:
-        "Workflow actions involving instruments, external systems, interfaces, or files can pause for explicit approval. AI-assisted plans remain bounded by supported software capabilities and operator review.",
+        "Pause before a workflow changes an instrument, outside system, interface, or file. PixeSci only plans supported software actions, and operators review them before they run.",
       visual: "audit",
       features: [
         {
           title: "Human steps",
-          description: "Request operator decisions, confirmation, or domain-specific review within the workflow.",
+          description:
+            "Ask an operator to decide, confirm, or review a step inside the workflow.",
           icon: UserCheck,
         },
         {
           title: "Safety gates",
-          description: "Record approval decisions before high-risk or controlled actions continue.",
+          description: "Record approval before a high-risk action continues.",
           icon: ShieldCheck,
         },
         {
           title: "Reusable templates",
-          description: "Save a proven workflow graph as a template for consistent future execution.",
+          description:
+            "Save a proven workflow as a template that the team can run again.",
           icon: Library,
         },
       ],
     },
   ],
-  finalTitle: "See your scientific workflow as an executable graph.",
+  finalTitle: "See how PixeSci can run your scientific workflow.",
   finalDescription:
-    "Bring your current SOP, scientific software stack, file flow, and approval points. We will map them into an executable workflow.",
+    "Bring your SOP, software, files, and approval steps. We will map them into a workflow PixeSci can run.",
   finalCta: "See a workflow demo",
 }
 import { demoBookingUrl } from "@/content/site"

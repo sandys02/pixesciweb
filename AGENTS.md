@@ -8,7 +8,7 @@ This version has breaking changes — APIs, conventions, and file structure may 
 
 ## Project Purpose
 
-This repository is the public marketing website for PixeSci, a local-first scientific workflow orchestration platform for high-control scientific environments. The website must communicate PixeSci as serious infrastructure for scientific software integration, reproducible workflow execution, auditability, and local/on-prem deployment. It is not a generic AI SaaS landing page and must not drift into vague automation copy.
+This repository is the public marketing website for PixeSci, a local-first platform that connects and automates scientific software for high-control scientific environments. The website must explain quickly that PixeSci lets users describe work in plain language, review the steps, run workflows locally, and track actions, files, decisions, and results. It is not a generic AI SaaS landing page and must not drift into vague automation copy.
 
 Primary audiences are regulated life-sciences teams, lab operations leaders, QC and R&D leaders, core facility staff, national lab teams, scientific software operators, and technical buyers who care about traceability, reproducibility, data locality, deployment control, and integration with existing scientific tools.
 
@@ -65,6 +65,9 @@ Keep components small and composable, but do not split every tiny element into i
 - Keep comments rare and useful.
 - Do not introduce backend calls for marketing content unless the implementation prompt explicitly requests them.
 - Do not hardcode claims that PixeSci is certified, FDA-approved, HIPAA-certified, SOC 2 certified, or Part 11 validated unless documentation is added proving that status.
+- Use `DemoBookingLink` for visible demo-calendar links so they consistently open the canonical Cal.com page in a new tab and emit the existing analytics event.
+- Keep the canonical website URL and demo-calendar URL in `src/content/site.ts`; do not repeat those URLs across components.
+- Keep Vercel Analytics and Speed Insights in the root layout unless the user explicitly changes the measurement approach.
 
 ## Styling Principles
 
@@ -74,7 +77,9 @@ Keep components small and composable, but do not split every tiny element into i
 - Keep border radii restrained, generally 6-10px unless a specific primitive requires otherwise.
 - Use gradients sparingly as depth or highlight, not as the main brand identity.
 - Avoid decorative orbs, bokeh blobs, and generic abstract SaaS backgrounds.
-- Use real product-inspired visuals: workflow graphs, audit timelines, software catalog grids, local runtime diagrams, compliance record views, and integration pipelines.
+- Use product-inspired visuals: workflow graphs, audit timelines, software catalog grids, environment-control views, compliance records, and integration pipelines.
+- Do not expose PixeSci's private implementation architecture in public visuals or copy. Avoid framework names, backend service names, database choices, model runtimes, internal protocols, ports, and component topology unless the user explicitly approves disclosure.
+- For deployment and security sections, show customer-facing controls and outcomes such as data location, internet access, approvals, audit logging, credentials, backups, and retention.
 - Text must never overlap, clip, or rely on viewport-scaled font sizing.
 
 ## Accessibility Rules
@@ -95,17 +100,39 @@ Design mobile-first and verify desktop, tablet, and mobile layouts. Navigation m
 
 Always preserve the core positioning:
 
-- PixeSci is integration, automation, and compliance infrastructure for fragmented scientific software.
-- PixeSci is a local-first orchestration and execution layer, not a cloud-only agent.
-- PixeSci helps teams turn manual multi-tool scientific work into reusable, traceable workflows.
-- PixeSci supports reproducibility through graph-native workflows, variables, execution events, run history, audit records, and review checkpoints.
+- PixeSci connects and automates scientific software.
+- Users can tell PixeSci what they want to do in their own words, review the steps, and run the workflow.
+- PixeSci runs locally or within customer-controlled infrastructure; it is not a cloud-only agent.
+- PixeSci tracks actions, files, settings, decisions, reviews, and results throughout scientific work.
+- PixeSci helps teams replace manual handoffs with reusable workflows that are easier to repeat and review.
 - PixeSci speaks to high-control scientific environments: regulated life sciences, pharma, biotech, CROs, CDMOs, core facilities, national labs, and secure R&D.
 
-Do not reduce PixeSci to generic AI chat. Chat is one interface into the workflow system; the core product is the orchestration layer across scientific tools.
+Lead with what PixeSci does, not its technical category. Prefer short subject-verb-object sentences and common words. For example: `PixeSci connects and automates scientific software.` Follow with the user outcome.
+
+Replace abstract wording when a simpler phrase is accurate:
+
+- `orchestration layer` → `connects and runs work across tools`
+- `execution evidence` → `run records`
+- `artifacts` → `files` or `results`
+- `capability-aware` → `based on what each tool can do`
+- `operational constraints` → `rules` or `limits`
+- `traceability` → `track the work` when the formal term is not required
+
+Keep established scientific and regulatory terms such as ALCOA, audit trail, checksum, OOS/OOR, LIMS, ELN, and air-gapped when precision requires them, but explain them with plain surrounding language.
+
+Do not reduce PixeSci to generic AI chat. Plain-language or voice control is an interface into the workflow system; the product connects scientific tools, runs workflows, and tracks the work.
 
 ## Compliance Messaging Rules
 
-Be precise. PixeSci can be described as helping teams produce traceable execution records, audit trails, reproducible workflow runs, local/on-prem deployment, and compliance-supporting evidence. Avoid implying that using PixeSci automatically makes a customer compliant. Use language such as `supports`, `helps`, `designed for`, `built around`, and `compliance-ready workflows` rather than unsupported certification claims.
+Be precise. PixeSci can be described as helping teams track work, produce records for review, maintain audit trails, repeat workflow runs, and operate locally or on-premises. Avoid implying that using PixeSci automatically makes a customer compliant. State clearly that customers remain responsible for validation, configuration, SOPs, training, and operation within their quality system.
+
+## Analytics And Privacy Rules
+
+- The site uses Vercel Web Analytics and Speed Insights and records demo-booking conversion events.
+- The current site has no account system, file upload, contact form, or first-party marketing-cookie feature.
+- Do not add a cookie banner when the site does not set optional cookies. Add consent controls only if a future integration introduces non-essential cookies or storage that requires consent.
+- Keep `src/app/privacy/page.tsx` aligned with the measurement tools, external services, and data flows actually used by the site.
+- Demo booking is handled by Cal.com in a new browser tab. Do not embed the calendar or add a contact-form backend unless the user explicitly requests it.
 
 ## Verification
 
@@ -116,3 +143,5 @@ Before finishing implementation work, run the available checks:
 - `npm run build`
 
 For visual work, start the dev server and inspect desktop and mobile breakpoints. Fix visible overlap, clipping, unreadable contrast, awkward spacing, and blank visual states before handing off.
+
+Also verify that public visuals do not reveal private product architecture or internal implementation details.

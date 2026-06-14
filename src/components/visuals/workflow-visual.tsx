@@ -30,7 +30,7 @@ const nodes = [
   },
   {
     label: "Image analysis",
-    meta: "capability / quantify-cells",
+    meta: "action / quantify-cells",
     icon: FileInput,
   },
   {
@@ -45,7 +45,7 @@ const nodes = [
   },
   {
     label: "LIMS / ELN record",
-    meta: "artifact / approved",
+    meta: "file / approved",
     icon: Database,
   },
 ]
@@ -61,9 +61,9 @@ export function WorkflowVisual({
         "visual-frame relative overflow-hidden",
         dark && "border-white/12 bg-white/[0.035]",
         compact ? "min-h-[390px]" : "min-h-[500px]",
-        className,
+        className
       )}
-      aria-label="Illustrative PixeSci workflow graph connecting instrument output, analysis, statistics, review, and a system of record"
+      aria-label="PixeSci workflow connecting instrument output, analysis, statistics, review, and a final record"
     >
       {/* TODO: Replace with real workflow canvas screenshot. */}
       <figcaption className="visual-toolbar">
@@ -89,7 +89,7 @@ export function WorkflowVisual({
                 "inline-flex items-center gap-1.5 rounded-md px-2 py-1 text-[9px]",
                 index === 0
                   ? "bg-muted font-medium text-foreground"
-                  : "text-muted-foreground",
+                  : "text-muted-foreground"
               )}
             >
               <Icon className="size-3" />
@@ -111,7 +111,10 @@ export function WorkflowVisual({
           </span>
         </div>
       </div>
-      <div className="workflow-grid absolute inset-x-0 bottom-0 top-[83px]" aria-hidden="true" />
+      <div
+        className="workflow-grid absolute inset-x-0 top-[83px] bottom-0"
+        aria-hidden="true"
+      />
       <div className="relative grid gap-3 p-5 pt-7 sm:p-8 lg:grid-cols-5 lg:items-center lg:gap-2">
         {nodes.map((node, index) => {
           const Icon = node.icon
@@ -121,20 +124,20 @@ export function WorkflowVisual({
                 className={cn(
                   "relative z-10 w-full rounded-md border bg-background p-4 shadow-sm",
                   dark && "border-white/12 bg-[#10171b]",
-                  index === 3 && "border-amber-400/50",
+                  index === 3 && "border-amber-400/50"
                 )}
               >
                 <div className="flex items-center justify-between gap-3">
                   <Icon
                     className={cn(
                       "size-4 text-primary",
-                      index === 3 && "text-amber-500",
+                      index === 3 && "text-amber-500"
                     )}
                   />
                   {index < 3 ? (
                     <CheckCircle2 className="size-3.5 text-emerald-500" />
                   ) : (
-                    <span className="font-mono text-[9px] uppercase text-muted-foreground">
+                    <span className="font-mono text-[9px] text-muted-foreground uppercase">
                       {index === 3 ? "review" : "queued"}
                     </span>
                   )}
@@ -147,8 +150,8 @@ export function WorkflowVisual({
               {index < nodes.length - 1 ? (
                 <div
                   className={cn(
-                    "mx-auto h-3 w-px bg-primary/40 lg:absolute lg:left-[calc(100%-2px)] lg:top-1/2 lg:h-px lg:w-[calc(100%+4px)]",
-                    index >= 2 && "bg-border",
+                    "mx-auto h-3 w-px bg-primary/40 lg:absolute lg:top-1/2 lg:left-[calc(100%-2px)] lg:h-px lg:w-[calc(100%+4px)]",
+                    index >= 2 && "bg-border"
                   )}
                   aria-hidden="true"
                 />
@@ -157,15 +160,15 @@ export function WorkflowVisual({
           )
         })}
       </div>
-      <div className="absolute bottom-5 left-5 right-5 grid grid-cols-3 divide-x divide-border rounded-md border border-border bg-background/90 text-center backdrop-blur sm:left-8 sm:right-auto sm:w-[420px]">
+      <div className="absolute right-5 bottom-5 left-5 grid grid-cols-3 divide-x divide-border rounded-md border border-border bg-background/90 text-center backdrop-blur sm:right-auto sm:left-8 sm:w-[420px]">
         {[
-          ["05", "nodes"],
+          ["05", "steps"],
           ["12", "events"],
-          ["03", "artifacts"],
+          ["03", "files"],
         ].map(([value, label]) => (
           <div key={label} className="px-3 py-3">
             <div className="font-mono text-xs font-semibold">{value}</div>
-            <div className="mt-1 text-[9px] uppercase tracking-[0.12em] text-muted-foreground">
+            <div className="mt-1 text-[9px] tracking-[0.12em] text-muted-foreground uppercase">
               {label}
             </div>
           </div>

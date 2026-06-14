@@ -33,7 +33,7 @@ export function createMetadata({
           url: "/opengraph-image",
           width: 1200,
           height: 630,
-          alt: "PixeSci scientific workflow orchestration",
+          alt: "PixeSci scientific workflow automation",
         },
       ],
     },
@@ -53,7 +53,7 @@ export const organizationJsonLd = {
   name: "PixeSci",
   url: siteUrl,
   description:
-    "PixeSci is a compliance-first AI platform that automates regulated biotech workflows, integrates QC software, and delivers reproducible, audit-ready scientific operations through natural language commands.",
+    "PixeSci connects and automates scientific software. Teams describe work in plain language, run it locally, and track every step for review.",
 }
 
 export const websiteJsonLd = {
@@ -62,9 +62,8 @@ export const websiteJsonLd = {
   "@id": `${siteUrl}/#website`,
   url: siteUrl,
   name: "PixeSci",
-  alternateName: "PixeSci Scientific Workflow Orchestration",
-  description:
-    "Scientific workflow orchestration for regulated life sciences, secure research, and core facilities.",
+  alternateName: "PixeSci Scientific Workflow Automation",
+  description: "Connect, automate, and track scientific software workflows.",
   inLanguage: "en-US",
   publisher: {
     "@id": `${siteUrl}/#organization`,
@@ -78,15 +77,15 @@ export const softwareApplicationJsonLd = {
   name: "PixeSci",
   url: `${siteUrl}/product`,
   applicationCategory: "ScientificApplication",
-  applicationSubCategory: "Scientific workflow orchestration",
+  applicationSubCategory: "Scientific workflow automation",
   operatingSystem: "Windows, macOS, Linux",
   description:
-    "A compliance-first orchestration and execution layer that connects scientific software into reusable, traceable workflows.",
+    "PixeSci connects scientific software, automates workflows, runs work locally, and tracks each action, file, review, and result.",
   featureList: [
-    "Graph-native scientific workflows",
-    "Scientific software capability profiles",
+    "Visual scientific workflows",
+    "Scientific software connections",
     "Local workflow execution",
-    "Run history and artifacts",
+    "Run history and output files",
     "Audit records and review checkpoints",
     "Local AI-assisted workflow planning",
   ],
@@ -96,7 +95,7 @@ export const softwareApplicationJsonLd = {
 }
 
 export function createFaqJsonLd(
-  entries: readonly (readonly [string, string])[],
+  entries: readonly (readonly [string, string])[]
 ) {
   return {
     "@context": "https://schema.org",

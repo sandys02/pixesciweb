@@ -10,7 +10,7 @@ export const integrationCategories: IntegrationCategory[] = [
   {
     name: "Imaging & Microscopy",
     description:
-      "Connect acquisition outputs to image processing, quantitative analysis, statistics, and review.",
+      "Move microscope files through image processing, measurement, statistics, and review.",
     examples: ["ImageJ / Fiji", "CellProfiler", "QuPath", "OMERO", "Napari"],
     channels: ["Macro", "Python", "GUI", "File monitor"],
     pipeline: "Microscope output → segmentation → statistics → review",
@@ -18,7 +18,7 @@ export const integrationCategories: IntegrationCategory[] = [
   {
     name: "Bioinformatics & Omics",
     description:
-      "Coordinate command-line tools, scripts, reference data, sample identifiers, and result registration.",
+      "Connect command-line tools, scripts, reference data, sample IDs, and final records.",
     examples: ["FastQC", "BLAST", "samtools", "Python", "R"],
     channels: ["CLI", "Python / R", "Files", "Human review"],
     pipeline: "FASTQ → QC → alignment → variant output → ELN",
@@ -26,7 +26,7 @@ export const integrationCategories: IntegrationCategory[] = [
   {
     name: "ELN & LIMS",
     description:
-      "Move structured results and execution context into systems of record through approved interfaces.",
+      "Send approved results and run details to your LIMS, ELN, or data store.",
     examples: ["LIMS REST", "Benchling", "Facility repositories"],
     channels: ["REST / API", "Files", "Human review"],
     pipeline: "Analysis output → review checkpoint → LIMS / ELN",
@@ -34,7 +34,7 @@ export const integrationCategories: IntegrationCategory[] = [
   {
     name: "Analytical Chemistry",
     description:
-      "Preserve instrument output, processing parameters, reprocessing context, and downstream reporting.",
+      "Track instrument files, settings, reruns, reviews, and reports.",
     examples: ["Chromeleon", "Empower", "HPLC exports", "Origin"],
     channels: ["Files", "GUI", "API", "Format conversion"],
     pipeline: "Chromatography → processing → exception review → batch record",
@@ -42,7 +42,7 @@ export const integrationCategories: IntegrationCategory[] = [
   {
     name: "Flow Cytometry & Immunology",
     description:
-      "Link gating outputs, statistics, figures, review decisions, and record destinations.",
+      "Connect gating results, statistics, figures, reviews, and final records.",
     examples: ["FlowJo", "GraphPad Prism", "LIMS / ELN"],
     channels: ["GUI", "Files", "Human review"],
     pipeline: "FCS → gating → statistics → review → record",
@@ -50,7 +50,7 @@ export const integrationCategories: IntegrationCategory[] = [
   {
     name: "Data Analysis & Statistics",
     description:
-      "Run repeatable calculations and preserve code, variables, versions, and produced artifacts.",
+      "Repeat calculations and save the code, settings, versions, and output files.",
     examples: ["Python", "R", "MATLAB", "GraphPad Prism", "SigmaPlot"],
     channels: ["CLI", "Script", "GUI", "Files"],
     pipeline: "Prepared data → analysis → figures → report",
@@ -58,7 +58,7 @@ export const integrationCategories: IntegrationCategory[] = [
   {
     name: "Molecular Biology",
     description:
-      "Coordinate sequence, structure, and experimental analysis steps with explicit inputs and outputs.",
+      "Connect sequence, structure, and experiment steps with clear inputs and results.",
     examples: ["PyMOL", "BLAST", "Benchling"],
     channels: ["CLI", "API", "GUI", "Files"],
     pipeline: "Sequence / structure → analysis → annotated result",
@@ -66,15 +66,15 @@ export const integrationCategories: IntegrationCategory[] = [
   {
     name: "Reporting & Export",
     description:
-      "Assemble approved outputs into spreadsheets, presentations, reports, and durable export packages.",
+      "Build spreadsheets, slides, reports, and export packages from approved results.",
     examples: ["Excel", "PowerPoint", "PDF", "CSV"],
     channels: ["File export", "Format conversion", "GUI"],
-    pipeline: "Reviewed artifacts → report package → controlled destination",
+    pipeline: "Reviewed files → report package → approved destination",
   },
   {
     name: "RPA Automation",
     description:
-      "Automate desktop software where APIs are unavailable, with explicit risk and user-input flags.",
+      "Automate desktop tools that have no API and require approval for risky actions.",
     examples: ["GUI steps", "Keyboard input", "Screen checks"],
     channels: ["GUI automation", "Human approval"],
     pipeline: "Validated instruction → controlled UI action → evidence",
@@ -82,15 +82,15 @@ export const integrationCategories: IntegrationCategory[] = [
   {
     name: "API Connectors",
     description:
-      "Call approved local or on-prem services through profile-defined contracts and policy gates.",
+      "Connect approved local services and APIs under your access rules.",
     examples: ["REST", "HTTP", "Internal services"],
     channels: ["REST / API", "Policy gate"],
-    pipeline: "Workflow node → connector contract → response artifact",
+    pipeline: "Workflow step → approved connection → response file",
   },
   {
     name: "File & Data Pipeline",
     description:
-      "Watch directories, convert formats, preserve identifiers, and route outputs between tools.",
+      "Watch folders, convert files, keep sample IDs, and move results between tools.",
     examples: ["Filesystem", "HDF5", "CSV", "OME", "Zarr"],
     channels: ["File monitor", "Conversion", "Script"],
     pipeline: "Source file → validation → transform → destination",
@@ -98,10 +98,10 @@ export const integrationCategories: IntegrationCategory[] = [
   {
     name: "Compliance & Quality",
     description:
-      "Add review, exception, approval, export, and audit concepts around scientific execution.",
+      "Add reviews, approvals, exception handling, exports, and audit records to each workflow.",
     examples: ["Audit logs", "Review queues", "Checksums", "Exports"],
     channels: ["Human review", "Audit event", "Policy gate"],
-    pipeline: "Execution event → review → disposition → record",
+    pipeline: "Workflow event → review → decision → record",
   },
 ]
 
@@ -113,7 +113,7 @@ export const capabilityFields = [
   "Execution channels",
   "Risk level",
   "GUI and user-input flags",
-  "Versioning"
+  "Versioning",
 ] as const
 
 export const adapterChannels = [

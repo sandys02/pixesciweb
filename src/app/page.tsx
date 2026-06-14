@@ -5,9 +5,9 @@ import { JsonLd } from "@/components/seo/json-ld"
 import { createMetadata, softwareApplicationJsonLd } from "@/lib/seo"
 
 export const metadata: Metadata = createMetadata({
-  title: "Compliance-first scientific workflow orchestration",
+  title: "Connect and automate scientific software",
   description:
-    "Connect scientific software into traceable workflows with plain-language planning, local execution, capability profiles, audit history, and review checkpoints.",
+    "Tell PixeSci what to do in plain language. Connect scientific software, run workflows locally, and track every action, file, review, and result.",
   path: "/",
 })
 

@@ -7,7 +7,7 @@ import { createMetadata } from "@/lib/seo"
 export const metadata: Metadata = createMetadata({
   title: "Regulated life sciences workflow automation",
   description:
-    "Standardize QC, analytical development, and R&D software handoffs with local execution, OOS and OOR context, audit history, and reviewable evidence.",
+    "Connect QC and R&D software, automate handoffs, and track actions, changes, reviews, and results.",
   path: "/solutions/regulated-life-sciences",
 })
 

@@ -6,7 +6,7 @@ import { createMetadata } from "@/lib/seo"
 export const metadata: Metadata = createMetadata({
   title: "Privacy",
   description:
-    "Learn how the PixeSci website uses privacy-conscious traffic measurement, performance monitoring, and external booking services.",
+    "Learn what this website measures and how its demo booking link works.",
   path: "/privacy",
 })
 
@@ -14,26 +14,26 @@ const sections = [
   {
     title: "Information this website processes",
     paragraphs: [
-      "This marketing website does not currently provide user accounts, accept file uploads, or operate a contact form. When you browse the site, standard request information may be processed by the hosting platform to deliver pages securely and reliably.",
-      "PixeSci uses Vercel Web Analytics to understand page usage and demo-booking conversions, and Vercel Speed Insights to measure real-world website performance. Conversion events contain the page path, CTA label, and CTA location. They are not designed to include names, email addresses, scientific data, or other form content.",
+      "This website has no user accounts, file uploads, or contact form. The hosting service may process standard request details to load pages securely.",
+      "PixeSci uses Vercel Web Analytics to count page visits and demo-link clicks. It uses Vercel Speed Insights to measure website speed. These events include the page path, link label, and link location. They do not include names, email addresses, scientific data, or form content.",
     ],
   },
   {
     title: "External booking",
     paragraphs: [
-      "Demo links open a PixeSci booking page hosted by Cal.com in a new browser tab. Information submitted on that page is processed by Cal.com and PixeSci according to the choices and notices shown there.",
+      "Demo links open a PixeSci booking page on Cal.com in a new tab. Cal.com and PixeSci process the information you submit there under the notices shown on that page.",
     ],
   },
   {
     title: "Service providers",
     paragraphs: [
-      "Vercel provides website hosting, traffic analytics, and performance measurement. Cal.com provides scheduling. These providers may process technical information needed to operate their services under their own privacy terms.",
+      "Vercel hosts this website and measures visits and speed. Cal.com provides scheduling. Each company may process the technical details needed to run its service under its own privacy terms.",
     ],
   },
   {
     title: "Your choices",
     paragraphs: [
-      "You can limit analytics through browser privacy controls, content blockers, or network-level tools. Blocking measurement scripts does not prevent access to the website's primary content.",
+      "You can block analytics with browser privacy settings, content blockers, or network tools. The main website content still works when these scripts are blocked.",
       "For privacy questions related to this website, contact PixeSci at hello@pixesci.com.",
     ],
   },
@@ -49,8 +49,7 @@ export default function Page() {
             Privacy
           </h1>
           <p className="mt-6 max-w-3xl text-base leading-7 text-muted-foreground sm:text-lg">
-            How this website measures usage, monitors performance, and connects
-            visitors to external scheduling.
+            What this website measures and how demo booking works.
           </p>
           <p className="mt-5 text-xs text-muted-foreground">
             Last updated June 14, 2026
@@ -63,9 +62,8 @@ export default function Page() {
           <div>
             <p className="eyebrow">Website scope</p>
             <p className="mt-4 max-w-sm text-sm leading-6 text-muted-foreground">
-              This notice applies to the public PixeSci marketing website. A
-              customer product or deployment may be governed by separate
-              agreements and notices.
+              This notice applies to the public PixeSci website. Customer
+              products and deployments may use separate agreements and notices.
             </p>
           </div>
           <div className="divide-y divide-border border-y border-border">

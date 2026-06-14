@@ -25,13 +25,13 @@ export function IntegrationsPage() {
             <div className="max-w-4xl">
               <p className="eyebrow">Integrations</p>
               <h1 className="mt-5 text-4xl leading-[1.05] font-semibold sm:text-6xl lg:text-7xl">
-                Capability profiles for the scientific software you already use.
+                Connect the scientific software you already use.
               </h1>
               <p className="mt-6 max-w-3xl text-base leading-7 text-muted-foreground sm:text-lg sm:leading-8">
-                PixeSci models software through requirements, formats, setup,
-                execution channels, risk, and user-input needs. The examples
-                below describe the target ecosystem, not a claim that every
-                connector is production-ready.
+                PixeSci records what each tool can do, which files it uses, how
+                to set it up, and when it needs a person. The examples below
+                show the tools we target. They do not mean every connection is
+                ready for production.
               </p>
               <div className="mt-8 flex flex-col gap-3 sm:flex-row">
                 <Button asChild size="lg" className="px-4">
@@ -54,17 +54,15 @@ export function IntegrationsPage() {
           <div className="site-container">
             <div className="grid gap-10 lg:grid-cols-[0.7fr_1.3fr] lg:gap-16">
               <div>
-                <p className="eyebrow">Catalog model</p>
+                <p className="eyebrow">Software catalog</p>
                 <h2 className="mt-3 text-3xl leading-tight font-semibold sm:text-4xl">
-                  Catalog metadata and local detection stay separate.
+                  Describe each tool, then check where it is installed.
                 </h2>
                 <p className="mt-5 text-base leading-7 text-muted-foreground">
-                  Shared profiles describe a tool and its capabilities. A local
-                  overlay reports whether software is installed, detected, or
-                  needs workstation-specific setup. Setup guides and supported
-                  workflow definitions turn vendor documentation and
-                  analyst-specific knowledge into reusable onboarding context,
-                  reducing the effort required to introduce or replace a tool.
+                  Shared profiles show what a tool can do. A local check shows
+                  whether it is installed or needs setup on a workstation. Setup
+                  guides turn vendor documents and team knowledge into
+                  instructions that others can reuse.
                 </p>
               </div>
               <div className="grid border-t border-l border-border sm:grid-cols-2">
@@ -86,10 +84,9 @@ export function IntegrationsPage() {
           <div className="site-container">
             <div className="flex flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
               <div className="max-w-3xl">
-                <p className="eyebrow">Integration matrix</p>
+                <p className="eyebrow">Software examples</p>
                 <h2 className="mt-3 text-3xl leading-tight font-semibold sm:text-4xl">
-                  Scientific categories, representative tools, and possible
-                  orchestration paths.
+                  See which tools PixeSci can connect and how work can move.
                 </h2>
               </div>
               <div
@@ -141,14 +138,14 @@ export function IntegrationsPage() {
         <section className="section-space dark-surface border-b border-white/10 text-white">
           <div className="site-container grid gap-10 lg:grid-cols-[0.7fr_1.3fr] lg:gap-16">
             <div>
-              <p className="eyebrow text-cyan-300">Adapter channels</p>
+              <p className="eyebrow text-cyan-300">Ways to connect</p>
               <h2 className="mt-3 text-3xl leading-tight font-semibold sm:text-4xl">
-                Use the integration mechanism each tool actually supports.
+                Connect each tool in the way it supports.
               </h2>
               <p className="mt-5 text-base leading-7 text-white/62">
-                A capability profile can expose one or more channels and flag
-                GUI, user-input, or risk requirements before a node is added to
-                the workflow.
+                PixeSci can use command lines, APIs, files, scripts, or desktop
+                controls. It shows when a step needs user input or carries more
+                risk before you add it to a workflow.
               </p>
             </div>
             <div className="grid border-t border-l border-white/10 sm:grid-cols-2">
@@ -168,8 +165,8 @@ export function IntegrationsPage() {
         </section>
       </main>
       <CTASection
-        title="Bring your actual scientific software stack."
-        description="We will identify likely capability channels, setup needs, local constraints, human checkpoints, and integration gaps."
+        title="Bring the scientific software you use."
+        description="We will review how each tool can connect, what setup it needs, and where a person must review the work."
         cta="Ask about your software stack"
       />
     </>

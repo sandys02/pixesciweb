@@ -1,3 +1,5 @@
+// @/components/sections/marketing-page.tsx
+
 import { ArrowRight, CheckCircle2 } from "lucide-react"
 import Link from "next/link"
 
@@ -10,9 +12,9 @@ import { DemoBookingLink } from "@/components/site/demo-booking-link"
 import { Button } from "@/components/ui/button"
 import { demoBookingUrl } from "@/content/site"
 import {
-  ArchitectureDiagram,
   AuditTimeline,
   CatalogVisual,
+  EnvironmentControls,
   ExecutionConsole,
   TemplateVisual,
   WorkflowVisual,
@@ -27,7 +29,7 @@ function SectionVisual({ visual }: Pick<PageSection, "visual">) {
     case "audit":
       return <AuditTimeline />
     case "architecture":
-      return <ArchitectureDiagram />
+      return <EnvironmentControls />
     case "catalog":
       return <CatalogVisual />
     case "console":

@@ -6,7 +6,7 @@ import { createMetadata } from "@/lib/seo"
 export const metadata: Metadata = createMetadata({
   title: "About PixeSci",
   description:
-    "PixeSci is building compliance-first workflow orchestration between specialized scientific software for controlled research and regulated laboratories.",
+    "PixeSci connects and automates scientific software while helping labs track actions, files, reviews, and results.",
   path: "/company",
 })
 

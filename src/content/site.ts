@@ -30,37 +30,37 @@ export const primaryNavigation: NavItem[] = [
   {
     label: "Product",
     href: "/product",
-    description: "The orchestration layer, runtime, catalog, and audit system.",
+    description: "Connect tools, automate work, and track every run.",
   },
   {
     label: "Solutions",
     href: "/solutions/regulated-life-sciences",
-    description: "Workflows for regulated, secure, and shared facilities.",
+    description: "Run clear workflows in regulated and secure labs.",
   },
   {
     label: "Integrations",
     href: "/integrations",
-    description: "Capability profiles for the software you already use.",
+    description: "Connect the scientific software you already use.",
   },
   {
     label: "Compliance",
     href: "/compliance",
-    description: "Execution evidence, review history, and data integrity.",
+    description: "Track actions, reviews, changes, and results.",
   },
   {
     label: "Security",
     href: "/security",
-    description: "Local-first deployment and policy-controlled connectivity.",
+    description: "Keep software, data, and access under your control.",
   },
   {
     label: "Resources",
     href: "/resources",
-    description: "Architecture, workflow, and evaluation guides.",
+    description: "Read clear guides about setup, workflows, and review.",
   },
   {
     label: "Company",
     href: "/company",
-    description: "Why PixeSci is building the missing scientific software layer.",
+    description: "Learn why PixeSci connects scientific software.",
   },
 ]
 
@@ -113,69 +113,69 @@ export type FeatureItem = {
 
 export const platformCapabilities: FeatureItem[] = [
   {
-    title: "Graph-native workflows",
+    title: "Visual workflows",
     description:
-      "Author nodes, edges, variables, bindings, and review checkpoints as an executable scientific plan.",
+      "Build each process as connected steps with inputs, decisions, and review points.",
     icon: Workflow,
   },
   {
-    title: "Capability catalog",
+    title: "Software catalog",
     description:
-      "Describe software requirements, formats, setup, execution channels, and risk before a step runs.",
+      "See what each tool can do, what files it needs, and how PixeSci can run it.",
     icon: Boxes,
   },
   {
-    title: "Local execution runtime",
+    title: "Run locally",
     description:
-      "Run workflows against local files and scientific applications within the customer-controlled environment.",
+      "Run workflows with local files and software inside your own environment.",
     icon: TerminalSquare,
   },
   {
-    title: "Plain-language planning",
+    title: "Plain-language control",
     description:
-      "Describe the scientific goal in natural language, then review the capability-aware graph before execution.",
+      "Tell PixeSci what you want to do in your own words, then review the steps before they run.",
     icon: Sparkles,
   },
   {
     title: "Execution history",
     description:
-      "Preserve run status, events, parameters, outputs, artifacts, failure context, and a reviewable run summary.",
+      "Track each run, including settings, files, results, errors, and decisions.",
     icon: History,
   },
   {
     title: "Audit records",
     description:
-      "Record actor, action, resource, outcome, timestamp, metadata, checksum, and review state.",
+      "Record who did what, when they did it, what changed, and what happened.",
     icon: FileCheck2,
   },
 ]
 
 export const proofPoints = [
-  "Compliance-first",
+  "Compliance tracking",
   "On-prem ready",
-  "Graph execution",
+  "Visual workflows",
   "Audit history",
-  "Capability profiles",
-  "Human oversight",
-] as const;
+  "Software connections",
+  "Human review",
+] as const
 
 export const problems: FeatureItem[] = [
   {
     title: "Manual handoffs",
     description:
-      "Exports, renaming, re-entry, and analyst-specific sequences sit between otherwise capable scientific tools.",
+      "Teams export, rename, copy, and re-enter data as work moves between tools.",
     icon: FileStack,
   },
   {
-    title: "Broken lineage",
+    title: "Lost file history",
     description:
-      "Source files, parameters, versions, and processing context separate as work moves between applications.",
+      "Files, settings, versions, and results lose their link as work moves between apps.",
     icon: Network,
   },
   {
     title: "Review gaps",
     description:
-      "Teams reconstruct who ran what, when it changed, and which output reached the final record.",
+      "Reviewers must piece together who ran each step, what changed, and which result was final.",
     icon: ScanSearch,
   },
 ]
@@ -185,7 +185,7 @@ export const solutionCards = [
     title: "Regulated life sciences",
     href: "/solutions/regulated-life-sciences",
     description:
-      "Standardize QC and R&D workflows while preserving reviewable execution evidence, audit history, and quality-system context.",
+      "Connect QC and R&D tools, automate handoffs, and keep a clear record of every run.",
     icon: FlaskConical,
     examples: "FlowJo → Prism → LIMS / Chromeleon → batch record",
   },
@@ -193,7 +193,7 @@ export const solutionCards = [
     title: "Secure research",
     href: "/solutions/secure-research",
     description:
-      "Coordinate local software, HPC outputs, internal repositories, and reproducible analysis without a cloud control plane.",
+      "Connect local software, HPC jobs, and internal data without relying on a cloud service.",
     icon: ShieldCheck,
     examples: "VASP → VESTA → Origin / EPICS → MATLAB → repository",
   },
@@ -201,7 +201,7 @@ export const solutionCards = [
     title: "Core facilities",
     href: "/solutions/core-facilities",
     description:
-      "Turn proven operator procedures into guided templates that many users can run consistently.",
+      "Save proven procedures as guided workflows that every operator can follow.",
     icon: Microscope,
     examples: "Acquisition → analysis → review → facility report",
   },
@@ -212,45 +212,45 @@ export const resourceCards = [
     title: "Architecture overview",
     type: "Technical brief",
     description:
-      "Understand the desktop interface, localhost backend, local data stores, models, and adapter boundary.",
+      "See where PixeSci runs, stores data, uses models, and connects to other tools.",
     href: "/security",
   },
   {
     title: "Compliance workflow guide",
     type: "Evaluation guide",
     description:
-      "Review how execution records, metadata, audit events, and human checkpoints support controlled work.",
+      "See how PixeSci tracks runs, changes, approvals, and records.",
     href: "/compliance",
   },
   {
     title: "Workflow automation patterns",
     type: "Product guide",
     description:
-      "See how intent becomes capability-aware nodes, validated parameters, runtime events, and artifacts.",
+      "See how a plain request becomes checked steps, live updates, and saved results.",
     href: "/workflow-automation",
   },
 ] as const
 
 export const complianceDisclaimer =
-  "PixeSci supports compliance-oriented workflows and reviewable execution evidence. Customers remain responsible for validation, configuration, SOPs, training, and use within their quality system."
+  "PixeSci helps teams track work and produce records for review. Customers still must validate and configure the system, train users, maintain SOPs, and meet their own quality requirements."
 
 export const securityHighlights: FeatureItem[] = [
   {
     title: "Deployment control",
     description:
-      "Run on a workstation or managed on-prem environment without an external control plane.",
+      "Run PixeSci on a workstation or your own servers without an outside cloud service.",
     icon: Building2,
   },
   {
-    title: "Policy-gated connectivity",
+    title: "Controlled connections",
     description:
-      "Block internet-dependent connector tiers in airgapped mode and keep provider credentials in the backend runtime.",
+      "Choose which tools can connect, block internet access, and keep passwords in the local service.",
     icon: ShieldCheck,
   },
   {
     title: "Controlled local paths",
     description:
-      "Work with explicit directories, local files, profile packs, model packs, and approved internal shares.",
+      "Limit workflows to approved folders, files, models, and internal storage.",
     icon: CheckCircle2,
   },
 ]

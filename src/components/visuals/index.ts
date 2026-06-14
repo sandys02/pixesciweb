@@ -1,6 +1,6 @@
-export { ArchitectureDiagram } from "./architecture-diagram"
 export { AuditTimeline } from "./audit-timeline"
 export { CatalogVisual } from "./catalog-visual"
+export { EnvironmentControls } from "./environment-controls"
 export { ExecutionConsole } from "./execution-console"
 export { HeroAgentMockup } from "./hero-agent-mockup"
 export { TemplateVisual } from "./template-visual"

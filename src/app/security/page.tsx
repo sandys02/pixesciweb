@@ -5,9 +5,9 @@ import { securityPage } from "@/content/pages"
 import { createMetadata } from "@/lib/seo"
 
 export const metadata: Metadata = createMetadata({
-  title: "Local-first security and on-prem deployment",
+  title: "Run scientific workflows inside your environment",
   description:
-    "Review PixeSci local desktop architecture, localhost FastAPI runtime, local data and model stores, policy gates, and airgapped operation.",
+    "Run PixeSci on workstations or your own servers. Keep data, AI models, software connections, and access under your control.",
   path: "/security",
 })
 

@@ -18,8 +18,8 @@ export function SiteFooter() {
           <div className="max-w-md">
             <Logo />
             <p className="mt-5 text-sm leading-6 text-muted-foreground">
-              Compliance-first integration, automation, and traceability for
-              fragmented scientific software.
+              Connect scientific software, automate workflows, and track every
+              step.
             </p>
             <DemoBookingLink
               source="footer_primary"
@@ -31,7 +31,7 @@ export function SiteFooter() {
           <div className="grid grid-cols-2 gap-8 sm:grid-cols-4">
             {footerNavigation.map((group) => (
               <div key={group.title}>
-                <h2 className="text-xs font-semibold uppercase tracking-[0.12em] text-foreground">
+                <h2 className="text-xs font-semibold tracking-[0.12em] text-foreground uppercase">
                   {group.title}
                 </h2>
                 <ul className="mt-4 space-y-3">
@@ -66,7 +66,7 @@ export function SiteFooter() {
           <div className="mt-5 flex flex-col gap-2 text-xs text-muted-foreground sm:flex-row sm:items-center sm:justify-between">
             <p>© {new Date().getFullYear()} PixeSci. All rights reserved.</p>
             <div className="flex items-center gap-3">
-              <p>Scientific workflow orchestration infrastructure.</p>
+              <p>Scientific software integration and automation.</p>
               <ThemeSwitcher />
             </div>
           </div>

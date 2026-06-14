@@ -28,31 +28,31 @@ type WorkflowStep = {
 
 const workflowSteps: WorkflowStep[] = [
   {
-    label: "Scientific intent interpreted",
-    detail: "flow review / evidence required",
+    label: "Request understood",
+    detail: "flow review / records required",
   },
   {
-    label: "Approved software searched",
+    label: "Approved software found",
     detail: "FlowJo / FCS Express / LIMS",
   },
   {
-    label: "Analysis capability integrated",
+    label: "Analysis tool connected",
     detail: "flow-cytometry.analysis / gating-v3",
   },
   {
-    label: "Workflow graph constructed",
-    detail: "7 nodes / dependencies resolved",
+    label: "Workflow steps built",
+    detail: "7 steps / links checked",
   },
   {
-    label: "Validation checkpoint",
-    detail: "parameters / policy / QC approval",
+    label: "Review checkpoint",
+    detail: "settings / rules / QC approval",
   },
   {
-    label: "Controlled workflow executing",
+    label: "Workflow running",
     detail: "instrument → analysis → review",
   },
   {
-    label: "Evidence and records packaged",
+    label: "Records and results saved",
     detail: "audit trail / LIMS / ELN",
   },
 ]
@@ -63,15 +63,15 @@ const executionStepIndex = 5
 const phaseDurations = [1800, 2400, 3200, 2800, 2800, 4200, 3400, 3000, 4400]
 
 const phaseMessages = [
-  "Interpreting the request and defining the execution objective",
-  "Mapping the request to traceable workflow requirements",
-  "Searching the approved software and capability catalog",
-  "Integrating flow-cytometry.analysis with gating-v3",
-  "Constructing the workflow graph and resolving dependencies",
-  "Workflow ready. QC approval is required before execution",
-  "Running the controlled workflow and capturing every event",
-  "Packaging evidence and queuing LIMS / ELN records",
-  "Workflow completed with audit-ready execution evidence",
+  "Reading the request and defining the goal",
+  "Turning the request into clear workflow needs",
+  "Searching the approved software catalog",
+  "Connecting flow-cytometry.analysis with gating-v3",
+  "Building the workflow and checking each link",
+  "Workflow ready. QC approval is required before it runs",
+  "Running the workflow and recording every event",
+  "Saving results and preparing LIMS / ELN records",
+  "Workflow complete with records ready for review",
 ]
 
 const statusLabel: Record<StepStatus, string> = {
@@ -140,7 +140,7 @@ export function HeroAgentMockup() {
     ? 100
     : Math.max(8, Math.round((displayedPhase / finalPhase) * 100))
   const completedSteps = workflowSteps.filter(
-    (_, index) => getStepStatus(index, displayedPhase) === "completed",
+    (_, index) => getStepStatus(index, displayedPhase) === "completed"
   ).length
   const stageLabel =
     displayedPhase <= 1
@@ -160,10 +160,16 @@ export function HeroAgentMockup() {
   return (
     <figure
       className="visual-frame hero-agent-mockup relative min-h-[520px] overflow-hidden bg-card text-card-foreground shadow-[0_24px_80px_rgba(21,36,45,0.14)] dark:border-white/12 dark:bg-[#071015] dark:text-white dark:shadow-[0_24px_80px_rgba(7,16,21,0.28)]"
-      aria-label="Illustrative PixeSci AI agent converting a plain-language flow cytometry request into a controlled workflow with execution status, human review, and audit-ready evidence"
+      aria-label="PixeSci turns a plain-language flow cytometry request into a workflow with live status, human review, and saved records"
     >
-      <div className="workflow-grid absolute inset-0 opacity-65 dark:hidden" aria-hidden="true" />
-      <div className="workflow-grid-dark absolute inset-0 hidden opacity-70 dark:block" aria-hidden="true" />
+      <div
+        className="workflow-grid absolute inset-0 opacity-65 dark:hidden"
+        aria-hidden="true"
+      />
+      <div
+        className="workflow-grid-dark absolute inset-0 hidden opacity-70 dark:block"
+        aria-hidden="true"
+      />
       <figcaption className="visual-toolbar relative z-10 bg-muted/45 text-foreground dark:border-white/10 dark:bg-white/[0.035] dark:text-white">
         <span className="flex items-center gap-2">
           <span className="hero-agent-status-dot size-2 rounded-full bg-emerald-400" />
@@ -176,15 +182,15 @@ export function HeroAgentMockup() {
       </figcaption>
 
       <div className="relative z-10 grid min-h-[475px] lg:grid-cols-[0.82fr_1.18fr]">
-        <div className="border-b bg-muted/15 p-4 sm:p-5 lg:border-b-0 lg:border-r dark:border-white/10 dark:bg-white/[0.018]">
-          <div className="flex items-center gap-2 text-[9px] font-semibold uppercase tracking-[0.14em] text-muted-foreground">
+        <div className="border-b bg-muted/15 p-4 sm:p-5 lg:border-r lg:border-b-0 dark:border-white/10 dark:bg-white/[0.018]">
+          <div className="flex items-center gap-2 text-[9px] font-semibold tracking-[0.14em] text-muted-foreground uppercase">
             <MessageSquareText className="size-3.5 text-primary dark:text-cyan-300" />
             Intent
           </div>
 
           <div className="mt-5 space-y-4">
             <div className="ml-6 rounded-lg rounded-tr-sm border bg-muted/55 p-3.5 dark:border-white/10 dark:bg-white/[0.06]">
-              <p className="text-[9px] font-medium uppercase tracking-[0.12em] text-muted-foreground">
+              <p className="text-[9px] font-medium tracking-[0.12em] text-muted-foreground uppercase">
                 QC analyst
               </p>
               <p className="mt-2 text-xs leading-5 text-foreground/80 dark:text-white/78">
@@ -197,7 +203,7 @@ export function HeroAgentMockup() {
                 <span className="flex size-6 items-center justify-center rounded-md border border-primary/20 bg-primary/10">
                   <Bot className="size-3.5 text-primary dark:text-cyan-300" />
                 </span>
-                <p className="text-[9px] font-medium uppercase tracking-[0.12em] text-primary dark:text-cyan-300">
+                <p className="text-[9px] font-medium tracking-[0.12em] text-primary uppercase dark:text-cyan-300">
                   PixeSci
                 </p>
               </div>
@@ -209,9 +215,9 @@ export function HeroAgentMockup() {
               </p>
               <div className="mt-3 flex flex-wrap gap-1.5">
                 {[
-                  displayedPhase >= 3 ? "gating-v3" : "capability search",
-                  displayedPhase >= 5 ? "1 review gate" : "policy aware",
-                  executionComplete ? "audit-ready" : "event capture",
+                  displayedPhase >= 3 ? "gating-v3" : "software search",
+                  displayedPhase >= 5 ? "1 review step" : "rules checked",
+                  executionComplete ? "ready to review" : "recording events",
                 ].map((item) => (
                   <span
                     key={item}
@@ -226,8 +232,8 @@ export function HeroAgentMockup() {
 
           <div className="mt-5 rounded-md border bg-background/70 p-3.5 dark:border-white/10 dark:bg-black/15">
             <div className="flex items-center justify-between gap-3">
-              <span className="text-[9px] uppercase tracking-[0.12em] text-muted-foreground">
-                Orchestration progress
+              <span className="text-[9px] tracking-[0.12em] text-muted-foreground uppercase">
+                Workflow progress
               </span>
               <span className="font-mono text-[9px] text-primary dark:text-cyan-300">
                 {readiness}%
@@ -245,7 +251,7 @@ export function HeroAgentMockup() {
         <div className="flex min-w-0 flex-col p-4 sm:p-5">
           <div className="flex items-center justify-between gap-4">
             <div>
-              <p className="text-[9px] font-semibold uppercase tracking-[0.14em] text-muted-foreground">
+              <p className="text-[9px] font-semibold tracking-[0.14em] text-muted-foreground uppercase">
                 {planLabel}
               </p>
               <p className="mt-1 text-xs font-medium text-foreground/85 dark:text-white/82">
@@ -254,14 +260,14 @@ export function HeroAgentMockup() {
             </div>
             <span
               className={cn(
-                "inline-flex items-center gap-1.5 rounded-full border px-2.5 py-1 text-[8px] font-medium uppercase tracking-[0.1em] transition-colors",
+                "inline-flex items-center gap-1.5 rounded-full border px-2.5 py-1 text-[8px] font-medium tracking-[0.1em] uppercase transition-colors",
                 reviewRequired &&
                   "border-amber-600/25 bg-amber-500/[0.08] text-amber-700 dark:border-amber-300/20 dark:text-amber-300",
                 !reviewRequired &&
                   !executionComplete &&
                   "border-primary/20 bg-primary/[0.06] text-primary dark:border-cyan-300/20 dark:bg-cyan-300/[0.08] dark:text-cyan-300",
                 executionComplete &&
-                  "border-emerald-600/25 bg-emerald-500/[0.08] text-emerald-700 dark:border-emerald-300/20 dark:text-emerald-300",
+                  "border-emerald-600/25 bg-emerald-500/[0.08] text-emerald-700 dark:border-emerald-300/20 dark:text-emerald-300"
               )}
             >
               {reviewRequired ? (
@@ -294,8 +300,10 @@ export function HeroAgentMockup() {
                   key={step.label}
                   className={cn(
                     "hero-agent-step grid grid-cols-[24px_minmax(0,1fr)_auto] items-center gap-2.5 border-b px-3 py-2.5 transition-colors duration-300 last:border-b-0 dark:border-white/8",
-                    status === "running" && "bg-primary/[0.035] dark:bg-cyan-300/[0.035]",
-                    status === "review" && "bg-amber-500/[0.05] dark:bg-amber-300/[0.04]",
+                    status === "running" &&
+                      "bg-primary/[0.035] dark:bg-cyan-300/[0.035]",
+                    status === "review" &&
+                      "bg-amber-500/[0.05] dark:bg-amber-300/[0.04]"
                   )}
                 >
                   <span
@@ -308,7 +316,7 @@ export function HeroAgentMockup() {
                       status === "review" &&
                         "border-amber-600/30 bg-amber-500/10 text-amber-700 dark:border-amber-300/30 dark:bg-amber-300/10 dark:text-amber-300",
                       status === "queued" &&
-                        "border-border bg-muted/40 text-muted-foreground/60 dark:border-white/10 dark:bg-white/[0.04] dark:text-white/30",
+                        "border-border bg-muted/40 text-muted-foreground/60 dark:border-white/10 dark:bg-white/[0.04] dark:text-white/30"
                     )}
                   >
                     <StepIcon status={status} />
@@ -323,11 +331,14 @@ export function HeroAgentMockup() {
                   </span>
                   <span
                     className={cn(
-                      "font-mono text-[7px] uppercase tracking-[0.08em] transition-colors duration-300",
-                      status === "completed" && "text-emerald-700 dark:text-emerald-300/75",
+                      "font-mono text-[7px] tracking-[0.08em] uppercase transition-colors duration-300",
+                      status === "completed" &&
+                        "text-emerald-700 dark:text-emerald-300/75",
                       status === "running" && "text-primary dark:text-cyan-300",
-                      status === "review" && "text-amber-700 dark:text-amber-300",
-                      status === "queued" && "text-muted-foreground/55 dark:text-white/25",
+                      status === "review" &&
+                        "text-amber-700 dark:text-amber-300",
+                      status === "queued" &&
+                        "text-muted-foreground/55 dark:text-white/25"
                     )}
                   >
                     {statusLabel[status]}
@@ -348,17 +359,17 @@ export function HeroAgentMockup() {
                 value: String(
                   Math.min(
                     displayedPhase < 3 ? displayedPhase : displayedPhase - 1,
-                    3,
-                  ),
+                    3
+                  )
                 ).padStart(2, "0"),
-                label: "capabilities",
+                label: "tools",
                 icon: Boxes,
               },
               {
                 value: String(
-                  executionComplete ? 5 : Math.min(completedSteps, 2),
+                  executionComplete ? 5 : Math.min(completedSteps, 2)
                 ).padStart(2, "0"),
-                label: "artifacts",
+                label: "files",
                 icon: FileCheck2,
               },
             ].map((metric) => {
@@ -369,7 +380,7 @@ export function HeroAgentMockup() {
                   <p className="mt-1 font-mono text-[10px] font-semibold text-foreground/85 dark:text-white/80">
                     {metric.value}
                   </p>
-                  <p className="mt-0.5 text-[7px] uppercase tracking-[0.1em] text-muted-foreground dark:text-white/28">
+                  <p className="mt-0.5 text-[7px] tracking-[0.1em] text-muted-foreground uppercase dark:text-white/28">
                     {metric.label}
                   </p>
                 </div>
@@ -382,7 +393,7 @@ export function HeroAgentMockup() {
               "mt-3 flex items-center justify-between gap-3 rounded-md border px-3 py-2 transition-colors duration-300",
               executionComplete
                 ? "border-emerald-600/20 bg-emerald-500/[0.055] dark:border-emerald-300/15 dark:bg-emerald-300/[0.055]"
-                : "border-primary/15 bg-primary/[0.035] dark:border-cyan-300/12 dark:bg-cyan-300/[0.035]",
+                : "border-primary/15 bg-primary/[0.035] dark:border-cyan-300/12 dark:bg-cyan-300/[0.035]"
             )}
           >
             <span
@@ -390,30 +401,30 @@ export function HeroAgentMockup() {
                 "flex items-center gap-2 text-[9px]",
                 executionComplete
                   ? "text-emerald-700 dark:text-emerald-200/80"
-                  : "text-primary/80 dark:text-cyan-200/70",
+                  : "text-primary/80 dark:text-cyan-200/70"
               )}
             >
               <FlaskConical className="size-3.5" />
               {executionComplete
-                ? "Evidence package complete"
+                ? "Records and results complete"
                 : workflowExecuting
-                  ? "Execution events streaming"
+                  ? "Workflow events updating"
                   : reviewRequired
-                    ? "Execution paused at controlled gate"
+                    ? "Workflow paused for approval"
                     : displayedPhase >= 2
-                      ? "Capability and graph decisions recorded"
-                      : "Traceability record initialized"}
+                      ? "Software and workflow decisions recorded"
+                      : "Run record started"}
             </span>
             <span
               className={cn(
                 "font-mono text-[8px]",
                 executionComplete
                   ? "text-emerald-700 dark:text-emerald-300"
-                  : "text-primary dark:text-cyan-300",
+                  : "text-primary dark:text-cyan-300"
               )}
             >
               {executionComplete
-                ? "audit-ready"
+                ? "ready-for-review"
                 : reviewRequired
                   ? "awaiting-review"
                   : workflowExecuting

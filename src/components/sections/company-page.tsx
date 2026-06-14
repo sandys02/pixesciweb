@@ -6,21 +6,21 @@ import { Button } from "@/components/ui/button"
 
 const thesis = [
   {
-    title: "Scientific tools should stay specialized.",
+    title: "Keep using the tools that work.",
     description:
-      "The missing layer is not another monolithic suite. It is a system that can describe, connect, and execute work across existing tools.",
+      "PixeSci does not replace every scientific app. It connects them and runs work across them.",
     icon: Layers3,
   },
   {
-    title: "The runtime should fit controlled infrastructure.",
+    title: "Run inside your own environment.",
     description:
-      "Local and on-prem operation should be an architectural default, not an exception layered onto a hosted control plane.",
+      "Run PixeSci locally or on your own servers without depending on an outside cloud service.",
     icon: ShieldCheck,
   },
   {
-    title: "Reproducibility requires execution context.",
+    title: "Save the details needed to repeat the work.",
     description:
-      "Files and final results are insufficient without parameters, versions, identities, events, transformations, and review decisions.",
+      "Keep files and results with their settings, versions, users, steps, changes, and reviews.",
     icon: Crosshair,
   },
 ] as const
@@ -34,14 +34,12 @@ export function CompanyPage() {
             <div className="max-w-5xl">
               <p className="eyebrow">Company</p>
               <h1 className="mt-5 text-4xl leading-[1.05] font-semibold sm:text-6xl lg:text-7xl">
-                Building the missing execution layer between scientific tools.
+                Connecting the scientific tools your lab already uses.
               </h1>
               <p className="mt-6 max-w-3xl text-base leading-7 text-muted-foreground sm:text-lg sm:leading-8">
-                PixeSci is a compliance-first AI agent that connects and
-                automates QC software and workflows in regulated biotech,
-                replacing hours of manual cross-system work with simple
-                natural-language commands while preserving reviewable,
-                reproducible execution across the tools teams already use.
+                PixeSci connects and automates scientific software. Tell it what
+                you want to do in your own words, review the steps, and track
+                compliance work throughout the experiment.
               </p>
               <Button asChild size="lg" className="mt-8 px-4">
                 <DemoBookingLink source="company_hero">
@@ -59,7 +57,7 @@ export function CompanyPage() {
               <div>
                 <Map className="size-5 text-primary" />
                 <h2 className="mt-5 text-3xl leading-tight font-semibold sm:text-4xl">
-                  Our product thesis
+                  What we believe
                 </h2>
               </div>
               <div className="grid border-t border-l border-border">
@@ -88,28 +86,28 @@ export function CompanyPage() {
         <section className="section-space dark-surface border-b border-white/10 text-white">
           <div className="site-container grid gap-10 lg:grid-cols-2 lg:gap-16">
             <div>
-              <p className="eyebrow text-cyan-300">Initial market focus</p>
+              <p className="eyebrow text-cyan-300">Who we serve first</p>
               <h2 className="mt-3 text-3xl leading-tight font-semibold sm:text-4xl">
-                High-control scientific environments first.
+                Teams that need clear control and records.
               </h2>
             </div>
             <div className="grid gap-6 sm:grid-cols-2">
               {[
                 [
                   "Regulated life sciences",
-                  "QC, analytical development, manufacturing sciences, lab IT, and quality review.",
+                  "Connect QC, development, manufacturing, lab IT, and quality review work.",
                 ],
                 [
                   "Secure research",
-                  "National labs, physical sciences, computational research, HPC, and internal repositories.",
+                  "Connect local software, HPC, and internal data in secure research environments.",
                 ],
                 [
                   "Core facilities",
-                  "Shared instrumentation and analysis teams standardizing repeatable pipelines.",
+                  "Help shared instrument and analysis teams run the same process each time.",
                 ],
                 [
                   "Scientific software operations",
-                  "Technical teams responsible for capability profiles, local deployment, and workflow reliability.",
+                  "Help technical teams manage software setup, local deployment, and reliable workflows.",
                 ],
               ].map(([title, description]) => (
                 <div key={title} className="border-t border-white/15 pt-5">
@@ -124,8 +122,8 @@ export function CompanyPage() {
         </section>
       </main>
       <CTASection
-        title="Let's Map Your Scientific Workflows"
-        description="Start with the gaps between your scientific systems. We'll help identify software handoffs, review bottlenecks, compliance requirements, and reproducibility challenges that can be addressed through workflow orchestration."
+        title="Map your scientific workflow."
+        description="Show us where tools, files, and reviews disconnect. We will show how PixeSci can automate the handoffs and track the work."
         cta="Contact PixeSci"
       />
     </>

@@ -5,9 +5,9 @@ import { secureResearchPage } from "@/content/pages"
 import { createMetadata } from "@/lib/seo"
 
 export const metadata: Metadata = createMetadata({
-  title: "Secure and airgapped scientific workflows",
+  title: "Automate secure and air-gapped scientific work",
   description:
-    "Orchestrate local software, HPC outputs, internal repositories, and reproducible research without an external cloud control plane.",
+    "Connect local software, HPC results, and internal data without relying on an outside cloud service.",
   path: "/solutions/secure-research",
 })
 

@@ -29,15 +29,15 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: {
-    default: "PixeSci | Scientific workflow orchestration",
+    default: "PixeSci | Connect and automate scientific software",
     template: "%s | PixeSci",
   },
   description:
-    "PixeSci is a compliance-first AI platform that automates regulated biotech workflows, integrates QC software, and delivers reproducible, audit-ready scientific operations through natural language commands.",
+    "PixeSci connects and automates scientific software. Describe the work in your own words, run it locally, and track every step for review.",
   applicationName: "PixeSci",
   creator: "PixeSci",
   publisher: "PixeSci",
-  category: "Scientific workflow orchestration",
+  category: "Scientific workflow automation",
   keywords: [
     "compliance-first AI",
     "scientific workflow automation",

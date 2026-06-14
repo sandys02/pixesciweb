@@ -4,7 +4,7 @@ const logs = [
   ["09:42:16.104", "run.started", "run_01J8Q / trace_7F2"],
   ["09:42:18.892", "file.validated", "source/FCS/plate-7"],
   ["09:43:08.220", "node.completed", "flowjo-gating"],
-  ["09:44:51.609", "artifact.created", "gating-summary.csv"],
+  ["09:44:51.609", "file.created", "gating-summary.csv"],
   ["09:46:03.017", "review.requested", "qc-director"],
 ]
 
@@ -12,7 +12,7 @@ export function ExecutionConsole() {
   return (
     <figure
       className="visual-frame overflow-hidden border-white/12 bg-[#081014]"
-      aria-label="Illustrative workflow execution console with live events, artifacts, progress, and a human review checkpoint"
+      aria-label="Workflow monitor with live events, output files, progress, and a human review step"
     >
       {/* TODO: Replace with real PixeSci execution monitor screenshot. */}
       <figcaption className="visual-toolbar border-white/10 bg-white/[0.025] text-white">
@@ -40,8 +40,8 @@ export function ExecutionConsole() {
             </div>
           ))}
         </div>
-        <div className="border-t border-white/10 bg-white/[0.025] p-5 md:border-l md:border-t-0">
-          <p className="text-[10px] uppercase tracking-[0.14em] text-white/35">
+        <div className="border-t border-white/10 bg-white/[0.025] p-5 md:border-t-0 md:border-l">
+          <p className="text-[10px] tracking-[0.14em] text-white/35 uppercase">
             Run summary
           </p>
           <div className="mt-5 space-y-4 text-xs">
@@ -53,12 +53,10 @@ export function ExecutionConsole() {
               <div className="h-full w-3/5 bg-cyan-300" />
             </div>
             <div className="flex items-center gap-2 text-emerald-300">
-              <CheckCircle2 className="size-3.5" />
-              3 executed
+              <CheckCircle2 className="size-3.5" />3 executed
             </div>
             <div className="flex items-center gap-2 text-amber-300">
-              <CircleDashed className="size-3.5" />
-              1 approval required
+              <CircleDashed className="size-3.5" />1 approval required
             </div>
             <dl className="space-y-2 border-t border-white/10 pt-3 font-mono text-[9px] text-white/45">
               <div className="flex justify-between gap-3">
@@ -66,7 +64,7 @@ export function ExecutionConsole() {
                 <dd>12</dd>
               </div>
               <div className="flex justify-between gap-3">
-                <dt>artifacts</dt>
+                <dt>files</dt>
                 <dd>2</dd>
               </div>
               <div className="flex justify-between gap-3">

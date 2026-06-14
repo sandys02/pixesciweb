@@ -6,9 +6,9 @@ import { productPage } from "@/content/pages"
 import { createMetadata, softwareApplicationJsonLd } from "@/lib/seo"
 
 export const metadata: Metadata = createMetadata({
-  title: "Scientific workflow orchestration platform",
+  title: "Connect and automate scientific software",
   description:
-    "Explore PixeSci workflow canvas, capability catalog, local execution runtime, plain-language planning, run summaries, templates, and audit records.",
+    "Build visual workflows, tell PixeSci what to do in plain language, run work locally, and track every action, file, setting, and result.",
   path: "/product",
 })
 

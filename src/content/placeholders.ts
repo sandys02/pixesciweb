@@ -25,8 +25,14 @@ export const assetPlaceholders = [
     usedIn: ["Product", "Core facilities"],
   },
   {
-    id: "architecture-diagram",
-    intendedAsset: "Final reviewed PixeSci deployment architecture artwork",
-    usedIn: ["Homepage", "Security", "Secure research"],
+    id: "environment-controls",
+    intendedAsset: "Final reviewed PixeSci environment controls screenshot",
+    usedIn: [
+      "Homepage",
+      "Regulated life sciences",
+      "Secure research",
+      "Compliance",
+      "Security",
+    ],
   },
 ] as const
