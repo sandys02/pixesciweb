@@ -10,6 +10,7 @@ import { cn } from "@/lib/utils"
 import { organizationJsonLd, websiteJsonLd } from "@/lib/seo"
 
 import "./globals.css"
+import { Toaster } from "sonner"
 
 const geist = Geist({
   subsets: ["latin"],
@@ -86,7 +87,10 @@ export default function RootLayout({
             Skip to content
           </a>
           <SiteHeader />
-          <div id="main-content">{children}</div>
+          <div id="main-content">
+            {children}
+            <Toaster position="bottom-right" />
+          </div>
           <SiteFooter />
         </ThemeProvider>
       </body>

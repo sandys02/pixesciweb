@@ -1,7 +1,8 @@
 "use client"
 
 import * as React from "react"
-import { AlertCircle, CheckCircle2, LoaderCircle } from "lucide-react"
+import { HelpCircle, LoaderCircle } from "lucide-react"
+import { toast } from "sonner"
 
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -15,19 +16,44 @@ import {
 } from "@/components/ui/select"
 import { Textarea } from "@/components/ui/textarea"
 
-export function ContactForm() {
-  const [status, setStatus] = React.useState<
-    "idle" | "submitting" | "success" | "error"
-  >("idle")
-  const [errorMessage, setErrorMessage] = React.useState("")
+const requiredFields = [
+  "name",
+  "email",
+  "organization",
+  "role",
+  "inquiry-type",
+  "deployment",
+  "objective",
+] as const
 
-  async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
+export function ContactForm() {
+  const [status, setStatus] = React.useState<"idle" | "submitting">("idle")
+  const [isReadyToSubmit, setIsReadyToSubmit] = React.useState(false)
+
+  function handleFormChange(event: React.SyntheticEvent<HTMLFormElement>) {
+    const formData = new FormData(event.currentTarget)
+
+    const completed = requiredFields.every((field) => {
+      const value = formData.get(field)
+      return typeof value === "string" && value.trim().length > 0
+    })
+
+    setIsReadyToSubmit(completed)
+  }
+
+  async function handleSubmit(
+    event: React.SyntheticEvent<HTMLFormElement, SubmitEvent>
+  ) {
     event.preventDefault()
+
+    if (!isReadyToSubmit || status === "submitting") return
+
     setStatus("submitting")
-    setErrorMessage("")
 
     const form = event.currentTarget
     const formData = new FormData(form)
+    const loadingToast = toast.loading("Sending request...")
+
     const payload = {
       name: formData.get("name"),
       email: formData.get("email"),
@@ -46,29 +72,45 @@ export function ContactForm() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
       })
+
       const result = (await response.json()) as {
         error?: string
         success?: boolean
       }
 
       if (!response.ok || !result.success) {
-        throw new Error(result.error || "Unable to submit your request.")
+        toast.error("Unable to submit request", {
+          id: loadingToast,
+          description: result.error || "Unable to submit your request.",
+        })
+
+        return
       }
 
       form.reset()
-      setStatus("success")
-    } catch (error) {
-      setErrorMessage(
-        error instanceof Error
-          ? error.message
-          : "Unable to submit your request."
-      )
-      setStatus("error")
+      setIsReadyToSubmit(false)
+
+      toast.success("Request submitted successfully", {
+        id: loadingToast,
+        description:
+          "Thank you for contacting PixeSci. We will follow up shortly.",
+      })
+    } catch {
+      toast.error("Unable to submit request", {
+        id: loadingToast,
+        description: "Please check your connection and try again.",
+      })
+    } finally {
+      setStatus("idle")
     }
   }
 
   return (
-    <form onSubmit={handleSubmit} className="grid gap-5">
+    <form
+      onSubmit={handleSubmit}
+      onChange={handleFormChange}
+      className="grid gap-5"
+    >
       <div className="grid gap-5 sm:grid-cols-2">
         <Field label="Name" name="name" autoComplete="name" required />
         <Field
@@ -79,6 +121,7 @@ export function ContactForm() {
           required
         />
       </div>
+
       <div className="grid gap-5 sm:grid-cols-2">
         <Field
           label="Organization"
@@ -93,10 +136,12 @@ export function ContactForm() {
           required
         />
       </div>
+
       <div className="grid gap-5 sm:grid-cols-2">
         <SelectField
           label="How can we help?"
           name="inquiry-type"
+          required
           options={[
             "Request a product demo",
             "Map a workflow or software stack",
@@ -105,9 +150,11 @@ export function ContactForm() {
             "Review security or deployment",
           ]}
         />
+
         <SelectField
           label="Deployment priority"
           name="deployment"
+          required
           options={[
             "Managed workstation",
             "On-prem infrastructure",
@@ -117,8 +164,13 @@ export function ContactForm() {
           ]}
         />
       </div>
+
       <div className="grid gap-2">
-        <Label htmlFor="objective">What are you trying to improve?</Label>
+        <FieldLabel
+          label="What are you trying to improve?"
+          htmlFor="objective"
+          required
+        />
         <Textarea
           id="objective"
           name="objective"
@@ -127,8 +179,13 @@ export function ContactForm() {
           required
         />
       </div>
+
       <div className="grid gap-2">
-        <Label htmlFor="message">Additional context</Label>
+        <FieldLabel
+          label="Additional context"
+          htmlFor="message"
+          optionalHelp="This helps us understand your software stack, team setup, timeline, or security requirements before the first conversation."
+        />
         <Textarea
           id="message"
           name="message"
@@ -136,7 +193,8 @@ export function ContactForm() {
           placeholder="Software, teams, sites, validation expectations, security review, or timing"
         />
       </div>
-      <div className="absolute -left-[9999px]" aria-hidden="true">
+
+      <div className="absolute left-[-9999px]" aria-hidden="true">
         <Label htmlFor="website">Website</Label>
         <Input
           id="website"
@@ -146,16 +204,18 @@ export function ContactForm() {
           autoComplete="off"
         />
       </div>
+
       <div className="flex flex-col gap-3 border-t border-border pt-5 sm:flex-row sm:items-center sm:justify-between">
         <p className="max-w-md text-xs leading-5 text-muted-foreground">
           We use these details only to respond to your request and plan the
           right technical conversation.
         </p>
+
         <Button
           type="submit"
           size="lg"
-          className="px-4"
-          disabled={status === "submitting"}
+          disabled={!isReadyToSubmit || status === "submitting"}
+          className="px-4 transition-opacity disabled:cursor-not-allowed disabled:opacity-45"
         >
           {status === "submitting" ? (
             <>
@@ -167,26 +227,44 @@ export function ContactForm() {
           )}
         </Button>
       </div>
-      {status === "success" ? (
-        <div
-          role="status"
-          aria-live="polite"
-          className="flex gap-3 rounded-md border border-emerald-300 bg-emerald-50 p-4 text-sm text-emerald-950"
-        >
-          <CheckCircle2 className="mt-0.5 size-4 shrink-0" />
-          Your request has been sent. We will follow up with you shortly.
-        </div>
-      ) : null}
-      {status === "error" ? (
-        <div
-          role="alert"
-          className="flex gap-3 rounded-md border border-red-300 bg-red-50 p-4 text-sm text-red-950"
-        >
-          <AlertCircle className="mt-0.5 size-4 shrink-0" />
-          {errorMessage}
-        </div>
-      ) : null}
     </form>
+  )
+}
+
+type FieldLabelProps = {
+  label: string
+  htmlFor: string
+  required?: boolean
+  optionalHelp?: string
+}
+
+function FieldLabel({
+  label,
+  htmlFor,
+  required = false,
+  optionalHelp,
+}: FieldLabelProps) {
+  return (
+    <div className="flex min-h-5 items-center gap-1.5">
+      <Label htmlFor={htmlFor}>
+        {label}
+        {required ? <span className="ml-1 text-destructive">*</span> : null}
+      </Label>
+
+      {!required ? (
+        <>
+          <span className="text-xs text-muted-foreground">(optional)</span>
+          {optionalHelp ? (
+            <span className="group relative inline-flex">
+              <HelpCircle className="size-3.5 text-muted-foreground" />
+              <span className="pointer-events-none absolute top-6 left-1/2 z-20 hidden w-64 -translate-x-1/2 rounded-md border bg-popover p-3 text-xs leading-5 text-popover-foreground shadow-md group-hover:block">
+                {optionalHelp}
+              </span>
+            </span>
+          ) : null}
+        </>
+      ) : null}
+    </div>
   )
 }
 
@@ -207,7 +285,7 @@ function Field({
 }: FieldProps) {
   return (
     <div className="grid gap-2">
-      <Label htmlFor={name}>{label}</Label>
+      <FieldLabel label={label} htmlFor={name} required={required} />
       <Input
         id={name}
         className="h-11"
@@ -225,16 +303,23 @@ type SelectFieldProps = {
   label: string
   name: string
   options: string[]
+  required?: boolean
 }
 
-function SelectField({ label, name, options }: SelectFieldProps) {
+function SelectField({
+  label,
+  name,
+  options,
+  required = false,
+}: SelectFieldProps) {
   return (
     <div className="grid gap-2">
-      <Label htmlFor={name}>{label}</Label>
-      <Select name={name} required>
+      <FieldLabel label={label} htmlFor={name} required={required} />
+      <Select name={name} required={required}>
         <SelectTrigger id={name} className="h-11 w-full">
           <SelectValue placeholder="Select one" />
         </SelectTrigger>
+
         <SelectContent>
           {options.map((option) => (
             <SelectItem key={option} value={option}>
