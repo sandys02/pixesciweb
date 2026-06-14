@@ -13,6 +13,7 @@ import {
 } from "@/content/integrations"
 
 import { CTASection } from "@/components/site/cta-section"
+import { DemoBookingLink } from "@/components/site/demo-booking-link"
 import { Button } from "@/components/ui/button"
 
 export function IntegrationsPage() {
@@ -34,10 +35,10 @@ export function IntegrationsPage() {
               </p>
               <div className="mt-8 flex flex-col gap-3 sm:flex-row">
                 <Button asChild size="lg" className="px-4">
-                  <Link href="/contact">
+                  <DemoBookingLink source="integrations_hero">
                     Ask about your software stack
                     <ArrowRight className="size-4" />
-                  </Link>
+                  </DemoBookingLink>
                 </Button>
                 <Button asChild size="lg" variant="outline" className="px-4">
                   <Link href="/workflow-automation">

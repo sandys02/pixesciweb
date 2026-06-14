@@ -1,7 +1,7 @@
 import { ArrowRight, Crosshair, Layers3, Map, ShieldCheck } from "lucide-react"
-import Link from "next/link"
 
 import { CTASection } from "@/components/site/cta-section"
+import { DemoBookingLink } from "@/components/site/demo-booking-link"
 import { Button } from "@/components/ui/button"
 
 const thesis = [
@@ -44,10 +44,10 @@ export function CompanyPage() {
                 reproducible execution across the tools teams already use.
               </p>
               <Button asChild size="lg" className="mt-8 px-4">
-                <Link href="/contact">
+                <DemoBookingLink source="company_hero">
                   Contact Pixesci
                   <ArrowRight className="size-4" />
-                </Link>
+                </DemoBookingLink>
               </Button>
             </div>
           </div>

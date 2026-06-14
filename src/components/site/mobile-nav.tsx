@@ -9,6 +9,8 @@ import { Button } from "@/components/ui/button"
 import { primaryNavigation } from "@/content/site"
 import { cn } from "@/lib/utils"
 
+import { DemoBookingLink } from "./demo-booking-link"
+
 export function MobileNav() {
   const [open, setOpen] = React.useState(false)
   const pathname = usePathname()
@@ -79,9 +81,12 @@ export function MobileNav() {
           </nav>
           <div className="border-t border-border p-5">
             <Button asChild size="lg" className="w-full px-4">
-              <Link href="/contact" onClick={() => setOpen(false)}>
+              <DemoBookingLink
+                source="mobile_navigation"
+                onClick={() => setOpen(false)}
+              >
                 Request a demo
-              </Link>
+              </DemoBookingLink>
             </Button>
           </div>
         </div>

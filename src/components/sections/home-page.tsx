@@ -21,6 +21,7 @@ import {
 } from "@/content/site"
 
 import { CTASection } from "@/components/site/cta-section"
+import { DemoBookingLink } from "@/components/site/demo-booking-link"
 import { Button } from "@/components/ui/button"
 import {
   ArchitectureDiagram,
@@ -54,10 +55,10 @@ export function HomePage() {
                 </p>
                 <div className="mt-8 flex flex-col gap-3 sm:flex-row">
                   <Button asChild size="lg" className="px-4">
-                    <Link href="/contact">
+                    <DemoBookingLink source="home_hero">
                       Request a demo
                       <ArrowRight className="size-4" />
-                    </Link>
+                    </DemoBookingLink>
                   </Button>
                   <Button asChild size="lg" variant="outline" className="px-4">
                     <Link href="/workflow-automation">See how it works</Link>

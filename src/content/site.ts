@@ -17,6 +17,8 @@ import {
 } from "lucide-react"
 
 export const siteUrl = "https://pixesci.com"
+export const demoBookingUrl =
+  "https://cal.com/pixesci/30min?user=pixesci&overlayCalendar=true&layout=mobile"
 
 export type NavItem = {
   label: string
@@ -97,7 +99,8 @@ export const footerNavigation = [
     title: "Company",
     links: [
       { label: "About", href: "/company" },
-      { label: "Request a demo", href: "/contact" },
+      { label: "Privacy", href: "/privacy" },
+      { label: "Request a demo", href: demoBookingUrl },
     ],
   },
 ] as const

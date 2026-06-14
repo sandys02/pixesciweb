@@ -2,6 +2,9 @@ import { ArrowRight } from "lucide-react"
 import Link from "next/link"
 
 import { Button } from "@/components/ui/button"
+import { demoBookingUrl } from "@/content/site"
+
+import { DemoBookingLink } from "./demo-booking-link"
 
 type CTASectionProps = {
   title: string
@@ -14,7 +17,7 @@ export function CTASection({
   title,
   description,
   cta = "Request a demo",
-  href = "/contact",
+  href = demoBookingUrl,
 }: CTASectionProps) {
   return (
     <section className="border-t border-border bg-foreground text-background">
@@ -34,10 +37,17 @@ export function CTASection({
           variant="outline"
           className="w-fit border-background bg-background px-4 text-foreground hover:bg-background/90 hover:text-foreground"
         >
-          <Link href={href}>
-            {cta}
-            <ArrowRight className="size-4" />
-          </Link>
+          {href === demoBookingUrl ? (
+            <DemoBookingLink source="section_cta">
+              {cta}
+              <ArrowRight className="size-4" />
+            </DemoBookingLink>
+          ) : (
+            <Link href={href}>
+              {cta}
+              <ArrowRight className="size-4" />
+            </Link>
+          )}
         </Button>
       </div>
     </section>

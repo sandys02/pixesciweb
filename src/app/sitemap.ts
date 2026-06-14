@@ -14,13 +14,13 @@ const routes = [
   "/workflow-automation",
   "/resources",
   "/company",
-  "/contact",
+  "/privacy",
 ] as const
 
 export default function sitemap(): MetadataRoute.Sitemap {
   return routes.map((route, index) => ({
     url: `${siteUrl}${route}`,
-    lastModified: new Date("2026-06-13"),
+    lastModified: new Date("2026-06-14"),
     changeFrequency: index === 0 ? "weekly" : "monthly",
     priority: index === 0 ? 1 : index < 9 ? 0.8 : 0.6,
   }))

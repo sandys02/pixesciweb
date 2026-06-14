@@ -1,0 +1,62 @@
+name: Production uptime
+
+on:
+  schedule:
+    - cron: "17,47 * * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  check-production:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Check public pages
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          for url in \
+            "https://pixesci.com/" \
+            "https://pixesci.com/sitemap.xml" \
+            "https://pixesci.com/robots.txt" \
+            "https://pixesci.com/opengraph-image"
+          do
+            curl \
+              --fail \
+              --silent \
+              --show-error \
+              --location \
+              --max-time 20 \
+              --retry 2 \
+              --retry-all-errors \
+              "$url" \
+              --output /dev/null
+          done
+
+      - name: Check demo redirects
+        shell: bash
+        run: |
+          set -euo pipefail
+
+          for path in contact talk-to-sales
+          do
+            response="$(curl \
+              --silent \
+              --show-error \
+              --max-time 20 \
+              --output /dev/null \
+              --write-out "%{http_code}\n%{redirect_url}" \
+              "https://pixesci.com/$path")"
+
+            status="$(printf '%s\n' "$response" | sed -n '1p')"
+            location="$(printf '%s\n' "$response" | sed -n '2p')"
+
+            test "$status" = "308"
+            case "$location" in
+              https://cal.com/pixesci/30min*) ;;
+              *) exit 1 ;;
+            esac
+          done

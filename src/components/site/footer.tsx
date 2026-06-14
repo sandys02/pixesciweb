@@ -1,7 +1,12 @@
 import Link from "next/link"
 
-import { complianceDisclaimer, footerNavigation } from "@/content/site"
+import {
+  complianceDisclaimer,
+  demoBookingUrl,
+  footerNavigation,
+} from "@/content/site"
 
+import { DemoBookingLink } from "./demo-booking-link"
 import { Logo } from "./logo"
 import { ThemeSwitcher } from "./theme-switcher"
 
@@ -16,12 +21,12 @@ export function SiteFooter() {
               Compliance-first integration, automation, and traceability for
               fragmented scientific software.
             </p>
-            <Link
-              href="/contact"
+            <DemoBookingLink
+              source="footer_primary"
               className="mt-6 inline-flex text-sm font-medium text-primary hover:underline"
             >
               Request a demo
-            </Link>
+            </DemoBookingLink>
           </div>
           <div className="grid grid-cols-2 gap-8 sm:grid-cols-4">
             {footerNavigation.map((group) => (
@@ -32,12 +37,21 @@ export function SiteFooter() {
                 <ul className="mt-4 space-y-3">
                   {group.links.map((link) => (
                     <li key={link.href + link.label}>
-                      <Link
-                        href={link.href}
-                        className="text-sm text-muted-foreground transition-colors hover:text-foreground"
-                      >
-                        {link.label}
-                      </Link>
+                      {link.href === demoBookingUrl ? (
+                        <DemoBookingLink
+                          source="footer_navigation"
+                          className="text-sm text-muted-foreground transition-colors hover:text-foreground"
+                        >
+                          {link.label}
+                        </DemoBookingLink>
+                      ) : (
+                        <Link
+                          href={link.href}
+                          className="text-sm text-muted-foreground transition-colors hover:text-foreground"
+                        >
+                          {link.label}
+                        </Link>
+                      )}
                     </li>
                   ))}
                 </ul>

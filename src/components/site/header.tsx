@@ -3,6 +3,7 @@ import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { primaryNavigation } from "@/content/site"
 
+import { DemoBookingLink } from "./demo-booking-link"
 import { Logo } from "./logo"
 import { MobileNav } from "./mobile-nav"
 
@@ -27,7 +28,9 @@ export function SiteHeader() {
         </nav>
         <div className="hidden lg:flex">
           <Button asChild size="lg" className="px-4">
-            <Link href="/contact">Request a demo</Link>
+            <DemoBookingLink source="header">
+              Request a demo
+            </DemoBookingLink>
           </Button>
         </div>
         <MobileNav />

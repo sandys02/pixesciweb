@@ -1,13 +1,7 @@
-import { ContactPage } from "@/components/sections/contact-page"
-import { createMetadata } from "@/lib/seo"
+import { permanentRedirect } from "next/navigation"
 
-export const metadata = createMetadata({
-  title: "Request a demo",
-  description:
-    "Request a Pixesci demo or discuss workflow fit, deployment requirements, evaluation planning, security review, and rollout.",
-  path: "/contact",
-})
+import { demoBookingUrl } from "@/content/site"
 
 export default function Page() {
-  return <ContactPage />
+  permanentRedirect(demoBookingUrl)
 }

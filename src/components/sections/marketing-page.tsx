@@ -6,7 +6,9 @@ import { complianceDisclaimer } from "@/content/site"
 import { cn } from "@/lib/utils"
 
 import { CTASection } from "@/components/site/cta-section"
+import { DemoBookingLink } from "@/components/site/demo-booking-link"
 import { Button } from "@/components/ui/button"
+import { demoBookingUrl } from "@/content/site"
 import {
   ArchitectureDiagram,
   AuditTimeline,
@@ -58,10 +60,17 @@ export function MarketingPage({ data, disclaimer }: MarketingPageProps) {
               </p>
               <div className="mt-8 flex flex-col gap-3 sm:flex-row">
                 <Button asChild size="lg" className="px-4">
-                  <Link href={data.primaryHref}>
-                    {data.primaryCta}
-                    <ArrowRight className="size-4" />
-                  </Link>
+                  {data.primaryHref === demoBookingUrl ? (
+                    <DemoBookingLink source={`${data.eyebrow}_hero`}>
+                      {data.primaryCta}
+                      <ArrowRight className="size-4" />
+                    </DemoBookingLink>
+                  ) : (
+                    <Link href={data.primaryHref}>
+                      {data.primaryCta}
+                      <ArrowRight className="size-4" />
+                    </Link>
+                  )}
                 </Button>
                 <Button asChild size="lg" variant="outline" className="px-4">
                   <Link href={data.secondaryHref}>{data.secondaryCta}</Link>

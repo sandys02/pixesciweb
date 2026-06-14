@@ -78,7 +78,7 @@ export const productPage: MarketingPageData = {
   description:
     "PixeSci connects scientific software into reviewable, reusable workflows that run within your environment. Every run captures inputs, outputs, parameters, decisions, and execution history in a single traceable record for reproducible and compliant scientific operations.",
   primaryCta: "Request a demo",
-  primaryHref: "/contact",
+  primaryHref: demoBookingUrl,
   secondaryCta: "See workflow automation",
   secondaryHref: "/workflow-automation",
   sections: [
@@ -193,7 +193,7 @@ export const regulatedPage: MarketingPageData = {
   description:
     "Standardize multi-tool QC and R&D workflows for biotech, pharma, CRO, and CDMO teams while preserving the execution context, audit history, and review evidence behind each run.",
   primaryCta: "Map a regulated workflow",
-  primaryHref: "/contact",
+  primaryHref: demoBookingUrl,
   secondaryCta: "Review compliance workflows",
   secondaryHref: "/compliance",
   sections: [
@@ -275,7 +275,7 @@ export const secureResearchPage: MarketingPageData = {
   description:
     "Orchestrate local scientific software, HPC outputs, internal repositories, and reproducible analysis within secure, customer-controlled research infrastructure.",
   primaryCta: "Discuss secure deployment",
-  primaryHref: "/contact",
+  primaryHref: demoBookingUrl,
   secondaryCta: "Review architecture",
   secondaryHref: "/security",
   sections: [
@@ -352,7 +352,7 @@ export const coreFacilitiesPage: MarketingPageData = {
   description:
     "Standardize acquisition, local analysis, review, and reporting across core facility software with guided, reusable workflows and connected run history.",
   primaryCta: "Standardize a facility workflow",
-  primaryHref: "/contact",
+  primaryHref: demoBookingUrl,
   secondaryCta: "Explore the platform",
   secondaryHref: "/product",
   sections: [
@@ -441,7 +441,7 @@ export const compliancePage: MarketingPageData = {
   description:
     "Pixesci helps teams preserve audit events, metadata, attribution, outcomes, checksums, and review state across multi-tool scientific workflows. These controls support evaluation against ALCOA data-integrity principles but do not make a configured workflow automatically compliant.",
   primaryCta: "Review compliance workflows",
-  primaryHref: "/contact",
+  primaryHref: demoBookingUrl,
   secondaryCta: "See regulated solutions",
   secondaryHref: "/solutions/regulated-life-sciences",
   sections: [
@@ -533,7 +533,7 @@ export const securityPage: MarketingPageData = {
   description:
     "Pixesci provides local-first scientific workflow orchestration that keeps execution, operational data, and software connections within customer-controlled environments by default.",
   primaryCta: "Discuss deployment requirements",
-  primaryHref: "/contact",
+  primaryHref: demoBookingUrl,
   secondaryCta: "Explore the platform",
   secondaryHref: "/product",
   sections: [
@@ -628,7 +628,7 @@ export const workflowAutomationPage: MarketingPageData = {
   description:
     "Turn plain-language scientific intent into capability-aware workflow graphs, then review controlled actions, monitor local execution, preserve run evidence, and reuse proven processes.",
   primaryCta: "See a workflow demo",
-  primaryHref: "/contact",
+  primaryHref: demoBookingUrl,
   secondaryCta: "Explore integrations",
   secondaryHref: "/integrations",
   sections: [
@@ -710,3 +710,4 @@ export const workflowAutomationPage: MarketingPageData = {
     "Bring your current SOP, scientific software stack, file flow, and approval points. We will map them into an executable workflow.",
   finalCta: "See a workflow demo",
 }
+import { demoBookingUrl } from "@/content/site"
