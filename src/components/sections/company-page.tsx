@@ -37,9 +37,12 @@ export function CompanyPage() {
                 Connecting the scientific tools your lab already uses.
               </h1>
               <p className="mt-6 max-w-3xl text-base leading-7 text-muted-foreground sm:text-lg sm:leading-8">
-                PixeSci connects and automates scientific software. Tell it what
-                you want to do in your own words, review the steps, and track
-                compliance work throughout the experiment.
+                PixeSci is compliance-first AI agent that connects and automates
+                QC software and workflows in regulated biotech, replacing hours
+                of manual cross-system work with simple natural language
+                commands. <br />
+                Tell it what you want to do in your own words, review the steps,
+                and track compliance work throughout the experiment.
               </p>
               <Button asChild size="lg" className="mt-8 px-4">
                 <DemoBookingLink source="company_hero">
