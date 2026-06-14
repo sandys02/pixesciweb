@@ -82,7 +82,7 @@ export const productPage: MarketingPageData = {
   eyebrow: "Product",
   title: "Connect and automate your scientific software.",
   description:
-    "PixeSci connects the tools your lab already uses. Tell PixeSci what to do in your own words, review the steps, run them locally, and track every file, setting, decision, and result.",
+    "Talk to your lab in natural language! Describe the work in your own words, review the steps, run them locally, and track every file, setting, decision, and result.",
   primaryCta: "Request a demo",
   primaryHref: demoBookingUrl,
   secondaryCta: "See workflow automation",
@@ -119,8 +119,8 @@ export const productPage: MarketingPageData = {
       eyebrow: "Software catalog",
       title: "Check what each tool can do before you run it.",
       description: [
-        "PixeSci shows what each connected software can do, which files it needs, what it produces, and how to set it up. Teams can check a step before adding it to a workflow.",
-        "PixeSci also checks whether the required software is available on the computer that will run the workflow. This helps teams use the same process across different workstations and sites.",
+        "See which apps are supported, which files they need, what they produce, and what setup the run requires. Check a step before adding it to a workflow.",
+        "Confirm the required software is available on the computer that will run the workflow, so teams can repeat the same process across workstations and sites.",
       ],
       visual: "catalog",
       features: [
@@ -174,9 +174,9 @@ export const productPage: MarketingPageData = {
     },
     {
       eyebrow: "Interface",
-      title: "Tell PixeSci what you want to do.",
+      title: "Talk to your lab in natural language!",
       description:
-        "Describe the work in your own words. PixeSci turns the request into clear software steps that you can review before anything runs.",
+        "Describe the work in your own words. Turn the request into clear software steps that you can review before anything runs.",
       features: [
         {
           title: "Local model routing",
@@ -206,17 +206,16 @@ export const productPage: MarketingPageData = {
     },
   ],
   finalTitle:
-    "Describe a your workflow in simple language. See how PixeSci optimizes and runs it.",
-  finalDescription:
-    "PixeSci will map your software, files, review steps, setup needs, and required records.",
-  finalCta: "Discuss your workflow",
+    "Describe your workflow in simple language. See the steps before they run.",
+  finalDescription: "",
+  finalCta: "Start building workflows",
 }
 
 export const regulatedPage: MarketingPageData = {
   eyebrow: "Regulated life sciences",
   title: "Connect QC and R&D tools and track every handoff.",
   description:
-    "PixeSci automates work across QC and R&D software. It records each input, setting, action, review, and result so teams can repeat and inspect the process.",
+    "Automate work across QC and R&D software. Keep each input, setting, action, review, and result ready to repeat and inspect.",
   primaryCta: "Map a regulated workflow",
   primaryHref: demoBookingUrl,
   secondaryCta: "Review compliance workflows",
@@ -225,7 +224,7 @@ export const regulatedPage: MarketingPageData = {
     {
       title: "Keep one record across every tool.",
       description:
-        "Results move between instruments, analysis tools, spreadsheets, LIMS or ELN systems, and reviewers. PixeSci connects these steps and keeps the files, settings, owners, results, and approvals together.",
+        "Results move between instruments, analysis tools, spreadsheets, LIMS or ELN systems, and reviewers. Connect those steps and keep the files, settings, owners, results, and approvals together.",
       visual: "workflow",
       bullets: [
         "FlowJo → GraphPad Prism → LIMS / ELN",
@@ -267,8 +266,8 @@ export const regulatedPage: MarketingPageData = {
       eyebrow: "Controlled deployment",
       title: "Keep software, data, and records under your control.",
       description: [
-        "Run PixeSci on lab workstations or your own servers. Work stays close to your apps, instruments, files, and approved data stores.",
-        "PixeSci works within your network, access rules, and backup process. It does not need a cloud service to run workflows.",
+        "Run on lab workstations or your own servers. Work stays close to your apps, instruments, files, and approved data stores.",
+        "Keep workflows within your network, access rules, and backup process. You do not need a cloud service to run the work.",
       ],
       visual: "architecture",
       dark: true,
@@ -303,10 +302,10 @@ export const secureResearchPage: MarketingPageData = {
   eyebrow: "Secure research",
   title: "Automate scientific work without an outside cloud service.",
   description:
-    "PixeSci connects local software, HPC results, and internal data inside infrastructure that you control.",
+    "Connect local software, HPC results, and internal data inside infrastructure that you control.",
   primaryCta: "Discuss secure deployment",
   primaryHref: demoBookingUrl,
-  secondaryCta: "Review architecture",
+  secondaryCta: "Review deployment controls",
   secondaryHref: "/security",
   sections: [
     {
@@ -332,7 +331,7 @@ export const secureResearchPage: MarketingPageData = {
         {
           title: "Offline packages",
           description:
-            "Move approved software setup and models through internal or offline channels.",
+            "Move approved software setup and models through internal or offline pathways.",
           icon: PackageCheck,
         },
         {
@@ -374,7 +373,7 @@ export const secureResearchPage: MarketingPageData = {
       ],
     },
   ],
-  finalTitle: "Fit PixeSci to your controlled research environment.",
+  finalTitle: "Fit automation to your controlled research environment.",
   finalDescription:
     "Review your workstations, servers, offline setup, software packages, and internal data stores.",
   finalCta: "Discuss secure deployment",
@@ -384,10 +383,10 @@ export const coreFacilitiesPage: MarketingPageData = {
   eyebrow: "Core facilities",
   title: "Turn proven lab procedures into workflows everyone can follow.",
   description:
-    "PixeSci connects acquisition, analysis, review, and reporting tools. Save the process once, guide each operator, and track every run.",
+    "Connect acquisition, analysis, review, and reporting tools. Save the process once, guide each operator, and track every run.",
   primaryCta: "Standardize a facility workflow",
   primaryHref: demoBookingUrl,
-  secondaryCta: "Explore the platform",
+  secondaryCta: "Start building workflows",
   secondaryHref: "/product",
   sections: [
     {
@@ -482,7 +481,7 @@ export const compliancePage: MarketingPageData = {
   eyebrow: "Compliance and data integrity",
   title: "Track compliance work throughout every experiment.",
   description:
-    "PixeSci records who did what, when it happened, what changed, and what result followed. These records can support ALCOA data integrity reviews, but software alone does not make a workflow compliant.",
+    "Keep a record of who did what, when it happened, what changed, and what result followed. These records can support ALCOA data integrity reviews, but software alone does not make a workflow compliant.",
   primaryCta: "Review compliance workflows",
   primaryHref: demoBookingUrl,
   secondaryCta: "See regulated solutions",
@@ -491,7 +490,7 @@ export const compliancePage: MarketingPageData = {
     {
       title: "See who did what, when they did it, and why.",
       description: [
-        "FDA guidance calls for records that are complete, consistent, accurate, linked to a person, recorded on time, and ready for review. PixeSci links actions, owners, times, results, file checks, and reviews to each run.",
+        "FDA guidance calls for records that are complete, consistent, accurate, linked to a person, recorded on time, and ready for review. Link actions, owners, times, results, file checks, and reviews to each run.",
         "Teams can use this history to check reviews and prepare records for quality work or inspections. Each organization must still set up and validate those records for its own needs.",
       ],
       visual: "audit",
@@ -573,7 +572,7 @@ export const compliancePage: MarketingPageData = {
       ],
     },
   ],
-  finalTitle: "Review PixeSci against your workflow and quality system.",
+  finalTitle: "Review one workflow against your quality system.",
   finalDescription:
     "We will review the records, approvals, setup controls, and validation work your process requires.",
   finalCta: "Review compliance workflows",
@@ -581,12 +580,12 @@ export const compliancePage: MarketingPageData = {
 
 export const securityPage: MarketingPageData = {
   eyebrow: "Security and deployment",
-  title: "Run PixeSci inside the environment you control.",
+  title: "Run workflows inside the environment you control.",
   description:
-    "PixeSci runs workflows, stores work data, and connects software inside your environment by default.",
+    "Keep workflow runs, work data, and software connections inside your environment by default.",
   primaryCta: "Discuss deployment requirements",
   primaryHref: demoBookingUrl,
-  secondaryCta: "Explore the platform",
+  secondaryCta: "Start building workflows",
   secondaryHref: "/product",
   sections: [
     {
@@ -607,7 +606,7 @@ export const securityPage: MarketingPageData = {
       eyebrow: "Controls",
       title: "Control connections, folders, and passwords.",
       description:
-        "Choose which tools, folders, users, and internal services PixeSci can access. Keep passwords and keys in the local service instead of showing them in the interface.",
+        "Choose which tools, folders, users, and internal services each workflow can access. Keep passwords and keys in the local service instead of showing them in the interface.",
       layout: "stacked",
       features: [
         {
@@ -674,7 +673,7 @@ export const securityPage: MarketingPageData = {
       ],
     },
   ],
-  finalTitle: "Review your deployment boundary with PixeSci.",
+  finalTitle: "Review your deployment boundary.",
   finalDescription:
     "Review workstation rules, local servers, air-gapped use, encryption, access, and offline packages.",
   finalCta: "Discuss deployment requirements",
@@ -684,8 +683,8 @@ export const workflowAutomationPage: MarketingPageData = {
   eyebrow: "Workflow automation",
   title: "Describe the work. Review the steps. Run the workflow.",
   description:
-    "Tell PixeSci what you want to do in plain language. Review the workflow, run it locally, track each step, and save it for the next experiment.",
-  primaryCta: "See a workflow demo",
+    "Talk to your lab in natural language! Review the workflow, run it locally, track each step, and save it for the next experiment.",
+  primaryCta: "Automate your workflow",
   primaryHref: demoBookingUrl,
   secondaryCta: "Explore integrations",
   secondaryHref: "/integrations",
@@ -748,7 +747,7 @@ export const workflowAutomationPage: MarketingPageData = {
       eyebrow: "Control",
       title: "Make human review part of the workflow.",
       description:
-        "Pause before a workflow changes an instrument, outside system, interface, or file. PixeSci only plans supported software actions, and operators review them before they run.",
+        "Pause before a workflow changes an instrument, outside system, interface, or file. Operators review supported software actions before they run.",
       visual: "audit",
       features: [
         {
@@ -771,9 +770,9 @@ export const workflowAutomationPage: MarketingPageData = {
       ],
     },
   ],
-  finalTitle: "See how PixeSci can run your scientific workflow.",
+  finalTitle: "Turn one manual handoff into an automated workflow.",
   finalDescription:
-    "Bring your SOP, software, files, and approval steps. We will map them into a workflow PixeSci can run.",
-  finalCta: "See a workflow demo",
+    "Bring your SOP, software, files, and approval steps. We will map them into a workflow you can review and run.",
+  finalCta: "Automate your workflow",
 }
 import { demoBookingUrl } from "@/content/site"

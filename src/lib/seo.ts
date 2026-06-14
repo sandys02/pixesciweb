@@ -53,7 +53,7 @@ export const organizationJsonLd = {
   name: "PixeSci",
   url: siteUrl,
   description:
-    "PixeSci connects and automates scientific software. Teams describe work in plain language, run it locally, and track every step for review.",
+    "Connect and automate scientific software. Teams describe work in plain language, run it locally, and track every step for review.",
 }
 
 export const websiteJsonLd = {
@@ -80,7 +80,7 @@ export const softwareApplicationJsonLd = {
   applicationSubCategory: "Scientific workflow automation",
   operatingSystem: "Windows, macOS, Linux",
   description:
-    "PixeSci connects scientific software, automates workflows, runs work locally, and tracks each action, file, review, and result.",
+    "Connect scientific software, automate workflows, run work locally, and track each action, file, review, and result.",
   featureList: [
     "Visual scientific workflows",
     "Scientific software connections",

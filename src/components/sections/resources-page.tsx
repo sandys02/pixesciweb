@@ -17,10 +17,10 @@ import { CTASection } from "@/components/site/cta-section"
 
 const resources = [
   {
-    title: "Local-first architecture overview",
+    title: "Local-first deployment overview",
     type: "Technical brief",
     description:
-      "See where PixeSci runs, stores data, uses local models, and connects software.",
+      "See how workflows stay close to local data, approved models, and lab software.",
     href: "/security",
     icon: Network,
   },
@@ -28,23 +28,23 @@ const resources = [
     title: "Compliance workflow guide",
     type: "Quality evaluation",
     description:
-      "See how PixeSci records actions, file details, checksums, reviews, and approvals.",
+      "Check how actions, file details, checksums, reviews, and approvals stay ready for inspection.",
     href: "/compliance",
     icon: BookOpenCheck,
   },
   {
-    title: "Graph workflow mechanics",
+    title: "Workflow automation patterns",
     type: "Product guide",
     description:
-      "See how PixeSci connects steps, files, settings, checks, notes, and results.",
+      "Turn steps, files, settings, checks, notes, and results into a repeatable workflow.",
     href: "/workflow-automation",
     icon: GitBranch,
   },
   {
-    title: "Integration capability model",
-    type: "Technical note",
+    title: "Software integration guide",
+    type: "Evaluation guide",
     description:
-      "See how PixeSci records setup, file types, connection methods, risk, and user input.",
+      "Review which tools can connect, what outcomes they support, and where people approve the work.",
     href: "/integrations",
     icon: Boxes,
   },
@@ -60,65 +60,65 @@ const resources = [
     title: "Data integrity evaluation checklist",
     type: "Buyer checklist",
     description:
-      "Check how PixeSci tracks users, files, versions, scripts, changes, and reviews.",
+      "Check how users, files, versions, scripts, changes, and reviews stay linked to each run.",
     href: "/compliance",
     icon: FileKey2,
   },
 ] as const
 export const resourceFaqs = [
   [
-    "What is PixeSci?",
-    "PixeSci connects and automates scientific software. Scientists can describe work in their own words, review the steps, run the workflow, and track every action, file, setting, and result.",
+    "What can my team automate?",
+    "Connect and automate scientific software. Scientists can describe work in their own words, review the steps, run the workflow, and track every action, file, setting, and result.",
   ],
 
   [
     "Is PixeSci a cloud workflow platform?",
-    "No. PixeSci runs locally by default. Its desktop app talks to a local service on the same computer. Teams can also connect approved internal systems and run PixeSci on their own servers.",
+    "No. Workflows run locally by default, close to the software and files your team already controls. Teams can also connect approved internal systems and run workflows on their own servers.",
   ],
 
   [
     "Can PixeSci be deployed on-premises or air-gapped?",
-    "Yes. Teams can run PixeSci on their own servers or in an air-gapped environment. Workflows do not need a cloud service to run.",
+    "Yes. Teams can run workflows on their own servers or in an air-gapped environment. Workflows do not need a cloud service to run.",
   ],
 
   [
     "Can PixeSci use AI without sending data to the cloud?",
-    "Yes. PixeSci can use approved AI models that run locally or inside your own infrastructure. Available features depend on the models and setup your team approves.",
+    "Yes. Teams can use approved AI models that run locally or inside their own infrastructure. Available features depend on the models and setup your team approves.",
   ],
 
   [
     "Does PixeSci replace LIMS, ELN, CDS, or QMS platforms?",
-    "No. PixeSci connects these systems and moves work between them. Your LIMS, ELN, CDS, QMS, and data stores can remain the official systems of record.",
+    "No. Keep those systems as your official records while workflows move approved work between them.",
   ],
 
   [
     "How does PixeSci integrate with existing scientific software?",
-    "PixeSci connects tools through command lines, APIs, scripts, files, and desktop controls. Each tool and version must be tested in the environment where it will run.",
+    "Start with the tools, file types, review points, and outcomes your team needs. Each tool and version must be tested in the environment where it will run.",
   ],
 
   [
     "Is PixeSci built for regulated scientific workflows?",
-    "Yes. PixeSci helps teams track workflows, records, changes, reviews, and data integrity. Customers still must validate the system, maintain SOPs, train users, and meet their own regulatory duties.",
+    "Yes. Teams can track workflows, records, changes, reviews, and data integrity. Customers still must validate the system, maintain SOPs, train users, and meet their own regulatory duties.",
   ],
 
   [
     "How are audit trails and workflow history handled?",
-    "PixeSci can record workflow steps, file movement, user actions, system events, and results. Your setup and policies determine how long records are kept and how teams review them.",
+    "Workflow steps, file movement, user actions, system events, and results can stay with each run. Your setup and policies determine how long records are kept and how teams review them.",
   ],
 
   [
     "How does PixeSci help teams repeat and track work?",
-    "PixeSci records steps, files, settings, users, and results. Teams can use this history to review, repeat, investigate, and standardize their work.",
+    "Keep steps, files, settings, users, and results linked to each run. Teams can use this history to review, repeat, investigate, and standardize their work.",
   ],
 
   [
     "What about validation and change control?",
-    "PixeSci tracks workflow versions, settings, changes, and run history. Each organization must decide how to validate and control those changes.",
+    "Track workflow versions, settings, changes, and run history. Each organization must decide how to validate and control those changes.",
   ],
 
   [
     "Does PixeSci guarantee regulatory compliance?",
-    "No. Software alone cannot guarantee compliance. PixeSci helps teams run controlled workflows and produce records, audit trails, file history, user links, and review history. Compliance still depends on how the customer validates, configures, and operates the system.",
+    "No. Software alone cannot guarantee compliance. Teams can run controlled workflows and produce records, audit trails, file history, user links, and review history. Compliance still depends on how the customer validates, configures, and operates the system.",
   ],
 
   [
@@ -136,7 +136,7 @@ export function ResourcesPage() {
             <div className="max-w-4xl">
               <p className="eyebrow">Resources</p>
               <h1 className="mt-5 text-4xl leading-[1.05] font-semibold sm:text-6xl lg:text-7xl">
-                See how PixeSci connects, runs, and tracks scientific work.
+                Connect software. Automate workflows. Track scientific work.
               </h1>
               <p className="mt-6 max-w-3xl text-base leading-7 text-muted-foreground sm:text-lg sm:leading-8">
                 Read clear guides for technical teams, quality teams, lab IT,
@@ -168,9 +168,9 @@ export function ResourcesPage() {
                       href={resource.href}
                       className="mt-6 inline-flex items-center gap-2 text-sm font-medium text-primary hover:underline"
                     >
-                      Read overview
-                      <ArrowRight className="size-4" />
-                    </Link>
+                    Read workflow guide
+                    <ArrowRight className="size-4" />
+                  </Link>
                   </article>
                 )
               })}
@@ -213,8 +213,8 @@ export function ResourcesPage() {
             <div className="flex gap-3">
               <ClipboardList className="mt-0.5 size-4 text-primary" />
               <p className="text-sm leading-6 text-muted-foreground">
-                We plan each setup around the customer&apos;s software,
-                workflow, environment, and review needs.
+                Plan each setup around your software, workflow, environment,
+                and review needs.
               </p>
             </div>
             <div className="flex gap-3">
@@ -228,9 +228,9 @@ export function ResourcesPage() {
         </section>
       </main>
       <CTASection
-        title="Review one workflow with PixeSci."
+        title="Review one workflow from start to finish."
         description="Bring your software, setup rules, data flow, and record needs."
-        cta="Contact PixeSci"
+        cta="Start building workflows"
       />
     </>
   )

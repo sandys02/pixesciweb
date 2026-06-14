@@ -8,7 +8,7 @@ import { createMetadata, softwareApplicationJsonLd } from "@/lib/seo"
 export const metadata: Metadata = createMetadata({
   title: "Connect and automate scientific software",
   description:
-    "Build visual workflows, tell PixeSci what to do in plain language, run work locally, and track every action, file, setting, and result.",
+    "Talk to your lab in natural language! Build visual workflows, run work locally, and track every action, file, setting, and result.",
   path: "/product",
 })
 

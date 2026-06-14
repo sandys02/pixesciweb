@@ -6,7 +6,7 @@ import { createMetadata } from "@/lib/seo"
 export const metadata: Metadata = createMetadata({
   title: "Scientific software integrations",
   description:
-    "Connect scientific software through command lines, APIs, desktop controls, files, and scripts.",
+    "Connect the scientific software your team already uses and automate manual handoffs between analysis, lab systems, reporting, AI, imaging, and omics tools.",
   path: "/integrations",
 })
 

@@ -33,7 +33,7 @@ export const metadata: Metadata = {
     template: "%s | PixeSci",
   },
   description:
-    "PixeSci connects and automates scientific software. Describe the work in your own words, run it locally, and track every step for review.",
+    "Connect and automate scientific software. Talk to your lab in natural language, run workflows locally, and track every step for review.",
   applicationName: "PixeSci",
   creator: "PixeSci",
   publisher: "PixeSci",
@@ -42,7 +42,7 @@ export const metadata: Metadata = {
     "compliance-first AI",
     "scientific workflow automation",
     "lab software integration",
-    "local-first orchestration",
+    "local-first workflow automation",
     "audit trail",
     "on-prem scientific software",
     "reproducible workflows",

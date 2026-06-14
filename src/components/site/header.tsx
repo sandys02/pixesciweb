@@ -28,9 +28,7 @@ export function SiteHeader() {
         </nav>
         <div className="hidden lg:flex">
           <Button asChild size="lg" className="px-4">
-            <DemoBookingLink source="header">
-              Request a demo
-            </DemoBookingLink>
+            <DemoBookingLink source="header">Request a demo</DemoBookingLink>
           </Button>
         </div>
         <MobileNav />

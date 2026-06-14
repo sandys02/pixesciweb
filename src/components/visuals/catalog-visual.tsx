@@ -2,32 +2,32 @@ import { CheckCircle2, Search, Settings2 } from "lucide-react"
 
 const software = [
   {
-    name: "ImageJ / Fiji",
-    category: "Imaging & Microscopy",
-    channels: "Macro · Files · GUI",
-    status: "Installed",
-    detail: "8 capabilities · 3 workflows",
-  },
-  {
-    name: "FastQC",
-    category: "Bioinformatics & Omics",
-    channels: "CLI · Files",
-    status: "Available",
-    detail: "4 capabilities · setup guide",
-  },
-  {
     name: "GraphPad Prism",
     category: "Data Analysis & Statistics",
-    channels: "GUI · Human review",
-    status: "Needs setup",
-    detail: "6 capabilities · 2 workflows",
+    outcome: "Reviewed figures",
+    status: "Installed",
+    detail: "6 actions · 2 workflows",
   },
   {
-    name: "LIMS REST",
-    category: "ELN & LIMS",
-    channels: "API · Policy gate",
+    name: "Benchling",
+    category: "Laboratory Productivity",
+    outcome: "Linked records",
     status: "Available",
-    detail: "5 capabilities · credentials",
+    detail: "3 workflows · review step",
+  },
+  {
+    name: "PowerPoint",
+    category: "Reporting & Visualization",
+    outcome: "Report package",
+    status: "Needs setup",
+    detail: "4 templates · setup guide",
+  },
+  {
+    name: "ImageJ / Fiji",
+    category: "Imaging & Microscopy",
+    outcome: "Measured image data",
+    status: "Available",
+    detail: "8 actions · 3 workflows",
   },
 ]
 
@@ -35,7 +35,7 @@ export function CatalogVisual() {
   return (
     <figure
       className="visual-frame overflow-hidden"
-      aria-label="Illustrative software capability catalog showing software categories, execution channels, setup state, and local detection"
+      aria-label="Illustrative software catalog showing software categories, workflow outcomes, setup state, and local detection"
     >
       {/* TODO: Replace with real PixeSci software catalog screenshot. */}
       <figcaption className="visual-toolbar">
@@ -57,11 +57,12 @@ export function CatalogVisual() {
           </div>
           <div className="mt-5 space-y-1">
             {[
+              "Data Analysis & Statistics",
+              "Laboratory Productivity",
+              "Reporting & Visualization",
+              "AI & Automation",
               "Imaging & Microscopy",
               "Bioinformatics & Omics",
-              "ELN & LIMS",
-              "Analytical Chemistry",
-              "Compliance & Quality",
             ].map((category, index) => (
               <div
                 key={category}
@@ -92,7 +93,7 @@ export function CatalogVisual() {
                     {app.category}
                   </p>
                   <p className="mt-2 font-mono text-[9px] text-muted-foreground">
-                    {app.channels}
+                    {app.outcome}
                   </p>
                   <p className="mt-1 text-[9px] text-muted-foreground">
                     {app.detail}

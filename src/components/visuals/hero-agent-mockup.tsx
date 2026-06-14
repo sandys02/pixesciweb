@@ -160,7 +160,7 @@ export function HeroAgentMockup() {
   return (
     <figure
       className="visual-frame hero-agent-mockup relative min-h-[520px] overflow-hidden bg-card text-card-foreground shadow-[0_24px_80px_rgba(21,36,45,0.14)] dark:border-white/12 dark:bg-[#071015] dark:text-white dark:shadow-[0_24px_80px_rgba(7,16,21,0.28)]"
-      aria-label="PixeSci turns a plain-language flow cytometry request into a workflow with live status, human review, and saved records"
+      aria-label="Plain-language flow cytometry request becomes a workflow with live status, human review, and saved records"
     >
       <div
         className="workflow-grid absolute inset-0 opacity-65 dark:hidden"

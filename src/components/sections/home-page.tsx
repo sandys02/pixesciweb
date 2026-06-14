@@ -46,13 +46,12 @@ export function HomePage() {
                   Connect tools. Automate work. Track every step.
                 </div>
                 <h1 className="mt-7 text-4xl leading-[1.04] font-semibold md:text-5xl xl:text-6xl">
-                  Talk to your lab in Natural Language.
+                  Talk to your lab in natural language!
                 </h1>
                 <p className="mt-6 max-w-2xl text-base leading-7 text-muted-foreground sm:text-lg sm:leading-8">
-                  PixeSci connects and automates the scientific software you
-                  already use. Tell PixeSci AI what you want to do in your own
-                  words, review the steps, and track every action, file, and
-                  result.
+                  Connect and automate the scientific software you already use.
+                  Describe the work in your own words, review the steps, run
+                  locally, and track every action, file, decision, and result.
                 </p>
                 <div className="mt-8 flex flex-col gap-3 sm:flex-row">
                   <Button asChild size="lg" className="px-4">
@@ -62,7 +61,9 @@ export function HomePage() {
                     </DemoBookingLink>
                   </Button>
                   <Button asChild size="lg" variant="outline" className="px-4">
-                    <Link href="/workflow-automation">See how it works</Link>
+                    <Link href="/workflow-automation">
+                      Automate your workflow
+                    </Link>
                   </Button>
                 </div>
               </div>
@@ -92,15 +93,14 @@ export function HomePage() {
         <section className="section-space border-t border-border">
           <div className="site-container">
             <div className="max-w-3xl">
-              <p className="eyebrow">The PixeSci platform</p>
+              <p className="eyebrow">Connect your software</p>
               <h2 className="mt-3 text-3xl leading-tight font-semibold sm:text-5xl">
                 Connect the tools you already use.
               </h2>
               <p className="mt-5 text-base leading-7 text-muted-foreground sm:text-lg">
-                PixeSci turns your request into a visual workflow, checks what
-                each tool can do, runs the work locally, and saves the results.
-                Operators can review and approve controlled steps before they
-                run.
+                Turn your request into a visual workflow, check each step before
+                it runs, keep the work local, and save the results. Operators
+                can review and approve controlled steps before they continue.
               </p>
             </div>
             <div className="mt-10">
@@ -111,7 +111,7 @@ export function HomePage() {
                 href="/product"
                 className="inline-flex items-center gap-2 text-sm font-medium text-primary hover:underline"
               >
-                Explore the platform
+                Start building workflows
                 <ArrowRight className="size-4" />
               </Link>
             </div>
@@ -124,10 +124,10 @@ export function HomePage() {
               <div>
                 <p className="eyebrow text-cyan-300">Run it locally</p>
                 <h2 className="mt-3 text-3xl leading-tight font-semibold sm:text-4xl">
-                  Run PixeSci within your own environment.
+                  Run workflows within your own environment.
                 </h2>
                 <p className="mt-5 text-base leading-7 text-white/62">
-                  Run workflow services, work data, AI models, and software
+                  Keep workflow services, work data, AI models, and software
                   connections inside your own environment. Use lab workstations
                   or your own servers without relying on an outside cloud
                   service.
@@ -149,7 +149,7 @@ export function HomePage() {
                     {
                       title: "Controlled connections",
                       description:
-                        "Choose which tools, folders, passwords, and networks PixeSci can use.",
+                        "Choose which tools, folders, passwords, and networks each workflow can use.",
                       icon: ShieldCheck,
                     },
                   ].map((item) => {
@@ -173,7 +173,7 @@ export function HomePage() {
                   href="/security"
                   className="mt-8 inline-flex items-center gap-2 text-sm font-medium text-cyan-300 hover:underline"
                 >
-                  Review architecture
+                  Review deployment controls
                   <ArrowRight className="size-4" />
                 </Link>
               </div>
@@ -191,10 +191,9 @@ export function HomePage() {
                   See what happened during every experiment.
                 </h2>
                 <p className="mt-5 text-base leading-7 text-muted-foreground">
-                  PixeSci records each user, action, setting, result, file,
-                  approval, and error. The run summary shows completed steps and
-                  changes without making reviewers search through folders and
-                  app histories.
+                  Keep each user, action, setting, result, file, approval, and
+                  error with the run. Reviewers can see completed steps and
+                  changes without searching through folders and app histories.
                 </p>
                 <div className="mt-7 space-y-4">
                   {[
@@ -237,15 +236,15 @@ export function HomePage() {
                   Use each tool the way it was built to work.
                 </h2>
                 <p className="mt-5 text-base leading-7 text-muted-foreground">
-                  PixeSci records how to set up each app, which files it uses,
-                  what actions it supports, and when it needs a person. It then
-                  checks which apps are installed where the workflow will run.
+                  Check which apps are supported, which files they need, what
+                  results they produce, and where human review belongs. Confirm
+                  the right tools are installed before the workflow runs.
                 </p>
                 <Link
                   href="/integrations"
                   className="mt-7 inline-flex items-center gap-2 text-sm font-medium text-primary hover:underline"
                 >
-                  Explore integration categories
+                  Explore integrations
                   <ArrowRight className="size-4" />
                 </Link>
               </div>
@@ -284,7 +283,7 @@ export function HomePage() {
                       href={solution.href}
                       className="mt-6 inline-flex items-center gap-2 text-sm font-medium text-primary hover:underline"
                     >
-                      View solution
+                      Automate this workflow
                       <ArrowRight className="size-4" />
                     </Link>
                   </article>
@@ -328,7 +327,7 @@ export function HomePage() {
                     href={resource.href}
                     className="mt-6 inline-flex items-center gap-2 text-sm font-medium text-primary hover:underline"
                   >
-                    Open resource
+                    Read workflow guide
                     <ArrowRight className="size-4" />
                   </Link>
                 </article>
@@ -358,8 +357,8 @@ export function HomePage() {
       </main>
       <CTASection
         title="Show us one scientific workflow."
-        description="Bring the software, files, manual steps, and reviews. We will show how PixeSci can connect, run, and track the process."
-        cta="Request a demo"
+        description="Bring the software, files, manual steps, and reviews. We will show how to connect the tools, run the workflow, and track the process."
+        cta="Automate your workflow"
       />
     </>
   )

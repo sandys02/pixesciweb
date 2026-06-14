@@ -60,7 +60,7 @@ export const primaryNavigation: NavItem[] = [
   {
     label: "Company",
     href: "/company",
-    description: "Learn why PixeSci connects scientific software.",
+    description: "Meet the team connecting scientific software.",
   },
 ]
 
@@ -68,7 +68,7 @@ export const footerNavigation = [
   {
     title: "Product",
     links: [
-      { label: "Platform", href: "/product" },
+      { label: "Connect your software", href: "/product" },
       { label: "Workflow automation", href: "/workflow-automation" },
       { label: "Integrations", href: "/integrations" },
       { label: "Security", href: "/security" },
@@ -90,7 +90,7 @@ export const footerNavigation = [
     title: "Resources",
     links: [
       { label: "Resource center", href: "/resources" },
-      { label: "Architecture overview", href: "/security" },
+      { label: "Deployment controls", href: "/security" },
       { label: "Workflow examples", href: "/workflow-automation" },
       { label: "Software catalog", href: "/integrations" },
     ],
@@ -121,7 +121,7 @@ export const platformCapabilities: FeatureItem[] = [
   {
     title: "Software catalog",
     description:
-      "See what each tool can do, what files it needs, and how PixeSci can run it.",
+      "Check supported tools, required files, review points, and local availability before a run.",
     icon: Boxes,
   },
   {
@@ -133,7 +133,7 @@ export const platformCapabilities: FeatureItem[] = [
   {
     title: "Plain-language control",
     description:
-      "Tell PixeSci what you want to do in your own words, then review the steps before they run.",
+      "Talk to your lab in natural language! Review the steps before they run.",
     icon: Sparkles,
   },
   {
@@ -212,14 +212,14 @@ export const resourceCards = [
     title: "Architecture overview",
     type: "Technical brief",
     description:
-      "See where PixeSci runs, stores data, uses models, and connects to other tools.",
+      "See how your workflows stay close to local data, models, and lab software.",
     href: "/security",
   },
   {
     title: "Compliance workflow guide",
     type: "Evaluation guide",
     description:
-      "See how PixeSci tracks runs, changes, approvals, and records.",
+      "Check how runs, changes, approvals, and records stay ready for review.",
     href: "/compliance",
   },
   {
@@ -232,13 +232,13 @@ export const resourceCards = [
 ] as const
 
 export const complianceDisclaimer =
-  "PixeSci helps teams track work and produce records for review. Customers still must validate and configure the system, train users, maintain SOPs, and meet their own quality requirements."
+  "Teams can track work and produce records for review. Customers still must validate and configure the system, train users, maintain SOPs, and meet their own quality requirements."
 
 export const securityHighlights: FeatureItem[] = [
   {
     title: "Deployment control",
     description:
-      "Run PixeSci on a workstation or your own servers without an outside cloud service.",
+      "Run workflows on a workstation or your own servers without an outside cloud service.",
     icon: Building2,
   },
   {

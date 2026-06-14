@@ -8,13 +8,13 @@ const thesis = [
   {
     title: "Keep using the tools that work.",
     description:
-      "PixeSci does not replace every scientific app. It connects them and runs work across them.",
+      "Your lab should not have to replace every scientific app to automate work across them.",
     icon: Layers3,
   },
   {
     title: "Run inside your own environment.",
     description:
-      "Run PixeSci locally or on your own servers without depending on an outside cloud service.",
+      "Run workflows locally or on your own servers without depending on an outside cloud service.",
     icon: ShieldCheck,
   },
   {
@@ -37,16 +37,14 @@ export function CompanyPage() {
                 Connecting the scientific tools your lab already uses.
               </h1>
               <p className="mt-6 max-w-3xl text-base leading-7 text-muted-foreground sm:text-lg sm:leading-8">
-                PixeSci is compliance-first AI agent that connects and automates
-                QC software and workflows in regulated biotech, replacing hours
-                of manual cross-system work with simple natural language
-                commands. <br />
-                Tell it what you want to do in your own words, review the steps,
-                and track compliance work throughout the experiment.
+                You spend too much time moving data between scientific tools.
+                Talk to your lab in natural language! Review the steps, automate
+                the handoffs, and keep compliance context throughout the
+                experiment.
               </p>
               <Button asChild size="lg" className="mt-8 px-4">
                 <DemoBookingLink source="company_hero">
-                  Contact PixeSci
+                  Connect your software
                   <ArrowRight className="size-4" />
                 </DemoBookingLink>
               </Button>
@@ -126,8 +124,8 @@ export function CompanyPage() {
       </main>
       <CTASection
         title="Map your scientific workflow."
-        description="Show us where tools, files, and reviews disconnect. We will show how PixeSci can automate the handoffs and track the work."
-        cta="Contact PixeSci"
+        description="Show us where tools, files, and reviews disconnect. We will show how to automate the handoffs and track the work."
+        cta="Automate your workflow"
       />
     </>
   )
