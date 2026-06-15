@@ -2,32 +2,35 @@ import { CheckCircle2, Search, Settings2 } from "lucide-react"
 
 const software = [
   {
-    name: "GraphPad Prism",
-    category: "Data Analysis & Statistics",
-    outcome: "Reviewed figures",
-    status: "Installed",
-    detail: "6 actions · 2 workflows",
-  },
-  {
-    name: "Benchling",
-    category: "Laboratory Productivity",
-    outcome: "Linked records",
+    name: "Empower CDS",
+    category: "Analytical Chemistry",
+    outcome: "Reviewed chromatographic results",
     status: "Available",
-    detail: "3 workflows · review step",
+    detail: "8 capabilities · 4 workflows",
   },
+
   {
-    name: "PowerPoint",
-    category: "Reporting & Visualization",
-    outcome: "Report package",
+    name: "HPLC System",
+    category: "Analytical Chemistry",
+    outcome: "Quantified compounds",
     status: "Needs setup",
-    detail: "4 templates · setup guide",
+    detail: "6 capabilities · 3 workflows",
   },
+
   {
-    name: "ImageJ / Fiji",
-    category: "Imaging & Microscopy",
-    outcome: "Measured image data",
+    name: "NMR Software",
+    category: "Analytical Chemistry",
+    outcome: "Structural characterization",
+    status: "Installed",
+    detail: "5 capabilities · 2 workflows",
+  },
+
+  {
+    name: "LC-MS Platform",
+    category: "Analytical Chemistry",
+    outcome: "Identified analytes",
     status: "Available",
-    detail: "8 actions · 3 workflows",
+    detail: "7 capabilities · 3 workflows",
   },
 ]
 
@@ -40,10 +43,12 @@ export function CatalogVisual() {
       {/* TODO: Replace with real PixeSci software catalog screenshot. */}
       <figcaption className="visual-toolbar">
         <span>Software capability catalog</span>
-        <span className="text-muted-foreground">4 profiles / local scan 09:41</span>
+        <span className="text-muted-foreground">
+          4 profiles / local scan 09:41
+        </span>
       </figcaption>
       <div className="grid md:grid-cols-[210px_1fr]">
-        <div className="border-b border-border bg-muted/35 p-4 md:border-b-0 md:border-r">
+        <div className="border-b border-border bg-muted/35 p-4 md:border-r md:border-b-0">
           <div className="flex items-center gap-2 rounded-md border border-border bg-background px-3 py-2 text-xs text-muted-foreground">
             <Search className="size-3.5" />
             Search profiles
@@ -57,6 +62,7 @@ export function CatalogVisual() {
           </div>
           <div className="mt-5 space-y-1">
             {[
+              "Analytical Chemistry",
               "Data Analysis & Statistics",
               "Laboratory Productivity",
               "Reporting & Visualization",
