@@ -50,7 +50,7 @@ export const integrationCategories: IntegrationCategory[] = [
   {
     name: "AI & Automation",
     description:
-      "Talk to your lab in natural language! Turn requests into checked workflow steps before the work runs.",
+      "Talk to your lab! Turn requests into checked workflow steps before the work runs.",
     examples: ["Workflow planning", "Review checkpoints", "Reusable templates"],
     outcomes: ["Plain-language requests", "Checked steps", "Human approval"],
     workflow: "Request -> reviewed steps -> controlled run",
