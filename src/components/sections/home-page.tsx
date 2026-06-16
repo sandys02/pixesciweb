@@ -46,7 +46,7 @@ export function HomePage() {
                   Connect tools. Automate work. Track every step.
                 </div>
                 <h1 className="mt-7 text-4xl leading-[1.04] font-semibold md:text-5xl xl:text-6xl">
-                  Talk to your lab in natural language!
+                  Talk to your lab!
                 </h1>
                 <p className="mt-6 max-w-2xl text-base leading-7 text-muted-foreground sm:text-lg sm:leading-8">
                   Connect and automate the scientific software you already use.

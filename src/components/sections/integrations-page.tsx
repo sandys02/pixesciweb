@@ -137,7 +137,7 @@ export function IntegrationsPage() {
           <div className="site-container max-w-4xl">
             <p className="eyebrow text-cyan-300">Workflow outcomes</p>
             <h2 className="mt-3 text-3xl leading-tight font-semibold sm:text-4xl">
-              Talk to your lab in natural language!
+              Talk to your lab!
             </h2>
             <p className="mt-5 max-w-3xl text-base leading-7 text-white/62">
               Describe the work you need, review the proposed steps, run the

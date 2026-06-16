@@ -82,7 +82,7 @@ export const productPage: MarketingPageData = {
   eyebrow: "Product",
   title: "Connect and automate your scientific software.",
   description:
-    "Talk to your lab in natural language! Describe the work in your own words, review the steps, run them locally, and track every file, setting, decision, and result.",
+    "Talk to your lab! Describe the work in your own words, review the steps, run them locally, and track every file, setting, decision, and result.",
   primaryCta: "Request a demo",
   primaryHref: demoBookingUrl,
   secondaryCta: "See workflow automation",
@@ -174,7 +174,7 @@ export const productPage: MarketingPageData = {
     },
     {
       eyebrow: "Interface",
-      title: "Talk to your lab in natural language!",
+      title: "Talk to your lab!",
       description:
         "Describe the work in your own words. Turn the request into clear software steps that you can review before anything runs.",
       features: [
@@ -683,7 +683,7 @@ export const workflowAutomationPage: MarketingPageData = {
   eyebrow: "Workflow automation",
   title: "Describe the work. Review the steps. Run the workflow.",
   description:
-    "Talk to your lab in natural language! Review the workflow, run it locally, track each step, and save it for the next experiment.",
+    "Talk to your lab! Review the workflow, run it locally, track each step, and save it for the next experiment.",
   primaryCta: "Automate your workflow",
   primaryHref: demoBookingUrl,
   secondaryCta: "Explore integrations",

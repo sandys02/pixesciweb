@@ -132,8 +132,7 @@ export const platformCapabilities: FeatureItem[] = [
   },
   {
     title: "Plain-language control",
-    description:
-      "Talk to your lab in natural language! Review the steps before they run.",
+    description: "Talk to your lab! Review the steps before they run.",
     icon: Sparkles,
   },
   {
