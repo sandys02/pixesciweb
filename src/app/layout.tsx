@@ -75,7 +75,7 @@ export default function RootLayout({
         "font-sans antialiased"
       )}
     >
-      <body>
+      <body suppressHydrationWarning>
         <JsonLd data={[organizationJsonLd, websiteJsonLd]} />
         <ThemeProvider
           attribute="class"
