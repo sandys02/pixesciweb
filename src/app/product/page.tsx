@@ -6,9 +6,9 @@ import { productPage } from "@/content/pages"
 import { createMetadata, softwareApplicationJsonLd } from "@/lib/seo"
 
 export const metadata: Metadata = createMetadata({
-  title: "Connect and automate scientific software",
+  title: "Connect scientific software and run workflows locally",
   description:
-    "Talk to your lab! Build visual workflows, run work locally, and track every action, file, setting, and result.",
+    "Talk to your lab! Describe the work, review the workflow, run it inside your environment, and track every file, setting, decision, and result.",
   path: "/product",
 })
 

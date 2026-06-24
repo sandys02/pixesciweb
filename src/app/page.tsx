@@ -5,9 +5,9 @@ import { JsonLd } from "@/components/seo/json-ld"
 import { createMetadata, softwareApplicationJsonLd } from "@/lib/seo"
 
 export const metadata: Metadata = createMetadata({
-  title: "Connect and automate scientific software",
+  title: "Connect scientific software and run workflows locally",
   description:
-    "Talk to your lab! Connect scientific software, run workflows locally, and track every action, file, review, and result.",
+    "Talk to your lab! Describe the work, review the workflow, run locally, and track every action, file, review, and result.",
   path: "/",
 })
 

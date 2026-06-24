@@ -11,8 +11,9 @@ import {
 import Link from "next/link"
 
 import {
+  connectedLabBenefits,
   complianceDisclaimer,
-  platformCapabilities,
+  platformOverviewSteps,
   problems,
   proofPoints,
   resourceCards,
@@ -43,7 +44,7 @@ export function HomePage() {
               <div>
                 <div className="inline-flex items-center gap-2 rounded-full border border-border bg-background px-3 py-1.5 text-xs text-muted-foreground">
                   <CircleDot className="size-3 text-emerald-500" />
-                  Connect tools. Automate work. Track every step.
+                  Describe. Review. Run. Track.
                 </div>
                 <h1 className="mt-7 text-4xl leading-[1.04] font-semibold md:text-5xl xl:text-6xl">
                   Talk to your lab!
@@ -92,26 +93,68 @@ export function HomePage() {
 
         <section className="section-space border-t border-border">
           <div className="site-container">
-            <div className="max-w-3xl">
-              <p className="eyebrow">Connect your software</p>
+            <div className="grid gap-8 lg:grid-cols-[1fr_1.28fr] lg:gap-16">
+              <div>
+                <p className="eyebrow">Platform overview</p>
+                <h2 className="mt-3 text-2xl leading-tight font-semibold sm:text-4xl">
+                  Connect scientific software. <br /> Run the workflow. <br />
+                  Keep the record.
+                </h2>
+              </div>
+              <div>
+                <p className="max-w-2xl text-base leading-7 text-muted-foreground sm:text-lg">
+                  PixeSci helps you turn scientific work into reviewed, reusable
+                  workflows. Teams can describe what they need, check the steps,
+                  run work locally or inside customer-controlled infrastructure,
+                  and keep the evidence needed to repeat and review the run.
+                </p>
+              </div>
+            </div>
+            <div className="mt-10 grid border-t border-l border-border md:grid-cols-2 xl:grid-cols-4">
+              {platformOverviewSteps.map((step, index) => {
+                const Icon = step.icon
+                return (
+                  <article
+                    key={step.title}
+                    className="min-h-64 border-r border-b border-border p-6 sm:p-7"
+                  >
+                    <div className="flex items-center justify-between gap-4">
+                      <Icon className="size-5 text-primary" />
+                      <span className="font-mono text-[10px] text-muted-foreground">
+                        0{index + 1}
+                      </span>
+                    </div>
+                    <h3 className="mt-12 text-lg font-semibold">
+                      {step.title}
+                    </h3>
+                    <p className="mt-3 text-sm leading-6 text-muted-foreground">
+                      {step.description}
+                    </p>
+                  </article>
+                )
+              })}
+            </div>
+            <div className="mt-12 max-w-3xl">
+              <p className="eyebrow">Connected lab benefits</p>
               <h2 className="mt-3 text-3xl leading-tight font-semibold sm:text-5xl">
-                Connect the tools you already use.
+                Replace manual handoffs with workflows your team can repeat and
+                review.
               </h2>
               <p className="mt-5 text-base leading-7 text-muted-foreground sm:text-lg">
-                Turn your request into a visual workflow, check each step before
-                it runs, keep the work local, and save the results. Operators
-                can review and approve controlled steps before they continue.
+                We help teams connect instruments, analysis tools, informatics
+                systems, files, scripts, and reviewers without moving scientific
+                work into a cloud-only platform.
               </p>
             </div>
             <div className="mt-10">
-              <FeatureGrid items={platformCapabilities} />
+              <FeatureGrid items={connectedLabBenefits} />
             </div>
             <div className="mt-8 flex">
               <Link
                 href="/product"
                 className="inline-flex items-center gap-2 text-sm font-medium text-primary hover:underline"
               >
-                Start building workflows
+                See the product overview
                 <ArrowRight className="size-4" />
               </Link>
             </div>
@@ -356,8 +399,8 @@ export function HomePage() {
         </section>
       </main>
       <CTASection
-        title="Show us one scientific workflow."
-        description="Bring the software, files, manual steps, and reviews. We will show how to connect the tools, run the workflow, and track the process."
+        title="Turn manual scientific work into a reviewed workflow."
+        description="Identify the software, files, handoffs, and review steps. We will show you how PixeSci connects the tools, runs the workflow, and tracks the record."
         cta="Automate your workflow"
       />
     </>
