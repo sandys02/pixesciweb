@@ -149,6 +149,72 @@ export const platformCapabilities: FeatureItem[] = [
   },
 ]
 
+export const platformOverviewSteps: FeatureItem[] = [
+  {
+    title: "Describe the work",
+    description:
+      "Start with a plain-language request, SOP, file set, or repeated handoff.",
+    icon: Sparkles,
+  },
+  {
+    title: "Review the workflow",
+    description:
+      "Check the software steps, required inputs, settings, limits, and review points before anything runs.",
+    icon: Workflow,
+  },
+  {
+    title: "Run locally",
+    description:
+      "Execute the workflow on approved workstations or customer-controlled servers close to the data.",
+    icon: TerminalSquare,
+  },
+  {
+    title: "Track the record",
+    description:
+      "Keep actions, files, settings, decisions, approvals, errors, and results with the run.",
+    icon: History,
+  },
+]
+
+export const connectedLabBenefits: FeatureItem[] = [
+  {
+    title: "Fewer manual handoffs",
+    description:
+      "Reduce copy, paste, renaming, transcription, and re-entry work between scientific tools.",
+    icon: FileStack,
+  },
+  {
+    title: "Clearer data movement",
+    description:
+      "Move files and results between instruments, analysis tools, LIMS, ELN, reports, and reviewers with context intact.",
+    icon: Network,
+  },
+  {
+    title: "Reusable workflow practice",
+    description:
+      "Save proven procedures so teams can repeat the same process across operators, workstations, and sites.",
+    icon: CheckCircle2,
+  },
+  {
+    title: "Review-ready history",
+    description:
+      "Give technical and quality teams a single place to inspect runs, changes, approvals, and results.",
+    icon: ScanSearch,
+  },
+  {
+    title: "Lower integration risk",
+    description:
+      "Connect tools through controlled workflows instead of relying on fragile point-to-point handoffs.",
+    icon: ShieldCheck,
+  },
+  {
+    title: "Local deployment control",
+    description:
+      "Keep workflow execution, data, credentials, and approved software access inside your environment.",
+    icon: Building2,
+  },
+]
+
 export const proofPoints = [
   "Compliance tracking",
   "On-prem ready",

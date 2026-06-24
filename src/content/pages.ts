@@ -80,14 +80,46 @@ export type MarketingPageData = {
 
 export const productPage: MarketingPageData = {
   eyebrow: "Product",
-  title: "Connect and automate your scientific software.",
+  title: "Connect scientific software. Run workflows locally.",
   description:
-    "Talk to your lab! Describe the work in your own words, review the steps, run them locally, and track every file, setting, decision, and result.",
+    "Talk to your lab! Describe the work in your own words, review the workflow, run it inside your environment, and track every file, setting, decision, and result.",
   primaryCta: "Request a demo",
   primaryHref: demoBookingUrl,
   secondaryCta: "See workflow automation",
   secondaryHref: "/workflow-automation",
   sections: [
+    {
+      eyebrow: "Platform overview",
+      title: "Describe. Review. Run. Track.",
+      description:
+        "PixeSci connects scientific software around a simple workflow loop: describe the work, check the steps, run them locally, and keep the record for repeat runs and review.",
+      features: [
+        {
+          title: "Describe the work",
+          description:
+            "Start from a plain-language request, a repeated handoff, or an SOP that needs to become a runnable process.",
+          icon: MessageSquareText,
+        },
+        {
+          title: "Review the workflow",
+          description:
+            "Inspect the software steps, inputs, settings, limits, and review points before the workflow runs.",
+          icon: ListChecks,
+        },
+        {
+          title: "Run in your environment",
+          description:
+            "Use approved workstations, local software, controlled folders, and customer-managed servers.",
+          icon: Laptop,
+        },
+        {
+          title: "Track the run record",
+          description:
+            "Keep actions, files, settings, decisions, approvals, errors, and results with the workflow history.",
+          icon: FileClock,
+        },
+      ],
+    },
     {
       eyebrow: "Authoring",
       title: "Build each process as a visual workflow.",
