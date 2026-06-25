@@ -40,7 +40,7 @@ export function CatalogVisual() {
       className="visual-frame overflow-hidden"
       aria-label="Illustrative software catalog showing software categories, workflow outcomes, setup state, and local detection"
     >
-      {/* TODO: Replace with real PixeSci software catalog screenshot. */}
+      {/* TODO: Replace with real PixeSci TM software catalog screenshot. */}
       <figcaption className="visual-toolbar">
         <span>Software capability catalog</span>
         <span className="text-muted-foreground">

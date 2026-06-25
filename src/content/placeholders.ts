@@ -1,17 +1,17 @@
 export const assetPlaceholders = [
   {
     id: "workflow-canvas",
-    intendedAsset: "Real PixeSci workflow canvas screenshot",
+    intendedAsset: "Real PixeSci TM workflow canvas screenshot",
     usedIn: ["Homepage", "Product", "Workflow automation", "Solutions"],
   },
   {
     id: "audit-log",
-    intendedAsset: "Real PixeSci audit log and detail screenshot",
+    intendedAsset: "Real PixeSci TM audit log and detail screenshot",
     usedIn: ["Homepage", "Compliance", "Regulated life sciences"],
   },
   {
     id: "software-catalog",
-    intendedAsset: "Real PixeSci software catalog screenshot",
+    intendedAsset: "Real PixeSci TM software catalog screenshot",
     usedIn: ["Product", "Integrations", "Core facilities"],
   },
   {
@@ -21,12 +21,12 @@ export const assetPlaceholders = [
   },
   {
     id: "template-center",
-    intendedAsset: "Real PixeSci template center screenshot",
+    intendedAsset: "Real PixeSci TM template center screenshot",
     usedIn: ["Product", "Core facilities"],
   },
   {
     id: "environment-controls",
-    intendedAsset: "Final reviewed PixeSci environment controls screenshot",
+    intendedAsset: "Final reviewed PixeSci TM environment controls screenshot",
     usedIn: [
       "Homepage",
       "Regulated life sciences",

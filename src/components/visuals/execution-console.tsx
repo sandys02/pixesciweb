@@ -14,7 +14,7 @@ export function ExecutionConsole() {
       className="visual-frame overflow-hidden border-white/12 bg-[#081014]"
       aria-label="Workflow monitor with live events, output files, progress, and a human review step"
     >
-      {/* TODO: Replace with real PixeSci execution monitor screenshot. */}
+      {/* TODO: Replace with real PixeSci TM execution monitor screenshot. */}
       <figcaption className="visual-toolbar border-white/10 bg-white/[0.025] text-white">
         <span>Live monitor / run_01J8Q</span>
         <span className="inline-flex items-center gap-1.5 text-amber-300">

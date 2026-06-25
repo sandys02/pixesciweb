@@ -13,6 +13,7 @@ import {
 } from "lucide-react"
 import Link from "next/link"
 
+import { TrademarkText } from "@/components/site/brand-name"
 import { CTASection } from "@/components/site/cta-section"
 
 const resources = [
@@ -162,7 +163,7 @@ export function ResourcesPage() {
                       {resource.title}
                     </h2>
                     <p className="mt-3 text-sm leading-6 text-muted-foreground">
-                      {resource.description}
+                      <TrademarkText text={resource.description} />
                     </p>
                     <Link
                       href={resource.href}
@@ -194,13 +195,13 @@ export function ResourcesPage() {
                   className="group py-5"
                 >
                   <summary className="flex cursor-pointer list-none items-center justify-between gap-5 text-sm font-semibold">
-                    {question}
+                    <TrademarkText text={question} />
                     <span className="text-primary transition-transform group-open:rotate-45">
                       +
                     </span>
                   </summary>
                   <p className="mt-3 text-sm leading-6 text-muted-foreground">
-                    {answer}
+                    <TrademarkText text={answer} />
                   </p>
                 </details>
               ))}

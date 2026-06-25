@@ -1,5 +1,6 @@
 import type { LucideIcon } from "lucide-react"
 
+import { TrademarkText } from "@/components/site/brand-name"
 import { cn } from "@/lib/utils"
 
 type FeatureGridItem = {
@@ -41,14 +42,16 @@ export function FeatureGrid({
               className={cn("size-5", dark ? "text-cyan-300" : "text-primary")}
               aria-hidden="true"
             />
-            <h3 className="mt-8 text-base font-semibold">{item.title}</h3>
+            <h3 className="mt-8 text-base font-semibold">
+              <TrademarkText text={item.title} />
+            </h3>
             <p
               className={cn(
                 "mt-2 text-sm leading-6 text-muted-foreground",
                 dark && "text-white/58",
               )}
             >
-              {item.description}
+              <TrademarkText text={item.description} />
             </p>
           </article>
         )

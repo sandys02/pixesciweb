@@ -6,6 +6,7 @@ import {
   footerNavigation,
 } from "@/content/site"
 
+import { BrandName } from "./brand-name"
 import { DemoBookingLink } from "./demo-booking-link"
 import { Logo } from "./logo"
 import { ThemeSwitcher } from "./theme-switcher"
@@ -64,7 +65,9 @@ export function SiteFooter() {
             {complianceDisclaimer}
           </p>
           <div className="mt-5 flex flex-col gap-2 text-xs text-muted-foreground sm:flex-row sm:items-center sm:justify-between">
-            <p>© {new Date().getFullYear()} PixeSci. All rights reserved.</p>
+            <p>
+              © {new Date().getFullYear()} <BrandName />. All rights reserved.
+            </p>
             <div className="flex items-center gap-3">
               <p>Scientific software integration and automation.</p>
               <ThemeSwitcher />

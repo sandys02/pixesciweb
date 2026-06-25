@@ -13,7 +13,7 @@ export function createMetadata({
   description,
   path,
 }: SeoMetadata): Metadata {
-  const brandedTitle = `${title} | PixeSci`
+  const brandedTitle = `${title} | PixeSci TM`
 
   return {
     title,
@@ -24,7 +24,7 @@ export function createMetadata({
     openGraph: {
       type: "website",
       locale: "en_US",
-      siteName: "PixeSci",
+      siteName: "PixeSci TM",
       title: brandedTitle,
       description,
       url: path,
@@ -33,7 +33,7 @@ export function createMetadata({
           url: "/opengraph-image",
           width: 1200,
           height: 630,
-          alt: "PixeSci scientific workflow automation",
+          alt: "PixeSci TM scientific workflow automation",
         },
       ],
     },
@@ -50,7 +50,7 @@ export const organizationJsonLd = {
   "@context": "https://schema.org",
   "@type": "Organization",
   "@id": `${siteUrl}/#organization`,
-  name: "PixeSci",
+  name: "PixeSci TM",
   url: siteUrl,
   description:
     "Connect and automate scientific software. Teams describe work in plain language, run it locally, and track every step for review.",
@@ -61,8 +61,8 @@ export const websiteJsonLd = {
   "@type": "WebSite",
   "@id": `${siteUrl}/#website`,
   url: siteUrl,
-  name: "PixeSci",
-  alternateName: "PixeSci Scientific Workflow Automation",
+  name: "PixeSci TM",
+  alternateName: "PixeSci TM Scientific Workflow Automation",
   description: "Connect, automate, and track scientific software workflows.",
   inLanguage: "en-US",
   publisher: {
@@ -74,7 +74,7 @@ export const softwareApplicationJsonLd = {
   "@context": "https://schema.org",
   "@type": "SoftwareApplication",
   "@id": `${siteUrl}/product#software`,
-  name: "PixeSci",
+  name: "PixeSci TM",
   url: `${siteUrl}/product`,
   applicationCategory: "ScientificApplication",
   applicationSubCategory: "Scientific workflow automation",

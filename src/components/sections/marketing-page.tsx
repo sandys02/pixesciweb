@@ -7,6 +7,7 @@ import type { MarketingPageData, PageSection } from "@/content/pages"
 import { complianceDisclaimer } from "@/content/site"
 import { cn } from "@/lib/utils"
 
+import { TrademarkText } from "@/components/site/brand-name"
 import { CTASection } from "@/components/site/cta-section"
 import { DemoBookingLink } from "@/components/site/demo-booking-link"
 import { Button } from "@/components/ui/button"
@@ -55,10 +56,10 @@ export function MarketingPage({ data, disclaimer }: MarketingPageProps) {
             <div className="max-w-4xl">
               <p className="eyebrow">{data.eyebrow}</p>
               <h1 className="mt-5 text-4xl leading-[1.05] font-semibold sm:text-6xl lg:text-7xl">
-                {data.title}
+                <TrademarkText text={data.title} />
               </h1>
               <p className="mt-6 max-w-3xl text-base leading-7 text-muted-foreground sm:text-lg sm:leading-8">
-                {data.description}
+                <TrademarkText text={data.description} />
               </p>
               <div className="mt-8 flex flex-col gap-3 sm:flex-row">
                 <Button asChild size="lg" className="px-4">
@@ -109,7 +110,7 @@ export function MarketingPage({ data, disclaimer }: MarketingPageProps) {
                     </p>
                   ) : null}
                   <h2 className="mt-3 text-3xl leading-tight font-semibold sm:text-4xl">
-                    {section.title}
+                    <TrademarkText text={section.title} />
                   </h2>
                   <div
                     className={cn(
@@ -121,7 +122,9 @@ export function MarketingPage({ data, disclaimer }: MarketingPageProps) {
                       ? section.description
                       : [section.description]
                     ).map((paragraph) => (
-                      <p key={paragraph}>{paragraph}</p>
+                      <p key={paragraph}>
+                        <TrademarkText text={paragraph} />
+                      </p>
                     ))}
                   </div>
                   {section.bullets ? (
@@ -135,7 +138,7 @@ export function MarketingPage({ data, disclaimer }: MarketingPageProps) {
                           )}
                         >
                           <CheckCircle2 className="mt-1 size-4 shrink-0 text-primary" />
-                          {bullet}
+                          <TrademarkText text={bullet} />
                         </li>
                       ))}
                     </ul>
