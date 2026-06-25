@@ -50,7 +50,7 @@ export function AuditTimeline({ dark }: AuditTimelineProps) {
       )}
       aria-label="Audit timeline with workflow events, items, times, checksums, and review status"
     >
-      {/* TODO: Replace with real PixeSci audit log screenshot. */}
+      {/* TODO: Replace with real PixeSci TM audit log screenshot. */}
       <figcaption className="visual-toolbar">
         <span>Audit logs / current user</span>
         <span className="inline-flex items-center gap-1.5 text-emerald-600">

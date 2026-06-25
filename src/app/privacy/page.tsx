@@ -1,6 +1,7 @@
 import Link from "next/link"
 import type { Metadata } from "next"
 
+import { BrandName, TrademarkText } from "@/components/site/brand-name"
 import { createMetadata } from "@/lib/seo"
 
 export const metadata: Metadata = createMetadata({
@@ -62,7 +63,7 @@ export default function Page() {
           <div>
             <p className="eyebrow">Website scope</p>
             <p className="mt-4 max-w-sm text-sm leading-6 text-muted-foreground">
-              This notice applies to the public PixeSci website. Customer
+              This notice applies to the public <BrandName /> website. Customer
               products and deployments may use separate agreements and notices.
             </p>
           </div>
@@ -72,7 +73,9 @@ export default function Page() {
                 <h2 className="text-xl font-semibold">{section.title}</h2>
                 <div className="mt-4 space-y-4 text-sm leading-7 text-muted-foreground">
                   {section.paragraphs.map((paragraph) => (
-                    <p key={paragraph}>{paragraph}</p>
+                    <p key={paragraph}>
+                      <TrademarkText text={paragraph} />
+                    </p>
                   ))}
                 </div>
               </section>

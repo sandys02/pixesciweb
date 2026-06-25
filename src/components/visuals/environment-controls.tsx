@@ -51,7 +51,7 @@ export function EnvironmentControls() {
   return (
     <figure
       className="visual-frame overflow-hidden border-white/12 bg-white/[0.035]"
-      aria-label="PixeSci environment controls showing local data, blocked public internet, required approvals, local credentials, audit logging, and customer-managed backups"
+      aria-label="PixeSci TM environment controls showing local data, blocked public internet, required approvals, local credentials, audit logging, and customer-managed backups"
     >
       <figcaption className="visual-toolbar border-white/10 bg-white/[0.025] text-white">
         <span>Environment controls</span>

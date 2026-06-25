@@ -21,6 +21,7 @@ import {
   solutionCards,
 } from "@/content/site"
 
+import { BrandName } from "@/components/site/brand-name"
 import { CTASection } from "@/components/site/cta-section"
 import { DemoBookingLink } from "@/components/site/demo-booking-link"
 import { Button } from "@/components/ui/button"
@@ -103,10 +104,11 @@ export function HomePage() {
               </div>
               <div>
                 <p className="max-w-2xl text-base leading-7 text-muted-foreground sm:text-lg">
-                  PixeSci helps you turn scientific work into reviewed, reusable
-                  workflows. Teams can describe what they need, check the steps,
-                  run work locally or inside customer-controlled infrastructure,
-                  and keep the evidence needed to repeat and review the run.
+                  <BrandName /> helps you turn scientific work into reviewed,
+                  reusable workflows. Teams can describe what they need, check
+                  the steps, run work locally or inside customer-controlled
+                  infrastructure, and keep the evidence needed to repeat and
+                  review the run.
                 </p>
               </div>
             </div>

@@ -17,6 +17,7 @@ import {
   Sparkles,
 } from "lucide-react"
 
+import { BrandName } from "@/components/site/brand-name"
 import { cn } from "@/lib/utils"
 
 type StepStatus = "completed" | "running" | "review" | "queued"
@@ -173,7 +174,7 @@ export function HeroAgentMockup() {
       <figcaption className="visual-toolbar relative z-10 bg-muted/45 text-foreground dark:border-white/10 dark:bg-white/[0.035] dark:text-white">
         <span className="flex items-center gap-2">
           <span className="hero-agent-status-dot size-2 rounded-full bg-emerald-400" />
-          PixeSci AI Agent
+          <BrandName /> AI Agent
         </span>
         <span className="inline-flex items-center gap-1.5 font-mono text-[9px] text-primary dark:text-cyan-300">
           <ShieldCheck className="size-3.5" />
@@ -204,7 +205,7 @@ export function HeroAgentMockup() {
                   <Bot className="size-3.5 text-primary dark:text-cyan-300" />
                 </span>
                 <p className="text-[9px] font-medium tracking-[0.12em] text-primary uppercase dark:text-cyan-300">
-                  PixeSci
+                  <BrandName />
                 </p>
               </div>
               <p className="mt-3 text-xs leading-5 text-foreground/80 dark:text-white/78">

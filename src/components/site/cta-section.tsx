@@ -4,6 +4,7 @@ import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { demoBookingUrl } from "@/content/site"
 
+import { TrademarkText } from "./brand-name"
 import { DemoBookingLink } from "./demo-booking-link"
 
 type CTASectionProps = {
@@ -25,10 +26,10 @@ export function CTASection({
         <div className="max-w-3xl">
           <p className="eyebrow text-cyan-300">Workflow mapping</p>
           <h2 className="mt-4 text-3xl leading-tight font-semibold sm:text-4xl">
-            {title}
+            <TrademarkText text={title} />
           </h2>
           <p className="mt-4 max-w-2xl text-base leading-7 text-background/65">
-            {description}
+            <TrademarkText text={description} />
           </p>
         </div>
         <Button
