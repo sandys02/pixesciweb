@@ -5,8 +5,6 @@ import { SpeedInsights } from "@vercel/speed-insights/next"
 import type { Metadata } from "next"
 import { Geist, Geist_Mono } from "next/font/google"
 
-import { SiteFooter } from "@/components/site/footer"
-import { SiteHeader } from "@/components/site/header"
 import { JsonLd } from "@/components/seo/json-ld"
 import { ThemeProvider } from "@/components/theme-provider"
 import { siteUrl } from "@/content/site"
@@ -90,12 +88,8 @@ export default function RootLayout({
           >
             Skip to content
           </a>
-          <SiteHeader />
-          <div id="main-content">
-            {children}
-            <Toaster position="bottom-right" />
-          </div>
-          <SiteFooter />
+          {children}
+          <Toaster position="bottom-right" />
           <SpeedInsights />
           <Analytics />
         </ThemeProvider>

@@ -24,7 +24,7 @@ import {
 import { BrandName } from "@/components/site/brand-name"
 import { CTASection } from "@/components/site/cta-section"
 import { DemoBookingLink } from "@/components/site/demo-booking-link"
-import { DownloadPixeSciButton } from "@/components/site/download-pixesci-button"
+import { SignInPortalButton } from "@/components/site/download-pixesci-button"
 import { Button } from "@/components/ui/button"
 import {
   AuditTimeline,
@@ -63,7 +63,7 @@ export function HomePage() {
                       <ArrowRight className="size-4" />
                     </DemoBookingLink>
                   </Button>
-                  <DownloadPixeSciButton
+                  <SignInPortalButton
                     source="home_hero"
                     className="sm:w-auto"
                     fullWidth

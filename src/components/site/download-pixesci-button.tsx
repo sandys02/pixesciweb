@@ -1,30 +1,29 @@
 "use client"
 
 import * as React from "react"
-import { CheckCircle2, Download, Loader2, X } from "lucide-react"
+import { Download, Loader2, LogIn, X } from "lucide-react"
+import { useRouter } from "next/navigation"
 
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import {
-  clearDownloadAuthState,
   getDownloadAuthState,
   loginForDownload,
   startPixeSciDownload,
-  type DownloadAuthState,
 } from "@/lib/download-access"
 import { cn } from "@/lib/utils"
 
+import { DemoBookingLink } from "./demo-booking-link"
+
 type DialogState =
   | "idle"
-  | "checking"
   | "login"
   | "authenticating"
-  | "ready"
   | "downloading"
   | "error"
 
-type DownloadPixeSciButtonProps = {
+type SignInPortalButtonProps = {
   source: string
   className?: string
   buttonClassName?: string
@@ -34,7 +33,22 @@ type DownloadPixeSciButtonProps = {
   onOpenChange?: (open: boolean) => void
 }
 
-export function DownloadPixeSciButton({
+type SignInPortalDialogProps = {
+  open: boolean
+  source: string
+  onOpenChange: (open: boolean) => void
+}
+
+type DownloadPixeSciButtonProps = {
+  source: string
+  className?: string
+  buttonClassName?: string
+  variant?: React.ComponentProps<typeof Button>["variant"]
+  size?: React.ComponentProps<typeof Button>["size"]
+  fullWidth?: boolean
+}
+
+export function SignInPortalButton({
   source,
   className,
   buttonClassName,
@@ -42,12 +56,43 @@ export function DownloadPixeSciButton({
   size = "lg",
   fullWidth,
   onOpenChange,
-}: DownloadPixeSciButtonProps) {
+}: SignInPortalButtonProps) {
   const [open, setOpen] = React.useState(false)
+
+  function handleOpenChange(nextOpen: boolean) {
+    setOpen(nextOpen)
+    onOpenChange?.(nextOpen)
+  }
+
+  return (
+    <div className={cn("inline-flex", fullWidth && "w-full", className)}>
+      <Button
+        type="button"
+        variant={variant}
+        size={size}
+        className={cn("px-4", fullWidth && "w-full", buttonClassName)}
+        onClick={() => handleOpenChange(true)}
+        data-portal-sign-in-source={source}
+      >
+        <LogIn className="size-4" />
+        Sign In
+      </Button>
+      <SignInPortalDialog
+        open={open}
+        source={source}
+        onOpenChange={handleOpenChange}
+      />
+    </div>
+  )
+}
+
+export function SignInPortalDialog({
+  open,
+  source,
+  onOpenChange,
+}: SignInPortalDialogProps) {
+  const router = useRouter()
   const [state, setState] = React.useState<DialogState>("idle")
-  const [authState, setAuthState] = React.useState<DownloadAuthState>({
-    authenticated: false,
-  })
   const [error, setError] = React.useState("")
   const dialogRef = React.useRef<HTMLDialogElement>(null)
   const titleId = React.useId()
@@ -70,8 +115,13 @@ export function DownloadPixeSciButton({
     getDownloadAuthState()
       .then((nextAuthState) => {
         if (cancelled) return
-        setAuthState(nextAuthState)
-        setState(nextAuthState.authenticated ? "ready" : "login")
+        if (nextAuthState.authenticated) {
+          onOpenChange(false)
+          router.push("/portal")
+          return
+        }
+
+        setState("login")
       })
       .catch((nextError: unknown) => {
         if (cancelled) return
@@ -82,22 +132,12 @@ export function DownloadPixeSciButton({
     return () => {
       cancelled = true
     }
-  }, [open])
+  }, [onOpenChange, open, router])
 
   function handleDialogClose() {
-    setOpen(false)
+    onOpenChange(false)
     setState("idle")
     setError("")
-    setAuthState({ authenticated: false })
-    void clearDownloadAuthState()
-    onOpenChange?.(false)
-  }
-
-  function openDialog() {
-    setState("checking")
-    setError("")
-    setOpen(true)
-    onOpenChange?.(true)
   }
 
   function closeDialog() {
@@ -130,46 +170,21 @@ export function DownloadPixeSciButton({
     setError("")
 
     try {
-      const nextAuthState = await loginForDownload({ email, password })
-      setAuthState(nextAuthState)
-      setState("ready")
+      await loginForDownload({ email, password })
+      onOpenChange(false)
+      router.push("/portal")
+      router.refresh()
     } catch (nextError) {
       setError(getErrorMessage(nextError))
       setState("login")
     }
   }
 
-  async function handleDownload() {
-    setState("downloading")
-    setError("")
-
-    try {
-      await startPixeSciDownload()
-      closeDialog()
-    } catch (nextError) {
-      setError(getErrorMessage(nextError))
-      setState("error")
-    }
-  }
-
-  const busy =
-    state === "checking" ||
-    state === "authenticating" ||
-    state === "downloading"
+  const isChecking = open && state === "idle"
+  const busy = isChecking || state === "authenticating"
 
   return (
-    <div className={cn("inline-flex", fullWidth && "w-full", className)}>
-      <Button
-        type="button"
-        variant={variant}
-        size={size}
-        className={cn("px-4", fullWidth && "w-full", buttonClassName)}
-        onClick={openDialog}
-        data-download-source={source}
-      >
-        <Download className="size-4" />
-        Download PixeSci
-      </Button>
+    <>
       <dialog
         ref={dialogRef}
         aria-labelledby={titleId}
@@ -181,10 +196,10 @@ export function DownloadPixeSciButton({
         <div className="flex h-16 items-center justify-between gap-4 border-b border-border px-5">
           <div>
             <h2 id={titleId} className="text-base font-semibold">
-              Download PixeSci
+              Sign In to Portal
             </h2>
             <p id={descriptionId} className="mt-1 text-xs text-muted-foreground">
-              Sign in to access the application installer.
+              Authenticate with your registered PixeSci account.
             </p>
           </div>
           <Button
@@ -192,17 +207,17 @@ export function DownloadPixeSciButton({
             variant="outline"
             size="icon-lg"
             onClick={closeDialog}
-            aria-label="Close download dialog"
+            aria-label="Close sign-in dialog"
           >
             <X className="size-4" />
           </Button>
         </div>
         <div className="max-h-[calc(min(90dvh,640px)-4rem)] overflow-y-auto p-5">
-          {state === "checking" ? (
+          {isChecking ? (
             <StatusMessage
               icon={<Loader2 className="size-4 animate-spin" />}
               title="Checking access"
-              description="Confirming whether this browser already has download access."
+              description="Confirming whether this browser already has portal access."
             />
           ) : null}
 
@@ -233,60 +248,32 @@ export function DownloadPixeSciButton({
                   aria-describedby={error ? errorId : undefined}
                 />
               </div>
-              <p className="text-xs leading-5 text-muted-foreground">
-                Access is limited to approved download accounts. Sign in to
-                continue to the installer.
-              </p>
               {error ? <ErrorMessage id={errorId}>{error}</ErrorMessage> : null}
               <Button
                 type="submit"
                 size="lg"
                 className="w-full px-4"
-                disabled={state === "authenticating"}
+                disabled={busy}
               >
                 {state === "authenticating" ? (
                   <Loader2 className="size-4 animate-spin" />
                 ) : null}
                 Sign in
               </Button>
-            </form>
-          ) : null}
-
-          {state === "ready" || state === "downloading" ? (
-            <div className="space-y-5">
-              <StatusMessage
-                icon={<CheckCircle2 className="size-4 text-emerald-600" />}
-                title="Download access ready"
-                description={
-                  authState.userEmail
-                    ? `Signed in as ${authState.userEmail}.`
-                    : "You are signed in for this download."
-                }
-              />
-              <div className="rounded-md border border-border bg-muted/35 p-4">
-                <p className="text-sm font-medium">
-                  PixeSci application installer
-                </p>
-                <p className="mt-2 text-xs leading-5 text-muted-foreground">
-                  Use PixeSci to connect scientific software, run workflows
-                  locally, and keep the run record with the work.
+              <div className="rounded-md border border-border bg-muted/35 p-4 text-center">
+                <p className="text-xs leading-5 text-muted-foreground">
+                  Portal sign-in is available only to registered accounts. Need
+                  access for your team?{" "}
+                  <DemoBookingLink
+                    source={`${source}_portal_contact`}
+                    className="font-medium text-primary underline-offset-4 hover:underline"
+                  >
+                    Contact PixeSci
+                  </DemoBookingLink>
+                  .
                 </p>
               </div>
-              <Button
-                type="button"
-                size="lg"
-                className="w-full px-4"
-                disabled={busy}
-                onClick={handleDownload}
-              >
-                {state === "downloading" ? (
-                  <Loader2 className="size-4 animate-spin" />
-                ) : (
-                  <Download className="size-4" />
-                )}
-                Download PixeSci
-              </Button>
-            </div>
+            </form>
           ) : null}
 
           {state === "error" ? (
@@ -296,7 +283,7 @@ export function DownloadPixeSciButton({
                 type="button"
                 size="lg"
                 className="w-full px-4"
-                onClick={() => setState(authState.authenticated ? "ready" : "login")}
+                onClick={() => setState("login")}
               >
                 Try again
               </Button>
@@ -304,6 +291,62 @@ export function DownloadPixeSciButton({
           ) : null}
         </div>
       </dialog>
+    </>
+  )
+}
+
+export function DownloadPixeSciButton({
+  source,
+  className,
+  buttonClassName,
+  variant = "default",
+  size = "lg",
+  fullWidth,
+}: DownloadPixeSciButtonProps) {
+  const [state, setState] = React.useState<DialogState>("idle")
+  const [error, setError] = React.useState("")
+  const errorId = React.useId()
+
+  async function handleDownload() {
+    setState("downloading")
+    setError("")
+
+    try {
+      await startPixeSciDownload()
+      setState("idle")
+    } catch (nextError) {
+      setError(getErrorMessage(nextError))
+      setState("error")
+    }
+  }
+
+  const busy = state === "downloading"
+
+  return (
+    <div
+      className={cn(
+        "inline-flex flex-col items-center gap-3",
+        fullWidth && "w-full",
+        className
+      )}
+    >
+      <Button
+        type="button"
+        variant={variant}
+        size={size}
+        className={cn("px-4", fullWidth && "w-full", buttonClassName)}
+        onClick={handleDownload}
+        disabled={busy}
+        data-download-source={source}
+      >
+        {busy ? (
+          <Loader2 className="size-4 animate-spin" />
+        ) : (
+          <Download className="size-4" />
+        )}
+        Download PixeSci
+      </Button>
+      {error ? <ErrorMessage id={errorId}>{error}</ErrorMessage> : null}
     </div>
   )
 }

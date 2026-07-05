@@ -10,9 +10,11 @@ import { primaryNavigation } from "@/content/site"
 import { cn } from "@/lib/utils"
 
 import { DemoBookingLink } from "./demo-booking-link"
+import { SignInPortalDialog } from "./download-pixesci-button"
 
 export function MobileNav() {
   const [open, setOpen] = React.useState(false)
+  const [portalSignInOpen, setPortalSignInOpen] = React.useState(false)
   const pathname = usePathname()
   const dialogRef = React.useRef<HTMLDialogElement>(null)
 
@@ -79,7 +81,19 @@ export function MobileNav() {
               ))}
             </ul>
           </nav>
-          <div className="border-t border-border p-5">
+          <div className="grid gap-3 border-t border-border p-5">
+            <Button
+              type="button"
+              variant="outline"
+              size="lg"
+              className="w-full px-4"
+              onClick={() => {
+                setOpen(false)
+                setPortalSignInOpen(true)
+              }}
+            >
+              Sign In
+            </Button>
             <Button asChild size="lg" className="w-full px-4">
               <DemoBookingLink
                 source="mobile_navigation"
@@ -91,6 +105,11 @@ export function MobileNav() {
           </div>
         </div>
       </dialog>
+      <SignInPortalDialog
+        open={portalSignInOpen}
+        source="mobile_navigation"
+        onOpenChange={setPortalSignInOpen}
+      />
     </div>
   )
 }

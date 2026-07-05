@@ -8,6 +8,7 @@ import {
 
 import { BrandName } from "./brand-name"
 import { DemoBookingLink } from "./demo-booking-link"
+import { SignInPortalButton } from "./download-pixesci-button"
 import { Logo } from "./logo"
 import { ThemeSwitcher } from "./theme-switcher"
 
@@ -28,6 +29,14 @@ export function SiteFooter() {
             >
               Request a demo
             </DemoBookingLink>
+            <div className="mt-4">
+              <SignInPortalButton
+                source="footer"
+                variant="outline"
+                size="lg"
+                buttonClassName="px-4"
+              />
+            </div>
           </div>
           <div className="grid grid-cols-2 gap-8 sm:grid-cols-4">
             {footerNavigation.map((group) => (
