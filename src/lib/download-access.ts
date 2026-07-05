@@ -8,70 +8,59 @@ export type DownloadLoginCredentials = {
   password: string
 }
 
-export type PixeSciDownload = {
-  url: string
-  fileName: string
-}
+const DOWNLOAD_FILE_URL = "/api/download/file"
 
-let mockSession: DownloadAuthState = {
-  authenticated: false,
-}
+async function requestDownloadApi<T>(
+  path: string,
+  init?: RequestInit
+): Promise<T> {
+  const response = await fetch(path, {
+    ...init,
+    credentials: "include",
+    headers: {
+      "Content-Type": "application/json",
+      ...(init?.headers ?? {}),
+    },
+  })
 
-const mockDownload: PixeSciDownload = {
-  url: "/pixesci-download-backend-pending.txt",
-  fileName: "pixesci-download-backend-pending.txt",
-}
+  if (!response.ok) {
+    const body = await response.json().catch(() => ({}))
+    const message =
+      typeof body === "object" &&
+      body !== null &&
+      "message" in body &&
+      typeof body.message === "string"
+        ? body.message
+        : "Download access is temporarily unavailable."
 
-function waitForMockLatency() {
-  return new Promise((resolve) => window.setTimeout(resolve, 450))
+    throw new Error(message)
+  }
+
+  return response.json() as Promise<T>
 }
 
 export async function getDownloadAuthState(): Promise<DownloadAuthState> {
-  await waitForMockLatency()
-
-  return mockSession
+  return requestDownloadApi<DownloadAuthState>("/api/download/session")
 }
 
 export async function loginForDownload(
   credentials: DownloadLoginCredentials
 ): Promise<DownloadAuthState> {
-  await waitForMockLatency()
-
-  if (!credentials.email.includes("@") || credentials.password.length < 8) {
-    throw new Error("Enter a valid email and a password with at least 8 characters.")
-  }
-
-  mockSession = {
-    authenticated: true,
-    userEmail: credentials.email,
-  }
-
-  return mockSession
+  return requestDownloadApi<DownloadAuthState>("/api/download/login", {
+    method: "POST",
+    body: JSON.stringify(credentials),
+  })
 }
 
 export async function clearDownloadAuthState(): Promise<DownloadAuthState> {
-  mockSession = {
-    authenticated: false,
-  }
-
-  return mockSession
-}
-
-export async function getPixeSciDownloadUrl(): Promise<PixeSciDownload> {
-  await waitForMockLatency()
-
-  if (!mockSession.authenticated) {
-    throw new Error("Sign in before starting the download.")
-  }
-
-  return mockDownload
+  return requestDownloadApi<DownloadAuthState>("/api/download/session", {
+    method: "DELETE",
+  })
 }
 
 export async function startPixeSciDownload(): Promise<void> {
-  const download = await getPixeSciDownloadUrl()
   const link = document.createElement("a")
-  link.href = download.url
-  link.download = download.fileName
+  link.href = DOWNLOAD_FILE_URL
   link.rel = "noopener"
   document.body.append(link)
   link.click()

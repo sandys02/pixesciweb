@@ -1,26 +1,46 @@
-# Backend Integration
+# Download auth backend
 
-This folder is reserved for backend-side download and authentication integration.
-No backend logic is implemented yet.
+Server-only helpers for the gated PixeSci installer download.
 
-Expected future responsibilities may include:
+## Layout
 
-- validating approved PixeSci download users
-- issuing authorized or signed download URLs
-- clearing download sessions
-- storing audit or download records if required
+```text
+src/backend/download-auth/
+├── schema.ts   # Drizzle table: download_users
+├── db.ts       # libSQL client
+├── auth.ts     # login, JWT session cookie, auth checks
+└── file.ts     # read installer from private path
 
-The backend team will maintain download user email and password records manually
-in code for now. A PixeSci admin dashboard is not needed.
+src/app/api/download/
+├── login/route.ts    # POST
+├── session/route.ts  # GET, DELETE
+└── file/route.ts     # GET (authorized download)
+```
 
-## Proxy / Middleware
+The frontend calls these routes through `src/lib/download-access.ts`. There is
+no `/api/download/url` route — the client downloads directly from
+`/api/download/file` after login.
 
-Next.js 16 uses `proxy.ts` for the feature previously called middleware. This
-project does not add Proxy for the current download dialog because there is no
-protected route or server-side download endpoint in this repository yet.
+## Setup
 
-The current dialog state is client-side, so Proxy would not meaningfully protect
-the final download button. When a backend download route exists, authorization
-must be enforced server-side by that route before issuing the file or signed URL.
-Proxy may be considered later as a routing convenience, but not as the source of
-authorization.
+```bash
+npm run db:push
+npm run db:seed -- operator@example.com your-password
+npm run dev
+```
+
+Users are stored in SQLite (local file) or Turso (production). Add users with
+the seed script or direct SQL. No admin dashboard is required.
+
+## Environment
+
+See `.env.example`. Required in production:
+
+- `DATABASE_URL`
+- `DOWNLOAD_SESSION_SECRET` (32+ characters)
+
+Optional:
+
+- `DOWNLOAD_FILE_PATH`
+- `DOWNLOAD_FILE_NAME`
+- `DOWNLOAD_SESSION_TTL_SECONDS`
