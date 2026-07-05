@@ -52,6 +52,11 @@ const securityHeaders = [
 
 const nextConfig: NextConfig = {
   poweredByHeader: false,
+  outputFileTracingIncludes: {
+    "/api/download/file": ["./private/download.db"],
+    "/api/download/login": ["./private/download.db"],
+    "/api/download/session": ["./private/download.db"],
+  },
   async headers() {
     return [
       {

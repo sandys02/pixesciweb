@@ -16,7 +16,8 @@ export async function GET() {
     )
 
     return jsonResponse(state)
-  } catch {
+  } catch (error) {
+    console.error("[download-auth] GET /api/download/session failed", error)
     return jsonResponse({ message: DOWNLOAD_MESSAGES.unavailable }, 500)
   }
 }
@@ -33,7 +34,8 @@ export async function DELETE() {
     })
 
     return jsonResponse({ authenticated: false })
-  } catch {
+  } catch (error) {
+    console.error("[download-auth] DELETE /api/download/session failed", error)
     return jsonResponse({ message: DOWNLOAD_MESSAGES.unavailable }, 500)
   }
 }
