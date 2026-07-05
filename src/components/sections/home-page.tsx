@@ -24,6 +24,7 @@ import {
 import { BrandName } from "@/components/site/brand-name"
 import { CTASection } from "@/components/site/cta-section"
 import { DemoBookingLink } from "@/components/site/demo-booking-link"
+import { DownloadPixeSciButton } from "@/components/site/download-pixesci-button"
 import { Button } from "@/components/ui/button"
 import {
   AuditTimeline,
@@ -62,11 +63,11 @@ export function HomePage() {
                       <ArrowRight className="size-4" />
                     </DemoBookingLink>
                   </Button>
-                  <Button asChild size="lg" variant="outline" className="px-4">
-                    <Link href="/workflow-automation">
-                      Automate your workflow
-                    </Link>
-                  </Button>
+                  <DownloadPixeSciButton
+                    source="home_hero"
+                    className="sm:w-auto"
+                    fullWidth
+                  />
                 </div>
               </div>
               <HeroAgentMockup />
