@@ -7,9 +7,11 @@ Server-only helpers for the gated PixeSci installer download.
 ```text
 src/backend/download-auth/
 ├── schema.ts   # Drizzle table: download_users
-├── db.ts       # libSQL client
-├── auth.ts     # login, JWT session cookie, auth checks
-└── file.ts     # read installer from private path
+├── database-url.ts  # hardcoded SQLite path
+├── db.ts            # libSQL client
+├── auth.ts       # login, JWT session cookie, auth checks
+├── link-lock.ts  # decrypt Link Lock URL (server-only)
+└── file.ts       # resolve online download URL + redirect response
 
 src/app/api/download/
 ├── login/route.ts    # POST
@@ -29,18 +31,16 @@ npm run db:seed -- operator@example.com your-password
 npm run dev
 ```
 
-Users are stored in SQLite (local file) or Turso (production). Add users with
-the seed script or direct SQL. No admin dashboard is required.
+Users are stored in SQLite at `private/download.db` (path set in
+`database-url.ts`). Add users with the seed script or direct SQL. No admin
+dashboard is required.
 
 ## Environment
 
-See `.env.example`. Required in production:
+See `.env.example`. Required:
 
-- `DATABASE_URL`
 - `DOWNLOAD_SESSION_SECRET` (32+ characters)
+- `DOWNLOAD_LINK_LOCK_URL` + `DOWNLOAD_LINK_LOCK_PASSWORD` — server decrypts a [Link Lock](https://github.com/jstrieb/link-lock) URL after app login and redirects to the online installer
 
-Optional:
-
-- `DOWNLOAD_FILE_PATH`
-- `DOWNLOAD_FILE_NAME`
-- `DOWNLOAD_SESSION_TTL_SECONDS`
+Database URL is hardcoded in `src/backend/download-auth/database-url.ts`, not
+loaded from environment variables.

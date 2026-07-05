@@ -5,6 +5,7 @@ import { eq } from "drizzle-orm"
 import { drizzle } from "drizzle-orm/libsql"
 
 import { downloadUsers } from "../src/backend/download-auth/schema"
+import { DOWNLOAD_DATABASE_URL } from "../src/backend/download-auth/database-url"
 
 function hashPassword(password: string) {
   const salt = randomBytes(16).toString("base64")
@@ -20,10 +21,7 @@ if (!email || !password) {
   process.exit(1)
 }
 
-const databaseUrl =
-  process.env.DATABASE_URL ?? "file:./private/download.db"
-
-const client = createClient({ url: databaseUrl })
+const client = createClient({ url: DOWNLOAD_DATABASE_URL })
 const db = drizzle(client)
 
 const normalizedEmail = email.trim().toLowerCase()

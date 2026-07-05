@@ -7,8 +7,8 @@ import {
   requireDownloadSession,
 } from "@/backend/download-auth/auth"
 import {
-  createDownloadFileResponse,
-  readAuthorizedDownloadFile,
+  createDownloadRedirectResponse,
+  resolveAuthorizedDownloadUrl,
 } from "@/backend/download-auth/file"
 
 export async function GET() {
@@ -22,13 +22,13 @@ export async function GET() {
       return jsonResponse({ message: session.message }, session.status)
     }
 
-    const file = await readAuthorizedDownloadFile()
+    const downloadUrl = await resolveAuthorizedDownloadUrl()
 
-    if (!file) {
-      return jsonResponse({ message: DOWNLOAD_MESSAGES.unavailable }, 410)
+    if (!downloadUrl) {
+      return jsonResponse({ message: DOWNLOAD_MESSAGES.unavailable }, 503)
     }
 
-    return createDownloadFileResponse(file.data, file.fileName)
+    return createDownloadRedirectResponse(downloadUrl)
   } catch {
     return jsonResponse({ message: DOWNLOAD_MESSAGES.unavailable }, 500)
   }

@@ -1,38 +1,28 @@
-import { existsSync } from "node:fs"
-import { readFile } from "node:fs/promises"
-import path from "node:path"
+import {
+  decryptLinkLockUrl,
+  getLinkLockDownloadConfig,
+} from "@/backend/download-auth/link-lock"
 
-const DEFAULT_DOWNLOAD_FILE = path.join(
-  "private",
-  "downloads",
-  "pixesci-download-backend-pending.txt"
-)
-
-export function getDownloadFileConfig() {
-  return {
-    path: process.env.DOWNLOAD_FILE_PATH ?? path.join(process.cwd(), DEFAULT_DOWNLOAD_FILE),
-    fileName: process.env.DOWNLOAD_FILE_NAME ?? "PixeSci-installer.exe",
-  }
+const NO_STORE_HEADERS = {
+  "Cache-Control": "no-store",
 }
 
-export async function readAuthorizedDownloadFile() {
-  const config = getDownloadFileConfig()
+export async function resolveAuthorizedDownloadUrl() {
+  const linkLock = getLinkLockDownloadConfig()
 
-  if (!existsSync(config.path)) {
+  if (!linkLock) {
     return null
   }
 
-  const data = await readFile(config.path)
-  return { data, fileName: config.fileName }
+  return decryptLinkLockUrl(linkLock.linkLockUrl, linkLock.password)
 }
 
-export function createDownloadFileResponse(data: Buffer, fileName: string) {
-  return new Response(new Uint8Array(data), {
+export function createDownloadRedirectResponse(url: string) {
+  return new Response(null, {
+    status: 302,
     headers: {
-      "Content-Type": "application/octet-stream",
-      "Content-Disposition": `attachment; filename="${fileName}"`,
-      "Cache-Control": "no-store",
-      "X-Content-Type-Options": "nosniff",
+      Location: url,
+      ...NO_STORE_HEADERS,
     },
   })
 }

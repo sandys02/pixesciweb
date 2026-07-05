@@ -32,10 +32,6 @@ pnpm-debug.log*
 # env files (can opt-in for committing if needed)
 .env*
 
-# local download database
-/private/download.db
-/private/download.db-*
-
 # typescript
 *.tsbuildinfo
 next-env.d.ts
