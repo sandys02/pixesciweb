@@ -28,18 +28,25 @@ function isTypingTarget(target: EventTarget | null) {
   )
 }
 
+function hasOpenDialog() {
+  return document.querySelector("dialog[open]") !== null
+}
+
 function ThemeHotkey() {
   const { resolvedTheme, setTheme } = useTheme()
 
   React.useEffect(() => {
     function onKeyDown(event: KeyboardEvent) {
+      const key = typeof event.key === "string" ? event.key.toLowerCase() : ""
+
       if (
         event.defaultPrevented ||
         event.repeat ||
         event.metaKey ||
         event.ctrlKey ||
         event.altKey ||
-        event.key.toLowerCase() !== "d" ||
+        key !== "d" ||
+        hasOpenDialog() ||
         isTypingTarget(event.target)
       ) {
         return
