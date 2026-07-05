@@ -1,0 +1,4 @@
+The PixeSci application download endpoint is pending backend integration.
+
+This placeholder lets the gated frontend download flow be verified while the
+backend authentication and signed download URL services are being completed.

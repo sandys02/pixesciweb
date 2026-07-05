@@ -1,0 +1,4 @@
+The PixeSci application download endpoint is pending backend integration.
+
+This private placeholder file is served only through /api/download/file after
+download authentication succeeds.
