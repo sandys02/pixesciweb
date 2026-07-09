@@ -4,9 +4,8 @@ import * as React from "react"
 import { Download, Loader2, LogIn, X } from "lucide-react"
 import { useRouter } from "next/navigation"
 
+import { FloatingLabelInput } from "@/components/shared/inputs"
 import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
 import {
   getDownloadAuthState,
   loginForDownload,
@@ -94,6 +93,8 @@ export function SignInPortalDialog({
   const router = useRouter()
   const [state, setState] = React.useState<DialogState>("idle")
   const [error, setError] = React.useState("")
+  const [email, setEmail] = React.useState("")
+  const [password, setPassword] = React.useState("")
   const dialogRef = React.useRef<HTMLDialogElement>(null)
   const titleId = React.useId()
   const descriptionId = React.useId()
@@ -138,6 +139,7 @@ export function SignInPortalDialog({
     onOpenChange(false)
     setState("idle")
     setError("")
+    setPassword("")
   }
 
   function closeDialog() {
@@ -161,10 +163,6 @@ export function SignInPortalDialog({
 
   async function handleLogin(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault()
-
-    const formData = new FormData(event.currentTarget)
-    const email = String(formData.get("email") ?? "")
-    const password = String(formData.get("password") ?? "")
 
     setState("authenticating")
     setError("")
@@ -223,32 +221,36 @@ export function SignInPortalDialog({
 
           {state === "login" || state === "authenticating" ? (
             <form onSubmit={handleLogin} className="space-y-4">
-              <div className="space-y-2">
-                <Label htmlFor="download-email">Work email</Label>
-                <Input
-                  id="download-email"
-                  name="email"
-                  type="email"
-                  autoComplete="email"
-                  required
-                  disabled={state === "authenticating"}
-                  aria-describedby={error ? errorId : undefined}
-                />
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="download-password">Password</Label>
-                <Input
-                  id="download-password"
-                  name="password"
-                  type="password"
-                  autoComplete="current-password"
-                  minLength={8}
-                  required
-                  disabled={state === "authenticating"}
-                  aria-describedby={error ? errorId : undefined}
-                />
-              </div>
-              {error ? <ErrorMessage id={errorId}>{error}</ErrorMessage> : null}
+              <FloatingLabelInput
+                id="download-email"
+                name="email"
+                type="email"
+                label="Work email"
+                value={email}
+                placeholder="name@organization.org"
+                required
+                disabled={state === "authenticating"}
+                error={Boolean(error)}
+                autoComplete="email"
+                inputMode="email"
+                spellCheck={false}
+                onChangeAction={setEmail}
+              />
+              <FloatingLabelInput
+                id="download-password"
+                name="password"
+                type="password"
+                label="Password"
+                value={password}
+                placeholder="Enter your password"
+                required
+                disabled={state === "authenticating"}
+                error={Boolean(error)}
+                helperText={error || undefined}
+                autoComplete="current-password"
+                minLength={8}
+                onChangeAction={setPassword}
+              />
               <Button
                 type="submit"
                 size="lg"
