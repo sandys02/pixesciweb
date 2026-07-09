@@ -7,12 +7,12 @@ import {
   KeyRound,
   MailPlus,
   MoreHorizontal,
-  Plus,
   Save,
   Settings,
   ShieldCheck,
   UserMinus,
 } from "lucide-react"
+import type { LucideIcon } from "lucide-react"
 
 import {
   defaultPortalSetupForm,
@@ -747,8 +747,10 @@ function SeatsPanel({
     role: "member",
   })
   const [openSeatMenuId, setOpenSeatMenuId] = React.useState("")
-  const activeCount = countActiveSeats(license)
-  const seatLimitReached = activeCount >= license.seatLimit
+  const allocatedCount = license.seats.filter(
+    (seat) => seat.status === "active" || seat.status === "invited"
+  ).length
+  const seatLimitReached = allocatedCount >= license.seatLimit
   const isActiveLicense = license.status === "active"
 
   function submitInvite(event: React.FormEvent<HTMLFormElement>) {
@@ -765,9 +767,10 @@ function SeatsPanel({
         <div>
           <h3 className="text-base font-semibold">Seats</h3>
           <p className="mt-1 text-sm leading-6 text-muted-foreground">
-            {isActiveLicense
-              ? "Use seats for human PixeSci app users only. Create the first human admin here; the portal account itself is not an app user. TODO backend: hash tokens, expire them, rate-limit resends, and audit every action."
-              : "Inactive license seats are shown as historical seat records only."}
+            Use seats for human PixeSci app users only. Create the first human
+            admin here; the portal account itself is not an app user. TODO
+            backend: hash tokens, expire them, rate-limit resends, and audit
+            every action.
           </p>
         </div>
         {isActiveLicense ? (
@@ -814,110 +817,88 @@ function SeatsPanel({
       </div>
 
       <div className="max-w-full overflow-x-auto">
-        <table
-          className={cn(
-            "w-full text-left text-xs",
-            isActiveLicense ? "min-w-[720px]" : "min-w-[420px]"
-          )}
-        >
+        <table className="w-full min-w-[820px] text-left text-xs">
           <thead className="border-b border-border bg-muted/35 text-muted-foreground">
             <tr>
               <th className="px-3 py-2 font-medium">Seat/user ID</th>
+              <th className="px-3 py-2 font-medium">Email</th>
+              <th className="px-3 py-2 font-medium">Role</th>
               <th className="px-3 py-2 font-medium">Status</th>
-              {isActiveLicense ? (
-                <>
-                  <th className="px-3 py-2 font-medium">Email</th>
-                  <th className="px-3 py-2 font-medium">Role</th>
-                  <th className="px-3 py-2 font-medium">Invite link</th>
-                  <th className="px-3 py-2 text-right font-medium">Options</th>
-                </>
-              ) : null}
+              <th className="px-3 py-2 font-medium">Invite link</th>
+              <th className="px-3 py-2 text-right font-medium">Options</th>
             </tr>
           </thead>
           <tbody>
             {license.seats.map((seat) => (
               <tr key={seat.id} className="border-b border-border/70">
                 <td className="px-3 py-2 font-mono">{seat.id}</td>
+                <td className="px-3 py-2">{seat.email}</td>
+                <td className="px-3 py-2 capitalize">{seat.role}</td>
                 <td className="px-3 py-2">
                   <SeatStatusBadge status={seat.status} />
                 </td>
-                {isActiveLicense ? (
-                  <>
-                    <td className="px-3 py-2">{seat.email}</td>
-                    <td className="px-3 py-2 capitalize">{seat.role}</td>
-                    <td className="max-w-56 truncate px-3 py-2 text-muted-foreground">
-                      {seat.inviteLink}
-                    </td>
-                    <td className="px-3 py-2 text-right">
-                      <SeatActions
-                        open={openSeatMenuId === seat.id}
-                        seat={seat}
-                        onOpenChange={(open) =>
-                          setOpenSeatMenuId(open ? seat.id : "")
-                        }
-                        onAdd={() =>
-                          onSeatsChange((seats) =>
-                            seats.map((item) =>
-                              item.id === seat.id
-                                ? {
-                                    ...item,
-                                    status: "active",
-                                    temporaryCredentialState: "accepted",
-                                    inviteLink: "Accepted invite",
-                                  }
-                                : item
-                            )
+                <td className="max-w-56 truncate px-3 py-2 text-muted-foreground">
+                  {seat.inviteLink}
+                </td>
+                <td className="px-3 py-2 text-right">
+                  {isActiveLicense ? (
+                    <SeatActions
+                      open={openSeatMenuId === seat.id}
+                      seat={seat}
+                      canInvite={!seatLimitReached}
+                      onOpenChange={(open) =>
+                        setOpenSeatMenuId(open ? seat.id : "")
+                      }
+                      onInvite={() =>
+                        onSeatsChange((seats) =>
+                          seats.map((item) =>
+                            item.id === seat.id
+                              ? {
+                                  ...item,
+                                  status: "invited",
+                                  temporaryCredentialState: "resent",
+                                  inviteLink:
+                                    item.inviteLink.startsWith("https://")
+                                      ? item.inviteLink
+                                      : `https://portal.pixesci.example/invite/${item.id}`,
+                                }
+                              : item
                           )
-                        }
-                        onInvite={() =>
-                          onSeatsChange((seats) =>
-                            seats.map((item) =>
-                              item.id === seat.id
-                                ? {
-                                    ...item,
-                                    status: "invited",
-                                    temporaryCredentialState: "resent",
-                                    inviteLink:
-                                      item.inviteLink.startsWith("https://")
-                                        ? item.inviteLink
-                                        : `https://portal.pixesci.example/invite/${item.id}`,
-                                  }
-                                : item
-                            )
+                        )
+                      }
+                      onRemove={() =>
+                        onSeatsChange((seats) =>
+                          seats.map((item) =>
+                            item.id === seat.id
+                              ? {
+                                  ...item,
+                                  status: "revoked",
+                                  temporaryCredentialState: "revoked",
+                                  inviteLink: "Removed seat",
+                                }
+                              : item
                           )
-                        }
-                        onRemove={() =>
-                          onSeatsChange((seats) =>
-                            seats.map((item) =>
-                              item.id === seat.id
-                                ? {
-                                    ...item,
-                                    status: "revoked",
-                                    temporaryCredentialState: "revoked",
-                                    inviteLink: "Removed seat",
-                                  }
-                                : item
-                            )
+                        )
+                      }
+                      onRevoke={() =>
+                        onSeatsChange((seats) =>
+                          seats.map((item) =>
+                            item.id === seat.id
+                              ? {
+                                  ...item,
+                                  status: "revoked",
+                                  temporaryCredentialState: "revoked",
+                                  inviteLink: "Revoked invite",
+                                }
+                              : item
                           )
-                        }
-                        onRevoke={() =>
-                          onSeatsChange((seats) =>
-                            seats.map((item) =>
-                              item.id === seat.id
-                                ? {
-                                    ...item,
-                                    status: "revoked",
-                                    temporaryCredentialState: "revoked",
-                                    inviteLink: "Revoked invite",
-                                  }
-                                : item
-                            )
-                          )
-                        }
-                      />
-                    </td>
-                  </>
-                ) : null}
+                        )
+                      }
+                    />
+                  ) : (
+                    <span className="text-muted-foreground">—</span>
+                  )}
+                </td>
               </tr>
             ))}
           </tbody>
@@ -928,7 +909,7 @@ function SeatsPanel({
 }
 
 function SeatActions({
-  onAdd,
+  canInvite,
   onInvite,
   onOpenChange,
   onRemove,
@@ -936,7 +917,7 @@ function SeatActions({
   open,
   seat,
 }: {
-  onAdd: () => void
+  canInvite: boolean
   onInvite: () => void
   onOpenChange: (open: boolean) => void
   onRemove: () => void
@@ -945,11 +926,36 @@ function SeatActions({
   seat: PortalSeat
 }) {
   const menuRef = React.useRef<HTMLDivElement>(null)
-  const inviteLabel = seat.status === "invited" ? "Revoke invite" : "Invite"
-  const memberLabel = seat.status === "active" ? "Remove" : "Add"
-  const inviteAction = seat.status === "invited" ? onRevoke : onInvite
-  const memberAction = seat.status === "active" ? onRemove : onAdd
+  const buttonRef = React.useRef<HTMLButtonElement>(null)
+  const [menuPosition, setMenuPosition] = React.useState({ right: 0, top: 0 })
   const ownerSeat = seat.role === "admin" && seat.status === "active"
+  const actions = React.useMemo(
+    () =>
+      getSeatActions({
+        canInvite,
+        onInvite,
+        onRemove,
+        onRevoke,
+        ownerSeat,
+        status: seat.status,
+      }),
+    [canInvite, onInvite, onRemove, onRevoke, ownerSeat, seat.status]
+  )
+
+  React.useLayoutEffect(() => {
+    if (!open) return
+
+    const buttonRect = buttonRef.current?.getBoundingClientRect()
+    if (!buttonRect) return
+
+    setMenuPosition({
+      right: Math.max(12, window.innerWidth - buttonRect.right),
+      top: Math.min(
+        window.innerHeight - 12,
+        buttonRect.bottom + 6
+      ),
+    })
+  }, [open])
 
   React.useEffect(() => {
     if (!open) return
@@ -983,9 +989,12 @@ function SeatActions({
     onOpenChange(false)
   }
 
+  if (actions.length === 0) return null
+
   return (
     <div ref={menuRef} className="relative inline-flex">
       <Button
+        ref={buttonRef}
         type="button"
         variant="outline"
         size="icon-sm"
@@ -995,37 +1004,60 @@ function SeatActions({
       >
         <MoreHorizontal className="size-4" />
       </Button>
-      {open ? (
-        <div className="absolute right-0 bottom-9 z-20 w-40 rounded-md border border-border bg-popover p-1 text-popover-foreground shadow-lg">
-          <button
-            type="button"
-            className="flex h-8 w-full items-center gap-2 rounded-sm px-2 text-left text-xs hover:bg-muted focus-visible:bg-muted"
-            onClick={() => run(inviteAction)}
-          >
-            {seat.status === "invited" ? (
-              <UserMinus className="size-3.5" />
-            ) : (
-              <MailPlus className="size-3.5" />
-            )}
-            {inviteLabel}
-          </button>
-          <button
-            type="button"
-            disabled={ownerSeat}
-            className="flex h-8 w-full items-center gap-2 rounded-sm px-2 text-left text-xs hover:bg-muted focus-visible:bg-muted disabled:pointer-events-none disabled:opacity-45"
-            onClick={() => run(memberAction)}
-          >
-            {seat.status === "active" ? (
-              <UserMinus className="size-3.5" />
-            ) : (
-              <Plus className="size-3.5" />
-            )}
-            {memberLabel}
-          </button>
+      {open && actions.length > 0 ? (
+        <div
+          className="fixed z-[9999] w-44 rounded-md border border-border bg-popover p-1 text-popover-foreground shadow-xl"
+          style={{ right: menuPosition.right, top: menuPosition.top }}
+        >
+          {actions.map((action) => (
+            <button
+              key={action.label}
+              type="button"
+              className="flex h-8 w-full items-center gap-2 rounded-sm px-2 text-left text-xs hover:bg-muted focus-visible:bg-muted disabled:pointer-events-none disabled:opacity-45"
+              onClick={() => run(action.run)}
+            >
+              <action.icon className="size-3.5" />
+              {action.label}
+            </button>
+          ))}
         </div>
       ) : null}
     </div>
   )
+}
+
+type SeatAction = {
+  icon: LucideIcon
+  label: string
+  run: () => void
+}
+
+function getSeatActions({
+  canInvite,
+  onInvite,
+  onRemove,
+  onRevoke,
+  ownerSeat,
+  status,
+}: {
+  canInvite: boolean
+  onInvite: () => void
+  onRemove: () => void
+  onRevoke: () => void
+  ownerSeat: boolean
+  status: SeatStatus
+}): SeatAction[] {
+  if (status === "active") {
+    return ownerSeat
+      ? []
+      : [{ icon: UserMinus, label: "Remove seat", run: onRemove }]
+  }
+
+  if (status === "invited") {
+    return [{ icon: UserMinus, label: "Revoke invite", run: onRevoke }]
+  }
+
+  return canInvite ? [{ icon: MailPlus, label: "Invite again", run: onInvite }] : []
 }
 
 function Metric({
