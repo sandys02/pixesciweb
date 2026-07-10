@@ -23,10 +23,10 @@ export type PortalAccountSetupForm = PortalOrganization & {
 
 export type PortalSeat = {
   id: string
-  email: string
-  role: SeatRole
   status: SeatStatus
-  inviteLink: string
+  email?: string
+  role?: SeatRole
+  inviteLink?: string
   temporaryCredentialState?: "issued" | "resent" | "accepted" | "revoked"
 }
 

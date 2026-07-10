@@ -135,19 +135,11 @@ export const portalDummyAccount: PortalAccount = {
       seats: [
         {
           id: "seat-admin-legacy",
-          email: "admin@northstarbio.example",
-          role: "admin",
           status: "active",
-          inviteLink: "Accepted during organization onboarding",
-          temporaryCredentialState: "accepted",
         },
         {
           id: "seat-revoked-legacy",
-          email: "contractor@northstarbio.example",
-          role: "member",
           status: "revoked",
-          inviteLink: "Revoked invite",
-          temporaryCredentialState: "revoked",
         },
       ],
     },

@@ -5,10 +5,12 @@ import { cookies } from "next/headers"
 import { redirect } from "next/navigation"
 
 import {
-  DOWNLOAD_SESSION_COOKIE,
-  requireDownloadSession,
-} from "@/backend/download-auth/auth"
+  PORTAL_SESSION_COOKIE,
+  getPortalOrganization,
+  requirePortalSession,
+} from "@/backend/portal/auth"
 import { PortalShell } from "@/features/portal/portal-shell"
+import type { OrganizationType, PortalOrganization } from "@/features/portal/types"
 
 export const metadata: Metadata = {
   title: "Portal",
@@ -21,13 +23,41 @@ export const metadata: Metadata = {
 
 export default async function PortalPage() {
   const cookieStore = await cookies()
-  const session = await requireDownloadSession(
-    cookieStore.get(DOWNLOAD_SESSION_COOKIE)?.value
+  const session = await requirePortalSession(
+    cookieStore.get(PORTAL_SESSION_COOKIE)?.value
   )
 
   if (!session.ok) {
     redirect("/")
   }
 
-  return <PortalShell sessionEmail={session.user.email} />
+  const organization = await getPortalOrganization(session.user.organizationId)
+
+  if (!organization) {
+    redirect("/")
+  }
+
+  const organizationType = ["academia", "enterprise", "pixesci"].includes(
+    organization.organizationType
+  )
+    ? (organization.organizationType as OrganizationType)
+    : "enterprise"
+
+  const portalOrganization: PortalOrganization = {
+    country: "United States",
+    state: organization.state,
+    organizationType,
+    name: organization.name,
+    email: organization.email,
+    domain: organization.domain,
+    researchField: organization.researchField,
+  }
+
+  return (
+    <PortalShell
+      initialOrganization={portalOrganization}
+      sessionEmail={session.user.email}
+      setupRequired={session.user.setupRequired}
+    />
+  )
 }

@@ -1,0 +1,205 @@
+# Portal Backend
+
+Backend helpers for the PixeSci organization portal will live here. The portal
+backend is responsible for organization setup, portal license authentication,
+license visibility, seat administration, audit events, and signed offline
+license bundles.
+
+Phase 1 schema and database helpers are implemented. Use
+`docs/backend-completion-plan.md`, `docs/portal-backend-plan.md`, and
+`docs/portal-backend-technical-debt.md` as the source of truth for the remaining
+phased implementation.
+
+## Auth Boundaries
+
+There are two separate authentication levels:
+
+- Website/download gate: the existing `/api/download/*` routes and
+  `pixesci_download_session` cookie protect the installer and currently protect
+  `/portal`. This gate is useful, but it is not the final portal identity or
+  seat system.
+- Portal license auth: future `/api/portal/*` routes will authenticate
+  organization portal accounts, enforce setup state, and authorize license and
+  seat administration.
+
+The organization portal account is not a human PixeSci app user and must not
+consume an app license seat. Human app seats are separate records owned by an
+organization license.
+
+Baseline identity decision: use local portal auth in this Next.js app. Do not
+add Keycloak unless a later product decision explicitly changes the plan.
+Keycloak remains a possible future customer-controlled option, but it is not
+needed for the initial portal backend.
+
+## Future Layout
+
+Expected implementation shape:
+
+```text
+src/backend/portal/
+├── README.md
+├── AGENTS.md
+├── schema.ts        # Drizzle tables for portal accounts, orgs, licenses, seats, audit, bundles
+├── database-url.ts  # portal database path/config
+├── db.ts            # libSQL/Drizzle client
+├── auth.ts          # password hashing, sessions, setup state, authorization helpers
+├── validation.ts    # request/response schemas
+├── audit.ts         # server-side audit event helpers
+├── licenses.ts      # license and seat business rules
+└── bundles.ts       # signed offline license bundle generation/verification helpers
+```
+
+Route handlers should live under `src/app/api/portal/**/route.ts` and call
+server-only helpers from this directory. Before adding route handlers, read the
+installed Next 16 docs in `node_modules/next/dist/docs/`.
+
+Phase 1 added:
+
+- `schema.ts`
+- `database-url.ts`
+- `db.ts`
+- `drizzle.portal.config.ts`
+- `scripts/seed-portal-account.ts`
+
+The portal database is separate from the download gate database:
+
+- download gate: `private/download.db`
+- portal backend: `private/portal.db` by default
+
+Set `PORTAL_DB_PATH` to override the portal database path. Absolute paths are
+used as provided; relative paths are resolved inside `private/`.
+
+Portal auth uses these environment variables:
+
+- `PORTAL_SESSION_SECRET`: required in production; use at least 32 characters.
+- `PORTAL_SESSION_TTL_SECONDS`: optional session TTL override. Defaults to 20
+  minutes.
+
+## Setup
+
+Create or update the portal database:
+
+```bash
+npm run db:push:portal
+```
+
+Create a starting organization, portal account, and active license:
+
+```bash
+npm run db:seed:portal -- \
+  --account-email admin@example.org \
+  --password temporary-password \
+  --organization-name "Example Lab" \
+  --organization-type enterprise \
+  --state Massachusetts \
+  --domain example.org \
+  --research-field "Bioanalytics and regulated QC" \
+  --license-id LIC-PSCI-2026-0001 \
+  --starts-at 2026-01-01 \
+  --ends-at 2026-12-31 \
+  --seat-limit 12 \
+  --label "Enterprise controlled deployment"
+```
+
+The seed command creates no human app seats by default. The organization portal
+account manages licenses and does not consume a PixeSci app seat.
+
+## Required API Groups
+
+Portal auth:
+
+- `POST /api/portal/login`
+- `POST /api/portal/logout`
+- `GET /api/portal/session`
+- `POST /api/portal/account-setup`
+- `POST /api/portal/password/change`
+
+Organization profile:
+
+- `GET /api/portal/organization`
+- `PATCH /api/portal/organization`
+
+Licenses and seats:
+
+- `GET /api/portal/licenses`
+- `GET /api/portal/licenses/{license_id}/seats`
+- `POST /api/portal/licenses/{license_id}/seats/invite`
+- `POST /api/portal/seats/{seat_id}/resend`
+- `POST /api/portal/seats/{seat_id}/revoke-invite`
+- `POST /api/portal/seats/{seat_id}/remove`
+
+Optional connected-flow invite acceptance:
+
+- `POST /api/portal/invitations/{token}/accept`
+
+For air-gapped customers, prefer signed invite or license bundles that the app
+can import locally instead of requiring a live portal call.
+
+## Data Boundaries
+
+Allowed portal data:
+
+- organization profile fields needed for onboarding and support;
+- portal account identity, setup, session, and recovery state;
+- license IDs, term dates, status, seat limits, and signed bundle metadata;
+- human seat email, role, status, invitation lifecycle, and timestamps;
+- audit events for portal, license, seat, and bundle administration.
+
+Forbidden baseline data:
+
+- scientific work data, files, results, local run records, SOP content, or
+  experiment details;
+- endpoint usernames, device inventory, IP addresses, telemetry, or internal
+  deployment topology;
+- payment/billing data, marketing-cookie data, or contact-form data;
+- private implementation architecture for customer-facing visuals or public
+  copy.
+
+Only expand this data scope after a separate product and compliance decision.
+
+## Security Rules
+
+- Treat every route handler as a public HTTP endpoint until authentication,
+  organization scope, and authorization checks pass.
+- Store password hashes and token hashes only. Never store plaintext passwords,
+  temporary credentials, invite tokens, session secrets, signed URLs, private
+  signing keys, or license secrets.
+- Never log passwords, plaintext tokens, signed URLs, session secrets, private
+  signing keys, or license secrets.
+- Return generic authentication errors to avoid user enumeration.
+- Enforce `must_change_password` and setup-complete state server-side.
+- Scope every portal query by organization. Never trust IDs from the client
+  without checking that they belong to the signed-in organization.
+- Enforce seat capacity server-side. Pending invites count against capacity;
+  frontend checks are only user experience.
+- Keep inactive-license seat responses minimal in normal portal APIs: historical
+  seat ID and status only.
+- Use structured request validation and explicit server-side authorization for
+  all future route handlers.
+- Use `HttpOnly`, `Secure` in production, `SameSite=Lax`, short-lived sessions,
+  and `Cache-Control: no-store` for auth responses.
+
+## Air-Gapped License Direction
+
+Air-gapped license enforcement must work without a live portal call. The portal
+should generate signed offline license bundles or activation files that encode
+license ID, organization ID, term, seat limit, feature entitlements, key ID, and
+signature.
+
+The PixeSci app should verify bundles locally with bundled public keys and use
+the verified data for local license and seat enforcement. Private signing keys
+remain server-side only. Revocation for disconnected installs takes effect when
+the customer imports a newer signed bundle.
+
+## Verification Expectations
+
+Future implementation phases should run:
+
+- `npm run lint`
+- `npm run typecheck`
+- `npm run build`
+
+Security-critical route work should also add focused tests for auth failures,
+setup enforcement, organization scoping, seat capacity, inactive-license
+minimal responses, single-use/expiring invite tokens, and license bundle
+signature verification.

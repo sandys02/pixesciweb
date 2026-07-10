@@ -15,7 +15,6 @@ import {
 import type { LucideIcon } from "lucide-react"
 
 import {
-  defaultPortalSetupForm,
   portalDummyAccount,
   portalOrganizationTypes,
   portalUsStates,
@@ -25,13 +24,15 @@ import { DownloadPixeSciButton } from "@/components/site/download-pixesci-button
 import { PortalLogoutButton } from "@/components/site/portal-logout-button"
 import { ThemeSwitcher } from "@/components/site/theme-switcher"
 import { Button } from "@/components/ui/button"
+import {
+  changePortalPassword as requestPortalPasswordChange,
+  completePortalSetup,
+} from "@/lib/portal-access"
 import { cn } from "@/lib/utils"
 import {
   countActiveSeats,
-  createAccountFromSetup,
   createInvitedSeat,
   formatPortalDate,
-  getPortalStorageKey,
   normalizeDomain,
   validatePasswordChange,
   validateSetupForm,
@@ -49,7 +50,9 @@ import type {
 } from "@/features/portal/types"
 
 type PortalShellProps = {
+  initialOrganization: PortalOrganization
   sessionEmail: string
+  setupRequired: boolean
 }
 
 type PortalView = "licenses" | "settings"
@@ -71,61 +74,50 @@ const emptyPasswordForm: PasswordForm = {
   confirmPassword: "",
 }
 
-export function PortalShell({ sessionEmail }: PortalShellProps) {
-  const storageKey = React.useMemo(
-    () => getPortalStorageKey(sessionEmail),
-    [sessionEmail]
-  )
-  const [loaded, setLoaded] = React.useState(false)
-  const [setupComplete, setSetupComplete] = React.useState(false)
+export function PortalShell({
+  initialOrganization,
+  sessionEmail,
+  setupRequired,
+}: PortalShellProps) {
+  const [setupComplete, setSetupComplete] = React.useState(!setupRequired)
   const [view, setView] = React.useState<PortalView>("licenses")
-  const [account, setAccount] = React.useState<PortalAccount>(portalDummyAccount)
+  const [account, setAccount] = React.useState<PortalAccount>({
+    ...portalDummyAccount,
+    organization: initialOrganization,
+  })
   const [expandedLicenseId, setExpandedLicenseId] = React.useState(
     portalDummyAccount.licenses[0]?.id ?? ""
   )
 
-  React.useEffect(() => {
-    const stored = window.localStorage.getItem(storageKey)
-
-    if (stored) {
-      try {
-        const parsed = JSON.parse(stored) as PortalAccount
-        // eslint-disable-next-line react-hooks/set-state-in-effect -- localStorage hydrates frontend-only demo state after mount.
-        setAccount(parsed)
-        setSetupComplete(true)
-        setExpandedLicenseId(parsed.licenses[0]?.id ?? "")
-      } catch {
-        window.localStorage.removeItem(storageKey)
-      }
-    } else {
-      setAccount(createAccountFromSetup(defaultPortalSetupForm))
+  async function completeSetup(form: PortalAccountSetupForm) {
+    await completePortalSetup(form)
+    const nextAccount: PortalAccount = {
+      ...account,
+      organization: {
+        country: "United States",
+        state: form.state.trim(),
+        organizationType: form.organizationType,
+        name: form.name.trim(),
+        email: form.email.trim().toLowerCase(),
+        domain: normalizeDomain(form.domain),
+        researchField: form.researchField.trim(),
+      },
     }
-
-    setLoaded(true)
-  }, [sessionEmail, storageKey])
-
-  function persist(nextAccount: PortalAccount) {
     setAccount(nextAccount)
-    window.localStorage.setItem(storageKey, JSON.stringify(nextAccount))
-  }
-
-  function completeSetup(form: PortalAccountSetupForm) {
-    const nextAccount = createAccountFromSetup(form)
-    persist(nextAccount)
     setSetupComplete(true)
     setExpandedLicenseId(nextAccount.licenses[0]?.id ?? "")
     setView("licenses")
   }
 
   function updateOrganization(organization: PortalOrganization) {
-    persist({ ...account, organization })
+    setAccount({ ...account, organization })
   }
 
   function updateLicenseSeats(
     licenseId: string,
     updater: (seats: PortalSeat[]) => PortalSeat[]
   ) {
-    persist({
+    setAccount({
       ...account,
       licenses: account.licenses.map((license) =>
         license.id === licenseId
@@ -135,20 +127,13 @@ export function PortalShell({ sessionEmail }: PortalShellProps) {
     })
   }
 
-  if (!loaded) {
-    return (
-      <PortalFrame sessionEmail={sessionEmail}>
-        <div className="flex min-h-[60dvh] items-center justify-center">
-          <p className="text-sm text-muted-foreground">Loading portal...</p>
-        </div>
-      </PortalFrame>
-    )
-  }
-
   return (
     <PortalFrame sessionEmail={sessionEmail}>
       {!setupComplete ? (
-        <AccountSetup onComplete={completeSetup} />
+        <AccountSetup
+          initialOrganization={account.organization}
+          onComplete={completeSetup}
+        />
       ) : (
         <div className="py-8 sm:py-10">
           <PortalTabs view={view} onViewChange={setView} />
@@ -235,16 +220,22 @@ function PortalTabs({
 }
 
 function AccountSetup({
+  initialOrganization,
   onComplete,
 }: {
-  onComplete: (form: PortalAccountSetupForm) => void
+  initialOrganization: PortalOrganization
+  onComplete: (form: PortalAccountSetupForm) => Promise<void>
 }) {
   const [form, setForm] = React.useState<PortalAccountSetupForm>({
-    ...defaultPortalSetupForm,
+    ...initialOrganization,
+    newPassword: "",
+    confirmPassword: "",
   })
   const [errors, setErrors] = React.useState<
     Partial<Record<keyof PortalAccountSetupForm, string>>
   >({})
+  const [message, setMessage] = React.useState("")
+  const [pending, setPending] = React.useState(false)
 
   function updateField<K extends keyof PortalAccountSetupForm>(
     field: K,
@@ -252,16 +243,29 @@ function AccountSetup({
   ) {
     setForm((current) => ({ ...current, [field]: value }))
     setErrors((current) => ({ ...current, [field]: undefined }))
+    setMessage("")
   }
 
-  function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
+  async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault()
     const nextErrors = validateSetupForm(form, { validatePassword: true })
     setErrors(nextErrors)
 
     if (Object.keys(nextErrors).length > 0) return
 
-    onComplete({ ...form, domain: normalizeDomain(form.domain) })
+    setPending(true)
+    setMessage("")
+
+    try {
+      await onComplete({ ...form, domain: normalizeDomain(form.domain) })
+    } catch (error) {
+      setMessage(
+        error instanceof Error
+          ? error.message
+          : "Account Setup is temporarily unavailable."
+      )
+      setPending(false)
+    }
   }
 
   return (
@@ -324,15 +328,15 @@ function AccountSetup({
           />
         </div>
 
-        <div className="mt-5 rounded-md border border-border bg-muted/35 p-3 text-xs leading-5 text-muted-foreground">
-          Frontend demo state is stored in this browser only. TODO backend:
-          verify temporary credential state, change the password, store the
-          organization profile, and mark setup complete.
-        </div>
+        {message ? (
+          <p role="alert" className="mt-5 text-sm text-destructive">
+            {message}
+          </p>
+        ) : null}
 
-        <Button type="submit" className="mt-5 w-full">
+        <Button type="submit" className="mt-5 w-full" disabled={pending}>
           <KeyRound className="size-4" />
-          Save password and open dashboard
+          {pending ? "Saving..." : "Save password and open dashboard"}
         </Button>
       </form>
     </div>
@@ -614,14 +618,23 @@ function SettingsPage({
     setMessage("Organization settings saved in this browser.")
   }
 
-  function submitPassword(event: React.FormEvent<HTMLFormElement>) {
+  async function submitPassword(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault()
     const nextErrors = validatePasswordChange(passwordForm)
     setPasswordErrors(nextErrors)
     if (Object.keys(nextErrors).length > 0) return
 
-    setPasswordForm(emptyPasswordForm)
-    setMessage("Portal password change staged. TODO backend: persist securely.")
+    try {
+      await requestPortalPasswordChange(passwordForm)
+      setPasswordForm(emptyPasswordForm)
+      setMessage("Portal password changed.")
+    } catch (error) {
+      setMessage(
+        error instanceof Error
+          ? error.message
+          : "Portal password change is temporarily unavailable."
+      )
+    }
   }
 
   return (
@@ -750,11 +763,15 @@ function SeatsPanel({
   const allocatedCount = license.seats.filter(
     (seat) => seat.status === "active" || seat.status === "invited"
   ).length
+  const activeAdminCount = license.seats.filter(
+    (seat) => seat.status === "active" && seat.role === "admin"
+  ).length
   const seatLimitReached = allocatedCount >= license.seatLimit
   const isActiveLicense = license.status === "active"
 
   function submitInvite(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault()
+    if (seatLimitReached) return
     if (!/^\S+@\S+\.\S+$/.test(invite.email.trim())) return
 
     onSeatsChange((seats) => [createInvitedSeat(invite.email, invite.role), ...seats])
@@ -816,36 +833,41 @@ function SeatsPanel({
         ) : null}
       </div>
 
-      <div className="max-w-full overflow-x-auto">
-        <table className="w-full min-w-[820px] text-left text-xs">
-          <thead className="border-b border-border bg-muted/35 text-muted-foreground">
-            <tr>
-              <th className="px-3 py-2 font-medium">Seat/user ID</th>
-              <th className="px-3 py-2 font-medium">Email</th>
-              <th className="px-3 py-2 font-medium">Role</th>
-              <th className="px-3 py-2 font-medium">Status</th>
-              <th className="px-3 py-2 font-medium">Invite link</th>
-              <th className="px-3 py-2 text-right font-medium">Options</th>
-            </tr>
-          </thead>
-          <tbody>
-            {license.seats.map((seat) => (
-              <tr key={seat.id} className="border-b border-border/70">
-                <td className="px-3 py-2 font-mono">{seat.id}</td>
-                <td className="px-3 py-2">{seat.email}</td>
-                <td className="px-3 py-2 capitalize">{seat.role}</td>
-                <td className="px-3 py-2">
-                  <SeatStatusBadge status={seat.status} />
-                </td>
-                <td className="max-w-56 truncate px-3 py-2 text-muted-foreground">
-                  {seat.inviteLink}
-                </td>
-                <td className="px-3 py-2 text-right">
-                  {isActiveLicense ? (
+      {isActiveLicense ? (
+        <div className="max-w-full overflow-x-auto">
+          <table className="w-full min-w-[820px] text-left text-xs">
+            <thead className="border-b border-border bg-muted/35 text-muted-foreground">
+              <tr>
+                <th className="px-3 py-2 font-medium">Seat/user ID</th>
+                <th className="px-3 py-2 font-medium">Email</th>
+                <th className="px-3 py-2 font-medium">Role</th>
+                <th className="px-3 py-2 font-medium">Status</th>
+                <th className="px-3 py-2 font-medium">Invite state</th>
+                <th className="px-3 py-2 text-right font-medium">Options</th>
+              </tr>
+            </thead>
+            <tbody>
+              {license.seats.map((seat) => (
+                <tr key={seat.id} className="border-b border-border/70">
+                  <td className="px-3 py-2 font-mono">{seat.id}</td>
+                  <td className="px-3 py-2">{seat.email}</td>
+                  <td className="px-3 py-2 capitalize">{seat.role}</td>
+                  <td className="px-3 py-2">
+                    <SeatStatusBadge status={seat.status} />
+                  </td>
+                  <td className="max-w-56 truncate px-3 py-2 text-muted-foreground">
+                    {seat.inviteLink}
+                  </td>
+                  <td className="px-3 py-2 text-right">
                     <SeatActions
                       open={openSeatMenuId === seat.id}
                       seat={seat}
                       canInvite={!seatLimitReached}
+                      protectActiveAdmin={
+                        seat.status === "active" &&
+                        seat.role === "admin" &&
+                        activeAdminCount <= 1
+                      }
                       onOpenChange={(open) =>
                         setOpenSeatMenuId(open ? seat.id : "")
                       }
@@ -857,10 +879,9 @@ function SeatsPanel({
                                   ...item,
                                   status: "invited",
                                   temporaryCredentialState: "resent",
-                                  inviteLink:
-                                    item.inviteLink.startsWith("https://")
-                                      ? item.inviteLink
-                                      : `https://portal.pixesci.example/invite/${item.id}`,
+                                  inviteLink: item.inviteLink?.startsWith("https://")
+                                    ? item.inviteLink
+                                    : `https://portal.pixesci.example/invite/${item.id}`,
                                 }
                               : item
                           )
@@ -895,15 +916,34 @@ function SeatsPanel({
                         )
                       }
                     />
-                  ) : (
-                    <span className="text-muted-foreground">—</span>
-                  )}
-                </td>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      ) : (
+        <div className="max-w-full overflow-x-auto">
+          <table className="w-full min-w-[420px] text-left text-xs">
+            <thead className="border-b border-border bg-muted/35 text-muted-foreground">
+              <tr>
+                <th className="px-3 py-2 font-medium">Seat/user ID</th>
+                <th className="px-3 py-2 font-medium">Status</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
+            </thead>
+            <tbody>
+              {license.seats.map((seat) => (
+                <tr key={seat.id} className="border-b border-border/70">
+                  <td className="px-3 py-2 font-mono">{seat.id}</td>
+                  <td className="px-3 py-2">
+                    <SeatStatusBadge status={seat.status} />
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      )}
     </div>
   )
 }
@@ -915,6 +955,7 @@ function SeatActions({
   onRemove,
   onRevoke,
   open,
+  protectActiveAdmin,
   seat,
 }: {
   canInvite: boolean
@@ -923,12 +964,12 @@ function SeatActions({
   onRemove: () => void
   onRevoke: () => void
   open: boolean
+  protectActiveAdmin: boolean
   seat: PortalSeat
 }) {
   const menuRef = React.useRef<HTMLDivElement>(null)
   const buttonRef = React.useRef<HTMLButtonElement>(null)
   const [menuPosition, setMenuPosition] = React.useState({ right: 0, top: 0 })
-  const ownerSeat = seat.role === "admin" && seat.status === "active"
   const actions = React.useMemo(
     () =>
       getSeatActions({
@@ -936,10 +977,10 @@ function SeatActions({
         onInvite,
         onRemove,
         onRevoke,
-        ownerSeat,
+        protectActiveAdmin,
         status: seat.status,
       }),
-    [canInvite, onInvite, onRemove, onRevoke, ownerSeat, seat.status]
+    [canInvite, onInvite, onRemove, onRevoke, protectActiveAdmin, seat.status]
   )
 
   React.useLayoutEffect(() => {
@@ -1037,18 +1078,18 @@ function getSeatActions({
   onInvite,
   onRemove,
   onRevoke,
-  ownerSeat,
+  protectActiveAdmin,
   status,
 }: {
   canInvite: boolean
   onInvite: () => void
   onRemove: () => void
   onRevoke: () => void
-  ownerSeat: boolean
+  protectActiveAdmin: boolean
   status: SeatStatus
 }): SeatAction[] {
   if (status === "active") {
-    return ownerSeat
+    return protectActiveAdmin
       ? []
       : [{ icon: UserMinus, label: "Remove seat", run: onRemove }]
   }

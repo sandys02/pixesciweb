@@ -10,8 +10,11 @@
     "lint": "eslint",
     "format": "prettier --write \"**/*.{ts,tsx}\"",
     "typecheck": "tsc --noEmit",
-    "db:push": "drizzle-kit push",
-    "db:seed": "tsx scripts/seed-download-user.ts"
+    "db:push": "npm run db:push:download && npm run db:push:portal",
+    "db:push:download": "drizzle-kit push",
+    "db:push:portal": "drizzle-kit push --config drizzle.portal.config.ts",
+    "db:seed": "tsx scripts/seed-download-user.ts",
+    "db:seed:portal": "tsx scripts/seed-portal-account.ts"
   },
   "dependencies": {
     "@libsql/client": "^0.17.4",
