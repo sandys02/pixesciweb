@@ -4,6 +4,9 @@ import * as React from "react"
 import {
   ChevronDown,
   ChevronRight,
+  Copy,
+  Download,
+  FileSignature,
   KeyRound,
   MailPlus,
   MoreHorizontal,
@@ -23,8 +26,11 @@ import { Button } from "@/components/ui/button"
 import {
   changePortalPassword as requestPortalPasswordChange,
   completePortalSetup,
+  generatePortalLicenseBundle as requestPortalBundleGeneration,
+  getLatestPortalLicenseBundle,
   getPortalLicenseSeats,
   getPortalLicenses,
+  generatePortalSeatActivation as requestPortalSeatActivation,
   invitePortalSeat as requestPortalSeatInvite,
   removePortalSeat as requestPortalSeatRemove,
   resendPortalSeatInvite as requestPortalSeatResend,
@@ -46,8 +52,10 @@ import type {
   PortalAccount,
   PortalAccountSetupForm,
   PortalLicense,
+  PortalLicenseBundle,
   PortalOrganization,
   PortalSeat,
+  PortalSeatActivation,
   SeatRole,
   SeatStatus,
 } from "@/features/portal/types"
@@ -92,6 +100,30 @@ export function PortalShell({
   const [licensesLoading, setLicensesLoading] = React.useState(false)
   const [licensesError, setLicensesError] = React.useState("")
   const [loadingSeatLicenseId, setLoadingSeatLicenseId] = React.useState("")
+  const [licenseBundles, setLicenseBundles] = React.useState<
+    Record<string, PortalLicenseBundle | null>
+  >({})
+  const [loadingBundleLicenseId, setLoadingBundleLicenseId] = React.useState("")
+
+  const loadLatestBundle = React.useCallback(async (licenseId: string) => {
+    setLoadingBundleLicenseId(licenseId)
+
+    try {
+      const result = await getLatestPortalLicenseBundle(licenseId)
+      setLicenseBundles((current) => ({
+        ...current,
+        [licenseId]: result.bundle,
+      }))
+    } catch (error) {
+      setLicensesError(
+        error instanceof Error
+          ? error.message
+          : "License bundle is temporarily unavailable."
+      )
+    } finally {
+      setLoadingBundleLicenseId("")
+    }
+  }, [])
 
   const loadLicenseSeats = React.useCallback(async (licenseId: string) => {
     setLoadingSeatLicenseId(licenseId)
@@ -134,6 +166,9 @@ export function PortalShell({
       setExpandedLicenseId((current) => current || result.licenses[0]?.id || "")
       if (result.licenses[0]?.id) {
         await loadLicenseSeats(result.licenses[0].id)
+        if (result.licenses[0].status === "active") {
+          await loadLatestBundle(result.licenses[0].id)
+        }
       }
     } catch (error) {
       setLicensesError(
@@ -144,7 +179,7 @@ export function PortalShell({
     } finally {
       setLicensesLoading(false)
     }
-  }, [loadLicenseSeats])
+  }, [loadLatestBundle, loadLicenseSeats])
 
   React.useEffect(() => {
     if (!setupComplete) return
@@ -187,6 +222,26 @@ export function PortalShell({
 
     if (nextLicenseId) {
       await loadLicenseSeats(nextLicenseId)
+      const license = account.licenses.find((item) => item.id === nextLicenseId)
+      if (license?.status === "active") {
+        await loadLatestBundle(nextLicenseId)
+      }
+    }
+  }
+
+  async function generateBundle(licenseId: string) {
+    setLoadingBundleLicenseId(licenseId)
+    setLicensesError("")
+
+    try {
+      const result = await requestPortalBundleGeneration(licenseId)
+      setLicenseBundles((current) => ({
+        ...current,
+        [licenseId]: result.bundle,
+      }))
+      return result.bundle
+    } finally {
+      setLoadingBundleLicenseId("")
     }
   }
 
@@ -200,6 +255,11 @@ export function PortalShell({
     const result = await requestPortalSeatResend(seatId)
     await loadLicenseSeats(licenseId)
     return result.inviteLink
+  }
+
+  async function exportSeatActivation(seatId: string) {
+    const result = await requestPortalSeatActivation(seatId)
+    return result.activation
   }
 
   async function revokeSeat(licenseId: string, seatId: string) {
@@ -227,11 +287,16 @@ export function PortalShell({
               account={account}
               expandedLicenseId={expandedLicenseId}
               loading={licensesLoading}
+              loadingBundleLicenseId={loadingBundleLicenseId}
               loadingSeatLicenseId={loadingSeatLicenseId}
               error={licensesError}
+              licenseBundles={licenseBundles}
               onExpandedLicenseChange={expandLicense}
+              onGenerateBundle={generateBundle}
               onInviteSeat={inviteSeat}
+              onLoadLatestBundle={loadLatestBundle}
               onRefreshLicenses={loadLicenses}
+              onExportSeatActivation={exportSeatActivation}
               onRemoveSeat={removeSeat}
               onResendSeat={resendSeat}
               onRevokeSeat={revokeSeat}
@@ -528,11 +593,16 @@ function LicenseDashboard({
   account,
   error,
   expandedLicenseId,
+  licenseBundles,
   loading,
+  loadingBundleLicenseId,
   loadingSeatLicenseId,
   onExpandedLicenseChange,
+  onGenerateBundle,
   onInviteSeat,
+  onLoadLatestBundle,
   onRefreshLicenses,
+  onExportSeatActivation,
   onRemoveSeat,
   onResendSeat,
   onRevokeSeat,
@@ -540,11 +610,16 @@ function LicenseDashboard({
   account: PortalAccount
   error: string
   expandedLicenseId: string
+  licenseBundles: Record<string, PortalLicenseBundle | null>
   loading: boolean
+  loadingBundleLicenseId: string
   loadingSeatLicenseId: string
   onExpandedLicenseChange: (licenseId: string) => Promise<void>
+  onGenerateBundle: (licenseId: string) => Promise<PortalLicenseBundle>
   onInviteSeat: (licenseId: string, input: InviteForm) => Promise<string | undefined>
+  onLoadLatestBundle: (licenseId: string) => Promise<void>
   onRefreshLicenses: () => Promise<void>
+  onExportSeatActivation: (seatId: string) => Promise<PortalSeatActivation>
   onRemoveSeat: (licenseId: string, seatId: string) => Promise<void>
   onResendSeat: (licenseId: string, seatId: string) => Promise<string | undefined>
   onRevokeSeat: (licenseId: string, seatId: string) => Promise<void>
@@ -686,11 +761,21 @@ function LicenseDashboard({
                           <SeatsPanel
                             license={license}
                             loading={loadingSeatLicenseId === license.id}
+                            onExportSeatActivation={onExportSeatActivation}
                             onInviteSeat={onInviteSeat}
                             onRemoveSeat={onRemoveSeat}
                             onResendSeat={onResendSeat}
                             onRevokeSeat={onRevokeSeat}
                           />
+                          {license.status === "active" ? (
+                            <LicenseBundlePanel
+                              bundle={licenseBundles[license.id] ?? null}
+                              license={license}
+                              loading={loadingBundleLicenseId === license.id}
+                              onGenerate={onGenerateBundle}
+                              onRefreshLatest={onLoadLatestBundle}
+                            />
+                          ) : null}
                         </td>
                       </tr>
                     ) : null}
@@ -904,9 +989,193 @@ function SettingsPage({
   )
 }
 
+function LicenseBundlePanel({
+  bundle,
+  license,
+  loading,
+  onGenerate,
+  onRefreshLatest,
+}: {
+  bundle: PortalLicenseBundle | null
+  license: PortalLicense
+  loading: boolean
+  onGenerate: (licenseId: string) => Promise<PortalLicenseBundle>
+  onRefreshLatest: (licenseId: string) => Promise<void>
+}) {
+  const [message, setMessage] = React.useState("")
+  const [pending, setPending] = React.useState(false)
+
+  async function generateBundle() {
+    setPending(true)
+    setMessage("")
+
+    try {
+      await onGenerate(license.id)
+      setMessage("Offline bundle generated.")
+    } catch (error) {
+      setMessage(
+        error instanceof Error
+          ? error.message
+          : "Offline bundle generation is temporarily unavailable."
+      )
+    } finally {
+      setPending(false)
+    }
+  }
+
+  async function refreshLatest() {
+    setPending(true)
+    setMessage("")
+
+    try {
+      await onRefreshLatest(license.id)
+      setMessage("Latest bundle refreshed.")
+    } catch (error) {
+      setMessage(
+        error instanceof Error
+          ? error.message
+          : "Latest bundle is temporarily unavailable."
+      )
+    } finally {
+      setPending(false)
+    }
+  }
+
+  async function copyBundle() {
+    if (!bundle) return
+
+    try {
+      await navigator.clipboard.writeText(bundle.armoredBundle)
+      setMessage("Bundle copied.")
+    } catch {
+      setMessage("Copy is unavailable in this browser.")
+    }
+  }
+
+  function downloadBundle() {
+    if (!bundle) return
+
+    const blob = new Blob([bundle.armoredBundle], { type: "text/plain" })
+    const url = URL.createObjectURL(blob)
+    const anchor = document.createElement("a")
+    anchor.href = url
+    anchor.download = `${license.id}-bundle-v${bundle.bundleVersion}.pixesci-license.txt`
+    anchor.click()
+    URL.revokeObjectURL(url)
+    setMessage("Bundle download prepared.")
+  }
+
+  const disabled = pending || loading
+
+  return (
+    <div className="mt-4 min-w-0 rounded-lg border border-border bg-background p-4">
+      <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
+        <div>
+          <h3 className="text-base font-semibold">Offline license bundle</h3>
+          <p className="mt-1 text-sm leading-6 text-muted-foreground">
+            Generate a signed license bundle for customer-controlled operation.
+          </p>
+        </div>
+        <div className="flex flex-wrap gap-2">
+          <Button
+            type="button"
+            size="sm"
+            variant="outline"
+            disabled={disabled}
+            onClick={() => {
+              void refreshLatest()
+            }}
+          >
+            {loading ? "Loading..." : "Latest"}
+          </Button>
+          <Button
+            type="button"
+            size="sm"
+            disabled={disabled}
+            onClick={() => {
+              void generateBundle()
+            }}
+          >
+            <FileSignature className="size-4" />
+            {pending ? "Generating..." : "Generate"}
+          </Button>
+        </div>
+      </div>
+
+      {bundle ? (
+        <div className="mt-4 grid gap-3">
+          <div className="grid gap-3 text-xs text-muted-foreground sm:grid-cols-3">
+            <p>
+              Version{" "}
+              <span className="font-mono text-foreground">
+                {bundle.bundleVersion}
+              </span>
+            </p>
+            <p>
+              Key{" "}
+              <span className="font-mono text-foreground">{bundle.keyId}</span>
+            </p>
+            <p>
+              Issued{" "}
+              <span className="text-foreground">
+                {formatPortalTimestamp(bundle.generatedAt)}
+              </span>
+            </p>
+          </div>
+          <textarea
+            readOnly
+            className="min-h-36 w-full resize-y rounded-md border border-border bg-muted/30 p-3 font-mono text-xs leading-5 outline-none focus-visible:ring-3 focus-visible:ring-ring/40"
+            value={bundle.armoredBundle}
+            aria-label={`Armored offline bundle for ${license.id}`}
+          />
+          <div className="flex flex-wrap gap-2">
+            <Button
+              type="button"
+              size="sm"
+              variant="outline"
+              onClick={() => {
+                void copyBundle()
+              }}
+            >
+              <Copy className="size-4" />
+              Copy
+            </Button>
+            <Button
+              type="button"
+              size="sm"
+              variant="outline"
+              onClick={downloadBundle}
+            >
+              <Download className="size-4" />
+              Download text
+            </Button>
+          </div>
+        </div>
+      ) : (
+        <p className="mt-3 text-sm text-muted-foreground">
+          No signed offline bundle has been generated for this license.
+        </p>
+      )}
+
+      {message ? (
+        <p
+          role={message.includes("unavailable") ? "alert" : "status"}
+          className={cn(
+            "mt-3 text-sm",
+            message.includes("unavailable") ? "text-destructive" : "text-primary"
+          )}
+        >
+          {message}
+        </p>
+      ) : null}
+    </div>
+  )
+}
+
 function SeatsPanel({
   license,
   loading,
+  onExportSeatActivation,
   onInviteSeat,
   onRemoveSeat,
   onResendSeat,
@@ -914,6 +1183,7 @@ function SeatsPanel({
 }: {
   license: PortalLicense
   loading: boolean
+  onExportSeatActivation: (seatId: string) => Promise<PortalSeatActivation>
   onInviteSeat: (licenseId: string, input: InviteForm) => Promise<string | undefined>
   onRemoveSeat: (licenseId: string, seatId: string) => Promise<void>
   onResendSeat: (licenseId: string, seatId: string) => Promise<string | undefined>
@@ -926,6 +1196,8 @@ function SeatsPanel({
   const [openSeatMenuId, setOpenSeatMenuId] = React.useState("")
   const [message, setMessage] = React.useState("")
   const [pendingAction, setPendingAction] = React.useState("")
+  const [activation, setActivation] =
+    React.useState<PortalSeatActivation | null>(null)
   const allocatedCount = license.seats.filter(
     (seat) => seat.status === "active" || seat.status === "invited"
   ).length
@@ -1095,6 +1367,7 @@ function SeatsPanel({
                       onInvite={() => {
                         void runSeatAction(`resend-${seat.id}`, async () => {
                           const inviteLink = await onResendSeat(license.id, seat.id)
+                          setActivation(null)
                           setMessage(
                             inviteLink
                               ? `Invite resent. One-time link: ${inviteLink}`
@@ -1102,15 +1375,24 @@ function SeatsPanel({
                           )
                         })
                       }}
+                      onExportActivation={() => {
+                        void runSeatAction(`activation-${seat.id}`, async () => {
+                          const exported = await onExportSeatActivation(seat.id)
+                          setActivation(exported)
+                          setMessage("Seat activation exported.")
+                        })
+                      }}
                       onRemove={() => {
                         void runSeatAction(`remove-${seat.id}`, async () => {
                           await onRemoveSeat(license.id, seat.id)
+                          setActivation(null)
                           setMessage("Seat removed.")
                         })
                       }}
                       onRevoke={() => {
                         void runSeatAction(`revoke-${seat.id}`, async () => {
                           await onRevokeSeat(license.id, seat.id)
+                          setActivation(null)
                           setMessage("Invite revoked.")
                         })
                       }}
@@ -1121,6 +1403,9 @@ function SeatsPanel({
               ))}
             </tbody>
           </table>
+          {activation ? (
+            <SeatActivationPanel activation={activation} />
+          ) : null}
         </div>
       ) : (
         <div className="max-w-full overflow-x-auto">
@@ -1170,6 +1455,7 @@ function SeatsPanel({
 
 function SeatActions({
   canInvite,
+  onExportActivation,
   onInvite,
   onOpenChange,
   onRemove,
@@ -1180,6 +1466,7 @@ function SeatActions({
   seat,
 }: {
   canInvite: boolean
+  onExportActivation: () => void
   onInvite: () => void
   onOpenChange: (open: boolean) => void
   onRemove: () => void
@@ -1196,13 +1483,22 @@ function SeatActions({
     () =>
       getSeatActions({
         canInvite,
+        onExportActivation,
         onInvite,
         onRemove,
         onRevoke,
         protectActiveAdmin,
         status: seat.status,
       }),
-    [canInvite, onInvite, onRemove, onRevoke, protectActiveAdmin, seat.status]
+    [
+      canInvite,
+      onExportActivation,
+      onInvite,
+      onRemove,
+      onRevoke,
+      protectActiveAdmin,
+      seat.status,
+    ]
   )
 
   React.useLayoutEffect(() => {
@@ -1299,6 +1595,7 @@ type SeatAction = {
 
 function getSeatActions({
   canInvite,
+  onExportActivation,
   onInvite,
   onRemove,
   onRevoke,
@@ -1306,6 +1603,7 @@ function getSeatActions({
   status,
 }: {
   canInvite: boolean
+  onExportActivation: () => void
   onInvite: () => void
   onRemove: () => void
   onRevoke: () => void
@@ -1319,10 +1617,100 @@ function getSeatActions({
   }
 
   if (status === "invited") {
-    return [{ icon: UserMinus, label: "Revoke invite", run: onRevoke }]
+    return [
+      { icon: FileSignature, label: "Export activation", run: onExportActivation },
+      { icon: UserMinus, label: "Revoke invite", run: onRevoke },
+    ]
   }
 
   return canInvite ? [{ icon: MailPlus, label: "Invite again", run: onInvite }] : []
+}
+
+function SeatActivationPanel({
+  activation,
+}: {
+  activation: PortalSeatActivation
+}) {
+  const [message, setMessage] = React.useState("")
+
+  async function copyActivation() {
+    try {
+      await navigator.clipboard.writeText(activation.armoredActivation)
+      setMessage("Activation copied.")
+    } catch {
+      setMessage("Copy is unavailable in this browser.")
+    }
+  }
+
+  function downloadActivation() {
+    const blob = new Blob([activation.armoredActivation], { type: "text/plain" })
+    const url = URL.createObjectURL(blob)
+    const anchor = document.createElement("a")
+    anchor.href = url
+    anchor.download = `${activation.seatId}-activation.pixesci-seat.txt`
+    anchor.click()
+    URL.revokeObjectURL(url)
+    setMessage("Activation download prepared.")
+  }
+
+  return (
+    <div className="border-t border-border bg-background p-4">
+      <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
+        <div>
+          <h4 className="text-sm font-semibold">Seat activation export</h4>
+          <p className="mt-1 text-xs leading-5 text-muted-foreground">
+            Import this signed file in the local PixeSci app for the invited
+            user. The portal seat remains pending until a future return file or
+            connected acceptance flow confirms activation.
+          </p>
+        </div>
+        <div className="grid gap-1 text-xs text-muted-foreground sm:text-right">
+          <span>
+            Seat <span className="font-mono text-foreground">{activation.seatId}</span>
+          </span>
+          <span>
+            Expires{" "}
+            <span className="text-foreground">
+              {formatPortalTimestamp(activation.expiresAt)}
+            </span>
+          </span>
+        </div>
+      </div>
+      <textarea
+        readOnly
+        className="mt-3 min-h-32 w-full resize-y rounded-md border border-border bg-muted/30 p-3 font-mono text-xs leading-5 outline-none focus-visible:ring-3 focus-visible:ring-ring/40"
+        value={activation.armoredActivation}
+        aria-label={`Armored seat activation for ${activation.seatId}`}
+      />
+      <div className="mt-3 flex flex-wrap gap-2">
+        <Button
+          type="button"
+          size="sm"
+          variant="outline"
+          onClick={() => {
+            void copyActivation()
+          }}
+        >
+          <Copy className="size-4" />
+          Copy
+        </Button>
+        <Button
+          type="button"
+          size="sm"
+          variant="outline"
+          onClick={downloadActivation}
+        >
+          <Download className="size-4" />
+          Download text
+        </Button>
+      </div>
+      {message ? (
+        <p role="status" className="mt-3 text-sm text-primary">
+          {message}
+        </p>
+      ) : null}
+    </div>
+  )
 }
 
 function Metric({
@@ -1341,6 +1729,18 @@ function Metric({
       <p className="mt-1 truncate text-xs text-muted-foreground">{detail}</p>
     </div>
   )
+}
+
+function formatPortalTimestamp(value: string) {
+  return new Intl.DateTimeFormat("en", {
+    month: "short",
+    day: "numeric",
+    year: "numeric",
+    hour: "numeric",
+    minute: "2-digit",
+    timeZone: "UTC",
+    timeZoneName: "short",
+  }).format(new Date(value))
 }
 
 function StatusBadge({ status }: { status: LicenseStatus }) {

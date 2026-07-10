@@ -40,6 +40,62 @@ export type PortalLicense = {
   seats: PortalSeat[]
 }
 
+export type PortalLicenseBundlePayload = {
+  bundleVersion: number
+  licenseId: string
+  organizationId: number
+  organizationName: string
+  startsAt: string
+  endsAt: string
+  seatLimit: number
+  features: string[]
+  issuedAt: string
+  keyId: string
+  seats?: Array<{
+    seatId: string
+    email: string
+    role: SeatRole
+    status: Extract<SeatStatus, "active" | "invited">
+  }>
+}
+
+export type PortalLicenseBundle = {
+  id: number
+  licenseId: string
+  bundleVersion: number
+  keyId: string
+  generatedAt: string
+  armoredBundle: string
+  payload: PortalLicenseBundlePayload
+}
+
+export type PortalSeatActivationPayload = {
+  activationVersion: number
+  licenseId: string
+  organizationId: number
+  organizationName: string
+  seatId: string
+  seatEmail: string
+  seatRole: SeatRole
+  seatStatus: Extract<SeatStatus, "invited">
+  licenseStartsAt: string
+  licenseEndsAt: string
+  seatLimit: number
+  issuedAt: string
+  expiresAt: string
+  keyId: string
+}
+
+export type PortalSeatActivation = {
+  seatId: string
+  licenseId: string
+  keyId: string
+  generatedAt: string
+  expiresAt: string
+  armoredActivation: string
+  payload: PortalSeatActivationPayload
+}
+
 export type PortalAccount = {
   organization: PortalOrganization
   licenses: PortalLicense[]

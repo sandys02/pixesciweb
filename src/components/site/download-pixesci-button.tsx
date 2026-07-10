@@ -6,11 +6,11 @@ import { useRouter } from "next/navigation"
 
 import { FloatingLabelInput } from "@/components/shared/inputs"
 import { Button } from "@/components/ui/button"
+import { startPixeSciDownload } from "@/lib/download-access"
 import {
-  getDownloadAuthState,
-  loginForDownload,
-  startPixeSciDownload,
-} from "@/lib/download-access"
+  getPortalAuthState,
+  loginForPortal,
+} from "@/lib/portal-access"
 import { cn } from "@/lib/utils"
 
 import { DemoBookingLink } from "./demo-booking-link"
@@ -113,7 +113,7 @@ export function SignInPortalDialog({
 
     let cancelled = false
 
-    getDownloadAuthState()
+    getPortalAuthState()
       .then((nextAuthState) => {
         if (cancelled) return
         if (nextAuthState.authenticated) {
@@ -168,7 +168,7 @@ export function SignInPortalDialog({
     setError("")
 
     try {
-      await loginForDownload({ email, password })
+      await loginForPortal({ email, password })
       onOpenChange(false)
       router.push("/portal")
       router.refresh()

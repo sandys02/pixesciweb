@@ -1,8 +1,10 @@
 import type {
   PortalAccountSetupForm,
   PortalLicense,
+  PortalLicenseBundle,
   PortalOrganization,
   PortalSeat,
+  PortalSeatActivation,
   SeatRole,
 } from "@/features/portal/types"
 
@@ -166,5 +168,35 @@ export async function removePortalSeat(
     {
       method: "POST",
     }
+  )
+}
+
+export async function generatePortalSeatActivation(
+  seatId: string
+): Promise<{ activation: PortalSeatActivation }> {
+  return requestPortalApi<{ activation: PortalSeatActivation }>(
+    `/api/portal/seats/${encodeURIComponent(seatId)}/activation`,
+    {
+      method: "POST",
+    }
+  )
+}
+
+export async function generatePortalLicenseBundle(
+  licenseId: string
+): Promise<{ bundle: PortalLicenseBundle }> {
+  return requestPortalApi<{ bundle: PortalLicenseBundle }>(
+    `/api/portal/licenses/${encodeURIComponent(licenseId)}/bundle`,
+    {
+      method: "POST",
+    }
+  )
+}
+
+export async function getLatestPortalLicenseBundle(
+  licenseId: string
+): Promise<{ bundle: PortalLicenseBundle | null }> {
+  return requestPortalApi<{ bundle: PortalLicenseBundle | null }>(
+    `/api/portal/licenses/${encodeURIComponent(licenseId)}/bundle/latest`
   )
 }

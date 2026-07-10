@@ -132,8 +132,8 @@ Optional connected-flow invite acceptance:
 
 - `POST /api/portal/invitations/{token}/accept`
 
-For air-gapped customers, prefer signed invite or license bundles that the app
-can import locally instead of requiring a live portal call.
+For air-gapped customers, prefer signed seat activation files and license
+bundles that the app can import locally instead of requiring a live portal call.
 
 ## Data Boundaries
 
@@ -181,15 +181,20 @@ Only expand this data scope after a separate product and compliance decision.
 
 ## Air-Gapped License Direction
 
-Air-gapped license enforcement must work without a live portal call. The portal
-should generate signed offline license bundles or activation files that encode
-license ID, organization ID, term, seat limit, feature entitlements, key ID, and
-signature.
+Air-gapped license enforcement and seat activation must work without a live
+portal call. The portal generates signed offline license bundles and signed seat
+activation files that encode license ID, organization ID, term, seat limit,
+seat invite details where applicable, key ID, and signature.
 
 The PixeSci app should verify bundles locally with bundled public keys and use
 the verified data for local license and seat enforcement. Private signing keys
 remain server-side only. Revocation for disconnected installs takes effect when
 the customer imports a newer signed bundle.
+
+Seat activation files are exported for pending invited seats only. Exporting an
+activation file does not mark the portal seat active because the portal cannot
+prove the disconnected app imported it. See
+`docs/seat-activation-import-contract.md` for the app-side import contract.
 
 ## Verification Expectations
 
