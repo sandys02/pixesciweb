@@ -14,11 +14,7 @@ import {
 } from "lucide-react"
 import type { LucideIcon } from "lucide-react"
 
-import {
-  portalDummyAccount,
-  portalOrganizationTypes,
-  portalUsStates,
-} from "@/data/portal"
+import { portalOrganizationTypes, portalUsStates } from "@/data/portal"
 import { FloatingLabelInput, FloatingLabelSelect } from "@/components/shared/inputs"
 import { DownloadPixeSciButton } from "@/components/site/download-pixesci-button"
 import { PortalLogoutButton } from "@/components/site/portal-logout-button"
@@ -27,11 +23,18 @@ import { Button } from "@/components/ui/button"
 import {
   changePortalPassword as requestPortalPasswordChange,
   completePortalSetup,
+  getPortalLicenseSeats,
+  getPortalLicenses,
+  invitePortalSeat as requestPortalSeatInvite,
+  removePortalSeat as requestPortalSeatRemove,
+  resendPortalSeatInvite as requestPortalSeatResend,
+  revokePortalSeatInvite as requestPortalSeatRevoke,
+  updatePortalOrganization,
 } from "@/lib/portal-access"
 import { cn } from "@/lib/utils"
 import {
+  countAllocatedSeats,
   countActiveSeats,
-  createInvitedSeat,
   formatPortalDate,
   normalizeDomain,
   validatePasswordChange,
@@ -82,12 +85,72 @@ export function PortalShell({
   const [setupComplete, setSetupComplete] = React.useState(!setupRequired)
   const [view, setView] = React.useState<PortalView>("licenses")
   const [account, setAccount] = React.useState<PortalAccount>({
-    ...portalDummyAccount,
     organization: initialOrganization,
+    licenses: [],
   })
-  const [expandedLicenseId, setExpandedLicenseId] = React.useState(
-    portalDummyAccount.licenses[0]?.id ?? ""
-  )
+  const [expandedLicenseId, setExpandedLicenseId] = React.useState("")
+  const [licensesLoading, setLicensesLoading] = React.useState(false)
+  const [licensesError, setLicensesError] = React.useState("")
+  const [loadingSeatLicenseId, setLoadingSeatLicenseId] = React.useState("")
+
+  const loadLicenseSeats = React.useCallback(async (licenseId: string) => {
+    setLoadingSeatLicenseId(licenseId)
+    setLicensesError("")
+
+    try {
+      const result = await getPortalLicenseSeats(licenseId)
+      setAccount((current) => ({
+        ...current,
+        licenses: current.licenses.map((license) =>
+          license.id === licenseId
+            ? { ...result.license, seats: result.seats }
+            : license
+        ),
+      }))
+    } catch (error) {
+      setLicensesError(
+        error instanceof Error
+          ? error.message
+          : "License seats are temporarily unavailable."
+      )
+    } finally {
+      setLoadingSeatLicenseId("")
+    }
+  }, [])
+
+  const loadLicenses = React.useCallback(async () => {
+    setLicensesLoading(true)
+    setLicensesError("")
+
+    try {
+      const result = await getPortalLicenses()
+      setAccount((current) => ({
+        ...current,
+        licenses: result.licenses.map((license) => {
+          const existing = current.licenses.find((item) => item.id === license.id)
+          return { ...license, seats: existing?.seats ?? [] }
+        }),
+      }))
+      setExpandedLicenseId((current) => current || result.licenses[0]?.id || "")
+      if (result.licenses[0]?.id) {
+        await loadLicenseSeats(result.licenses[0].id)
+      }
+    } catch (error) {
+      setLicensesError(
+        error instanceof Error
+          ? error.message
+          : "Licenses are temporarily unavailable."
+      )
+    } finally {
+      setLicensesLoading(false)
+    }
+  }, [loadLicenseSeats])
+
+  React.useEffect(() => {
+    if (setupComplete) {
+      void loadLicenses()
+    }
+  }, [loadLicenses, setupComplete])
 
   async function completeSetup(form: PortalAccountSetupForm) {
     await completePortalSetup(form)
@@ -102,10 +165,11 @@ export function PortalShell({
         domain: normalizeDomain(form.domain),
         researchField: form.researchField.trim(),
       },
+      licenses: [],
     }
     setAccount(nextAccount)
     setSetupComplete(true)
-    setExpandedLicenseId(nextAccount.licenses[0]?.id ?? "")
+    setExpandedLicenseId("")
     setView("licenses")
   }
 
@@ -113,18 +177,35 @@ export function PortalShell({
     setAccount({ ...account, organization })
   }
 
-  function updateLicenseSeats(
-    licenseId: string,
-    updater: (seats: PortalSeat[]) => PortalSeat[]
-  ) {
-    setAccount({
-      ...account,
-      licenses: account.licenses.map((license) =>
-        license.id === licenseId
-          ? { ...license, seats: updater(license.seats) }
-          : license
-      ),
-    })
+  async function expandLicense(licenseId: string) {
+    const nextLicenseId = expandedLicenseId === licenseId ? "" : licenseId
+    setExpandedLicenseId(nextLicenseId)
+
+    if (nextLicenseId) {
+      await loadLicenseSeats(nextLicenseId)
+    }
+  }
+
+  async function inviteSeat(licenseId: string, input: InviteForm) {
+    const result = await requestPortalSeatInvite(licenseId, input)
+    await loadLicenseSeats(licenseId)
+    return result.inviteLink
+  }
+
+  async function resendSeat(licenseId: string, seatId: string) {
+    const result = await requestPortalSeatResend(seatId)
+    await loadLicenseSeats(licenseId)
+    return result.inviteLink
+  }
+
+  async function revokeSeat(licenseId: string, seatId: string) {
+    await requestPortalSeatRevoke(seatId)
+    await loadLicenseSeats(licenseId)
+  }
+
+  async function removeSeat(licenseId: string, seatId: string) {
+    await requestPortalSeatRemove(seatId)
+    await loadLicenseSeats(licenseId)
   }
 
   return (
@@ -141,8 +222,15 @@ export function PortalShell({
             <LicenseDashboard
               account={account}
               expandedLicenseId={expandedLicenseId}
-              onExpandedLicenseChange={setExpandedLicenseId}
-              onSeatsChange={updateLicenseSeats}
+              loading={licensesLoading}
+              loadingSeatLicenseId={loadingSeatLicenseId}
+              error={licensesError}
+              onExpandedLicenseChange={expandLicense}
+              onInviteSeat={inviteSeat}
+              onRefreshLicenses={loadLicenses}
+              onRemoveSeat={removeSeat}
+              onResendSeat={resendSeat}
+              onRevokeSeat={revokeSeat}
             />
           ) : (
             <SettingsPage
@@ -590,6 +678,7 @@ function SettingsPage({
     Partial<Record<keyof PasswordForm, string>>
   >({})
   const [message, setMessage] = React.useState("")
+  const [profilePending, setProfilePending] = React.useState(false)
 
   function updateProfileField<K extends keyof PortalAccountSetupForm>(
     field: K,
@@ -600,22 +689,41 @@ function SettingsPage({
     setMessage("")
   }
 
-  function submitProfile(event: React.FormEvent<HTMLFormElement>) {
+  async function submitProfile(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault()
     const nextErrors = validateSetupForm(profile, { validatePassword: false })
     setProfileErrors(nextErrors)
     if (Object.keys(nextErrors).length > 0) return
 
-    onOrganizationChange({
-      country: "United States",
-      state: profile.state.trim(),
-      organizationType: profile.organizationType,
-      name: profile.name.trim(),
-      email: account.organization.email,
-      domain: normalizeDomain(profile.domain),
-      researchField: profile.researchField.trim(),
-    })
-    setMessage("Organization settings saved in this browser.")
+    setProfilePending(true)
+    setMessage("")
+
+    try {
+      const result = await updatePortalOrganization({
+        country: "United States",
+        state: profile.state.trim(),
+        organizationType: profile.organizationType,
+        name: profile.name.trim(),
+        email: account.organization.email,
+        domain: normalizeDomain(profile.domain),
+        researchField: profile.researchField.trim(),
+      })
+      onOrganizationChange(result.organization)
+      setProfile({
+        ...result.organization,
+        newPassword: "",
+        confirmPassword: "",
+      })
+      setMessage("Organization settings saved.")
+    } catch (error) {
+      setMessage(
+        error instanceof Error
+          ? error.message
+          : "Organization settings are temporarily unavailable."
+      )
+    } finally {
+      setProfilePending(false)
+    }
   }
 
   async function submitPassword(event: React.FormEvent<HTMLFormElement>) {
@@ -659,9 +767,9 @@ function SettingsPage({
             onFieldChange={updateProfileField}
           />
         </div>
-        <Button type="submit" className="mt-5">
+        <Button type="submit" className="mt-5" disabled={profilePending}>
           <Save className="size-4" />
-          Save settings
+          {profilePending ? "Saving..." : "Save settings"}
         </Button>
       </form>
 

@@ -1,17 +1,7 @@
-import { portalDummyAccount } from "@/data/portal"
 import type {
-  PortalAccount,
   PortalAccountSetupForm,
   PortalLicense,
-  PortalSeat,
-  SeatRole,
 } from "@/features/portal/types"
-
-const setupPrefix = "pixesci.portal.setup.v2."
-
-export function getPortalStorageKey(email: string) {
-  return `${setupPrefix}${email.trim().toLowerCase()}`
-}
 
 export function normalizeDomain(value: string) {
   return value
@@ -20,24 +10,6 @@ export function normalizeDomain(value: string) {
     .replace(/^https?:\/\//, "")
     .replace(/^www\./, "")
     .replace(/\/.*$/, "")
-}
-
-export function createAccountFromSetup(form: PortalAccountSetupForm): PortalAccount {
-  const normalizedEmail = form.email.trim().toLowerCase()
-
-  return {
-    ...portalDummyAccount,
-    organization: {
-      country: "United States",
-      state: form.state.trim(),
-      organizationType: form.organizationType,
-      name: form.name.trim(),
-      email: normalizedEmail,
-      domain: normalizeDomain(form.domain),
-      researchField: form.researchField.trim(),
-    },
-    licenses: portalDummyAccount.licenses,
-  }
 }
 
 export function validateSetupForm(
@@ -106,16 +78,8 @@ export function countActiveSeats(license: PortalLicense) {
   return license.seats.filter((seat) => seat.status === "active").length
 }
 
-export function createInvitedSeat(email: string, role: SeatRole): PortalSeat {
-  const normalizedEmail = email.trim().toLowerCase()
-  const id = `seat-${Date.now()}`
-
-  return {
-    id,
-    email: normalizedEmail,
-    role,
-    status: "invited",
-    inviteLink: `https://portal.pixesci.example/invite/${id}`,
-    temporaryCredentialState: "issued",
-  }
+export function countAllocatedSeats(license: PortalLicense) {
+  return license.seats.filter(
+    (seat) => seat.status === "active" || seat.status === "invited"
+  ).length
 }

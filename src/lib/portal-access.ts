@@ -1,4 +1,10 @@
-import type { PortalAccountSetupForm } from "@/features/portal/types"
+import type {
+  PortalAccountSetupForm,
+  PortalLicense,
+  PortalOrganization,
+  PortalSeat,
+  SeatRole,
+} from "@/features/portal/types"
 
 export type PortalAuthState = {
   authenticated: boolean
@@ -81,4 +87,84 @@ export async function changePortalPassword(
     method: "POST",
     body: JSON.stringify(form),
   })
+}
+
+export async function getPortalOrganization(): Promise<{
+  organization: PortalOrganization
+}> {
+  return requestPortalApi<{ organization: PortalOrganization }>(
+    "/api/portal/organization"
+  )
+}
+
+export async function updatePortalOrganization(
+  organization: PortalOrganization
+): Promise<{ organization: PortalOrganization }> {
+  return requestPortalApi<{ organization: PortalOrganization }>(
+    "/api/portal/organization",
+    {
+      method: "PATCH",
+      body: JSON.stringify(organization),
+    }
+  )
+}
+
+export async function getPortalLicenses(): Promise<{
+  licenses: PortalLicense[]
+}> {
+  return requestPortalApi<{ licenses: PortalLicense[] }>("/api/portal/licenses")
+}
+
+export async function getPortalLicenseSeats(
+  licenseId: string
+): Promise<{ license: PortalLicense; seats: PortalSeat[] }> {
+  return requestPortalApi<{ license: PortalLicense; seats: PortalSeat[] }>(
+    `/api/portal/licenses/${encodeURIComponent(licenseId)}/seats`
+  )
+}
+
+export async function invitePortalSeat(
+  licenseId: string,
+  input: { email: string; role: SeatRole }
+): Promise<{ seat: PortalSeat; inviteLink?: string }> {
+  return requestPortalApi<{ seat: PortalSeat; inviteLink?: string }>(
+    `/api/portal/licenses/${encodeURIComponent(licenseId)}/seats/invite`,
+    {
+      method: "POST",
+      body: JSON.stringify(input),
+    }
+  )
+}
+
+export async function resendPortalSeatInvite(
+  seatId: string
+): Promise<{ seat: PortalSeat; inviteLink?: string }> {
+  return requestPortalApi<{ seat: PortalSeat; inviteLink?: string }>(
+    `/api/portal/seats/${encodeURIComponent(seatId)}/resend`,
+    {
+      method: "POST",
+    }
+  )
+}
+
+export async function revokePortalSeatInvite(
+  seatId: string
+): Promise<{ seat: PortalSeat }> {
+  return requestPortalApi<{ seat: PortalSeat }>(
+    `/api/portal/seats/${encodeURIComponent(seatId)}/revoke-invite`,
+    {
+      method: "POST",
+    }
+  )
+}
+
+export async function removePortalSeat(
+  seatId: string
+): Promise<{ seat: PortalSeat }> {
+  return requestPortalApi<{ seat: PortalSeat }>(
+    `/api/portal/seats/${encodeURIComponent(seatId)}/remove`,
+    {
+      method: "POST",
+    }
+  )
 }
