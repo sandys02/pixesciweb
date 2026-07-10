@@ -147,9 +147,13 @@ export function PortalShell({
   }, [loadLicenseSeats])
 
   React.useEffect(() => {
-    if (setupComplete) {
+    if (!setupComplete) return
+
+    const timeoutId = window.setTimeout(() => {
       void loadLicenses()
-    }
+    }, 0)
+
+    return () => window.clearTimeout(timeoutId)
   }, [loadLicenses, setupComplete])
 
   async function completeSetup(form: PortalAccountSetupForm) {
@@ -522,17 +526,28 @@ function OrganizationFields({
 
 function LicenseDashboard({
   account,
+  error,
   expandedLicenseId,
+  loading,
+  loadingSeatLicenseId,
   onExpandedLicenseChange,
-  onSeatsChange,
+  onInviteSeat,
+  onRefreshLicenses,
+  onRemoveSeat,
+  onResendSeat,
+  onRevokeSeat,
 }: {
   account: PortalAccount
+  error: string
   expandedLicenseId: string
-  onExpandedLicenseChange: (licenseId: string) => void
-  onSeatsChange: (
-    licenseId: string,
-    updater: (seats: PortalSeat[]) => PortalSeat[]
-  ) => void
+  loading: boolean
+  loadingSeatLicenseId: string
+  onExpandedLicenseChange: (licenseId: string) => Promise<void>
+  onInviteSeat: (licenseId: string, input: InviteForm) => Promise<string | undefined>
+  onRefreshLicenses: () => Promise<void>
+  onRemoveSeat: (licenseId: string, seatId: string) => Promise<void>
+  onResendSeat: (licenseId: string, seatId: string) => Promise<string | undefined>
+  onRevokeSeat: (licenseId: string, seatId: string) => Promise<void>
 }) {
   const activeLicense = account.licenses.find(
     (license) => license.status === "active"
@@ -565,16 +580,35 @@ function LicenseDashboard({
 
       <div className="mt-6 min-w-0">
         <section className="min-w-0 rounded-lg border border-border bg-background shadow-sm">
-          <div className="border-b border-border p-5">
-            <p className="eyebrow">Licenses</p>
-            <h2 className="mt-2 text-xl font-semibold">License dashboard</h2>
-            <p className="mt-2 max-w-3xl text-sm leading-6 text-muted-foreground">
-              Current and past license IDs are scoped to this organization.
-              Expand a license to create the first human admin, invite members,
-              revoke invites, or remove seats. The organization portal account
-              is not an app user.
-            </p>
+          <div className="flex flex-col gap-4 border-b border-border p-5 sm:flex-row sm:items-start sm:justify-between">
+            <div>
+              <p className="eyebrow">Licenses</p>
+              <h2 className="mt-2 text-xl font-semibold">License dashboard</h2>
+              <p className="mt-2 max-w-3xl text-sm leading-6 text-muted-foreground">
+                Current and past license IDs are scoped to this organization.
+                Expand a license to create the first human admin, invite
+                members, revoke invites, or remove seats. The organization
+                portal account is not an app user.
+              </p>
+            </div>
+            <Button
+              type="button"
+              variant="outline"
+              size="sm"
+              disabled={loading}
+              onClick={() => {
+                void onRefreshLicenses()
+              }}
+            >
+              {loading ? "Loading..." : "Refresh"}
+            </Button>
           </div>
+
+          {error ? (
+            <p role="alert" className="border-b border-border px-5 py-3 text-sm text-destructive">
+              {error}
+            </p>
+          ) : null}
 
           <div className="max-w-full overflow-x-auto">
             <table className="w-full min-w-[760px] text-left text-sm">
@@ -588,6 +622,18 @@ function LicenseDashboard({
                 </tr>
               </thead>
               <tbody>
+                {account.licenses.length === 0 ? (
+                  <tr>
+                    <td
+                      colSpan={5}
+                      className="px-4 py-8 text-center text-sm text-muted-foreground"
+                    >
+                      {loading
+                        ? "Loading organization licenses..."
+                        : "No licenses are available for this organization."}
+                    </td>
+                  </tr>
+                ) : null}
                 {account.licenses.map((license) => (
                   <React.Fragment key={license.id}>
                     <tr className="border-b border-border/70">
@@ -596,11 +642,9 @@ function LicenseDashboard({
                           type="button"
                           className="inline-flex items-center gap-2 font-mono text-xs font-medium"
                           aria-expanded={expandedLicenseId === license.id}
-                          onClick={() =>
-                            onExpandedLicenseChange(
-                              expandedLicenseId === license.id ? "" : license.id
-                            )
-                          }
+                          onClick={() => {
+                            void onExpandedLicenseChange(license.id)
+                          }}
                         >
                           {expandedLicenseId === license.id ? (
                             <ChevronDown className="size-4" />
@@ -621,14 +665,16 @@ function LicenseDashboard({
                         {formatPortalDate(license.endsAt)}
                       </td>
                       <td className="px-4 py-3">
-                        {countActiveSeats(license)} of {license.seatLimit}
+                        {countAllocatedSeats(license)} of {license.seatLimit}
                       </td>
                       <td className="px-4 py-3">
                         <Button
                           type="button"
                           variant="ghost"
                           size="sm"
-                          onClick={() => onExpandedLicenseChange(license.id)}
+                          onClick={() => {
+                            void onExpandedLicenseChange(license.id)
+                          }}
                         >
                           Review seats
                         </Button>
@@ -639,9 +685,11 @@ function LicenseDashboard({
                         <td colSpan={5} className="bg-muted/20 p-4">
                           <SeatsPanel
                             license={license}
-                            onSeatsChange={(updater) =>
-                              onSeatsChange(license.id, updater)
-                            }
+                            loading={loadingSeatLicenseId === license.id}
+                            onInviteSeat={onInviteSeat}
+                            onRemoveSeat={onRemoveSeat}
+                            onResendSeat={onResendSeat}
+                            onRevokeSeat={onRevokeSeat}
                           />
                         </td>
                       </tr>
@@ -858,16 +906,26 @@ function SettingsPage({
 
 function SeatsPanel({
   license,
-  onSeatsChange,
+  loading,
+  onInviteSeat,
+  onRemoveSeat,
+  onResendSeat,
+  onRevokeSeat,
 }: {
   license: PortalLicense
-  onSeatsChange: (updater: (seats: PortalSeat[]) => PortalSeat[]) => void
+  loading: boolean
+  onInviteSeat: (licenseId: string, input: InviteForm) => Promise<string | undefined>
+  onRemoveSeat: (licenseId: string, seatId: string) => Promise<void>
+  onResendSeat: (licenseId: string, seatId: string) => Promise<string | undefined>
+  onRevokeSeat: (licenseId: string, seatId: string) => Promise<void>
 }) {
   const [invite, setInvite] = React.useState<InviteForm>({
     email: "",
     role: "member",
   })
   const [openSeatMenuId, setOpenSeatMenuId] = React.useState("")
+  const [message, setMessage] = React.useState("")
+  const [pendingAction, setPendingAction] = React.useState("")
   const allocatedCount = license.seats.filter(
     (seat) => seat.status === "active" || seat.status === "invited"
   ).length
@@ -877,13 +935,35 @@ function SeatsPanel({
   const seatLimitReached = allocatedCount >= license.seatLimit
   const isActiveLicense = license.status === "active"
 
-  function submitInvite(event: React.FormEvent<HTMLFormElement>) {
+  async function submitInvite(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault()
     if (seatLimitReached) return
     if (!/^\S+@\S+\.\S+$/.test(invite.email.trim())) return
 
-    onSeatsChange((seats) => [createInvitedSeat(invite.email, invite.role), ...seats])
-    setInvite({ email: "", role: "member" })
+    await runSeatAction("invite", async () => {
+      const inviteLink = await onInviteSeat(license.id, invite)
+      setInvite({ email: "", role: "member" })
+      setMessage(
+        inviteLink
+          ? `Invite created. One-time link: ${inviteLink}`
+          : "Invite created."
+      )
+    })
+  }
+
+  async function runSeatAction(label: string, action: () => Promise<void>) {
+    setPendingAction(label)
+    setMessage("")
+
+    try {
+      await action()
+    } catch (error) {
+      setMessage(
+        error instanceof Error ? error.message : "Seat action is unavailable."
+      )
+    } finally {
+      setPendingAction("")
+    }
   }
 
   return (
@@ -893,9 +973,8 @@ function SeatsPanel({
           <h3 className="text-base font-semibold">Seats</h3>
           <p className="mt-1 text-sm leading-6 text-muted-foreground">
             Use seats for human PixeSci app users only. Create the first human
-            admin here; the portal account itself is not an app user. TODO
-            backend: hash tokens, expire them, rate-limit resends, and audit
-            every action.
+            admin here; the portal account itself is not an app user. Pending
+            invites count against license capacity.
           </p>
         </div>
         {isActiveLicense ? (
@@ -909,7 +988,7 @@ function SeatsPanel({
               label="Invite email"
               value={invite.email}
               placeholder="user@example.org"
-              disabled={seatLimitReached}
+              disabled={seatLimitReached || pendingAction === "invite"}
               inputMode="email"
               onChangeAction={(value) =>
                 setInvite((current) => ({ ...current, email: value }))
@@ -923,7 +1002,7 @@ function SeatsPanel({
                 { value: "member", label: "Member" },
                 { value: "admin", label: "Admin" },
               ]}
-              disabled={seatLimitReached}
+              disabled={seatLimitReached || pendingAction === "invite"}
               onValueChange={(value) =>
                 setInvite((current) => ({ ...current, role: value }))
               }
@@ -932,14 +1011,28 @@ function SeatsPanel({
               type="submit"
               size="sm"
               className="h-10"
-              disabled={seatLimitReached}
+              disabled={seatLimitReached || pendingAction === "invite"}
             >
               <MailPlus className="size-4" />
-              Invite
+              {pendingAction === "invite" ? "Inviting..." : "Invite"}
             </Button>
           </form>
         ) : null}
       </div>
+
+      {message ? (
+        <p
+          role={message.includes("unavailable") || message.includes("cannot") ? "alert" : "status"}
+          className={cn(
+            "border-b border-border px-4 py-3 text-sm",
+            message.includes("unavailable") || message.includes("cannot")
+              ? "text-destructive"
+              : "text-primary"
+          )}
+        >
+          {message}
+        </p>
+      ) : null}
 
       {isActiveLicense ? (
         <div className="max-w-full overflow-x-auto">
@@ -955,6 +1048,26 @@ function SeatsPanel({
               </tr>
             </thead>
             <tbody>
+              {loading ? (
+                <tr>
+                  <td
+                    colSpan={6}
+                    className="px-3 py-6 text-center text-muted-foreground"
+                  >
+                    Loading seats...
+                  </td>
+                </tr>
+              ) : null}
+              {!loading && license.seats.length === 0 ? (
+                <tr>
+                  <td
+                    colSpan={6}
+                    className="px-3 py-6 text-center text-muted-foreground"
+                  >
+                    No human app seats have been created for this license.
+                  </td>
+                </tr>
+              ) : null}
               {license.seats.map((seat) => (
                 <tr key={seat.id} className="border-b border-border/70">
                   <td className="px-3 py-2 font-mono">{seat.id}</td>
@@ -979,50 +1092,29 @@ function SeatsPanel({
                       onOpenChange={(open) =>
                         setOpenSeatMenuId(open ? seat.id : "")
                       }
-                      onInvite={() =>
-                        onSeatsChange((seats) =>
-                          seats.map((item) =>
-                            item.id === seat.id
-                              ? {
-                                  ...item,
-                                  status: "invited",
-                                  temporaryCredentialState: "resent",
-                                  inviteLink: item.inviteLink?.startsWith("https://")
-                                    ? item.inviteLink
-                                    : `https://portal.pixesci.example/invite/${item.id}`,
-                                }
-                              : item
+                      onInvite={() => {
+                        void runSeatAction(`resend-${seat.id}`, async () => {
+                          const inviteLink = await onResendSeat(license.id, seat.id)
+                          setMessage(
+                            inviteLink
+                              ? `Invite resent. One-time link: ${inviteLink}`
+                              : "Invite resent."
                           )
-                        )
-                      }
-                      onRemove={() =>
-                        onSeatsChange((seats) =>
-                          seats.map((item) =>
-                            item.id === seat.id
-                              ? {
-                                  ...item,
-                                  status: "revoked",
-                                  temporaryCredentialState: "revoked",
-                                  inviteLink: "Removed seat",
-                                }
-                              : item
-                          )
-                        )
-                      }
-                      onRevoke={() =>
-                        onSeatsChange((seats) =>
-                          seats.map((item) =>
-                            item.id === seat.id
-                              ? {
-                                  ...item,
-                                  status: "revoked",
-                                  temporaryCredentialState: "revoked",
-                                  inviteLink: "Revoked invite",
-                                }
-                              : item
-                          )
-                        )
-                      }
+                        })
+                      }}
+                      onRemove={() => {
+                        void runSeatAction(`remove-${seat.id}`, async () => {
+                          await onRemoveSeat(license.id, seat.id)
+                          setMessage("Seat removed.")
+                        })
+                      }}
+                      onRevoke={() => {
+                        void runSeatAction(`revoke-${seat.id}`, async () => {
+                          await onRevokeSeat(license.id, seat.id)
+                          setMessage("Invite revoked.")
+                        })
+                      }}
+                      pending={pendingAction.endsWith(seat.id)}
                     />
                   </td>
                 </tr>
@@ -1040,6 +1132,26 @@ function SeatsPanel({
               </tr>
             </thead>
             <tbody>
+              {loading ? (
+                <tr>
+                  <td
+                    colSpan={2}
+                    className="px-3 py-6 text-center text-muted-foreground"
+                  >
+                    Loading seats...
+                  </td>
+                </tr>
+              ) : null}
+              {!loading && license.seats.length === 0 ? (
+                <tr>
+                  <td
+                    colSpan={2}
+                    className="px-3 py-6 text-center text-muted-foreground"
+                  >
+                    No historical seat records are available.
+                  </td>
+                </tr>
+              ) : null}
               {license.seats.map((seat) => (
                 <tr key={seat.id} className="border-b border-border/70">
                   <td className="px-3 py-2 font-mono">{seat.id}</td>
@@ -1063,6 +1175,7 @@ function SeatActions({
   onRemove,
   onRevoke,
   open,
+  pending,
   protectActiveAdmin,
   seat,
 }: {
@@ -1072,6 +1185,7 @@ function SeatActions({
   onRemove: () => void
   onRevoke: () => void
   open: boolean
+  pending: boolean
   protectActiveAdmin: boolean
   seat: PortalSeat
 }) {
@@ -1149,6 +1263,7 @@ function SeatActions({
         size="icon-sm"
         aria-label={`Seat options for ${seat.id}`}
         aria-expanded={open}
+        disabled={pending}
         onClick={() => onOpenChange(!open)}
       >
         <MoreHorizontal className="size-4" />
@@ -1163,6 +1278,7 @@ function SeatActions({
               key={action.label}
               type="button"
               className="flex h-8 w-full items-center gap-2 rounded-sm px-2 text-left text-xs hover:bg-muted focus-visible:bg-muted disabled:pointer-events-none disabled:opacity-45"
+              disabled={pending}
               onClick={() => run(action.run)}
             >
               <action.icon className="size-3.5" />

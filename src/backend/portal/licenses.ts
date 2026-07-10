@@ -68,7 +68,15 @@ export async function listPortalLicenses(actor: PortalActor) {
     metadata: { count: rows.length },
   })
 
-  return rows.map(serializeLicense)
+  return rows
+    .sort((left, right) => {
+      if (left.status !== right.status) {
+        return left.status === "active" ? -1 : 1
+      }
+
+      return right.endsAt.localeCompare(left.endsAt)
+    })
+    .map(serializeLicense)
 }
 
 export async function listPortalLicenseSeats(
@@ -377,7 +385,7 @@ function serializeSeat(
   return {
     id: seat.seatId,
     email: seat.email ?? undefined,
-    role: isSeatRole(seat.role ?? "") ? seat.role : undefined,
+    role: seat.role && isSeatRole(seat.role) ? seat.role : undefined,
     status,
     inviteLink:
       inviteLink ??
