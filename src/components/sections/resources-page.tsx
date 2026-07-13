@@ -195,8 +195,10 @@ export function ResourcesPage() {
                   className="group py-5"
                 >
                   <summary className="flex cursor-pointer list-none items-center justify-between gap-5 text-sm font-semibold">
-                    <TrademarkText text={question} />
-                    <span className="text-primary transition-transform group-open:rotate-45">
+                    <span className="min-w-0 flex-1">
+                      <TrademarkText text={question} />
+                    </span>
+                    <span className="shrink-0 text-primary transition-transform group-open:rotate-45">
                       +
                     </span>
                   </summary>

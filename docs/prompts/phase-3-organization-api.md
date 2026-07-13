@@ -1,5 +1,8 @@
 # Phase 3 Prompt: Organization API
 
+Status: historical implementation prompt. Phase 3 has been completed; keep this
+file as a record of the original task constraints.
+
 ```text
 You are working in /home/japheth-oruko/projects/pixesciweb.
 

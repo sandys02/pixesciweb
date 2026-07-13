@@ -39,7 +39,9 @@ It uses:
 - `pixesci_download_session`
 
 Download-gate users are not portal license administrators and do not manage app
-seats.
+seats. The protected installer route also accepts a completed organization
+portal session, so portal administrators can download PixeSci without signing
+in through the legacy download gate.
 
 ### Organization Portal Login
 
@@ -107,7 +109,7 @@ The customer receives:
 - portal email;
 - temporary portal password.
 
-Example local test account:
+Example local seed account:
 
 ```text
 Email: pixesci@gmail.com
@@ -284,8 +286,7 @@ To export a seat activation:
 3. Click `Export activation`.
 4. Copy or download the activation text file.
 5. Transfer the file to the local PixeSci app environment.
-6. Import it from the local app login or activation screen when Phase 7
-   app-side import is implemented.
+6. Import it from the local app login or activation screen.
 
 Exporting an activation file does not mark the portal seat active. Connected
 acceptance marks the seat active when the app submits the activation to the
@@ -374,7 +375,7 @@ To generate a bundle:
 5. Copy or download the generated bundle.
 6. Transfer the file to the local PixeSci app environment.
 7. Import it through the local app license import flow when Phase 7 app-side
-   import is implemented.
+   import flow.
 
 The portal records bundle generation and export in the audit log.
 
@@ -477,7 +478,7 @@ Then:
 
 2. Open the local site.
 
-3. Sign in with:
+3. Sign in with the seeded portal email and temporary password:
 
    ```text
    Email: pixesci@gmail.com
@@ -555,12 +556,10 @@ Regenerate and download the bundle again, then transfer the full text file.
 
 ## What Is Not Implemented Yet
 
-The portal backend through Phase 6 is implemented. These parts are still future
-work:
+The website portal backend is implemented through connected activation and
+signed license bundles. These parts are still future work or operational
+hardening:
 
-- app-side import in `/home/japheth-oruko/projects/pixesciv2`;
-- Phase 7b connected activation endpoint at
-  `/api/portal/seat-activations/accept`;
 - browser-based `/portal/invite/[token]` acceptance page;
 - manual activation return files;
 - production signing-key rotation scripts;

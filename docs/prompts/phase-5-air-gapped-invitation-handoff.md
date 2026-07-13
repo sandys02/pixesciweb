@@ -1,5 +1,8 @@
 # Phase 5 Prompt: Air-Gapped Seat Activation Handoff
 
+Status: historical implementation prompt. Phase 5 has been completed; keep this
+file as a record of the original task constraints.
+
 You are working in `/home/japheth-oruko/projects/pixesciweb`.
 
 Implement Phase 5 from `docs/backend-completion-plan.md` using the air-gapped,

@@ -1,4 +1,4 @@
-# Download auth backend
+# Download Auth Backend
 
 Server-only helpers for the gated PixeSci installer download.
 
@@ -20,8 +20,17 @@ src/app/api/download/
 ```
 
 The frontend calls these routes through `src/lib/download-access.ts`. There is
-no `/api/download/url` route — the client downloads directly from
-`/api/download/file` after login.
+no `/api/download/url` route. The client downloads directly from
+`/api/download/file`.
+
+`/api/download/file` accepts either:
+
+- a valid legacy `pixesci_download_session`; or
+- a valid completed `pixesci_portal_session`.
+
+Requests with neither session are rejected with the download-session expired
+message. This keeps legacy download users working while allowing authenticated
+portal administrators to download the installer from the portal.
 
 ## Setup
 
@@ -37,10 +46,12 @@ dashboard is required.
 
 ## Environment
 
-See `.env.example`. Required:
+Required:
 
 - `DOWNLOAD_SESSION_SECRET` (32+ characters)
 - `DOWNLOAD_LINK_LOCK_URL` + `DOWNLOAD_LINK_LOCK_PASSWORD` — server decrypts a [Link Lock](https://github.com/jstrieb/link-lock) URL after app login and redirects to the online installer
 
-Database URL is hardcoded in `src/backend/download-auth/database-url.ts`, not
-loaded from environment variables.
+The download database path is defined in
+`src/backend/download-auth/database-url.ts`. Local development uses
+`private/download.db`. Vercel runtime copies the bundled database to
+`/tmp/pixesci-download.db` so route handlers can write runtime state if needed.

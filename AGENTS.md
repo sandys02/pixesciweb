@@ -129,9 +129,9 @@ Be precise. PixeSci can be described as helping teams track work, produce record
 ## Analytics And Privacy Rules
 
 - The site uses Vercel Web Analytics and Speed Insights and records demo-booking conversion events.
-- The current site has no account system, file upload, contact form, or first-party marketing-cookie feature.
+- The public marketing site has no self-service account registration, file upload, contact form, or first-party marketing-cookie feature. The repository does include gated download access and a customer organization portal with session cookies and local auth.
 - Do not add a cookie banner when the site does not set optional cookies. Add consent controls only if a future integration introduces non-essential cookies or storage that requires consent.
-- Keep `src/app/privacy/page.tsx` aligned with the measurement tools, external services, and data flows actually used by the site.
+- Keep `src/app/(site)/privacy/page.tsx` aligned with the measurement tools, external services, and data flows actually used by the site.
 - Demo booking is handled by Cal.com in a new browser tab. Do not embed the calendar or add a contact-form backend unless the user explicitly requests it.
 
 ## Verification

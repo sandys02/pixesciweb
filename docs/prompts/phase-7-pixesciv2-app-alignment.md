@@ -1,5 +1,9 @@
 # Phase 7 Prompt: PixeSci App Alignment
 
+Status: historical cross-repository implementation prompt. Phase 7 app
+alignment work has been implemented separately in `pixesciv2`; keep this file
+as a record of the original task constraints.
+
 You are working in `/home/japheth-oruko/projects/pixesciv2`.
 
 Goal: complete Phase 7 from

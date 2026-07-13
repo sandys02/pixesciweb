@@ -15,8 +15,9 @@ const sections = [
   {
     title: "Information this website processes",
     paragraphs: [
-      "This website has no user accounts, file uploads, or contact form. The hosting service may process standard request details to load pages securely.",
+      "The public marketing pages have no file uploads or contact form. The website also includes gated download access and an organization portal for customer administrators. Those areas process account email addresses, session cookies, organization profile fields, license records, seat records, audit events, and signed activation or license files needed to provide the portal.",
       "PixeSci uses Vercel Web Analytics to count page visits and demo-link clicks. It uses Vercel Speed Insights to measure website speed. These events include the page path, link label, and link location. They do not include names, email addresses, scientific data, or form content.",
+      "The portal does not store scientific workflow data, experiment files, local run records, SOP content, endpoint usernames, device inventory, telemetry, or internal deployment topology.",
     ],
   },
   {
@@ -53,7 +54,7 @@ export default function Page() {
             What this website measures and how demo booking works.
           </p>
           <p className="mt-5 text-xs text-muted-foreground">
-            Last updated June 14, 2026
+            Last updated July 13, 2026
           </p>
         </div>
       </section>

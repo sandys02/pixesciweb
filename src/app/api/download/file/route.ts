@@ -10,16 +10,29 @@ import {
   createDownloadRedirectResponse,
   resolveAuthorizedDownloadUrl,
 } from "@/backend/download-auth/file"
+import {
+  PORTAL_SESSION_COOKIE,
+  requireCompletedPortalSession,
+} from "@/backend/portal/auth"
 
 export async function GET() {
   try {
     const cookieStore = await cookies()
-    const session = await requireDownloadSession(
+    const downloadSession = await requireDownloadSession(
       cookieStore.get(DOWNLOAD_SESSION_COOKIE)?.value
     )
 
-    if (!session.ok) {
-      return jsonResponse({ message: session.message }, session.status)
+    if (!downloadSession.ok) {
+      const portalSession = await requireCompletedPortalSession(
+        cookieStore.get(PORTAL_SESSION_COOKIE)?.value
+      )
+
+      if (!portalSession.ok) {
+        return jsonResponse(
+          { message: downloadSession.message },
+          downloadSession.status
+        )
+      }
     }
 
     const downloadUrl = await resolveAuthorizedDownloadUrl()

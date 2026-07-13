@@ -1,5 +1,8 @@
 # Phase 6 Prompt: Signed Offline License Bundles
 
+Status: historical implementation prompt. Phase 6 has been completed; keep this
+file as a record of the original task constraints.
+
 You are working in `/home/japheth-oruko/projects/pixesciweb`.
 
 Goal: implement Phase 6 from `docs/backend-completion-plan.md`: signed offline

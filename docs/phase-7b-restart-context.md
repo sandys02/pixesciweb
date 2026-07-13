@@ -3,6 +3,10 @@
 This file captures the relevant context from the Phase 7b work so a future
 session can resume without reconstructing the chat.
 
+Status: historical restart/context note. Phase 7b connected activation has been
+implemented; use this file for provenance and troubleshooting context, not as
+the primary current architecture document.
+
 ## Repositories
 
 - Website portal: `/home/japheth-oruko/projects/pixesciweb`

@@ -6,6 +6,11 @@ onboarding, portal setup, license visibility, and seat management.
 Current implementation gaps and temporary technical debt are tracked separately
 in `docs/portal-backend-technical-debt.md`.
 
+Current implementation status: the website portal has local portal auth,
+organization profile APIs, license and seat APIs, activation export, signed
+offline license bundles, and connected seat activation acceptance. Remaining
+work is mostly operational hardening plus deferred browser invite acceptance.
+
 ## Product Decision
 
 Organization onboarding is owned by the website portal, not the PixeSci app.
@@ -63,17 +68,21 @@ Licenses and seats:
 - `POST /api/portal/seats/{seat_id}/revoke-invite`
 - `POST /api/portal/seats/{seat_id}/remove`
 
-Optional invite acceptance endpoint if the backend owns a web acceptance flow:
+Connected app-facing activation endpoint:
+
+- `POST /api/portal/seat-activations/accept`
+
+Deferred browser invite acceptance endpoint if the website later owns a web
+acceptance flow:
 
 - `POST /api/portal/invitations/{token}/accept`
-- `POST /api/portal/seat-activations/accept`
 
 The current product model does not require a separate "add" endpoint. A seat
 becomes active when the invited user accepts the single-use invite or temporary
 credential. Add a separate endpoint only if the backend later supports
 preallocated inactive seats that need explicit activation by an administrator.
 
-Current direction: Phase 7b adds connected activation through
+Current direction: connected activation uses
 `POST /api/portal/seat-activations/accept`. The local PixeSci app submits the
 exported armored seat activation file, the website verifies it, marks the seat
 active, and returns a fresh signed license bundle. For air-gapped installs, the

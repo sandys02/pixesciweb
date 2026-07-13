@@ -29,6 +29,9 @@ and integration with existing scientific software.
   validation and regulatory responsibility.
 - SQLite-backed download access and organization portal APIs for account setup,
   license visibility, seats, and signed license bundles.
+- Portal-authenticated organization administrators can download the PixeSci
+  installer through the same protected `/api/download/file` route used by
+  legacy download-gate sessions.
 
 This repository has no CMS or public account registration flow. Runtime
 configuration is required for the download and organization portal backends.
@@ -88,11 +91,27 @@ prefix unless they are intentionally safe to ship to browsers.
 | `/resources` | Technical evaluation guides and FAQ content |
 | `/company` | Product thesis, market focus, and company positioning |
 | `/privacy` | Website analytics, performance measurement, and booking disclosure |
+| `/portal` | Authenticated organization portal for setup, licenses, seats, downloads, and offline files |
 | `/contact` | Permanent compatibility redirect to the Cal.com demo calendar |
 | `/talk-to-sales` | Permanent compatibility redirect to the Cal.com demo calendar |
 
 Next.js also generates `/opengraph-image`, `/robots.txt`, and `/sitemap.xml`.
 Redirect-only routes are intentionally excluded from the sitemap.
+
+## Auth And Portal Backend
+
+The site currently has two same-origin auth layers:
+
+- Download gate: `/api/download/login`, `/api/download/session`, and
+  `pixesci_download_session` protect legacy installer-download access.
+- Organization portal: `/api/portal/login`, `/api/portal/session`, and
+  `pixesci_portal_session` protect the customer portal, license dashboard, seat
+  administration, activation exports, and bundle generation.
+
+`/api/download/file` accepts either a valid download session or a completed
+portal session. Requests with neither session still receive a 401 response.
+Portal accounts are organization administrator accounts and do not consume app
+seats.
 
 ## Application Architecture
 
@@ -100,6 +119,8 @@ The website uses Server Components by default. Client Components are limited to
 features that require browser state or effects:
 
 - `src/components/site/mobile-nav.tsx` controls the native dialog menu.
+- `src/components/site/download-pixesci-button.tsx` controls portal sign-in and
+  installer download actions.
 - `src/components/site/theme-switcher.tsx` controls theme selection.
 - `src/components/theme-provider.tsx` provides theme state and the `D` hotkey.
 - `src/components/visuals/hero-agent-mockup.tsx` runs the animated hero
@@ -124,6 +145,8 @@ components because their layouts differ from the shared marketing-page model.
 │   └── pixesci-logo.png
 ├── src/
 │   ├── app/                  # Routes, layout, metadata, SEO endpoints, styles
+│   │   └── api/              # Download and portal route handlers
+│   ├── backend/              # Server-only download and portal helpers
 │   ├── components/
 │   │   ├── sections/         # Page-level marketing composition
 │   │   ├── seo/              # JSON-LD rendering
@@ -131,7 +154,11 @@ components because their layouts differ from the shared marketing-page model.
 │   │   ├── ui/               # Low-level shadcn-style primitives
 │   │   └── visuals/          # Product-inspired diagrams and mock interfaces
 │   ├── content/              # Navigation, page data, integrations, placeholders
+│   ├── data/                 # Portal option data and compatibility content
+│   ├── features/             # Portal feature shell, helpers, and types
 │   └── lib/                  # SEO and class-name utilities
+├── private/                  # Local SQLite databases and protected fixtures
+├── scripts/                  # Seed/admin scripts for download and portal DBs
 ├── components.json           # shadcn component configuration
 ├── next.config.ts
 ├── package.json
@@ -152,6 +179,10 @@ components because their layouts differ from the shared marketing-page model.
 - `src/app/globals.css`: Tailwind imports, design tokens, dark theme, shared
   layout utilities, visual backgrounds, and reduced-motion behavior.
 - `src/lib/seo.ts`: reusable metadata and structured-data helpers.
+- `src/backend/download-auth/`: download-gate users, sessions, Link Lock
+  redirect resolution, and installer authorization.
+- `src/backend/portal/`: portal account auth, organization profile, license and
+  seat business rules, activation acceptance, and signed bundle generation.
 
 ## Demo Booking
 
@@ -209,7 +240,7 @@ content changes.
 - `@vercel/analytics` records page traffic and the
   `demo_booking_clicked` conversion event.
 - `@vercel/speed-insights` records production performance measurements.
-- `src/app/privacy/page.tsx` discloses website measurement and Cal.com
+- `src/app/(site)/privacy/page.tsx` discloses website measurement and Cal.com
   scheduling.
 - `.github/workflows/uptime.yml` checks the homepage, SEO endpoints, social
   image, and demo redirects twice per hour.
@@ -261,6 +292,9 @@ npm run start      # Serve the production build
 npm run lint       # Run ESLint
 npm run typecheck  # Run TypeScript without emitting files
 npm run format     # Format TypeScript and TSX files
+npm run db:push    # Push download and portal SQLite schemas
+npm run db:seed    # Seed a download-gate user
+npm run db:seed:portal # Seed a portal org, account, and license
 ```
 
 ## Verification
@@ -305,8 +339,19 @@ Node.js `20.9.0` or newer. Production deployments that enable the download gate
 and organization portal must set:
 
 - `DOWNLOAD_SESSION_SECRET`: 32 or more characters.
+- `DOWNLOAD_LINK_LOCK_URL` and `DOWNLOAD_LINK_LOCK_PASSWORD`: required for
+  installer redirects.
 - `PORTAL_SESSION_SECRET`: 32 or more characters.
 - `PORTAL_DB_PATH`: optional override for the portal SQLite database path.
+- `PORTAL_LICENSE_SIGNING_PRIVATE_KEY_PEM`,
+  `PORTAL_LICENSE_PUBLIC_KEY_PEM`, and `PORTAL_LICENSE_PUBLIC_KEY_ID`: required
+  in production for signed activation files and license bundles.
+
+By default, Vercel deployments copy bundled SQLite files from `private/` to
+`/tmp` for runtime writes. That is suitable for the current gated website
+deployment, but `/tmp` is not durable shared storage. Use a persistent database
+or managed libSQL service before relying on portal state as long-term
+production source of truth.
 
 After deployment, confirm:
 
@@ -315,6 +360,8 @@ After deployment, confirm:
 - `/contact` and `/talk-to-sales` return permanent redirects.
 - `/api/portal/login` can read the seeded portal database and issue a portal
   session cookie.
+- `/api/download/file` rejects unauthenticated requests and redirects for both
+  valid download sessions and completed portal sessions.
 - `/robots.txt`, `/sitemap.xml`, and `/opengraph-image` are reachable.
 - The scheduled uptime workflow is enabled on the default branch.
 

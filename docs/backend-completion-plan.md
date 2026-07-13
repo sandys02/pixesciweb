@@ -7,6 +7,14 @@ and seat backend while keeping the public download gate intact. It also defines
 the shared contract with the PixeSci app at
 `/home/japheth-oruko/projects/pixesciv2`.
 
+## Current Status
+
+The website portal backend is implemented through connected seat activation,
+signed offline license bundles, organization profile APIs, and license/seat
+management. The remaining work is operational hardening: durable production
+storage, route-handler tests, backup/restore docs, signing-key rotation scripts,
+and any deferred browser invite-acceptance flow.
+
 ## Decision Summary
 
 Use a small local auth and licensing backend inside the existing Next.js app.
@@ -41,8 +49,8 @@ References checked:
 ## Non-Goals
 
 - Do not replace the website visitor/demo booking experience.
-- Do not touch the current public website gate unless a phase explicitly moves
-  `/portal` off `pixesci_download_session`.
+- Do not remove the current public download gate unless a separate product
+  decision replaces legacy installer-download access.
 - Do not add cloud-only auth, SaaS license checks, telemetry, file upload,
   scientific work data, endpoint inventory, local run records, or deployment
   topology collection.
@@ -55,13 +63,16 @@ References checked:
 
 There are two separate authentication levels:
 
-1. Website gate: the existing download/portal sign-in gate. It protects access
-   to the installer and currently protects `/portal`. This gate is not the seat
-   system and should stay simple until it is intentionally replaced.
+1. Website gate: the existing download gate protects legacy installer-download
+   access. It is not the seat system and should stay simple until it is
+   intentionally replaced.
 2. Portal license auth: organization portal accounts and human app seats. The
    organization portal account manages licenses and seats but does not consume a
    PixeSci app seat. Human app users consume seats only after invite acceptance
    or local app activation.
+
+`/portal` is protected by the portal session. The installer download endpoint
+accepts either a legacy download session or a completed portal session.
 
 Backend responsibilities:
 
@@ -351,7 +362,8 @@ Work:
 - Add `.env.example` entries:
   - `PORTAL_SESSION_SECRET`
   - `PORTAL_DB_PATH`
-  - `PORTAL_LICENSE_SIGNING_KEY_PATH`
+  - `PORTAL_LICENSE_SIGNING_PRIVATE_KEY_PEM`
+  - `PORTAL_LICENSE_PUBLIC_KEY_PEM`
   - `PORTAL_LICENSE_PUBLIC_KEY_ID`
 - Review privacy page if the portal goes beyond the current gated download and
   starts storing organization account data in production.

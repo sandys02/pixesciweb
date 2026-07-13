@@ -1,5 +1,9 @@
 # Seat Activation Import Contract
 
+Status: current contract. The website portal supports connected acceptance
+through `/api/portal/seat-activations/accept`; local-only import remains the
+air-gapped fallback.
+
 Phase 5 introduced an app-owned, air-gapped seat activation handoff. The
 website portal exports a signed activation file for a pending seat invite. The
 local PixeSci app can import that file, verify the signature, and create or

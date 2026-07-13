@@ -1,26 +1,25 @@
 # Portal Backend
 
-Backend helpers for the PixeSci organization portal will live here. The portal
-backend is responsible for organization setup, portal license authentication,
-license visibility, seat administration, audit events, and signed offline
-license bundles.
+Server-only helpers for the PixeSci organization portal. The portal backend is
+responsible for organization setup, portal license authentication, license
+visibility, seat administration, audit events, connected seat activation, and
+signed offline license bundles.
 
-Phase 1 schema and database helpers are implemented. Use
-`docs/backend-completion-plan.md`, `docs/portal-backend-plan.md`, and
-`docs/portal-backend-technical-debt.md` as the source of truth for the remaining
-phased implementation.
+The baseline portal backend is implemented through connected activation. Use
+`docs/portal-backend-plan.md`, `docs/portal-user-guide.md`, and
+`docs/portal-backend-technical-debt.md` as the current operational references.
 
 ## Auth Boundaries
 
 There are two separate authentication levels:
 
-- Website/download gate: the existing `/api/download/*` routes and
-  `pixesci_download_session` cookie protect the installer and currently protect
-  `/portal`. This gate is useful, but it is not the final portal identity or
-  seat system.
-- Portal license auth: future `/api/portal/*` routes will authenticate
-  organization portal accounts, enforce setup state, and authorize license and
-  seat administration.
+- Website/download gate: `/api/download/*` routes and
+  `pixesci_download_session` protect legacy installer-download access.
+- Portal license auth: `/api/portal/*` routes authenticate organization portal
+  accounts, enforce setup state, and authorize license and seat administration.
+
+`/portal` is protected by `pixesci_portal_session`. The installer download route
+accepts either a valid legacy download session or a completed portal session.
 
 The organization portal account is not a human PixeSci app user and must not
 consume an app license seat. Human app seats are separate records owned by an
@@ -31,9 +30,9 @@ add Keycloak unless a later product decision explicitly changes the plan.
 Keycloak remains a possible future customer-controlled option, but it is not
 needed for the initial portal backend.
 
-## Future Layout
+## Layout
 
-Expected implementation shape:
+Current implementation shape:
 
 ```text
 src/backend/portal/
@@ -43,23 +42,16 @@ src/backend/portal/
 ├── database-url.ts  # portal database path/config
 ├── db.ts            # libSQL/Drizzle client
 ├── auth.ts          # password hashing, sessions, setup state, authorization helpers
-├── validation.ts    # request/response schemas
-├── audit.ts         # server-side audit event helpers
 ├── licenses.ts      # license and seat business rules
-└── bundles.ts       # signed offline license bundle generation/verification helpers
+├── activations.ts   # activation export and connected acceptance
+├── bundles.ts       # signed offline license bundle generation/verification helpers
+├── organization.ts  # organization profile read/update helpers
+└── signing.ts       # Ed25519 signing, verification, and armored wrappers
 ```
 
-Route handlers should live under `src/app/api/portal/**/route.ts` and call
-server-only helpers from this directory. Before adding route handlers, read the
-installed Next 16 docs in `node_modules/next/dist/docs/`.
-
-Phase 1 added:
-
-- `schema.ts`
-- `database-url.ts`
-- `db.ts`
-- `drizzle.portal.config.ts`
-- `scripts/seed-portal-account.ts`
+Route handlers live under `src/app/api/portal/**/route.ts` and call server-only
+helpers from this directory. Before changing route handlers, read the installed
+Next 16 docs in `node_modules/next/dist/docs/`.
 
 The portal database is separate from the download gate database:
 
@@ -69,11 +61,20 @@ The portal database is separate from the download gate database:
 Set `PORTAL_DB_PATH` to override the portal database path. Absolute paths are
 used as provided; relative paths are resolved inside `private/`.
 
+On Vercel, when `PORTAL_DB_PATH` is not set, the bundled `private/portal.db` is
+copied to `/tmp/pixesci-portal.db` at runtime. `/tmp` is writable but not
+durable shared storage; use a persistent database before relying on portal
+state as long-term production source of truth.
+
 Portal auth uses these environment variables:
 
 - `PORTAL_SESSION_SECRET`: required in production; use at least 32 characters.
 - `PORTAL_SESSION_TTL_SECONDS`: optional session TTL override. Defaults to 20
   minutes.
+- `PORTAL_LICENSE_SIGNING_PRIVATE_KEY_PEM`: required in production for signed
+  activation files and license bundles.
+- `PORTAL_LICENSE_PUBLIC_KEY_PEM`: required in production for verification.
+- `PORTAL_LICENSE_PUBLIC_KEY_ID`: required in production as the signing key ID.
 
 ## Setup
 
@@ -128,10 +129,13 @@ Licenses and seats:
 - `POST /api/portal/seats/{seat_id}/revoke-invite`
 - `POST /api/portal/seats/{seat_id}/remove`
 
-Optional connected-flow invite acceptance:
+Connected-flow acceptance:
+
+- `POST /api/portal/seat-activations/accept`
+
+Deferred browser invite acceptance:
 
 - `POST /api/portal/invitations/{token}/accept`
-- `POST /api/portal/seat-activations/accept`
 
 For connected customers, Phase 7b uses the exported armored seat activation
 file as the bearer proof: the app submits it to
@@ -180,7 +184,7 @@ Only expand this data scope after a separate product and compliance decision.
 - Keep inactive-license seat responses minimal in normal portal APIs: historical
   seat ID and status only.
 - Use structured request validation and explicit server-side authorization for
-  all future route handlers.
+  all route handlers.
 - Use `HttpOnly`, `Secure` in production, `SameSite=Lax`, short-lived sessions,
   and `Cache-Control: no-store` for auth responses.
 
@@ -219,7 +223,7 @@ air-gapped app handoff.
 
 ## Verification Expectations
 
-Future implementation phases should run:
+Implementation changes should run:
 
 - `npm run lint`
 - `npm run typecheck`

@@ -1,5 +1,8 @@
 # Phase 4 Prompt: License And Seat APIs
 
+Status: historical implementation prompt. Phase 4 has been completed; keep this
+file as a record of the original task constraints.
+
 You are working in /home/japheth-oruko/projects/pixesciweb.
 
 Goal: implement Phase 4 from docs/backend-completion-plan.md: make the portal license dashboard and seat actions authoritative. Phase 1-3 are already implemented. Replace live portal license/seat usage of dummy data and browser/in-memory mutations with backend APIs.

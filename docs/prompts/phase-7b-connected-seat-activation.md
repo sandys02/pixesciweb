@@ -1,5 +1,9 @@
 # Phase 7b Prompt: Connected Single-Use Seat Activation
 
+Status: historical cross-repository implementation prompt. Phase 7b connected
+activation has been implemented; keep this file as a record of the original
+task constraints.
+
 You are working across two repositories:
 
 - website portal: `/home/japheth-oruko/projects/pixesciweb`

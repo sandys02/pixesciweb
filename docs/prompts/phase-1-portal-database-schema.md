@@ -1,5 +1,8 @@
 # Phase 1 Prompt: Portal Database Schema
 
+Status: historical implementation prompt. Phase 1 has been completed; keep this
+file as a record of the original task constraints.
+
 ```text
 You are working in /home/japheth-oruko/projects/pixesciweb.
 
