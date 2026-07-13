@@ -14,7 +14,8 @@
     "db:push:download": "drizzle-kit push",
     "db:push:portal": "drizzle-kit push --config drizzle.portal.config.ts",
     "db:seed": "tsx scripts/seed-download-user.ts",
-    "db:seed:portal": "tsx scripts/seed-portal-account.ts"
+    "db:seed:portal": "tsx scripts/seed-portal-account.ts",
+    "db:migrate:portal": "tsx scripts/migrate-portal-sqlite-to-libsql.ts"
   },
   "dependencies": {
     "@libsql/client": "^0.17.4",

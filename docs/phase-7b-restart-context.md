@@ -336,10 +336,13 @@ same activation.
 During the final investigation request, no code was edited. Findings were from:
 
 - decoding the activation;
-- querying `private/portal.db`;
+- querying the local development portal database at `private/portal.db`;
 - checking listening ports;
 - checking route availability with `curl`;
 - checking app config defaults.
+
+Current production portal state is stored in the durable
+`PORTAL_DATABASE_URL` database, not in `private/portal.db`.
 
 ## Dirty Worktree Notes
 

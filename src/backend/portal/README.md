@@ -56,7 +56,7 @@ Next 16 docs in `node_modules/next/dist/docs/`.
 The portal database is separate from the download gate database:
 
 - download gate: `private/download.db`
-- portal backend: `private/portal.db` by default
+- portal backend: `private/portal.db` by default for local development
 
 Set `PORTAL_DB_PATH` to override the portal database path. Absolute paths are
 used as provided; relative paths are resolved inside `private/`.
@@ -65,18 +65,17 @@ Set `PORTAL_DATABASE_URL` to use a durable libSQL/Turso database instead of a
 local SQLite file. Set `PORTAL_DATABASE_AUTH_TOKEN` when that database requires
 authentication.
 
-On Vercel, production portal state should use `PORTAL_DATABASE_URL`. If it is
-missing, the portal falls back to a bundled SQLite copy at
-`/tmp/pixesci-portal.db` so seeded accounts can still sign in. That fallback is
-not durable shared storage and can lose created seats, audit events, and profile
-changes when serverless instances recycle.
+On Vercel, production portal state must use `PORTAL_DATABASE_URL`. Vercel
+serverless `/tmp` storage is not durable shared storage, and the portal now
+fails closed when `PORTAL_DATABASE_URL` is missing on Vercel instead of copying
+`private/portal.db` to `/tmp`.
 
 Portal auth uses these environment variables:
 
 - `PORTAL_SESSION_SECRET`: required in production; use at least 32 characters.
 - `PORTAL_SESSION_TTL_SECONDS`: optional session TTL override. Defaults to 20
   minutes.
-- `PORTAL_DATABASE_URL`: recommended on Vercel for durable portal state.
+- `PORTAL_DATABASE_URL`: required on Vercel for durable portal state.
 - `PORTAL_DATABASE_AUTH_TOKEN`: required when the configured portal database
   needs an auth token.
 - `PORTAL_LICENSE_SIGNING_PRIVATE_KEY_PEM`: required in production for signed
@@ -90,6 +89,13 @@ Create or update the portal database:
 
 ```bash
 npm run db:push:portal
+```
+
+Migrate bundled local portal seed data into a durable libSQL/Turso portal
+database after the schema exists:
+
+```bash
+npm run db:migrate:portal
 ```
 
 Create a starting organization, portal account, and active license:

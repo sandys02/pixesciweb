@@ -15,6 +15,9 @@ Before coding:
 Implementation rules:
 
 - Keep portal auth local for the baseline implementation.
+- Keep production portal state durable. On Vercel, portal routes must require
+  `PORTAL_DATABASE_URL`; do not reintroduce a `/tmp` SQLite fallback for portal
+  accounts, licenses, seats, or audit events.
 - Do not introduce Keycloak unless a new product decision explicitly changes the
   backend plan.
 - Do not add Redis, cloud auth, telemetry, file uploads, AD/LDAP, SSO,

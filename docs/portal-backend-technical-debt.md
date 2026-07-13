@@ -61,11 +61,11 @@ Organization, licenses, seats, bundles, and activation:
 - Portal organizations, accounts, and licenses are seeded with
   `npm run db:seed:portal -- ...`.
 - Download users live in `private/download.db`.
-- Portal records live in `private/portal.db` by default.
+- Portal records live in `private/portal.db` by default for local development.
 - On Vercel, portal records must use `PORTAL_DATABASE_URL` for durable
-  libSQL/Turso storage. The old bundled SQLite `/tmp` copy is available only
-  for disposable preview/testing deployments with
-  `ALLOW_EPHEMERAL_PORTAL_DB_ON_VERCEL=1`.
+  libSQL/Turso storage. The old bundled SQLite `/tmp` copy is no longer
+  available; portal routes fail closed on Vercel when `PORTAL_DATABASE_URL` is
+  missing.
 - Production requires download, portal session, Link Lock, and portal signing
   environment variables documented in `README.md` and backend READMEs.
 

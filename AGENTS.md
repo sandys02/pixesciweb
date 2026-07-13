@@ -1,7 +1,9 @@
 <!-- BEGIN:nextjs-agent-rules -->
+
 # This is NOT the Next.js you know
 
 This version has breaking changes — APIs, conventions, and file structure may all differ from your training data. Read the relevant guide in `node_modules/next/dist/docs/` before writing any code. Heed deprecation notices.
+
 <!-- END:nextjs-agent-rules -->
 
 # PixeSci Website Agent Guide
@@ -64,6 +66,9 @@ Keep components small and composable, but do not split every tiny element into i
 - Use lucide icons from `lucide-react` instead of hand-drawn SVG icons when an icon exists.
 - Keep comments rare and useful.
 - Do not introduce backend calls for marketing content unless the implementation prompt explicitly requests them.
+- Portal production state must use durable storage. On Vercel, do not use or
+  reintroduce `/tmp` SQLite as the source of truth for portal accounts,
+  licenses, seats, or audit events; require `PORTAL_DATABASE_URL`.
 - Do not hardcode claims that PixeSci is certified, FDA-approved, HIPAA-certified, SOC 2 certified, or Part 11 validated unless documentation is added proving that status.
 - Use `DemoBookingLink` for visible demo-calendar links so they consistently open the canonical Cal.com page in a new tab and emit the existing analytics event.
 - Keep the canonical website URL and demo-calendar URL in `src/content/site.ts`; do not repeat those URLs across components.

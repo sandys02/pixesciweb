@@ -77,23 +77,23 @@ prefix unless they are intentionally safe to ship to browsers.
 
 ## Routes
 
-| Route | Purpose |
-| --- | --- |
-| `/` | Primary product positioning and conversion journey |
-| `/product` | Platform, workflow canvas, runtime, catalog, and audit capabilities |
-| `/workflow-automation` | Graph-native authoring, controlled execution, and run evidence |
-| `/integrations` | Scientific software categories, capability profiles, and adapter channels |
-| `/compliance` | Data integrity, auditability, review, and validation boundaries |
-| `/security` | Local-first architecture, deployment models, and policy controls |
-| `/solutions/regulated-life-sciences` | QC and R&D workflows for regulated organizations |
-| `/solutions/secure-research` | On-premises and air-gapped research environments |
-| `/solutions/core-facilities` | Reusable operator workflows for shared facilities |
-| `/resources` | Technical evaluation guides and FAQ content |
-| `/company` | Product thesis, market focus, and company positioning |
-| `/privacy` | Website analytics, performance measurement, and booking disclosure |
-| `/portal` | Authenticated organization portal for setup, licenses, seats, downloads, and offline files |
-| `/contact` | Permanent compatibility redirect to the Cal.com demo calendar |
-| `/talk-to-sales` | Permanent compatibility redirect to the Cal.com demo calendar |
+| Route                                | Purpose                                                                                    |
+| ------------------------------------ | ------------------------------------------------------------------------------------------ |
+| `/`                                  | Primary product positioning and conversion journey                                         |
+| `/product`                           | Platform, workflow canvas, runtime, catalog, and audit capabilities                        |
+| `/workflow-automation`               | Graph-native authoring, controlled execution, and run evidence                             |
+| `/integrations`                      | Scientific software categories, capability profiles, and adapter channels                  |
+| `/compliance`                        | Data integrity, auditability, review, and validation boundaries                            |
+| `/security`                          | Local-first architecture, deployment models, and policy controls                           |
+| `/solutions/regulated-life-sciences` | QC and R&D workflows for regulated organizations                                           |
+| `/solutions/secure-research`         | On-premises and air-gapped research environments                                           |
+| `/solutions/core-facilities`         | Reusable operator workflows for shared facilities                                          |
+| `/resources`                         | Technical evaluation guides and FAQ content                                                |
+| `/company`                           | Product thesis, market focus, and company positioning                                      |
+| `/privacy`                           | Website analytics, performance measurement, and booking disclosure                         |
+| `/portal`                            | Authenticated organization portal for setup, licenses, seats, downloads, and offline files |
+| `/contact`                           | Permanent compatibility redirect to the Cal.com demo calendar                              |
+| `/talk-to-sales`                     | Permanent compatibility redirect to the Cal.com demo calendar                              |
 
 Next.js also generates `/opengraph-image`, `/robots.txt`, and `/sitemap.xml`.
 Redirect-only routes are intentionally excluded from the sitemap.
@@ -342,7 +342,7 @@ and organization portal must set:
 - `DOWNLOAD_LINK_LOCK_URL` and `DOWNLOAD_LINK_LOCK_PASSWORD`: required for
   installer redirects.
 - `PORTAL_SESSION_SECRET`: 32 or more characters.
-- `PORTAL_DATABASE_URL`: recommended on Vercel for durable portal state. Use a
+- `PORTAL_DATABASE_URL`: required on Vercel for durable portal state. Use a
   managed libSQL/Turso database for production seats, licenses, audit events,
   and portal accounts.
 - `PORTAL_DATABASE_AUTH_TOKEN`: required when the configured portal database
@@ -353,20 +353,27 @@ and organization portal must set:
   `PORTAL_LICENSE_PUBLIC_KEY_PEM`, and `PORTAL_LICENSE_PUBLIC_KEY_ID`: required
   in production for signed activation files and license bundles.
 
-Vercel serverless `/tmp` storage is not durable shared storage. If
-`PORTAL_DATABASE_URL` is missing on Vercel, the portal falls back to a bundled
-copy of `private/portal.db` so seeded accounts can still sign in, but created
-seats, audit events, and profile changes can disappear when instances recycle.
-Use a durable `PORTAL_DATABASE_URL` before treating the portal as production
-state.
+Vercel serverless `/tmp` storage is not durable shared storage. The portal no
+longer falls back to a bundled `/tmp` SQLite copy on Vercel; production deploys
+must provide `PORTAL_DATABASE_URL` or portal routes will fail closed. To move
+the bundled seed data into a durable libSQL/Turso database, run the portal
+schema push and migration with `PORTAL_DATABASE_URL` and
+`PORTAL_DATABASE_AUTH_TOKEN` loaded:
+
+```bash
+npm run db:push:portal
+npm run db:migrate:portal
+```
 
 After deployment, confirm:
 
 - `https://pixesci.com` matches the actual canonical production domain.
 - Cal.com links open the expected PixeSci booking page.
 - `/contact` and `/talk-to-sales` return permanent redirects.
-- `/api/portal/login` can read the seeded portal database and issue a portal
+- `/api/portal/login` can read the durable portal database and issue a portal
   session cookie.
+- A newly invited portal seat remains visible after refresh, fresh session, and
+  redeploy.
 - `/api/download/file` rejects unauthenticated requests and redirects for both
   valid download sessions and completed portal sessions.
 - `/robots.txt`, `/sitemap.xml`, and `/opengraph-image` are reachable.
