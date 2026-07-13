@@ -342,7 +342,7 @@ and organization portal must set:
 - `DOWNLOAD_LINK_LOCK_URL` and `DOWNLOAD_LINK_LOCK_PASSWORD`: required for
   installer redirects.
 - `PORTAL_SESSION_SECRET`: 32 or more characters.
-- `PORTAL_DATABASE_URL`: required on Vercel for durable portal state. Use a
+- `PORTAL_DATABASE_URL`: recommended on Vercel for durable portal state. Use a
   managed libSQL/Turso database for production seats, licenses, audit events,
   and portal accounts.
 - `PORTAL_DATABASE_AUTH_TOKEN`: required when the configured portal database
@@ -353,11 +353,12 @@ and organization portal must set:
   `PORTAL_LICENSE_PUBLIC_KEY_PEM`, and `PORTAL_LICENSE_PUBLIC_KEY_ID`: required
   in production for signed activation files and license bundles.
 
-Vercel serverless `/tmp` storage is not durable shared storage. Production
-portal runtime now fails fast without `PORTAL_DATABASE_URL` so created seats
-cannot silently disappear after an instance recycle. Disposable preview/testing
-deployments can temporarily opt into the old bundled SQLite copy behavior with
-`ALLOW_EPHEMERAL_PORTAL_DB_ON_VERCEL=1`.
+Vercel serverless `/tmp` storage is not durable shared storage. If
+`PORTAL_DATABASE_URL` is missing on Vercel, the portal falls back to a bundled
+copy of `private/portal.db` so seeded accounts can still sign in, but created
+seats, audit events, and profile changes can disappear when instances recycle.
+Use a durable `PORTAL_DATABASE_URL` before treating the portal as production
+state.
 
 After deployment, confirm:
 

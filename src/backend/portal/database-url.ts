@@ -7,7 +7,6 @@ const VERCEL_BUILD_PORTAL_DB_PATH = path.join(
   "pixesci-portal-build-placeholder.db"
 )
 const VERCEL_PORTAL_DB_PATH = path.join("/tmp", "pixesci-portal.db")
-const EPHEMERAL_VERCEL_PORTAL_DB_FLAG = "ALLOW_EPHEMERAL_PORTAL_DB_ON_VERCEL"
 const NEXT_PRODUCTION_BUILD_PHASE = "phase-production-build"
 
 type PortalDatabaseConfig = {
@@ -43,16 +42,6 @@ function resolvePortalDatabaseConfig(): PortalDatabaseConfig {
       return resolveFileDatabaseUrl(VERCEL_BUILD_PORTAL_DB_PATH)
     }
 
-    if (process.env[EPHEMERAL_VERCEL_PORTAL_DB_FLAG] !== "1") {
-      throw new Error(
-        [
-          "PORTAL_DATABASE_URL is required on Vercel for durable portal state.",
-          "The previous /tmp SQLite fallback loses created seats when serverless instances recycle.",
-          `Set ${EPHEMERAL_VERCEL_PORTAL_DB_FLAG}=1 only for disposable preview/testing deployments.`,
-        ].join(" ")
-      )
-    }
-
     if (!existsSync(VERCEL_PORTAL_DB_PATH)) {
       if (!existsSync(DEFAULT_PORTAL_DB_PATH)) {
         throw new Error(
@@ -62,6 +51,13 @@ function resolvePortalDatabaseConfig(): PortalDatabaseConfig {
 
       copyFileSync(DEFAULT_PORTAL_DB_PATH, VERCEL_PORTAL_DB_PATH)
     }
+
+    console.warn(
+      [
+        "Using bundled portal SQLite database copy on Vercel.",
+        "Set PORTAL_DATABASE_URL for durable shared portal state.",
+      ].join(" ")
+    )
 
     return resolveFileDatabaseUrl(VERCEL_PORTAL_DB_PATH)
   }

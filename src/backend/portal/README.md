@@ -65,18 +65,18 @@ Set `PORTAL_DATABASE_URL` to use a durable libSQL/Turso database instead of a
 local SQLite file. Set `PORTAL_DATABASE_AUTH_TOKEN` when that database requires
 authentication.
 
-On Vercel, production portal state must use `PORTAL_DATABASE_URL`. The old
-bundled SQLite copy at `/tmp/pixesci-portal.db` is not durable shared storage
-and will lose created seats when serverless instances recycle. Disposable
-preview/testing deployments can temporarily opt into that behavior with
-`ALLOW_EPHEMERAL_PORTAL_DB_ON_VERCEL=1`.
+On Vercel, production portal state should use `PORTAL_DATABASE_URL`. If it is
+missing, the portal falls back to a bundled SQLite copy at
+`/tmp/pixesci-portal.db` so seeded accounts can still sign in. That fallback is
+not durable shared storage and can lose created seats, audit events, and profile
+changes when serverless instances recycle.
 
 Portal auth uses these environment variables:
 
 - `PORTAL_SESSION_SECRET`: required in production; use at least 32 characters.
 - `PORTAL_SESSION_TTL_SECONDS`: optional session TTL override. Defaults to 20
   minutes.
-- `PORTAL_DATABASE_URL`: required on Vercel for durable portal state.
+- `PORTAL_DATABASE_URL`: recommended on Vercel for durable portal state.
 - `PORTAL_DATABASE_AUTH_TOKEN`: required when the configured portal database
   needs an auth token.
 - `PORTAL_LICENSE_SIGNING_PRIVATE_KEY_PEM`: required in production for signed
