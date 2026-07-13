@@ -354,7 +354,7 @@ and organization portal must set:
   in production for signed activation files and license bundles.
 
 Vercel serverless `/tmp` storage is not durable shared storage. Production
-portal deployments now fail fast without `PORTAL_DATABASE_URL` so created seats
+portal runtime now fails fast without `PORTAL_DATABASE_URL` so created seats
 cannot silently disappear after an instance recycle. Disposable preview/testing
 deployments can temporarily opt into the old bundled SQLite copy behavior with
 `ALLOW_EPHEMERAL_PORTAL_DB_ON_VERCEL=1`.

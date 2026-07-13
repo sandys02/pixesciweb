@@ -2,8 +2,13 @@ import { copyFileSync, existsSync, mkdirSync } from "node:fs"
 import path from "node:path"
 
 const DEFAULT_PORTAL_DB_PATH = path.join(process.cwd(), "private", "portal.db")
+const VERCEL_BUILD_PORTAL_DB_PATH = path.join(
+  "/tmp",
+  "pixesci-portal-build-placeholder.db"
+)
 const VERCEL_PORTAL_DB_PATH = path.join("/tmp", "pixesci-portal.db")
 const EPHEMERAL_VERCEL_PORTAL_DB_FLAG = "ALLOW_EPHEMERAL_PORTAL_DB_ON_VERCEL"
+const NEXT_PRODUCTION_BUILD_PHASE = "phase-production-build"
 
 type PortalDatabaseConfig = {
   path: string | null
@@ -34,6 +39,10 @@ function resolvePortalDatabaseConfig(): PortalDatabaseConfig {
   const configuredPath = process.env.PORTAL_DB_PATH?.trim()
 
   if (!configuredPath && process.env.VERCEL === "1") {
+    if (process.env.NEXT_PHASE === NEXT_PRODUCTION_BUILD_PHASE) {
+      return resolveFileDatabaseUrl(VERCEL_BUILD_PORTAL_DB_PATH)
+    }
+
     if (process.env[EPHEMERAL_VERCEL_PORTAL_DB_FLAG] !== "1") {
       throw new Error(
         [
