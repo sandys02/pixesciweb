@@ -4,7 +4,10 @@ import { createClient } from "@libsql/client"
 import { eq } from "drizzle-orm"
 import { drizzle } from "drizzle-orm/libsql"
 
-import { PORTAL_DATABASE_URL } from "../src/backend/portal/database-url"
+import {
+  PORTAL_DATABASE_AUTH_TOKEN,
+  PORTAL_DATABASE_URL,
+} from "../src/backend/portal/database-url"
 import {
   auditEvents,
   licenses,
@@ -151,7 +154,10 @@ if (password.length < 10) {
   process.exit(1)
 }
 
-const client = createClient({ url: PORTAL_DATABASE_URL })
+const client = createClient({
+  url: PORTAL_DATABASE_URL,
+  authToken: PORTAL_DATABASE_AUTH_TOKEN,
+})
 const db = drizzle(client)
 const now = new Date().toISOString()
 

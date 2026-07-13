@@ -62,16 +62,18 @@ Organization, licenses, seats, bundles, and activation:
   `npm run db:seed:portal -- ...`.
 - Download users live in `private/download.db`.
 - Portal records live in `private/portal.db` by default.
-- On Vercel, bundled SQLite files are copied to `/tmp` for runtime writes.
-  `/tmp` is not durable shared storage.
+- On Vercel, portal records must use `PORTAL_DATABASE_URL` for durable
+  libSQL/Turso storage. The old bundled SQLite `/tmp` copy is available only
+  for disposable preview/testing deployments with
+  `ALLOW_EPHEMERAL_PORTAL_DB_ON_VERCEL=1`.
 - Production requires download, portal session, Link Lock, and portal signing
   environment variables documented in `README.md` and backend READMEs.
 
 ## Remaining Risks
 
-- Bundled SQLite plus `/tmp` runtime copies are not a durable production
-  database strategy. Move portal and download auth state to persistent storage
-  before treating the portal as long-term production source of truth.
+- The download gate still uses bundled SQLite plus `/tmp` runtime copies on
+  Vercel. Move download auth state to persistent storage before treating it as
+  long-term production source of truth.
 - There is no full route-handler test suite for auth, organization scoping,
   seat capacity, bundle signing, activation acceptance, and failure cases.
 - Operational backup/restore docs for portal DBs and signing keys are not

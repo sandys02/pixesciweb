@@ -1,6 +1,9 @@
 import { defineConfig } from "drizzle-kit"
 
-import { PORTAL_DATABASE_URL } from "./src/backend/portal/database-url"
+import {
+  PORTAL_DATABASE_AUTH_TOKEN,
+  PORTAL_DATABASE_URL,
+} from "./src/backend/portal/database-url"
 
 export default defineConfig({
   schema: "./src/backend/portal/schema.ts",
@@ -8,5 +11,6 @@ export default defineConfig({
   dialect: "turso",
   dbCredentials: {
     url: PORTAL_DATABASE_URL,
+    authToken: PORTAL_DATABASE_AUTH_TOKEN,
   },
 })

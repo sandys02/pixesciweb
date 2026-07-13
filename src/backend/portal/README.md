@@ -61,16 +61,24 @@ The portal database is separate from the download gate database:
 Set `PORTAL_DB_PATH` to override the portal database path. Absolute paths are
 used as provided; relative paths are resolved inside `private/`.
 
-On Vercel, when `PORTAL_DB_PATH` is not set, the bundled `private/portal.db` is
-copied to `/tmp/pixesci-portal.db` at runtime. `/tmp` is writable but not
-durable shared storage; use a persistent database before relying on portal
-state as long-term production source of truth.
+Set `PORTAL_DATABASE_URL` to use a durable libSQL/Turso database instead of a
+local SQLite file. Set `PORTAL_DATABASE_AUTH_TOKEN` when that database requires
+authentication.
+
+On Vercel, production portal state must use `PORTAL_DATABASE_URL`. The old
+bundled SQLite copy at `/tmp/pixesci-portal.db` is not durable shared storage
+and will lose created seats when serverless instances recycle. Disposable
+preview/testing deployments can temporarily opt into that behavior with
+`ALLOW_EPHEMERAL_PORTAL_DB_ON_VERCEL=1`.
 
 Portal auth uses these environment variables:
 
 - `PORTAL_SESSION_SECRET`: required in production; use at least 32 characters.
 - `PORTAL_SESSION_TTL_SECONDS`: optional session TTL override. Defaults to 20
   minutes.
+- `PORTAL_DATABASE_URL`: required on Vercel for durable portal state.
+- `PORTAL_DATABASE_AUTH_TOKEN`: required when the configured portal database
+  needs an auth token.
 - `PORTAL_LICENSE_SIGNING_PRIVATE_KEY_PEM`: required in production for signed
   activation files and license bundles.
 - `PORTAL_LICENSE_PUBLIC_KEY_PEM`: required in production for verification.

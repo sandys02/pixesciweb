@@ -342,16 +342,22 @@ and organization portal must set:
 - `DOWNLOAD_LINK_LOCK_URL` and `DOWNLOAD_LINK_LOCK_PASSWORD`: required for
   installer redirects.
 - `PORTAL_SESSION_SECRET`: 32 or more characters.
-- `PORTAL_DB_PATH`: optional override for the portal SQLite database path.
+- `PORTAL_DATABASE_URL`: required on Vercel for durable portal state. Use a
+  managed libSQL/Turso database for production seats, licenses, audit events,
+  and portal accounts.
+- `PORTAL_DATABASE_AUTH_TOKEN`: required when the configured portal database
+  needs an auth token.
+- `PORTAL_DB_PATH`: optional local-only override for the portal SQLite database
+  path.
 - `PORTAL_LICENSE_SIGNING_PRIVATE_KEY_PEM`,
   `PORTAL_LICENSE_PUBLIC_KEY_PEM`, and `PORTAL_LICENSE_PUBLIC_KEY_ID`: required
   in production for signed activation files and license bundles.
 
-By default, Vercel deployments copy bundled SQLite files from `private/` to
-`/tmp` for runtime writes. That is suitable for the current gated website
-deployment, but `/tmp` is not durable shared storage. Use a persistent database
-or managed libSQL service before relying on portal state as long-term
-production source of truth.
+Vercel serverless `/tmp` storage is not durable shared storage. Production
+portal deployments now fail fast without `PORTAL_DATABASE_URL` so created seats
+cannot silently disappear after an instance recycle. Disposable preview/testing
+deployments can temporarily opt into the old bundled SQLite copy behavior with
+`ALLOW_EPHEMERAL_PORTAL_DB_ON_VERCEL=1`.
 
 After deployment, confirm:
 
