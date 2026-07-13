@@ -5,7 +5,7 @@ import { Loader2, LogOut } from "lucide-react"
 import { useRouter } from "next/navigation"
 
 import { Button } from "@/components/ui/button"
-import { clearDownloadAuthState } from "@/lib/download-access"
+import { clearPortalAuthState } from "@/lib/portal-access"
 import { cn } from "@/lib/utils"
 
 type PortalLogoutButtonProps = {
@@ -22,7 +22,7 @@ export function PortalLogoutButton({ className }: PortalLogoutButtonProps) {
     setError("")
 
     try {
-      await clearDownloadAuthState()
+      await clearPortalAuthState()
       router.replace("/")
       router.refresh()
     } catch {
