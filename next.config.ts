@@ -56,6 +56,7 @@ const nextConfig: NextConfig = {
     "/api/download/file": ["./private/download.db"],
     "/api/download/login": ["./private/download.db"],
     "/api/download/session": ["./private/download.db"],
+    "/api/portal/**/*": ["./private/portal.db"],
   },
   async headers() {
     return [
