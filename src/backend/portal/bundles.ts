@@ -17,6 +17,7 @@ import {
   signPortalPayload,
   verifyPortalSignedWrapper,
 } from "@/backend/portal/signing"
+import type { OrganizationType } from "@/features/portal/types"
 
 const ARMOR_BEGIN = "-----BEGIN PIXESCI LICENSE BUNDLE-----"
 const ARMOR_END = "-----END PIXESCI LICENSE BUNDLE-----"
@@ -34,6 +35,7 @@ type PortalActor = {
 export type LicenseBundlePayload = {
   bundleVersion: number
   licenseId: string
+  edition: OrganizationType
   organizationId: number
   organizationName: string
   startsAt: string
@@ -388,6 +390,7 @@ async function buildBundlePayload(input: {
   const payload: LicenseBundlePayload = {
     bundleVersion: input.bundleVersion,
     licenseId: input.license.licenseId,
+    edition: organizationEdition(input.organization.organizationType),
     organizationId: input.organization.id,
     organizationName: input.organization.name,
     startsAt: input.license.startsAt,
@@ -443,6 +446,14 @@ function isArmoredLicenseBundle(value: unknown): value is ArmoredLicenseBundle {
     Boolean(bundle.payload) &&
     typeof bundle.payload === "object"
   )
+}
+
+function isOrganizationEdition(value: unknown): value is OrganizationType {
+  return value === "academia" || value === "enterprise" || value === "pixesci"
+}
+
+function organizationEdition(value: string): OrganizationType {
+  return isOrganizationEdition(value) ? value : "enterprise"
 }
 
 async function auditBlockedBundleAction(

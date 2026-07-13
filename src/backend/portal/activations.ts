@@ -16,6 +16,7 @@ import {
   signPortalPayload,
   verifyPortalSignedWrapper,
 } from "@/backend/portal/signing"
+import type { OrganizationType } from "@/features/portal/types"
 
 const ARMOR_BEGIN = "-----BEGIN PIXESCI SEAT ACTIVATION-----"
 const ARMOR_END = "-----END PIXESCI SEAT ACTIVATION-----"
@@ -28,6 +29,7 @@ type PortalActor = {
 export type SeatActivationPayload = {
   activationVersion: number
   licenseId: string
+  edition: OrganizationType
   organizationId: number
   organizationName: string
   seatId: string
@@ -73,6 +75,7 @@ export type ConnectedSeatActivationAcceptResponse = {
   }
   license: {
     licenseId: string
+    edition: OrganizationType
     organizationId: number
     organizationName: string
     startsAt: string
@@ -104,6 +107,7 @@ export async function generatePortalSeatActivation(
   const payload: SeatActivationPayload = {
     activationVersion: 1,
     licenseId: scoped.license.licenseId,
+    edition: organizationEdition(scoped.organization.organizationType),
     organizationId: scoped.organization.id,
     organizationName: scoped.organization.name,
     seatId: scoped.seat.seatId,
@@ -220,6 +224,7 @@ export async function acceptConnectedSeatActivation(
     row.license.startsAt !== payload.licenseStartsAt ||
     row.license.endsAt !== payload.licenseEndsAt ||
     row.license.seatLimit !== payload.seatLimit ||
+    organizationEdition(row.organization.organizationType) !== payload.edition ||
     row.organization.name !== payload.organizationName ||
     row.seat.email !== payload.seatEmail ||
     row.seat.role !== payload.seatRole ||
@@ -288,6 +293,7 @@ export async function acceptConnectedSeatActivation(
       },
       license: {
         licenseId: row.license.licenseId,
+        edition: organizationEdition(row.organization.organizationType),
         organizationId: row.organization.id,
         organizationName: row.organization.name,
         startsAt: row.license.startsAt,
@@ -402,6 +408,7 @@ function isArmoredSeatActivation(value: unknown): value is ArmoredSeatActivation
     typeof payload === "object" &&
     payload.activationVersion === 1 &&
     typeof payload.licenseId === "string" &&
+    isOrganizationEdition(payload.edition) &&
     typeof payload.organizationId === "number" &&
     typeof payload.organizationName === "string" &&
     typeof payload.seatId === "string" &&
@@ -419,6 +426,14 @@ function isArmoredSeatActivation(value: unknown): value is ArmoredSeatActivation
 
 function isSeatRole(role: string): role is "admin" | "member" {
   return role === "admin" || role === "member"
+}
+
+function isOrganizationEdition(value: unknown): value is OrganizationType {
+  return value === "academia" || value === "enterprise" || value === "pixesci"
+}
+
+function organizationEdition(value: string): OrganizationType {
+  return isOrganizationEdition(value) ? value : "enterprise"
 }
 
 async function auditBlockedActivationAction(

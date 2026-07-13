@@ -32,6 +32,7 @@ export type PortalSeat = {
 
 export type PortalLicense = {
   id: string
+  edition: OrganizationType
   label: string
   status: LicenseStatus
   startsAt: string
@@ -43,6 +44,7 @@ export type PortalLicense = {
 export type PortalLicenseBundlePayload = {
   bundleVersion: number
   licenseId: string
+  edition: OrganizationType
   organizationId: number
   organizationName: string
   startsAt: string
@@ -72,6 +74,7 @@ export type PortalLicenseBundle = {
 export type PortalSeatActivationPayload = {
   activationVersion: number
   licenseId: string
+  edition: OrganizationType
   organizationId: number
   organizationName: string
   seatId: string

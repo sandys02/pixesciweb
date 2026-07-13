@@ -628,6 +628,9 @@ function LicenseDashboard({
     (license) => license.status === "active"
   )
   const activeSeatCount = activeLicense ? countActiveSeats(activeLicense) : 0
+  const activeSeatValue = activeLicense
+    ? formatSeatCapacity(activeSeatCount, activeLicense)
+    : "0 of 0"
 
   return (
     <>
@@ -639,11 +642,7 @@ function LicenseDashboard({
         />
         <Metric
           label="Active app seats"
-          value={
-            activeLicense
-              ? `${activeSeatCount} of ${activeLicense.seatLimit}`
-              : "0 of 0"
-          }
+          value={activeSeatValue}
           detail="Human app users only; the portal account is not counted."
         />
         <Metric
@@ -740,7 +739,7 @@ function LicenseDashboard({
                         {formatPortalDate(license.endsAt)}
                       </td>
                       <td className="px-4 py-3">
-                        {countAllocatedSeats(license)} of {license.seatLimit}
+                        {formatSeatCapacity(countAllocatedSeats(license), license)}
                       </td>
                       <td className="px-4 py-3">
                         <Button
@@ -1204,7 +1203,8 @@ function SeatsPanel({
   const activeAdminCount = license.seats.filter(
     (seat) => seat.status === "active" && seat.role === "admin"
   ).length
-  const seatLimitReached = allocatedCount >= license.seatLimit
+  const seatLimitReached =
+    !hasUnlimitedSeats(license) && allocatedCount >= license.seatLimit
   const isActiveLicense = license.status === "active"
 
   async function submitInvite(event: React.FormEvent<HTMLFormElement>) {
@@ -1779,4 +1779,14 @@ function organizationTypeLabel(value: string) {
   return (
     portalOrganizationTypes.find((type) => type.value === value)?.label ?? value
   )
+}
+
+function hasUnlimitedSeats(license: PortalLicense) {
+  return license.edition === "pixesci"
+}
+
+function formatSeatCapacity(count: number, license: PortalLicense) {
+  return hasUnlimitedSeats(license)
+    ? `${count} of Unlimited`
+    : `${count} of ${license.seatLimit}`
 }

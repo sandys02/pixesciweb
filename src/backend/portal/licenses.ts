@@ -4,9 +4,10 @@ import { and, eq, ne } from "drizzle-orm"
 
 import { writePortalAuditEvent, normalizeEmail } from "@/backend/portal/auth"
 import { db } from "@/backend/portal/db"
-import { licenses, seats } from "@/backend/portal/schema"
+import { licenses, organizations, seats } from "@/backend/portal/schema"
 import type {
   LicenseStatus,
+  OrganizationType,
   PortalLicense,
   PortalSeat,
   SeatRole,
@@ -23,6 +24,7 @@ type PortalActor = {
 }
 
 type LicenseRow = typeof licenses.$inferSelect
+type OrganizationRow = typeof organizations.$inferSelect
 type SeatRow = typeof seats.$inferSelect
 
 export type SeatActionResult =
@@ -54,8 +56,9 @@ export function parseSeatInviteBody(body: unknown) {
 
 export async function listPortalLicenses(actor: PortalActor) {
   const rows = await db
-    .select()
+    .select({ license: licenses, organization: organizations })
     .from(licenses)
+    .innerJoin(organizations, eq(organizations.id, licenses.organizationId))
     .where(eq(licenses.organizationId, actor.organizationId))
     .orderBy(licenses.endsAt)
 
@@ -70,13 +73,13 @@ export async function listPortalLicenses(actor: PortalActor) {
 
   return rows
     .sort((left, right) => {
-      if (left.status !== right.status) {
-        return left.status === "active" ? -1 : 1
+      if (left.license.status !== right.license.status) {
+        return left.license.status === "active" ? -1 : 1
       }
 
-      return right.endsAt.localeCompare(left.endsAt)
+      return right.license.endsAt.localeCompare(left.license.endsAt)
     })
-    .map(serializeLicense)
+    .map(({ license, organization }) => serializeLicense(license, organization))
 }
 
 export async function listPortalLicenseSeats(
@@ -88,7 +91,11 @@ export async function listPortalLicenseSeats(
     return { ok: false as const, status: 404, message: "License not found." }
   }
 
-  const license = await findScopedLicense(actor.organizationId, licenseId)
+  const scopedLicense = await findScopedLicenseWithOrganization(
+    actor.organizationId,
+    licenseId
+  )
+  const license = scopedLicense?.license
 
   if (!license) {
     await auditUnauthorized(actor, "license", licenseId, "license_not_found")
@@ -117,7 +124,7 @@ export async function listPortalLicenseSeats(
 
   return {
     ok: true as const,
-    license: serializeLicense(license),
+    license: serializeLicense(license, scopedLicense.organization),
     seats: rows.map((seat) => serializeSeat(seat, license.status)),
   }
 }
@@ -354,9 +361,13 @@ export async function removePortalSeat(
   }
 }
 
-function serializeLicense(license: LicenseRow): PortalLicense {
+function serializeLicense(
+  license: LicenseRow,
+  organization: OrganizationRow
+): PortalLicense {
   return {
     id: license.licenseId,
+    edition: organizationEdition(organization.organizationType),
     label: license.label,
     status: isLicenseStatus(license.status) ? license.status : "inactive",
     startsAt: license.startsAt,
@@ -419,6 +430,25 @@ async function findScopedLicense(organizationId: number, licenseId: string) {
   return rows[0] ?? null
 }
 
+async function findScopedLicenseWithOrganization(
+  organizationId: number,
+  licenseId: string
+) {
+  const rows = await db
+    .select({ license: licenses, organization: organizations })
+    .from(licenses)
+    .innerJoin(organizations, eq(organizations.id, licenses.organizationId))
+    .where(
+      and(
+        eq(licenses.organizationId, organizationId),
+        eq(licenses.licenseId, licenseId)
+      )
+    )
+    .limit(1)
+
+  return rows[0] ?? null
+}
+
 async function findScopedSeat(organizationId: number, seatId: string) {
   const rows = await db
     .select({ seat: seats, license: licenses })
@@ -453,6 +483,16 @@ async function requireScopedSeat(actor: PortalActor, seatId: string) {
 }
 
 async function ensureCapacity(actor: PortalActor, license: LicenseRow) {
+  const [organization] = await db
+    .select({ organizationType: organizations.organizationType })
+    .from(organizations)
+    .where(eq(organizations.id, actor.organizationId))
+    .limit(1)
+
+  if (organizationEdition(organization?.organizationType ?? "") === "pixesci") {
+    return { ok: true as const }
+  }
+
   const allocated = await allocatedSeatCount(actor, license)
 
   if (allocated >= license.seatLimit) {
@@ -568,6 +608,14 @@ function isKnownSeatStatus(status: string): status is SeatStatus {
 
 function isSeatRole(role: string): role is SeatRole {
   return SEAT_ROLES.has(role)
+}
+
+function isOrganizationEdition(value: string): value is OrganizationType {
+  return value === "academia" || value === "enterprise" || value === "pixesci"
+}
+
+function organizationEdition(value: string): OrganizationType {
+  return isOrganizationEdition(value) ? value : "enterprise"
 }
 
 function nowIso() {

@@ -188,8 +188,8 @@ Only expand this data scope after a separate product and compliance decision.
 
 Air-gapped license enforcement and seat activation must work without a live
 portal call. The portal generates signed offline license bundles and signed seat
-activation files that encode license ID, organization ID, term, seat limit,
-seat invite details where applicable, key ID, and signature.
+activation files that encode license ID, edition, organization ID, term, seat
+limit, seat invite details where applicable, key ID, and signature.
 
 The PixeSci app should verify bundles locally with bundled public keys and use
 the verified data for local license and seat enforcement. Private signing keys

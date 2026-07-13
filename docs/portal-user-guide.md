@@ -181,6 +181,11 @@ Seat statuses:
 Pending invites count against the seat limit. This prevents over-allocating a
 license by creating many pending invitations.
 
+PixeSci edition licenses are the exception: they have unlimited app seats. The
+portal still stores a numeric `seat_limit` for schema compatibility, but invite
+capacity checks and the dashboard treat the limit as unlimited when the
+organization edition is `pixesci`.
+
 ## Inviting A Human App User
 
 To invite a user:
@@ -322,6 +327,7 @@ The signed payload contains safe licensing and seat fields:
 
 - activation version;
 - license ID;
+- edition: `pixesci`, `academia`, or `enterprise`;
 - organization ID;
 - organization name;
 - seat ID;
@@ -386,6 +392,7 @@ The signed payload contains:
 
 - bundle version;
 - license ID;
+- edition: `pixesci`, `academia`, or `enterprise`;
 - organization ID;
 - organization name;
 - license start date;

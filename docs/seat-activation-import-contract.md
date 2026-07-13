@@ -35,6 +35,7 @@ The decoded wrapper contains:
 
 - `activationVersion`
 - `licenseId`
+- `edition`: `pixesci`, `academia`, or `enterprise`
 - `organizationId`
 - `organizationName`
 - `seatId`

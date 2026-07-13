@@ -85,6 +85,7 @@ export const portalDummyAccount: PortalAccount = {
   licenses: [
     {
       id: "LIC-PSCI-2026-0042",
+      edition: "enterprise",
       label: "Enterprise controlled deployment",
       status: "active",
       startsAt: "2026-03-01",
@@ -127,6 +128,7 @@ export const portalDummyAccount: PortalAccount = {
     },
     {
       id: "LIC-PSCI-2025-0037",
+      edition: "enterprise",
       label: "Enterprise controlled deployment",
       status: "inactive",
       startsAt: "2025-03-01",
