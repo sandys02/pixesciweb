@@ -27,9 +27,11 @@ and integration with existing scientific software.
 - Site-wide browser security headers and scheduled production uptime checks.
 - Compliance language that distinguishes product support from customer
   validation and regulatory responsibility.
+- SQLite-backed download access and organization portal APIs for account setup,
+  license visibility, seats, and signed license bundles.
 
-This repository currently has no database, CMS, route-handler backend, or
-required environment variables.
+This repository has no CMS or public account registration flow. Runtime
+configuration is required for the download and organization portal backends.
 
 ## Technology
 
@@ -65,9 +67,10 @@ npm run dev
 Open [http://localhost:3000](http://localhost:3000). Next.js will select another
 port when `3000` is unavailable.
 
-No environment configuration is required for the current site. Do not add
-secrets with a `NEXT_PUBLIC_` prefix unless they are intentionally safe to ship
-to browsers.
+Local development can use the built-in development portal session secret, but
+production must set the backend secrets documented in `src/backend/README.md`
+and `src/backend/portal/README.md`. Do not add secrets with a `NEXT_PUBLIC_`
+prefix unless they are intentionally safe to ship to browsers.
 
 ## Routes
 
@@ -298,14 +301,20 @@ For visual or navigation changes, also run the development server and inspect:
 ## Deployment
 
 The project can be deployed to any environment that supports Next.js 16 and
-Node.js `20.9.0` or newer. The current application does not require runtime
-secrets or external backend services.
+Node.js `20.9.0` or newer. Production deployments that enable the download gate
+and organization portal must set:
+
+- `DOWNLOAD_SESSION_SECRET`: 32 or more characters.
+- `PORTAL_SESSION_SECRET`: 32 or more characters.
+- `PORTAL_DB_PATH`: optional override for the portal SQLite database path.
 
 After deployment, confirm:
 
 - `https://pixesci.com` matches the actual canonical production domain.
 - Cal.com links open the expected PixeSci booking page.
 - `/contact` and `/talk-to-sales` return permanent redirects.
+- `/api/portal/login` can read the seeded portal database and issue a portal
+  session cookie.
 - `/robots.txt`, `/sitemap.xml`, and `/opengraph-image` are reachable.
 - The scheduled uptime workflow is enabled on the default branch.
 

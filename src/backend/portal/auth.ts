@@ -109,6 +109,19 @@ export function jsonResponse(body: unknown, status = 200) {
   })
 }
 
+export function logPortalRouteError(context: string, error: unknown) {
+  const message = error instanceof Error ? error.message : ""
+  const code = message.includes("PORTAL_SESSION_SECRET")
+    ? "missing_session_secret"
+    : message.includes("no such table")
+      ? "missing_portal_schema"
+      : message.includes("SQLITE") || message.includes("Libsql")
+        ? "portal_database_error"
+        : "unexpected_portal_error"
+
+  console.error(`[portal] ${context} failed`, { code })
+}
+
 export function hashPortalPassword(password: string) {
   const salt = randomBytes(16).toString("base64")
   const hash = scryptSync(password, salt, 64).toString("base64")

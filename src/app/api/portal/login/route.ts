@@ -6,6 +6,7 @@ import {
   getPortalSessionCookieOptions,
   getPortalSessionTtlSeconds,
   jsonResponse,
+  logPortalRouteError,
   loginPortalAccount,
   parseLoginBody,
 } from "@/backend/portal/auth"
@@ -42,7 +43,8 @@ export async function POST(request: Request) {
       userEmail: result.email,
       setupRequired: result.setupRequired,
     })
-  } catch {
+  } catch (error) {
+    logPortalRouteError("login", error)
     return jsonResponse({ message: PORTAL_MESSAGES.unavailable }, 500)
   }
 }
