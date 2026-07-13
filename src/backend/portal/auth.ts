@@ -111,15 +111,26 @@ export function jsonResponse(body: unknown, status = 200) {
 
 export function logPortalRouteError(context: string, error: unknown) {
   const message = error instanceof Error ? error.message : ""
+  const normalizedMessage = message.toLowerCase()
+  const errorCode =
+    typeof error === "object" &&
+    error !== null &&
+    "code" in error &&
+    typeof error.code === "string"
+      ? error.code
+      : undefined
   const code = message.includes("PORTAL_SESSION_SECRET")
     ? "missing_session_secret"
-    : message.includes("no such table")
+    : normalizedMessage.includes("no such table")
       ? "missing_portal_schema"
-      : message.includes("SQLITE") || message.includes("Libsql")
+      : normalizedMessage.includes("sqlite") ||
+          normalizedMessage.includes("libsql") ||
+          normalizedMessage.includes("readonly") ||
+          errorCode?.startsWith("SQLITE")
         ? "portal_database_error"
         : "unexpected_portal_error"
 
-  console.error(`[portal] ${context} failed`, { code })
+  console.error(`[portal] ${context} failed`, { code, errorCode })
 }
 
 export function hashPortalPassword(password: string) {
