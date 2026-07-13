@@ -250,10 +250,18 @@ Work:
     activation return file is later added.
 - If website-owned acceptance is used for connected customers, keep it optional
   and do not make it required for offline operation.
+- Phase 7b adds connected activation for customers whose app can reach the
+  website during first-time setup: the app submits the exported armored
+  activation file to `POST /api/portal/seat-activations/accept`, the website
+  verifies it, marks the seat active, and returns a fresh signed license bundle.
+  The local-only signed activation import remains the air-gapped fallback, but
+  it cannot guarantee global single-use.
 
 Acceptance:
 
 - A human seat can be invited and activated without public app registration.
+- Connected activation marks the portal seat active and prevents reuse of the
+  same activation file on a second PC.
 - Disconnected customers can activate seats without the app calling the website.
 - The app local auth model remains authoritative for local login.
 
@@ -294,15 +302,28 @@ Work in `pixesciv2` when requested:
 - Keep local auth and first-run admin setup as documented.
 - Remove or keep removed public organization registration.
 - Add license import/verification service.
+- Add seat activation import/verification service for armored
+  `PIXESCI SEAT ACTIVATION` files.
+- Add first-time user setup UI on the login card using the app's existing
+  Next.js/Tauri stack: `New user? Set up your account`, then paste/import
+  activation file setup mode.
 - Add admin License page integration with local verified license state.
 - Enforce local seat/device limits using the verified bundle and local users.
 - Add local audit events for import, activation, user creation, seat changes,
   device changes, and failed license verification.
 - Keep `/health` as auth-page readiness; do not gate login on feature endpoints.
+- Read both projects' package manifests before choosing implementation
+  libraries. Prefer the existing Tauri dialog/fs plugins for desktop file
+  selection and the app backend's existing Python cryptography stack for
+  signature verification before adding new dependencies.
 
 Acceptance:
 
 - App works in a fully disconnected environment after bundle import.
+- Invited first-time users can import a signed seat activation file, review
+  email/role/seat/license details, enter a first-time app session, change their
+  password through the existing dialog, and then use the app without the website
+  being available.
 - App admin pages show users, seats, and license state from local backend truth.
 - No app feature requires website availability after activation/import.
 

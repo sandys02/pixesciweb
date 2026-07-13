@@ -66,11 +66,20 @@ Licenses and seats:
 Optional invite acceptance endpoint if the backend owns a web acceptance flow:
 
 - `POST /api/portal/invitations/{token}/accept`
+- `POST /api/portal/seat-activations/accept`
 
 The current product model does not require a separate "add" endpoint. A seat
 becomes active when the invited user accepts the single-use invite or temporary
 credential. Add a separate endpoint only if the backend later supports
 preallocated inactive seats that need explicit activation by an administrator.
+
+Current direction: Phase 7b adds connected activation through
+`POST /api/portal/seat-activations/accept`. The local PixeSci app submits the
+exported armored seat activation file, the website verifies it, marks the seat
+active, and returns a fresh signed license bundle. For air-gapped installs, the
+local app can still import the file without calling the website, but that
+fallback cannot guarantee global single-use and the portal seat may remain
+`invited` until a return-file workflow exists.
 
 ## Seat Action Semantics
 
@@ -185,6 +194,13 @@ app should validate license state locally without calling PixeSci. Backend
 tooling should support generating, rotating, revoking, and auditing those
 bundles.
 
+Seat activation files use armored `PIXESCI SEAT ACTIVATION` text and should be
+imported by the app from the first-time login/activation flow. In connected
+mode, the app submits that armored text to the website acceptance API before
+creating a local user. In air-gapped mode, the app should use its existing local
+backend and crypto stack to verify the activation before creating or preparing a
+local user.
+
 ## Audit Events
 
 Capture server-side events for:
@@ -201,6 +217,7 @@ Capture server-side events for:
 - seat invite resent
 - seat invite revoked
 - seat activated by invite acceptance
+- seat activation file exported
 - seat removed
 - seat role changed
 - seat limit exceeded

@@ -131,9 +131,14 @@ Licenses and seats:
 Optional connected-flow invite acceptance:
 
 - `POST /api/portal/invitations/{token}/accept`
+- `POST /api/portal/seat-activations/accept`
 
-For air-gapped customers, prefer signed seat activation files and license
-bundles that the app can import locally instead of requiring a live portal call.
+For connected customers, Phase 7b uses the exported armored seat activation
+file as the bearer proof: the app submits it to
+`/api/portal/seat-activations/accept`, the portal verifies it, marks the seat
+active, and returns a fresh signed license bundle. For air-gapped customers,
+signed seat activation files and license bundles can still be imported locally
+without a live portal call.
 
 ## Data Boundaries
 
@@ -192,9 +197,25 @@ remain server-side only. Revocation for disconnected installs takes effect when
 the customer imports a newer signed bundle.
 
 Seat activation files are exported for pending invited seats only. Exporting an
-activation file does not mark the portal seat active because the portal cannot
-prove the disconnected app imported it. See
+activation file does not mark the portal seat active by itself. Connected
+acceptance marks the portal seat active when the app submits the activation
+file to the website. Disconnected imports remain local-only, so the portal
+cannot prove import happened unless a later return-file flow is added. See
 `docs/seat-activation-import-contract.md` for the app-side import contract.
+
+Current development fixture:
+
+- email: `japhethrobert@gmail.com`
+- seat id: `seat_uJqKn6PISZbk`
+- role: `admin`
+- license: `LIC-PSCI-TEST-0001`
+- status: `invited`
+- invite expires: `2026-07-17T14:23:42.701Z`
+
+The original plaintext invite link cannot be recovered from the database after
+creation because only token hashes are stored. Use the seat `Resend` action if
+a fresh one-time link is needed; use `Export activation` for the supported
+air-gapped app handoff.
 
 ## Verification Expectations
 

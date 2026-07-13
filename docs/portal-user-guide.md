@@ -209,9 +209,10 @@ Important rules:
 - expired invites must be resent before they can be used for activation export;
 - revoked invites cannot be used.
 
-The current backend stores the invite token hash and expiry. The website-owned
-invite acceptance endpoint is not implemented yet because the air-gapped path is
-the baseline.
+The current backend stores the invite token hash and expiry. The browser-based
+`/portal/invite/[token]` acceptance page is still future work. Phase 7b uses a
+different connected path: the app submits the exported armored activation file
+to the website acceptance API.
 
 ## Resending An Invite
 
@@ -244,6 +245,22 @@ would leave the license without its required admin protection.
 
 Removed seats become revoked records for audit/history.
 
+## Connected Seat Activation
+
+Connected seat activation is the preferred path when the local PixeSci app can
+reach the website during first-time setup.
+
+The portal admin still exports a signed seat activation file for an invited
+seat. The invited user imports or pastes that file in the local app. When the
+user clicks the setup/verify action, the app sends the armored activation text
+to the website. The website verifies the file, checks the live seat and license
+state, marks the portal seat `active`, clears the invite token fields, records
+acceptance, and returns a fresh signed license bundle to the app.
+
+This path makes the activation globally single-use. If the same activation file
+is copied to a second PC, the second attempt fails because the portal seat is no
+longer `invited`.
+
 ## Air-Gapped Seat Activation
 
 For air-gapped customers, the PixeSci app cannot call the website to accept an
@@ -262,11 +279,34 @@ To export a seat activation:
 3. Click `Export activation`.
 4. Copy or download the activation text file.
 5. Transfer the file to the local PixeSci app environment.
-6. Import it in the app when Phase 7 app-side import is implemented.
+6. Import it from the local app login or activation screen when Phase 7
+   app-side import is implemented.
 
-Exporting an activation file does not mark the portal seat active. In an
-air-gapped environment, the portal cannot prove the local app imported the file.
-A future manual return-file workflow can reconcile portal status if needed.
+Exporting an activation file does not mark the portal seat active. Connected
+acceptance marks the seat active when the app submits the activation to the
+website. In an air-gapped environment, the portal cannot prove the local app
+imported the file, so the seat can remain `invited` until a future manual
+return-file workflow reconciles portal status.
+
+The first-time app user flow should start on the login card with
+`New user? Set up your account`. Setup mode verifies the activation file
+locally, shows the decoded email, role, seat ID, license ID, organization name,
+and expiry, then starts a first-time app session. The app's existing forced
+password-change dialog should be the first required step before normal use.
+Future login uses the local app email and chosen password, not the website
+invite link.
+
+Current development fixture:
+
+- email: `japhethrobert@gmail.com`;
+- seat ID: `seat_uJqKn6PISZbk`;
+- role: `admin`;
+- license: `LIC-PSCI-TEST-0001`;
+- status: `invited`;
+- invite expires: `2026-07-17T14:23:42.701Z`.
+
+If the original one-time invite link is lost, use `Resend`. The plaintext link
+cannot be recovered from the database because only token hashes are stored.
 
 ## Seat Activation File Contents
 
@@ -327,7 +367,8 @@ To generate a bundle:
 4. Click `Generate`.
 5. Copy or download the generated bundle.
 6. Transfer the file to the local PixeSci app environment.
-7. Import it in the app when Phase 7 app-side import is implemented.
+7. Import it through the local app license import flow when Phase 7 app-side
+   import is implemented.
 
 The portal records bundle generation and export in the audit log.
 
@@ -511,7 +552,9 @@ The portal backend through Phase 6 is implemented. These parts are still future
 work:
 
 - app-side import in `/home/japheth-oruko/projects/pixesciv2`;
-- website-owned invite acceptance endpoint;
+- Phase 7b connected activation endpoint at
+  `/api/portal/seat-activations/accept`;
+- browser-based `/portal/invite/[token]` acceptance page;
 - manual activation return files;
 - production signing-key rotation scripts;
 - full route test suite;

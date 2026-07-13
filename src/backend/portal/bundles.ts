@@ -143,6 +143,10 @@ export async function generatePortalLicenseBundle(
     )
     .limit(1)
 
+  if (!bundle) {
+    throw new Error("Connected activation license bundle was not stored.")
+  }
+
   await writePortalAuditEvent({
     organizationId: actor.organizationId,
     actorAccountId: actor.accountId,
@@ -156,6 +160,92 @@ export async function generatePortalLicenseBundle(
     ok: true,
     bundle: serializeStoredBundle(bundle, license.licenseId),
   }
+}
+
+export async function generateConnectedActivationLicenseBundle(input: {
+  organizationId: number
+  license: typeof licenses.$inferSelect
+  organization: typeof organizations.$inferSelect
+  acceptedSeatId: string
+}) {
+  const existingRows = await db
+    .select()
+    .from(licenseBundles)
+    .where(
+      and(
+        eq(licenseBundles.organizationId, input.organizationId),
+        eq(licenseBundles.licenseId, input.license.id)
+      )
+    )
+
+  const bundleVersion =
+    existingRows.reduce(
+      (maxVersion, row) => Math.max(maxVersion, row.bundleVersion),
+      0
+    ) + 1
+  const keys = getPortalSigningKeys()
+  const payload = await buildBundlePayload({
+    bundleVersion,
+    issuedAt: nowIso(),
+    keyId: keys.keyId,
+    license: input.license,
+    organization: input.organization,
+  })
+  const wrapper = signPortalPayload(payload, keys)
+  const generatedAt = payload.issuedAt
+
+  await db.insert(licenseBundles).values({
+    licenseId: input.license.id,
+    organizationId: input.organizationId,
+    bundleVersion,
+    payloadJson: canonicalJson(payload),
+    signature: wrapper.signature,
+    publicKeyId: keys.keyId,
+    generatedBy: null,
+    generatedAt,
+    revokedAt: null,
+  })
+
+  await db
+    .update(licenses)
+    .set({
+      signedBundleVersion: bundleVersion,
+      updatedAt: generatedAt,
+    })
+    .where(
+      and(
+        eq(licenses.id, input.license.id),
+        eq(licenses.organizationId, input.organizationId)
+      )
+    )
+
+  const [bundle] = await db
+    .select()
+    .from(licenseBundles)
+    .where(
+      and(
+        eq(licenseBundles.organizationId, input.organizationId),
+        eq(licenseBundles.licenseId, input.license.id),
+        eq(licenseBundles.bundleVersion, bundleVersion)
+      )
+    )
+    .limit(1)
+
+  await writePortalAuditEvent({
+    organizationId: input.organizationId,
+    actorAccountId: null,
+    eventType: "offline_license_bundle_generated",
+    targetType: "license",
+    targetId: input.license.licenseId,
+    metadata: {
+      acceptedSeatId: input.acceptedSeatId,
+      bundleVersion,
+      generatedVia: "connected_activation_file",
+      keyId: keys.keyId,
+    },
+  })
+
+  return serializeStoredBundle(bundle, input.license.licenseId)
 }
 
 export async function getLatestPortalLicenseBundle(

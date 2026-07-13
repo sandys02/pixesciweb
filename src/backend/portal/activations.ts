@@ -1,6 +1,7 @@
 import { and, eq } from "drizzle-orm"
 
 import { writePortalAuditEvent } from "@/backend/portal/auth"
+import { generateConnectedActivationLicenseBundle } from "@/backend/portal/bundles"
 import { db } from "@/backend/portal/db"
 import { isValidPortalPublicId } from "@/backend/portal/licenses"
 import {
@@ -60,6 +61,36 @@ export type PortalSeatActivationResponse = {
 type SeatActivationResult =
   | { ok: true; activation: PortalSeatActivationResponse }
   | { ok: false; status: number; message: string }
+
+export type ConnectedSeatActivationAcceptResponse = {
+  accepted: true
+  seat: {
+    seatId: string
+    email: string
+    role: "admin" | "member"
+    status: "active"
+    acceptedAt: string
+  }
+  license: {
+    licenseId: string
+    organizationId: number
+    organizationName: string
+    startsAt: string
+    endsAt: string
+    seatLimit: number
+  }
+  licenseBundle: {
+    armoredBundle: string
+    keyId: string
+  }
+}
+
+type ConnectedSeatActivationAcceptResult =
+  | { ok: true; activation: ConnectedSeatActivationAcceptResponse }
+  | { ok: false; status: number; message: string }
+
+const CONNECTED_ACCEPTANCE_MESSAGE =
+  "Activation could not be accepted. Ask your organization admin for a fresh activation file."
 
 export async function generatePortalSeatActivation(
   actor: PortalActor,
@@ -126,6 +157,149 @@ export function verifyArmoredSeatActivation(armoredActivation: string) {
   }
 
   return verifyPortalSignedWrapper(wrapper, keys.publicKey)
+}
+
+export async function acceptConnectedSeatActivation(
+  armoredActivation: string
+): Promise<ConnectedSeatActivationAcceptResult> {
+  const wrapper = parseArmoredSeatActivation(armoredActivation)
+
+  if (!wrapper) {
+    return { ok: false, status: 400, message: CONNECTED_ACCEPTANCE_MESSAGE }
+  }
+
+  const keys = getPortalSigningKeys()
+  if (
+    wrapper.keyId !== keys.keyId ||
+    wrapper.payload.keyId !== keys.keyId ||
+    !verifyPortalSignedWrapper(wrapper, keys.publicKey)
+  ) {
+    return { ok: false, status: 400, message: CONNECTED_ACCEPTANCE_MESSAGE }
+  }
+
+  const payload = wrapper.payload
+  if (
+    payload.activationVersion !== 1 ||
+    payload.seatStatus !== "invited" ||
+    !isValidPortalPublicId(payload.seatId) ||
+    !isValidPortalPublicId(payload.licenseId) ||
+    !isSeatRole(payload.seatRole) ||
+    !/^\S+@\S+\.\S+$/.test(payload.seatEmail) ||
+    new Date(payload.expiresAt).getTime() <= Date.now()
+  ) {
+    await auditVerifiedActivationRejection(payload, "invalid_or_expired_payload")
+    return { ok: false, status: 400, message: CONNECTED_ACCEPTANCE_MESSAGE }
+  }
+
+  const [row] = await db
+    .select({ seat: seats, license: licenses, organization: organizations })
+    .from(seats)
+    .innerJoin(licenses, eq(licenses.id, seats.licenseId))
+    .innerJoin(organizations, eq(organizations.id, seats.organizationId))
+    .where(
+      and(
+        eq(seats.seatId, payload.seatId),
+        eq(seats.organizationId, payload.organizationId),
+        eq(licenses.licenseId, payload.licenseId)
+      )
+    )
+    .limit(1)
+
+  if (!row) {
+    await auditVerifiedActivationRejection(payload, "seat_not_found")
+    return { ok: false, status: 400, message: CONNECTED_ACCEPTANCE_MESSAGE }
+  }
+
+  if (row.seat.status !== "invited") {
+    await auditConnectedActivationBlocked(row, "seat_not_invited")
+    return { ok: false, status: 409, message: CONNECTED_ACCEPTANCE_MESSAGE }
+  }
+
+  if (
+    row.license.status !== "active" ||
+    row.license.startsAt !== payload.licenseStartsAt ||
+    row.license.endsAt !== payload.licenseEndsAt ||
+    row.license.seatLimit !== payload.seatLimit ||
+    row.organization.name !== payload.organizationName ||
+    row.seat.email !== payload.seatEmail ||
+    row.seat.role !== payload.seatRole ||
+    !row.seat.inviteExpiresAt ||
+    new Date(row.seat.inviteExpiresAt).getTime() <= Date.now()
+  ) {
+    await auditConnectedActivationBlocked(row, "activation_state_mismatch")
+    return { ok: false, status: 400, message: CONNECTED_ACCEPTANCE_MESSAGE }
+  }
+
+  const acceptedAt = nowIso()
+  const [acceptedSeat] = await db
+    .update(seats)
+    .set({
+      status: "active",
+      inviteTokenHash: null,
+      inviteExpiresAt: null,
+      inviteAcceptedAt: acceptedAt,
+      updatedAt: acceptedAt,
+    })
+    .where(
+      and(
+        eq(seats.id, row.seat.id),
+        eq(seats.organizationId, row.seat.organizationId),
+        eq(seats.status, "invited")
+      )
+    )
+    .returning()
+
+  if (!acceptedSeat) {
+    await auditConnectedActivationBlocked(row, "seat_already_consumed")
+    return { ok: false, status: 409, message: CONNECTED_ACCEPTANCE_MESSAGE }
+  }
+
+  await writePortalAuditEvent({
+    organizationId: row.organization.id,
+    actorAccountId: null,
+    actorSeatId: acceptedSeat.id,
+    eventType: "seat_activation_accepted",
+    targetType: "seat",
+    targetId: acceptedSeat.seatId,
+    metadata: {
+      acceptedVia: "connected_activation_file",
+      keyId: payload.keyId,
+      licenseId: row.license.licenseId,
+    },
+  })
+
+  const bundle = await generateConnectedActivationLicenseBundle({
+    organizationId: row.organization.id,
+    license: row.license,
+    organization: row.organization,
+    acceptedSeatId: acceptedSeat.seatId,
+  })
+
+  return {
+    ok: true,
+    activation: {
+      accepted: true,
+      seat: {
+        seatId: acceptedSeat.seatId,
+        email: acceptedSeat.email as string,
+        role: acceptedSeat.role as "admin" | "member",
+        status: "active",
+        acceptedAt,
+      },
+      license: {
+        licenseId: row.license.licenseId,
+        organizationId: row.organization.id,
+        organizationName: row.organization.name,
+        startsAt: row.license.startsAt,
+        endsAt: row.license.endsAt,
+        seatLimit: row.license.seatLimit,
+      },
+      licenseBundle: {
+        armoredBundle: bundle.armoredBundle,
+        keyId: bundle.keyId,
+      },
+    },
+  }
 }
 
 export function parseArmoredSeatActivation(armoredActivation: string) {
@@ -260,6 +434,46 @@ async function auditBlockedActivationAction(
     targetType,
     targetId,
     metadata: { reason },
+  })
+}
+
+async function auditVerifiedActivationRejection(
+  payload: SeatActivationPayload,
+  reason: string
+) {
+  await writePortalAuditEvent({
+    organizationId: payload.organizationId,
+    actorAccountId: null,
+    eventType: "seat_activation_acceptance_rejected",
+    targetType: "seat",
+    targetId: payload.seatId,
+    metadata: {
+      reason,
+      keyId: payload.keyId,
+      licenseId: payload.licenseId,
+    },
+  })
+}
+
+async function auditConnectedActivationBlocked(
+  row: {
+    seat: typeof seats.$inferSelect
+    license: typeof licenses.$inferSelect
+    organization: typeof organizations.$inferSelect
+  },
+  reason: string
+) {
+  await writePortalAuditEvent({
+    organizationId: row.organization.id,
+    actorAccountId: null,
+    actorSeatId: row.seat.id,
+    eventType: "seat_activation_acceptance_rejected",
+    targetType: "seat",
+    targetId: row.seat.seatId,
+    metadata: {
+      reason,
+      licenseId: row.license.licenseId,
+    },
   })
 }
 

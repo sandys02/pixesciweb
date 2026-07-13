@@ -225,6 +225,7 @@ async function clearFailedLogin(accountId: number) {
 export async function writePortalAuditEvent(input: {
   organizationId: number | null
   actorAccountId: number | null
+  actorSeatId?: number | null
   eventType: string
   targetType: string
   targetId: string
@@ -233,7 +234,7 @@ export async function writePortalAuditEvent(input: {
   await db.insert(auditEvents).values({
     organizationId: input.organizationId,
     actorAccountId: input.actorAccountId,
-    actorSeatId: null,
+    actorSeatId: input.actorSeatId ?? null,
     eventType: input.eventType,
     targetType: input.targetType,
     targetId: input.targetId,
