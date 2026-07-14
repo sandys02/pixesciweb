@@ -292,6 +292,9 @@ npm run start      # Serve the production build
 npm run lint       # Run ESLint
 npm run typecheck  # Run TypeScript without emitting files
 npm run format     # Format TypeScript and TSX files
+npm run docker:build # Build the production Docker image
+npm run docker:setup # Create or update Docker volume database schemas
+npm run docker:up    # Build and run the Docker Compose web service
 npm run db:push    # Push download and portal SQLite schemas
 npm run db:seed    # Seed a download-gate user
 npm run db:seed:portal # Seed a portal org, account, and license
@@ -364,6 +367,63 @@ schema push and migration with `PORTAL_DATABASE_URL` and
 npm run db:push:portal
 npm run db:migrate:portal
 ```
+
+## Docker
+
+The repository includes a production Dockerfile that uses Next.js standalone
+output and a Compose file with a persistent `pixesci-data` volume mounted at
+`/data`.
+
+Build the image directly:
+
+```bash
+npm run docker:build
+```
+
+For local Compose usage, create the database schemas in the Docker volume, then
+start the web service:
+
+```bash
+npm run docker:setup
+npm run docker:up
+```
+
+Open [http://localhost:3000](http://localhost:3000). Set `PIXESCI_WEB_PORT` to
+publish a different host port.
+
+To seed local Docker data, run the seed scripts through the setup service:
+
+```bash
+docker compose --profile setup run --rm setup npm run db:seed -- operator@example.com your-password
+docker compose --profile setup run --rm setup npm run db:seed:portal -- \
+  --account-email admin@example.org \
+  --password temporary-password \
+  --organization-name "Example Lab" \
+  --organization-type enterprise \
+  --state Massachusetts \
+  --domain example.org \
+  --research-field "Bioanalytics and regulated QC" \
+  --license-id LIC-PSCI-2026-0001 \
+  --starts-at 2026-01-01 \
+  --ends-at 2026-12-31 \
+  --seat-limit 12 \
+  --label "Enterprise controlled deployment"
+```
+
+Docker runtime defaults:
+
+- `DOWNLOAD_DB_PATH=/data/download.db`
+- `PORTAL_DB_PATH=/data/portal.db`
+- `PORT=3000`
+- `HOSTNAME=0.0.0.0`
+
+Copy `.env.docker.example` to `.env.docker` when you need local Docker secrets
+or runtime overrides. The npm Docker scripts set `COMPOSE_DISABLE_ENV_FILE=1`
+so Compose does not read the repository's regular `.env` file. Production
+containers should provide real session secrets, Link Lock download settings,
+and portal signing keys through the deployment platform secret manager. If
+`PORTAL_DATABASE_URL` is set, the portal uses that remote durable libSQL/Turso
+database instead of `/data/portal.db`.
 
 After deployment, confirm:
 

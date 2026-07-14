@@ -1,0 +1,35 @@
+services:
+  web:
+    build:
+      context: .
+      target: runner
+    env_file:
+      - path: .env.docker
+        required: false
+    ports:
+      - "${PIXESCI_WEB_PORT:-3000}:3000"
+    environment:
+      DOWNLOAD_DB_PATH: /data/download.db
+      PORTAL_DB_PATH: /data/portal.db
+    volumes:
+      - pixesci-data:/data
+    restart: unless-stopped
+
+  setup:
+    build:
+      context: .
+      target: builder
+    env_file:
+      - path: .env.docker
+        required: false
+    profiles:
+      - setup
+    environment:
+      DOWNLOAD_DB_PATH: /data/download.db
+      PORTAL_DB_PATH: /data/portal.db
+    volumes:
+      - pixesci-data:/data
+    command: npm run db:push
+
+volumes:
+  pixesci-data:

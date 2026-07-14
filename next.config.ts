@@ -51,6 +51,7 @@ const securityHeaders = [
 ]
 
 const nextConfig: NextConfig = {
+  output: process.env.NEXT_STANDALONE === "1" ? "standalone" : undefined,
   poweredByHeader: false,
   outputFileTracingIncludes: {
     "/api/download/file": ["./private/download.db"],

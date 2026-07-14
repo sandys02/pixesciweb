@@ -7,7 +7,7 @@ Server-only helpers for the gated PixeSci installer download.
 ```text
 src/backend/download-auth/
 ├── schema.ts   # Drizzle table: download_users
-├── database-url.ts  # hardcoded SQLite path
+├── database-url.ts  # SQLite path resolution
 ├── db.ts            # libSQL client
 ├── auth.ts       # login, JWT session cookie, auth checks
 ├── link-lock.ts  # decrypt Link Lock URL (server-only)
@@ -40,9 +40,10 @@ npm run db:seed -- operator@example.com your-password
 npm run dev
 ```
 
-Users are stored in SQLite at `private/download.db` (path set in
-`database-url.ts`). Add users with the seed script or direct SQL. No admin
-dashboard is required.
+Users are stored in SQLite at `private/download.db` by default. Set
+`DOWNLOAD_DB_PATH` to override the download database path. Absolute paths are
+used as provided; relative paths are resolved inside `private/`. Add users with
+the seed script or direct SQL. No admin dashboard is required.
 
 ## Environment
 
@@ -51,7 +52,7 @@ Required:
 - `DOWNLOAD_SESSION_SECRET` (32+ characters)
 - `DOWNLOAD_LINK_LOCK_URL` + `DOWNLOAD_LINK_LOCK_PASSWORD` — server decrypts a [Link Lock](https://github.com/jstrieb/link-lock) URL after app login and redirects to the online installer
 
-The download database path is defined in
-`src/backend/download-auth/database-url.ts`. Local development uses
-`private/download.db`. Vercel runtime copies the bundled database to
+Local development uses `private/download.db`. Docker Compose sets
+`DOWNLOAD_DB_PATH=/data/download.db` so the download database lives in the
+persistent Compose volume. Vercel runtime copies the bundled database to
 `/tmp/pixesci-download.db` so route handlers can write runtime state if needed.
