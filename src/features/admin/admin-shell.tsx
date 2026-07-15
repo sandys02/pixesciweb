@@ -425,6 +425,9 @@ function CreateOrganizationPanel({
   onError: (message: string) => void
 }) {
   const [form, setForm] = React.useState<CreateOrganizationForm>(emptyCreateForm)
+  const [fieldErrors, setFieldErrors] = React.useState<
+    Partial<Record<keyof CreateOrganizationForm, string>>
+  >({})
   const [open, setOpen] = React.useState(false)
   const [pending, setPending] = React.useState(false)
 
@@ -433,12 +436,51 @@ function CreateOrganizationPanel({
     value: CreateOrganizationForm[K]
   ) {
     setForm((current) => ({ ...current, [key]: value }))
+    setFieldErrors((current) => {
+      if (!current[key]) return current
+      const next = { ...current }
+      delete next[key]
+      return next
+    })
+  }
+
+  function validateForm() {
+    const errors: Partial<Record<keyof CreateOrganizationForm, string>> = {}
+    const domain = form.domain.trim().toLowerCase()
+
+    if (!form.state.trim()) errors.state = "Select a state."
+    if (!form.name.trim()) errors.name = "Enter the organization name."
+    if (!/^\S+@\S+\.\S+$/.test(form.email.trim())) {
+      errors.email = "Enter a valid organization email."
+    }
+    if (!/^[a-z0-9.-]+\.[a-z]{2,}$/i.test(domain)) {
+      errors.domain = "Enter a valid organization domain."
+    }
+    if (!form.researchField.trim()) {
+      errors.researchField = "Enter the research field."
+    }
+    if (!form.label.trim()) errors.label = "Enter a license label."
+    if (!addOneYear(form.startsAt)) errors.startsAt = "Select a valid start date."
+    if (!Number.isInteger(form.seatLimit) || form.seatLimit <= 0) {
+      errors.seatLimit = "Enter a positive seat limit."
+    }
+
+    return errors
   }
 
   async function submit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault()
-    setPending(true)
     onError("")
+    const errors = validateForm()
+    setFieldErrors(errors)
+
+    const firstError = Object.values(errors)[0]
+    if (firstError) {
+      onError(firstError)
+      return
+    }
+
+    setPending(true)
     const endsAt = addOneYear(form.startsAt)
     try {
       const result = await requestAdminApi<{ setupLink?: string }>(
@@ -514,6 +556,8 @@ function CreateOrganizationPanel({
             options={portalUsStates.map((state) => ({ label: state, value: state }))}
             placeholder="Select state"
             onValueChange={(value) => update("state", value)}
+            error={Boolean(fieldErrors.state)}
+            helperText={fieldErrors.state}
           />
           <FloatingLabelSelect
             id="admin-org-edition"
@@ -532,6 +576,8 @@ function CreateOrganizationPanel({
             label="Organization name"
             value={form.name}
             onChangeAction={(value) => update("name", value)}
+            error={Boolean(fieldErrors.name)}
+            helperText={fieldErrors.name}
           />
           <FloatingLabelInput
             id="admin-org-email"
@@ -539,19 +585,27 @@ function CreateOrganizationPanel({
             label="Organization email"
             value={form.email}
             onChangeAction={(value) => update("email", value)}
-            helperText="Used for the organization profile and the first portal admin account."
+            error={Boolean(fieldErrors.email)}
+            helperText={
+              fieldErrors.email ||
+              "Used for the organization profile and the first portal admin account."
+            }
           />
           <FloatingLabelInput
             id="admin-org-domain"
             label="Organization domain"
             value={form.domain}
             onChangeAction={(value) => update("domain", value)}
+            error={Boolean(fieldErrors.domain)}
+            helperText={fieldErrors.domain}
           />
           <FloatingLabelInput
             id="admin-org-research"
             label="Research field"
             value={form.researchField}
             onChangeAction={(value) => update("researchField", value)}
+            error={Boolean(fieldErrors.researchField)}
+            helperText={fieldErrors.researchField}
           />
           <label className="flex items-center gap-2 text-sm">
             <input
@@ -578,6 +632,8 @@ function CreateOrganizationPanel({
               label="License label"
               value={form.label}
               onChangeAction={(value) => update("label", value)}
+              error={Boolean(fieldErrors.label)}
+              helperText={fieldErrors.label}
             />
           </FieldWithHelp>
           <FloatingLabelInput
@@ -586,7 +642,11 @@ function CreateOrganizationPanel({
             label="Start date"
             value={form.startsAt}
             onChangeAction={(value) => update("startsAt", value)}
-            helperText={`End date: ${addOneYear(form.startsAt) || "select a valid start date"}`}
+            error={Boolean(fieldErrors.startsAt)}
+            helperText={
+              fieldErrors.startsAt ||
+              `End date: ${addOneYear(form.startsAt) || "select a valid start date"}`
+            }
           />
           <FloatingLabelInput
             id="admin-license-seats"
@@ -596,6 +656,8 @@ function CreateOrganizationPanel({
             onChangeAction={(value) =>
               update("seatLimit", Math.max(1, Number.parseInt(value, 10) || 1))
             }
+            error={Boolean(fieldErrors.seatLimit)}
+            helperText={fieldErrors.seatLimit}
           />
           <FieldWithHelp
             label="Create one-time setup link"

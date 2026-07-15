@@ -955,16 +955,26 @@ function parseOrganizationProfile(input: AdminOrganizationUpdateInput) {
   const domain = normalizeDomain(input.domain ?? "")
   const email = normalizeEmail(input.email ?? "")
 
-  if (
-    input.country !== "United States" ||
-    !input.state?.trim() ||
-    !input.name?.trim() ||
-    !input.researchField?.trim() ||
-    !ORGANIZATION_TYPES.has(input.organizationType) ||
-    !/^\S+@\S+\.\S+$/.test(email) ||
-    !/^[a-z0-9.-]+\.[a-z]{2,}$/i.test(domain)
-  ) {
-    return { ok: false as const, status: 400, message: "Enter valid organization details." }
+  if (input.country !== "United States") {
+    return { ok: false as const, status: 400, message: "Select a supported country." }
+  }
+  if (!input.state?.trim()) {
+    return { ok: false as const, status: 400, message: "Select a state." }
+  }
+  if (!input.name?.trim()) {
+    return { ok: false as const, status: 400, message: "Enter the organization name." }
+  }
+  if (!/^\S+@\S+\.\S+$/.test(email)) {
+    return { ok: false as const, status: 400, message: "Enter a valid organization email." }
+  }
+  if (!/^[a-z0-9.-]+\.[a-z]{2,}$/i.test(domain)) {
+    return { ok: false as const, status: 400, message: "Enter a valid organization domain." }
+  }
+  if (!ORGANIZATION_TYPES.has(input.organizationType)) {
+    return { ok: false as const, status: 400, message: "Select an edition." }
+  }
+  if (!input.researchField?.trim()) {
+    return { ok: false as const, status: 400, message: "Enter the research field." }
   }
 
   return {
