@@ -100,7 +100,7 @@ export async function createPortalPasswordResetLink(input: {
     ok: true as const,
     account,
     expiresAt,
-    resetLink: `${normalizeOrigin(origin)}/portal/reset-password/${token}`,
+    resetLink: `${normalizeOrigin(input.origin)}/portal/reset-password/${token}`,
   }
 }
 
