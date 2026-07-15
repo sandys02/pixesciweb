@@ -17,6 +17,9 @@ There are two separate authentication levels:
   `pixesci_download_session` protect legacy installer-download access.
 - Portal license auth: `/api/portal/*` routes authenticate organization portal
   accounts, enforce setup state, and authorize license and seat administration.
+- Internal staff admin auth: `/api/admin/*` routes and
+  `pixesci_admin_session` authenticate PixeSci staff for organization, customer
+  portal account, license, seat, and audit administration.
 
 `/portal` is protected by `pixesci_portal_session`. The installer download route
 accepts either a valid legacy download session or a completed portal session.
@@ -24,6 +27,9 @@ accepts either a valid legacy download session or a completed portal session.
 The organization portal account is not a human PixeSci app user and must not
 consume an app license seat. Human app seats are separate records owned by an
 organization license.
+
+PixeSci staff admin users are stored separately in `admin_accounts`; never reuse
+`portal_accounts` for PixeSci staff access.
 
 Baseline identity decision: use local portal auth in this Next.js app. Do not
 add Keycloak unless a later product decision explicitly changes the plan.
@@ -82,6 +88,10 @@ Portal auth uses these environment variables:
   activation files and license bundles.
 - `PORTAL_LICENSE_PUBLIC_KEY_PEM`: required in production for verification.
 - `PORTAL_LICENSE_PUBLIC_KEY_ID`: required in production as the signing key ID.
+- `ADMIN_SESSION_SECRET`: required outside development for `/admin`.
+- `PORTAL_DATABASE_ENV`: optional environment label used by admin write
+  safeguards. Supported values are `local`, `development`, `preview`, and
+  `production`.
 
 ## Setup
 

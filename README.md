@@ -92,6 +92,7 @@ prefix unless they are intentionally safe to ship to browsers.
 | `/company`                           | Product thesis, market focus, and company positioning                                      |
 | `/privacy`                           | Website analytics, performance measurement, and booking disclosure                         |
 | `/portal`                            | Authenticated organization portal for setup, licenses, seats, downloads, and offline files |
+| `/admin`                             | Internal PixeSci staff dashboard for organization and license administration               |
 | `/contact`                           | Permanent compatibility redirect to the Cal.com demo calendar                              |
 | `/talk-to-sales`                     | Permanent compatibility redirect to the Cal.com demo calendar                              |
 
@@ -107,6 +108,8 @@ The site currently has two same-origin auth layers:
 - Organization portal: `/api/portal/login`, `/api/portal/session`, and
   `pixesci_portal_session` protect the customer portal, license dashboard, seat
   administration, activation exports, and bundle generation.
+- Internal admin: `/api/admin/login`, `/api/admin/session`, and
+  `pixesci_admin_session` protect PixeSci staff administration at `/admin`.
 
 `/api/download/file` accepts either a valid download session or a completed
 portal session. Requests with neither session still receive a 401 response.
@@ -298,6 +301,7 @@ npm run docker:up    # Build and run the Docker Compose web service
 npm run db:push    # Push download and portal SQLite schemas
 npm run db:seed    # Seed a download-gate user
 npm run db:seed:portal # Seed a portal org, account, and license
+npm run db:seed:admin # Seed a PixeSci staff admin account
 ```
 
 ## Verification
@@ -345,6 +349,8 @@ and organization portal must set:
 - `DOWNLOAD_LINK_LOCK_URL` and `DOWNLOAD_LINK_LOCK_PASSWORD`: required for
   installer redirects.
 - `PORTAL_SESSION_SECRET`: 32 or more characters.
+- `ADMIN_SESSION_SECRET`: 32 or more characters for internal staff admin
+  sessions.
 - `PORTAL_DATABASE_URL`: required on Vercel for durable portal state. Use a
   managed libSQL/Turso database for production seats, licenses, audit events,
   and portal accounts.
@@ -352,6 +358,10 @@ and organization portal must set:
   needs an auth token.
 - `PORTAL_DB_PATH`: optional local-only override for the portal SQLite database
   path.
+- `PORTAL_DATABASE_ENV`: optional `local`, `development`, `preview`, or
+  `production` safety label for portal/admin database writes.
+- `PORTAL_PRODUCTION_DATABASE_URL_HOST`: optional production database host
+  fingerprint used to block preview admin writes when misconfigured.
 - `PORTAL_LICENSE_SIGNING_PRIVATE_KEY_PEM`,
   `PORTAL_LICENSE_PUBLIC_KEY_PEM`, and `PORTAL_LICENSE_PUBLIC_KEY_ID`: required
   in production for signed activation files and license bundles.
@@ -374,6 +384,11 @@ The repository includes a production Dockerfile that uses Next.js standalone
 output and a Compose file with a persistent `pixesci-data` volume mounted at
 `/data`.
 
+For portal/admin work, prefer a shared remote Turso development database in
+`.env.local`. Docker Compose reads `.env.docker` first and `.env.local` second,
+so local secrets can override blank Docker defaults without entering source
+control.
+
 Build the image directly:
 
 ```bash
@@ -391,7 +406,30 @@ npm run docker:up
 Open [http://localhost:3000](http://localhost:3000). Set `PIXESCI_WEB_PORT` to
 publish a different host port.
 
-To seed local Docker data, run the seed scripts through the setup service:
+To seed or reset the shared staff admin account, read the password without
+putting it in shell history:
+
+```bash
+read -s ADMIN_SEED_PASSWORD
+export ADMIN_SEED_PASSWORD
+docker compose --profile setup run --rm \
+  -e ADMIN_SEED_PASSWORD \
+  setup npm run db:seed:admin -- \
+  --email pixesci@gmail.com \
+  --role owner \
+  --reset-existing
+unset ADMIN_SEED_PASSWORD
+```
+
+To wipe customer portal data while preserving staff admin accounts:
+
+```bash
+npm run db:wipe:portal-customers -- \
+  --confirm DELETE_PORTAL_CUSTOMER_DATA
+```
+
+To seed local Docker customer data for testing, run the seed scripts through the
+setup service:
 
 ```bash
 docker compose --profile setup run --rm setup npm run db:seed -- operator@example.com your-password
@@ -413,7 +451,7 @@ docker compose --profile setup run --rm setup npm run db:seed:portal -- \
 Docker runtime defaults:
 
 - `DOWNLOAD_DB_PATH=/data/download.db`
-- `PORTAL_DB_PATH=/data/portal.db`
+- `PORTAL_DATABASE_ENV=development`
 - `PORT=3000`
 - `HOSTNAME=0.0.0.0`
 

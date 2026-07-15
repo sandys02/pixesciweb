@@ -13,6 +13,10 @@ The website has two same-origin auth layers:
 - Organization portal: `/api/portal/*`, `private/portal.db`, and
   `pixesci_portal_session` support customer organization setup, licenses,
   seats, offline files, and connected activation.
+- Internal admin: `/api/admin/*`, the portal/admin database, and
+  `pixesci_admin_session` support PixeSci staff organization onboarding,
+  portal account reset links, license management, organization lifecycle
+  changes, and audit review.
 
 The portal is server-backed. Account setup, organization profile changes,
 password changes, license lists, seat actions, activation exports, connected
@@ -60,6 +64,8 @@ Organization, licenses, seats, bundles, and activation:
 - Download users are seeded with `npm run db:seed -- email password`.
 - Portal organizations, accounts, and licenses are seeded with
   `npm run db:seed:portal -- ...`.
+- PixeSci staff admin accounts are seeded with
+  `npm run db:seed:admin -- ...`.
 - Download users live in `private/download.db`.
 - Portal records live in `private/portal.db` by default for local development.
 - On Vercel, portal records must use `PORTAL_DATABASE_URL` for durable

@@ -34,12 +34,64 @@ export const organizations = sqliteTable(
     email: text("email").notNull(),
     domain: text("domain").notNull(),
     researchField: text("research_field").notNull(),
+    status: text("status").notNull().default("active"),
+    deactivatedAt: text("deactivated_at"),
+    archivedAt: text("archived_at"),
     createdAt: text("created_at").notNull(),
     updatedAt: text("updated_at").notNull(),
   },
   (table) => [
     uniqueIndex("organizations_domain_unique").on(table.domain),
     index("organizations_email_idx").on(table.email),
+    index("organizations_status_idx").on(table.status),
+  ]
+)
+
+export const adminAccounts = sqliteTable(
+  "admin_accounts",
+  {
+    id: integer("id").primaryKey({ autoIncrement: true }),
+    email: text("email").notNull(),
+    passwordHash: text("password_hash").notNull(),
+    active: integer("active", { mode: "boolean" }).notNull().default(true),
+    role: text("role").notNull().default("admin"),
+    mustChangePassword: integer("must_change_password", { mode: "boolean" })
+      .notNull()
+      .default(false),
+    failedLoginCount: integer("failed_login_count").notNull().default(0),
+    lockedUntil: text("locked_until"),
+    lastLoginAt: text("last_login_at"),
+    createdAt: text("created_at").notNull(),
+    updatedAt: text("updated_at").notNull(),
+  },
+  (table) => [
+    uniqueIndex("admin_accounts_email_unique").on(table.email),
+    index("admin_accounts_active_idx").on(table.active),
+    index("admin_accounts_role_idx").on(table.role),
+  ]
+)
+
+export const adminAccountResetTokens = sqliteTable(
+  "admin_account_reset_tokens",
+  {
+    id: integer("id").primaryKey({ autoIncrement: true }),
+    adminAccountId: integer("admin_account_id")
+      .notNull()
+      .references(() => adminAccounts.id, { onDelete: "cascade" }),
+    tokenHash: text("token_hash").notNull(),
+    purpose: text("purpose").notNull(),
+    expiresAt: text("expires_at").notNull(),
+    usedAt: text("used_at"),
+    createdByAdminId: integer("created_by_admin_id").references(
+      () => adminAccounts.id,
+      { onDelete: "set null" }
+    ),
+    createdAt: text("created_at").notNull(),
+  },
+  (table) => [
+    uniqueIndex("admin_account_reset_tokens_hash_unique").on(table.tokenHash),
+    index("admin_account_reset_tokens_account_idx").on(table.adminAccountId),
+    index("admin_account_reset_tokens_expires_idx").on(table.expiresAt),
   ]
 )
 
@@ -131,6 +183,11 @@ export const auditEvents = sqliteTable(
     actorSeatId: integer("actor_seat_id").references(() => seats.id, {
       onDelete: "set null",
     }),
+    actorAdminAccountId: integer("actor_admin_account_id").references(
+      () => adminAccounts.id,
+      { onDelete: "set null" }
+    ),
+    actorType: text("actor_type").notNull().default("portal_account"),
     eventType: text("event_type").notNull(),
     targetType: text("target_type").notNull(),
     targetId: text("target_id").notNull(),
@@ -139,8 +196,37 @@ export const auditEvents = sqliteTable(
   },
   (table) => [
     index("audit_events_organization_idx").on(table.organizationId),
+    index("audit_events_actor_admin_idx").on(table.actorAdminAccountId),
     index("audit_events_event_type_idx").on(table.eventType),
     index("audit_events_created_at_idx").on(table.createdAt),
+  ]
+)
+
+export const portalAccountResetTokens = sqliteTable(
+  "portal_account_reset_tokens",
+  {
+    id: integer("id").primaryKey({ autoIncrement: true }),
+    portalAccountId: integer("portal_account_id")
+      .notNull()
+      .references(() => portalAccounts.id, { onDelete: "cascade" }),
+    organizationId: integer("organization_id")
+      .notNull()
+      .references(() => organizations.id, { onDelete: "cascade" }),
+    tokenHash: text("token_hash").notNull(),
+    purpose: text("purpose").notNull(),
+    expiresAt: text("expires_at").notNull(),
+    usedAt: text("used_at"),
+    createdByAdminId: integer("created_by_admin_id").references(
+      () => adminAccounts.id,
+      { onDelete: "set null" }
+    ),
+    createdAt: text("created_at").notNull(),
+  },
+  (table) => [
+    uniqueIndex("portal_account_reset_tokens_hash_unique").on(table.tokenHash),
+    index("portal_account_reset_tokens_account_idx").on(table.portalAccountId),
+    index("portal_account_reset_tokens_org_idx").on(table.organizationId),
+    index("portal_account_reset_tokens_expires_idx").on(table.expiresAt),
   ]
 )
 
@@ -173,6 +259,12 @@ export const licenseBundles = sqliteTable(
 
 export type PortalAccount = typeof portalAccounts.$inferSelect
 export type NewPortalAccount = typeof portalAccounts.$inferInsert
+export type AdminAccount = typeof adminAccounts.$inferSelect
+export type NewAdminAccount = typeof adminAccounts.$inferInsert
+export type AdminAccountResetToken =
+  typeof adminAccountResetTokens.$inferSelect
+export type NewAdminAccountResetToken =
+  typeof adminAccountResetTokens.$inferInsert
 export type Organization = typeof organizations.$inferSelect
 export type NewOrganization = typeof organizations.$inferInsert
 export type PortalAccountOrganization =
@@ -185,5 +277,9 @@ export type Seat = typeof seats.$inferSelect
 export type NewSeat = typeof seats.$inferInsert
 export type AuditEvent = typeof auditEvents.$inferSelect
 export type NewAuditEvent = typeof auditEvents.$inferInsert
+export type PortalAccountResetToken =
+  typeof portalAccountResetTokens.$inferSelect
+export type NewPortalAccountResetToken =
+  typeof portalAccountResetTokens.$inferInsert
 export type LicenseBundle = typeof licenseBundles.$inferSelect
 export type NewLicenseBundle = typeof licenseBundles.$inferInsert

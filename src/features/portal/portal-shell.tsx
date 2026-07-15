@@ -195,15 +195,7 @@ export function PortalShell({
     await completePortalSetup(form)
     const nextAccount: PortalAccount = {
       ...account,
-      organization: {
-        country: "United States",
-        state: form.state.trim(),
-        organizationType: form.organizationType,
-        name: form.name.trim(),
-        email: form.email.trim().toLowerCase(),
-        domain: normalizeDomain(form.domain),
-        researchField: form.researchField.trim(),
-      },
+      organization: account.organization,
       licenses: [],
     }
     setAccount(nextAccount)
@@ -430,12 +422,12 @@ function AccountSetup({
       <div className="lg:pt-8">
         <p className="eyebrow">First sign-in</p>
         <h2 className="mt-3 text-3xl leading-tight font-semibold sm:text-4xl">
-          Account Setup
+          Set Portal Password
         </h2>
         <p className="mt-5 text-base leading-7 text-muted-foreground">
-          Set a new portal password before opening the dashboard. The
-          organization account is not a PixeSci app user. It manages licenses
-          and creates seats for human admins and members.
+          PixeSci has already completed the organization setup. Review the
+          organization details, then set a new portal password before opening
+          the dashboard.
         </p>
         <div className="mt-6 rounded-lg border border-border bg-background p-4 text-sm leading-6 text-muted-foreground">
           PixeSci connects and automates scientific software, runs work locally
@@ -449,12 +441,7 @@ function AccountSetup({
         className="rounded-lg border border-border bg-background p-5 shadow-sm sm:p-6"
         onSubmit={handleSubmit}
       >
-        <OrganizationFields
-          errors={errors}
-          form={form}
-          lockEmail={false}
-          onFieldChange={updateField}
-        />
+        <OrganizationReview organization={initialOrganization} />
 
         <div className="mt-5 grid gap-4 sm:grid-cols-2">
           <FloatingLabelInput
@@ -496,6 +483,36 @@ function AccountSetup({
           {pending ? "Saving..." : "Save password and open dashboard"}
         </Button>
       </form>
+    </div>
+  )
+}
+
+function OrganizationReview({
+  organization,
+}: {
+  organization: PortalOrganization
+}) {
+  const rows = [
+    ["Country", organization.country],
+    ["State", organization.state],
+    ["Edition", organizationTypeLabel(organization.organizationType)],
+    ["Organization email", organization.email],
+    ["Organization name", organization.name],
+    ["Organization domain", organization.domain],
+    ["Research field", organization.researchField],
+  ] as const
+
+  return (
+    <div className="rounded-lg border border-border bg-muted/20 p-4">
+      <p className="text-sm font-medium">Organization details</p>
+      <dl className="mt-4 grid gap-3 sm:grid-cols-2">
+        {rows.map(([label, value]) => (
+          <div key={label} className={label === "Research field" ? "sm:col-span-2" : ""}>
+            <dt className="text-xs text-muted-foreground">{label}</dt>
+            <dd className="mt-1 break-words text-sm font-medium">{value}</dd>
+          </div>
+        ))}
+      </dl>
     </div>
   )
 }

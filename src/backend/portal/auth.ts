@@ -10,7 +10,6 @@ import {
   portalAccountOrganizations,
   portalAccounts,
 } from "@/backend/portal/schema"
-import type { OrganizationType } from "@/features/portal/types"
 
 export const PORTAL_SESSION_COOKIE = "pixesci_portal_session"
 
@@ -25,8 +24,6 @@ export const PORTAL_MESSAGES = {
 
 const LOGIN_LOCK_THRESHOLD = 5
 const LOGIN_LOCK_MINUTES = 15
-const ORGANIZATION_TYPES = new Set(["academia", "enterprise", "pixesci"])
-
 type PortalSessionClaims = {
   accountId: number
   organizationId: number
@@ -39,13 +36,6 @@ export type PortalSession = PortalSessionClaims & {
 }
 
 export type AccountSetupInput = {
-  organizationType: OrganizationType
-  country: "United States"
-  state: string
-  name: string
-  email: string
-  domain: string
-  researchField: string
   newPassword: string
   confirmPassword: string
 }
@@ -139,7 +129,7 @@ export function hashPortalPassword(password: string) {
   return `scrypt$${salt}$${hash}`
 }
 
-function verifyPortalPassword(password: string, encodedHash: string) {
+export function verifyPortalPassword(password: string, encodedHash: string) {
   const [algorithm, salt, hash] = encodedHash.split("$")
 
   if (algorithm !== "scrypt" || !salt || !hash) {
@@ -206,11 +196,16 @@ async function findPortalAccountWithOrganization(email: string) {
       account: portalAccounts,
       organizationId: portalAccountOrganizations.organizationId,
       organizationRole: portalAccountOrganizations.role,
+      organizationStatus: organizations.status,
     })
     .from(portalAccounts)
     .innerJoin(
       portalAccountOrganizations,
       eq(portalAccountOrganizations.accountId, portalAccounts.id)
+    )
+    .innerJoin(
+      organizations,
+      eq(organizations.id, portalAccountOrganizations.organizationId)
     )
     .where(eq(portalAccounts.email, normalizedEmail))
     .limit(1)
@@ -270,7 +265,7 @@ export async function writePortalAuditEvent(input: {
 export async function loginPortalAccount(email: string, password: string) {
   const row = await findPortalAccountWithOrganization(email)
 
-  if (!row?.account.active) {
+  if (!row?.account.active || row.organizationStatus !== "active") {
     return { ok: false as const, message: PORTAL_MESSAGES.invalidCredentials }
   }
 
@@ -338,11 +333,16 @@ export async function requirePortalSession(token: string | undefined) {
       account: portalAccounts,
       organizationId: portalAccountOrganizations.organizationId,
       organizationRole: portalAccountOrganizations.role,
+      organizationStatus: organizations.status,
     })
     .from(portalAccounts)
     .innerJoin(
       portalAccountOrganizations,
       eq(portalAccountOrganizations.accountId, portalAccounts.id)
+    )
+    .innerJoin(
+      organizations,
+      eq(organizations.id, portalAccountOrganizations.organizationId)
     )
     .where(
       and(
@@ -353,7 +353,7 @@ export async function requirePortalSession(token: string | undefined) {
     .limit(1)
   const row = rows[0]
 
-  if (!row?.account.active) {
+  if (!row?.account.active || row.organizationStatus !== "active") {
     return {
       ok: false as const,
       message: PORTAL_MESSAGES.sessionExpired,
@@ -408,20 +408,6 @@ export async function completePortalAccountSetup(
   const timestamp = nowIso()
 
   await db
-    .update(organizations)
-    .set({
-      organizationType: input.organizationType,
-      country: input.country,
-      state: input.state.trim(),
-      name: input.name.trim(),
-      email: normalizeEmail(input.email),
-      domain: normalizeDomain(input.domain),
-      researchField: input.researchField.trim(),
-      updatedAt: timestamp,
-    })
-    .where(eq(organizations.id, session.organizationId))
-
-  await db
     .update(portalAccounts)
     .set({
       passwordHash: hashPortalPassword(input.newPassword),
@@ -437,9 +423,9 @@ export async function completePortalAccountSetup(
     organizationId: session.organizationId,
     actorAccountId: session.accountId,
     eventType: "account_setup_completed",
-    targetType: "organization",
-    targetId: String(session.organizationId),
-    metadata: { organizationEmail: normalizeEmail(input.email) },
+    targetType: "portal_account",
+    targetId: String(session.accountId),
+    metadata: { setupMode: "password_only" },
   })
 
   return { setupComplete: true as const }
@@ -499,51 +485,17 @@ export function parseAccountSetupBody(body: unknown) {
     return { ok: false as const, message: PORTAL_MESSAGES.malformedInput }
   }
 
-  const organizationType = "organizationType" in body
-    ? String(body.organizationType ?? "")
-    : ""
-  const country = "country" in body ? String(body.country ?? "") : ""
-  const state = "state" in body ? String(body.state ?? "") : ""
-  const name = "name" in body ? String(body.name ?? "") : ""
-  const email = "email" in body ? String(body.email ?? "") : ""
-  const domain = "domain" in body ? String(body.domain ?? "") : ""
-  const researchField =
-    "researchField" in body ? String(body.researchField ?? "") : ""
   const newPassword = "newPassword" in body ? String(body.newPassword ?? "") : ""
   const confirmPassword =
     "confirmPassword" in body ? String(body.confirmPassword ?? "") : ""
-  const normalizedDomain = normalizeDomain(domain)
 
-  if (!ORGANIZATION_TYPES.has(organizationType)) {
-    return { ok: false as const, message: PORTAL_MESSAGES.malformedInput }
-  }
-
-  if (country !== "United States" || !state.trim() || !name.trim()) {
-    return { ok: false as const, message: PORTAL_MESSAGES.malformedInput }
-  }
-
-  if (!/^\S+@\S+\.\S+$/.test(normalizeEmail(email))) {
-    return { ok: false as const, message: PORTAL_MESSAGES.malformedInput }
-  }
-
-  if (!/^[a-z0-9.-]+\.[a-z]{2,}$/i.test(normalizedDomain)) {
-    return { ok: false as const, message: PORTAL_MESSAGES.malformedInput }
-  }
-
-  if (!researchField.trim() || newPassword.length < 10 || newPassword !== confirmPassword) {
+  if (newPassword.length < 10 || newPassword !== confirmPassword) {
     return { ok: false as const, message: PORTAL_MESSAGES.malformedInput }
   }
 
   return {
     ok: true as const,
     data: {
-      organizationType: organizationType as OrganizationType,
-      country: "United States" as const,
-      state,
-      name,
-      email,
-      domain: normalizedDomain,
-      researchField,
       newPassword,
       confirmPassword,
     },

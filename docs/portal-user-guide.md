@@ -11,7 +11,7 @@ license and human app seats.
 
 Use the portal to:
 
-- complete first-time organization setup;
+- set the first portal password after PixeSci completes organization setup;
 - change the portal account password;
 - review active and inactive licenses;
 - create human PixeSci app seats;
@@ -54,9 +54,10 @@ It uses:
 - `/api/portal/session`
 - `pixesci_portal_session`
 
-Portal accounts are created by PixeSci during customer onboarding. A customer is
-given an email address and a temporary password. On first login, the customer
-must complete Account Setup and choose a new password.
+Portal accounts are created by PixeSci during customer onboarding. PixeSci staff
+captures organization details and license setup before the customer first signs
+in. On first login, the customer reviews those details and chooses a new portal
+password.
 
 ## Account Types
 
@@ -107,7 +108,7 @@ When PixeSci onboards a new customer, PixeSci creates:
 The customer receives:
 
 - portal email;
-- temporary portal password.
+- a temporary credential or one-time setup link.
 
 Example local seed account:
 
@@ -121,8 +122,8 @@ First login flow:
 1. Open the website.
 2. Choose `Sign In`.
 3. Enter the portal email and temporary password.
-4. The portal opens Account Setup.
-5. Confirm or update organization details.
+4. The portal opens password setup.
+5. Review the organization details that PixeSci configured.
 6. Set a new portal password.
 7. Submit setup.
 8. The license dashboard opens.

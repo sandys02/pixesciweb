@@ -6,11 +6,13 @@ services:
     env_file:
       - path: .env.docker
         required: false
+      - path: .env.local
+        required: false
     ports:
       - "${PIXESCI_WEB_PORT:-3000}:3000"
     environment:
       DOWNLOAD_DB_PATH: /data/download.db
-      PORTAL_DB_PATH: /data/portal.db
+      PORTAL_DATABASE_ENV: ${PORTAL_DATABASE_ENV:-development}
     volumes:
       - pixesci-data:/data
     restart: unless-stopped
@@ -22,11 +24,13 @@ services:
     env_file:
       - path: .env.docker
         required: false
+      - path: .env.local
+        required: false
     profiles:
       - setup
     environment:
       DOWNLOAD_DB_PATH: /data/download.db
-      PORTAL_DB_PATH: /data/portal.db
+      PORTAL_DATABASE_ENV: ${PORTAL_DATABASE_ENV:-development}
     volumes:
       - pixesci-data:/data
     command: npm run db:push

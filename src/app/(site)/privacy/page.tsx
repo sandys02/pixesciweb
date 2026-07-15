@@ -15,7 +15,7 @@ const sections = [
   {
     title: "Information this website processes",
     paragraphs: [
-      "The public marketing pages have no file uploads or contact form. The website also includes gated download access and an organization portal for customer administrators. Those areas process account email addresses, session cookies, organization profile fields, license records, seat records, audit events, and signed activation or license files needed to provide the portal.",
+      "The public marketing pages have no file uploads or contact form. The website also includes gated download access, an organization portal for customer administrators, and an internal PixeSci staff admin dashboard. Those areas process account email addresses, session cookies, organization profile fields, license records, seat records, password setup or reset state, audit events, and signed activation or license files needed to provide the portal.",
       "PixeSci uses Vercel Web Analytics to count page visits and demo-link clicks. It uses Vercel Speed Insights to measure website speed. These events include the page path, link label, and link location. They do not include names, email addresses, scientific data, or form content.",
       "The portal does not store scientific workflow data, experiment files, local run records, SOP content, endpoint usernames, device inventory, telemetry, or internal deployment topology.",
     ],

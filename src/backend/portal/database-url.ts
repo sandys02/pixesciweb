@@ -2,6 +2,7 @@ import { mkdirSync } from "node:fs"
 import path from "node:path"
 
 const DEFAULT_PORTAL_DB_PATH = path.join(process.cwd(), "private", "portal.db")
+const VERCEL_BUILD_PORTAL_DB_PATH = "/tmp/pixesci-portal-build.db"
 type PortalDatabaseConfig = {
   path: string | null
   url: string
@@ -31,6 +32,10 @@ function resolvePortalDatabaseConfig(): PortalDatabaseConfig {
   const configuredPath = process.env.PORTAL_DB_PATH?.trim()
 
   if (!configuredPath && process.env.VERCEL === "1") {
+    if (process.env.NEXT_PHASE === "phase-production-build") {
+      return resolveFileDatabaseUrl(VERCEL_BUILD_PORTAL_DB_PATH)
+    }
+
     throw new Error(
       "PORTAL_DATABASE_URL is required on Vercel so portal state is durable."
     )
