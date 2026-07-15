@@ -4,6 +4,7 @@ import * as React from "react"
 import {
   Archive,
   Building2,
+  HelpCircle,
   KeyRound,
   LogOut,
   Plus,
@@ -111,12 +112,10 @@ type CreateOrganizationForm = {
   domain: string
   organizationType: "enterprise" | "academia" | "pixesci"
   researchField: string
-  portalAccountEmail: string
   licenseId: string
   generateLicenseId: boolean
   label: string
   startsAt: string
-  endsAt: string
   seatLimit: number
   createSetupLink: boolean
 }
@@ -129,16 +128,22 @@ const emptyCreateForm: CreateOrganizationForm = {
   domain: "",
   organizationType: "enterprise",
   researchField: "",
-  portalAccountEmail: "",
   licenseId: "",
   generateLicenseId: true,
-  label: "Enterprise controlled deployment",
+  label: "Annual organization license",
   startsAt: new Date().toISOString().slice(0, 10),
-  endsAt: new Date(Date.now() + 365 * 24 * 60 * 60 * 1000)
-    .toISOString()
-    .slice(0, 10),
-  seatLimit: 5,
+  seatLimit: 7,
   createSetupLink: true,
+}
+
+function addOneYear(dateString: string) {
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(dateString)) return ""
+
+  const [year, month, day] = dateString.split("-").map(Number)
+  const date = new Date(Date.UTC(year, month - 1, day))
+  date.setUTCFullYear(date.getUTCFullYear() + 1)
+
+  return date.toISOString().slice(0, 10)
 }
 
 export function AdminShell({
@@ -434,6 +439,7 @@ function CreateOrganizationPanel({
     event.preventDefault()
     setPending(true)
     onError("")
+    const endsAt = addOneYear(form.startsAt)
     try {
       const result = await requestAdminApi<{ setupLink?: string }>(
         "/api/admin/organizations",
@@ -450,7 +456,7 @@ function CreateOrganizationPanel({
               researchField: form.researchField,
             },
             portalAccount: {
-              email: form.portalAccountEmail,
+              email: form.email,
               createSetupLink: form.createSetupLink,
             },
             license: {
@@ -458,7 +464,7 @@ function CreateOrganizationPanel({
               generateLicenseId: form.generateLicenseId,
               label: form.label,
               startsAt: form.startsAt,
-              endsAt: form.endsAt,
+              endsAt,
               seatLimit: form.seatLimit,
               status: "active",
             },
@@ -491,6 +497,17 @@ function CreateOrganizationPanel({
       {open ? (
         <form className="mt-5 space-y-4" onSubmit={submit}>
           <FloatingLabelSelect
+            id="admin-org-country"
+            label="Country"
+            value={form.country}
+            options={[{ label: "United States", value: "United States" }]}
+            disabled
+            onValueChange={(value) =>
+              update("country", value as CreateOrganizationForm["country"])
+            }
+            helperText="Only United States is available now."
+          />
+          <FloatingLabelSelect
             id="admin-org-state"
             label="State"
             value={form.state}
@@ -522,6 +539,7 @@ function CreateOrganizationPanel({
             label="Organization email"
             value={form.email}
             onChangeAction={(value) => update("email", value)}
+            helperText="Used for the organization profile and the first portal admin account."
           />
           <FloatingLabelInput
             id="admin-org-domain"
@@ -534,13 +552,6 @@ function CreateOrganizationPanel({
             label="Research field"
             value={form.researchField}
             onChangeAction={(value) => update("researchField", value)}
-          />
-          <FloatingLabelInput
-            id="admin-portal-email"
-            type="email"
-            label="Portal account email"
-            value={form.portalAccountEmail}
-            onChangeAction={(value) => update("portalAccountEmail", value)}
           />
           <label className="flex items-center gap-2 text-sm">
             <input
@@ -558,28 +569,25 @@ function CreateOrganizationPanel({
               onChangeAction={(value) => update("licenseId", value)}
             />
           ) : null}
-          <FloatingLabelInput
-            id="admin-license-label"
+          <FieldWithHelp
             label="License label"
-            value={form.label}
-            onChangeAction={(value) => update("label", value)}
+            help="A staff-facing name for the license, such as Annual organization license. It is not the license ID."
+          >
+            <FloatingLabelInput
+              id="admin-license-label"
+              label="License label"
+              value={form.label}
+              onChangeAction={(value) => update("label", value)}
+            />
+          </FieldWithHelp>
+          <FloatingLabelInput
+            id="admin-license-start"
+            type="date"
+            label="Start date"
+            value={form.startsAt}
+            onChangeAction={(value) => update("startsAt", value)}
+            helperText={`End date: ${addOneYear(form.startsAt) || "select a valid start date"}`}
           />
-          <div className="grid gap-3 sm:grid-cols-2">
-            <FloatingLabelInput
-              id="admin-license-start"
-              type="date"
-              label="Start date"
-              value={form.startsAt}
-              onChangeAction={(value) => update("startsAt", value)}
-            />
-            <FloatingLabelInput
-              id="admin-license-end"
-              type="date"
-              label="End date"
-              value={form.endsAt}
-              onChangeAction={(value) => update("endsAt", value)}
-            />
-          </div>
           <FloatingLabelInput
             id="admin-license-seats"
             type="number"
@@ -589,14 +597,19 @@ function CreateOrganizationPanel({
               update("seatLimit", Math.max(1, Number.parseInt(value, 10) || 1))
             }
           />
-          <label className="flex items-center gap-2 text-sm">
-            <input
-              type="checkbox"
-              checked={form.createSetupLink}
-              onChange={(event) => update("createSetupLink", event.target.checked)}
-            />
-            Create one-time setup link
-          </label>
+          <FieldWithHelp
+            label="Create one-time setup link"
+            help="Creates a single-use password setup link for the customer's first portal login. The dashboard shows it once."
+          >
+            <label className="flex items-center gap-2 text-sm">
+              <input
+                type="checkbox"
+                checked={form.createSetupLink}
+                onChange={(event) => update("createSetupLink", event.target.checked)}
+              />
+              Create one-time setup link
+            </label>
+          </FieldWithHelp>
           <Button type="submit" className="w-full" disabled={pending}>
             <Building2 className="size-4" />
             {pending ? "Creating..." : "Create organization"}
@@ -646,6 +659,33 @@ function OrganizationList({
         ) : null}
       </div>
     </section>
+  )
+}
+
+function FieldWithHelp({
+  label,
+  help,
+  children,
+}: {
+  label: string
+  help: string
+  children: React.ReactNode
+}) {
+  return (
+    <div className="space-y-2">
+      <div className="flex items-center gap-1.5 text-xs font-medium text-muted-foreground">
+        <span>{label}</span>
+        <button
+          type="button"
+          className="inline-flex size-5 items-center justify-center rounded-md text-muted-foreground outline-none hover:text-foreground focus-visible:ring-2 focus-visible:ring-ring"
+          aria-label={`${label}: ${help}`}
+          title={help}
+        >
+          <HelpCircle className="size-3.5" />
+        </button>
+      </div>
+      {children}
+    </div>
   )
 }
 

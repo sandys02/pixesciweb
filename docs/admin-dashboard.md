@@ -130,6 +130,30 @@ portal first-login flow shows organization details for review and asks only for:
 Customers can continue editing allowed non-sensitive organization settings after
 setup. Organization email remains locked.
 
+## Organization Onboarding Defaults
+
+Organization onboarding uses one email field: `Organization email`. That email
+is stored on the organization profile and is also used for the initial customer
+portal administrator account.
+
+New organizations default to a 7-seat active license. PixeSci staff can increase
+the seat limit later from the admin dashboard when a customer requests more
+seats.
+
+The create form stores country and state. Country is currently fixed to
+`United States` and disabled in the UI. State uses the US state list while US is
+the only supported country.
+
+Initial licenses are annual. Staff selects the start date, and the dashboard
+derives the end date as one year after the start date.
+
+`Create one-time setup link` creates a single-use password setup link for the
+customer's first portal login. The dashboard displays the plaintext link once so
+PixeSci staff can send it manually. The database stores only a token hash.
+
+`License label` is a staff-facing display name for the license, such as
+`Annual organization license` or `Academia pilot`. It is not the license ID.
+
 ## Password Reset Links
 
 Admin-created setup and reset links are single-use and expire. The dashboard

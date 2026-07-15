@@ -37,7 +37,7 @@ export type AdminCreateOrganizationInput = {
     researchField: string
   }
   portalAccount: {
-    email: string
+    email?: string
     createSetupLink: boolean
   }
   license: {
@@ -78,6 +78,16 @@ function nowIso() {
 
 function temporaryPassword() {
   return randomBytes(24).toString("base64url")
+}
+
+function addOneYear(dateString: string) {
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(dateString)) return ""
+
+  const [year, month, day] = dateString.split("-").map(Number)
+  const date = new Date(Date.UTC(year, month - 1, day))
+  date.setUTCFullYear(date.getUTCFullYear() + 1)
+
+  return date.toISOString().slice(0, 10)
 }
 
 export function generateLicenseId() {
@@ -267,7 +277,7 @@ export async function createAdminOrganization(input: {
   if (!parsed.ok) return parsed
 
   const organizationEmail = normalizeEmail(parsed.data.organization.email)
-  const accountEmail = normalizeEmail(parsed.data.portalAccount.email)
+  const accountEmail = organizationEmail
   const domain = normalizeDomain(parsed.data.organization.domain)
   const licenseId = parsed.data.license.generateLicenseId
     ? generateLicenseId()
@@ -344,7 +354,7 @@ export async function createAdminOrganization(input: {
     eventType: "admin_organization_created",
     targetType: "organization",
     targetId: String(organization.id),
-    metadata: { domain, portalAccountEmail: accountEmail, licenseId },
+    metadata: { domain, organizationEmail, licenseId },
   })
 
   let setupLink: string | undefined
@@ -910,21 +920,20 @@ function parseCreateOrganizationInput(input: AdminCreateOrganizationInput) {
   const organization = parseOrganizationProfile(input.organization)
   if (!organization.ok) return organization
 
-  const license = parseLicensePatch(input.license)
+  const oneYearEndsAt = addOneYear(input.license?.startsAt ?? "")
+  const license = parseLicensePatch({
+    ...input.license,
+    endsAt: oneYearEndsAt,
+  })
   if (!license.ok) return license
-
-  const portalEmail = normalizeEmail(input.portalAccount?.email ?? "")
-  if (!/^\S+@\S+\.\S+$/.test(portalEmail)) {
-    return { ok: false as const, status: 400, message: "Enter a valid portal account email." }
-  }
 
   return {
     ok: true as const,
     data: {
       organization: organization.data,
       portalAccount: {
-        email: portalEmail,
-        createSetupLink: Boolean(input.portalAccount.createSetupLink),
+        email: organization.data.email,
+        createSetupLink: Boolean(input.portalAccount?.createSetupLink),
       },
       license: {
         ...license.data,
