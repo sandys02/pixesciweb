@@ -6,6 +6,7 @@ import {
   CalendarClock,
   CircleMinus,
   CirclePlus,
+  Copy,
   Edit3,
   KeyRound,
   MoreHorizontal,
@@ -172,6 +173,35 @@ export function OrganizationsTable({
     }
   }
 
+  async function copyInviteLink(organizationId: number) {
+    try {
+      const detail = await getDetail(organizationId)
+      const account = detail.portalAccounts[0]
+      if (!account) {
+        onError("No portal account is available for invite link creation.")
+        return
+      }
+      const result = await requestAdminApi<{
+        setupLink: string
+        detail: OrganizationDetail | null
+      }>(`/api/admin/portal-accounts/${account.id}/setup-link`, {
+        method: "POST",
+      })
+      const updatedDetail = result.detail
+      if (updatedDetail) {
+        setDetails((current) => ({
+          ...current,
+          [updatedDetail.organization.id]: updatedDetail,
+        }))
+      }
+      onOneTimeLink(result.setupLink)
+      await navigator.clipboard?.writeText(result.setupLink).catch(() => null)
+      await onRefresh()
+    } catch (error) {
+      onError(error instanceof Error ? error.message : "Invite link creation failed.")
+    }
+  }
+
   async function lifecycle(
     organization: OrganizationListItem,
     action: "deactivate" | "archive"
@@ -231,7 +261,7 @@ export function OrganizationsTable({
       <Table>
         <TableHeader>
           <TableRow className="hover:bg-transparent">
-            <TableHead>Organization ID</TableHead>
+            <TableHead className="w-16">ID</TableHead>
             <TableHead>Organization name</TableHead>
             <TableHead>Email address</TableHead>
             <TableHead>Edition</TableHead>
@@ -244,46 +274,29 @@ export function OrganizationsTable({
         </TableHeader>
         <TableBody>
           {organizations.map((organization) => (
-            <TableRow key={organization.id}>
-              <TableCell className="font-mono text-xs">ORG-{organization.id}</TableCell>
-              <TableCell className="min-w-52 font-medium">
-                {organization.name}
-                <span className="mt-1 block text-xs font-normal text-muted-foreground">
-                  {organization.domain}
-                </span>
-              </TableCell>
-              <TableCell>{organization.email}</TableCell>
-              <TableCell className="capitalize">{organization.edition}</TableCell>
-              <TableCell className="font-mono text-xs">
-                {organization.activeLicenseId ?? "No license"}
-              </TableCell>
-              <TableCell>
-                <LicenseStatus
-                  organization={organization}
-                  onRenew={() => void openRenew(organization)}
-                  loading={loadingDetailId === organization.id}
-                />
-              </TableCell>
-              <TableCell>
-                <SeatSummary
-                  organization={organization}
-                  onOpen={() => void openSeats(organization)}
-                  loading={loadingDetailId === organization.id}
-                />
-              </TableCell>
-              <TableCell className="max-w-56 whitespace-normal">
-                {organization.researchField}
-              </TableCell>
-              <TableCell className="text-right">
-                <OrganizationActions
-                  disabled={loadingDetailId === organization.id}
-                  onArchive={() => void lifecycle(organization, "archive")}
-                  onDeactivate={() => void lifecycle(organization, "deactivate")}
-                  onEdit={() => void openEdit(organization.id)}
-                  onResetPassword={() => void resetPassword(organization.id)}
-                />
-              </TableCell>
-            </TableRow>
+            <OrganizationTableRow
+              key={organization.id}
+              organization={organization}
+              detail={details[organization.id]}
+              loadingDetail={loadingDetailId === organization.id}
+              onArchive={() => void lifecycle(organization, "archive")}
+              onCopyInviteLink={() => void copyInviteLink(organization.id)}
+              onDeactivate={() => void lifecycle(organization, "deactivate")}
+              onEdit={() => void openEdit(organization.id)}
+              onPrepareActions={() => {
+                if (details[organization.id]) return
+                void getDetail(organization.id).catch((error) =>
+                  onError(
+                    error instanceof Error
+                      ? error.message
+                      : "Organization actions unavailable."
+                  )
+                )
+              }}
+              onRenew={() => void openRenew(organization)}
+              onResetPassword={() => void resetPassword(organization.id)}
+              onSeats={() => void openSeats(organization)}
+            />
           ))}
           {organizations.length === 0 ? (
             <TableRow>
@@ -339,6 +352,87 @@ export function OrganizationsTable({
   )
 }
 
+function OrganizationTableRow({
+  detail,
+  loadingDetail,
+  organization,
+  onArchive,
+  onCopyInviteLink,
+  onDeactivate,
+  onEdit,
+  onPrepareActions,
+  onRenew,
+  onResetPassword,
+  onSeats,
+}: {
+  detail: OrganizationDetail | null | undefined
+  loadingDetail: boolean
+  organization: OrganizationListItem
+  onArchive: () => void
+  onCopyInviteLink: () => void
+  onDeactivate: () => void
+  onEdit: () => void
+  onPrepareActions: () => void
+  onRenew: () => void
+  onResetPassword: () => void
+  onSeats: () => void
+}) {
+  const portalAccount = detail?.portalAccounts[0]
+  const actionMode =
+    !detail || loadingDetail
+      ? "loading"
+      : portalAccount?.setupCompletedAt === null
+        ? "copy-invite"
+        : "reset-password"
+
+  return (
+    <TableRow>
+      <TableCell className="w-16 font-mono text-xs">{organization.id}</TableCell>
+      <TableCell className="min-w-52 font-medium">
+        {organization.name}
+        <span className="mt-1 block text-xs font-normal text-muted-foreground">
+          {organization.domain}
+        </span>
+      </TableCell>
+      <TableCell>{organization.email}</TableCell>
+      <TableCell className="capitalize">{organization.edition}</TableCell>
+      <TableCell className="font-mono text-xs">
+        {organization.activeLicenseId ?? "No license"}
+      </TableCell>
+      <TableCell>
+        <LicenseStatus
+          organization={organization}
+          onRenew={onRenew}
+          loading={loadingDetail}
+        />
+      </TableCell>
+      <TableCell>
+        <SeatSummary
+          organization={organization}
+          onOpen={onSeats}
+          loading={loadingDetail}
+        />
+      </TableCell>
+      <TableCell className="max-w-56 whitespace-normal">
+        {organization.researchField}
+      </TableCell>
+      <TableCell className="text-right">
+        <OrganizationActions
+          actionMode={actionMode}
+          onArchive={onArchive}
+          onCopyInviteLink={onCopyInviteLink}
+          onDeactivate={onDeactivate}
+          onEdit={onEdit}
+          onOpenChange={(open) => {
+            if (open) onPrepareActions()
+          }}
+          onResetPassword={onResetPassword}
+        />
+      </TableCell>
+    </TableRow>
+  )
+}
+
 function LicenseStatus({
   organization,
   onRenew,
@@ -348,7 +442,13 @@ function LicenseStatus({
   onRenew: () => void
   loading: boolean
 }) {
+  const pendingSetup =
+    organization.activeLicenseStatus === "active" && !organization.portalSetupCompletedAt
   const expired = isExpired(organization.activeLicenseEndsAt)
+
+  if (pendingSetup) {
+    return <LicenseStatusBadge status="pending" />
+  }
 
   if (expired) {
     return (
@@ -371,16 +471,26 @@ function LicenseStatus({
     )
   }
 
+  return <LicenseStatusBadge status={organization.activeLicenseStatus ?? "inactive"} />
+}
+
+function LicenseStatusBadge({
+  status,
+}: {
+  status: "active" | "inactive" | "pending"
+}) {
   return (
     <span
       className={cn(
         "rounded-md border px-2 py-1 text-xs font-medium capitalize",
-        organization.status === "active"
-          ? "border-emerald-500/25 bg-emerald-500/10 text-emerald-700 dark:text-emerald-300"
-          : "border-border bg-muted text-muted-foreground"
+        status === "active" &&
+          "border-emerald-500/25 bg-emerald-500/10 text-emerald-700 dark:text-emerald-300",
+        status === "inactive" && "border-border bg-muted text-muted-foreground",
+        status === "pending" &&
+          "border-amber-500/30 bg-amber-500/10 text-amber-700 dark:text-amber-300"
       )}
     >
-      {organization.activeLicenseStatus ?? organization.status}
+      {status}
     </span>
   )
 }
@@ -422,27 +532,30 @@ function SeatSummary({
 }
 
 function OrganizationActions({
-  disabled,
+  actionMode,
   onArchive,
+  onCopyInviteLink,
   onDeactivate,
   onEdit,
+  onOpenChange,
   onResetPassword,
 }: {
-  disabled: boolean
+  actionMode: "copy-invite" | "loading" | "reset-password"
   onArchive: () => void
+  onCopyInviteLink: () => void
   onDeactivate: () => void
   onEdit: () => void
+  onOpenChange: (open: boolean) => void
   onResetPassword: () => void
 }) {
   return (
-    <DropdownMenu>
+    <DropdownMenu onOpenChange={onOpenChange}>
       <DropdownMenuTrigger asChild>
         <Button
           type="button"
           variant="ghost"
           size="icon-sm"
           aria-label="Open organization actions"
-          disabled={disabled}
         >
           <MoreHorizontal className="size-4" />
         </Button>
@@ -460,10 +573,22 @@ function OrganizationActions({
           <Archive className="size-4" />
           Archive
         </DropdownMenuItem>
-        <DropdownMenuItem onSelect={onResetPassword}>
-          <KeyRound className="size-4" />
-          Reset password
-        </DropdownMenuItem>
+        {actionMode === "loading" ? (
+          <DropdownMenuItem disabled>
+            <RefreshCw className="size-4" />
+            Loading actions...
+          </DropdownMenuItem>
+        ) : actionMode === "copy-invite" ? (
+          <DropdownMenuItem onSelect={onCopyInviteLink}>
+            <Copy className="size-4" />
+            Copy Invite Link
+          </DropdownMenuItem>
+        ) : (
+          <DropdownMenuItem onSelect={onResetPassword}>
+            <KeyRound className="size-4" />
+            Reset password
+          </DropdownMenuItem>
+        )}
       </DropdownMenuContent>
     </DropdownMenu>
   )

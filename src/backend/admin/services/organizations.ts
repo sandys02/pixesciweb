@@ -105,6 +105,7 @@ function serializeOrganizationListItem(input: {
   organization: typeof organizations.$inferSelect
   activeLicense?: typeof licenses.$inferSelect
   allocatedSeats: number
+  portalSetupCompletedAt: string | null
 }) {
   return {
     id: input.organization.id,
@@ -122,6 +123,7 @@ function serializeOrganizationListItem(input: {
       : undefined,
     activeLicenseStartsAt: input.activeLicense?.startsAt,
     activeLicenseEndsAt: input.activeLicense?.endsAt,
+    portalSetupCompletedAt: input.portalSetupCompletedAt,
     seatLimit: input.activeLicense?.seatLimit,
     allocatedSeats: input.activeLicense ? input.allocatedSeats : undefined,
     updatedAt: input.organization.updatedAt,
@@ -158,11 +160,21 @@ async function organizationSummary(organization: typeof organizations.$inferSele
         .from(seats)
         .where(eq(seats.licenseId, activeLicense.id))
     : []
+  const accountRows = await db
+    .select({ setupCompletedAt: portalAccounts.setupCompletedAt })
+    .from(portalAccountOrganizations)
+    .innerJoin(
+      portalAccounts,
+      eq(portalAccounts.id, portalAccountOrganizations.accountId)
+    )
+    .where(eq(portalAccountOrganizations.organizationId, organization.id))
 
   return serializeOrganizationListItem({
     organization,
     activeLicense,
     allocatedSeats: allocatedSeatCount(seatRows),
+    portalSetupCompletedAt:
+      accountRows.find((account) => account.setupCompletedAt)?.setupCompletedAt ?? null,
   })
 }
 
@@ -645,6 +657,57 @@ export async function resetPortalAccountPassword(input: {
     resetLink: reset.resetLink,
     expiresAt: reset.expiresAt,
     detail: await getAdminOrganization(membership.organizationId),
+  }
+}
+
+export async function createPortalAccountSetupLink(input: {
+  actor: AdminSession
+  portalAccountId: number
+  origin: string
+}) {
+  const writeAllowed = assertAdminWriteAllowed()
+  if (!writeAllowed.ok) return writeAllowed
+
+  const [row] = await db
+    .select({
+      account: portalAccounts,
+      membership: portalAccountOrganizations,
+    })
+    .from(portalAccountOrganizations)
+    .innerJoin(
+      portalAccounts,
+      eq(portalAccounts.id, portalAccountOrganizations.accountId)
+    )
+    .where(eq(portalAccountOrganizations.accountId, input.portalAccountId))
+    .limit(1)
+
+  if (!row) {
+    return { ok: false as const, status: 404, message: "Portal account not found." }
+  }
+
+  if (row.account.setupCompletedAt) {
+    return {
+      ok: false as const,
+      status: 409,
+      message: "Use reset password after portal setup is complete.",
+    }
+  }
+
+  const reset = await createPortalPasswordResetLink({
+    portalAccountId: input.portalAccountId,
+    organizationId: row.membership.organizationId,
+    createdByAdminId: input.actor.adminId,
+    origin: input.origin,
+    purpose: "setup",
+  })
+
+  if (!reset.ok) return reset
+
+  return {
+    ok: true as const,
+    setupLink: reset.resetLink,
+    expiresAt: reset.expiresAt,
+    detail: await getAdminOrganization(row.membership.organizationId),
   }
 }
 

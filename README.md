@@ -297,7 +297,8 @@ npm run typecheck  # Run TypeScript without emitting files
 npm run format     # Format TypeScript and TSX files
 npm run docker:build # Build the production Docker image
 npm run docker:setup # Create or update Docker volume database schemas
-npm run docker:up    # Build and run the Docker Compose web service
+npm run docker:up    # Run the Docker Compose development server
+npm run docker:down  # Stop Docker Compose services
 npm run db:push    # Push download and portal SQLite schemas
 npm run db:seed    # Seed a download-gate user
 npm run db:seed:portal # Seed a portal org, account, and license
@@ -381,30 +382,32 @@ npm run db:migrate:portal
 ## Docker
 
 The repository includes a production Dockerfile that uses Next.js standalone
-output and a Compose file with a persistent `pixesci-data` volume mounted at
-`/data`.
+output. Docker Compose is set up for local development: it bind-mounts the
+current workspace into `/app`, runs `next dev`, and keeps dependencies, Next.js
+cache, and local database files in Docker volumes.
 
 For portal/admin work, prefer a shared remote Turso development database in
 `.env.local`. Docker Compose reads `.env.docker` first and `.env.local` second,
 so local secrets can override blank Docker defaults without entering source
 control.
 
-Build the image directly:
+Build the production image directly:
 
 ```bash
 npm run docker:build
 ```
 
-For local Compose usage, create the database schemas in the Docker volume, then
-start the web service:
+For local Docker development, create the database schemas in the Docker volume,
+then start the development server:
 
 ```bash
 npm run docker:setup
 npm run docker:up
 ```
 
-Open [http://localhost:3000](http://localhost:3000). Set `PIXESCI_WEB_PORT` to
-publish a different host port.
+Open [http://localhost:3000](http://localhost:3000). Changes in the current
+workspace are reflected by the containerized Next.js dev server. Set
+`PIXESCI_WEB_PORT` to publish a different host port.
 
 To seed or reset the shared staff admin account, read the password without
 putting it in shell history:
@@ -454,6 +457,7 @@ Docker runtime defaults:
 - `PORTAL_DATABASE_ENV=development`
 - `PORT=3000`
 - `HOSTNAME=0.0.0.0`
+- `NODE_ENV=development` for the Compose `web` service
 
 Copy `.env.docker.example` to `.env.docker` when you need local Docker secrets
 or runtime overrides. The npm Docker scripts set `COMPOSE_DISABLE_ENV_FILE=1`

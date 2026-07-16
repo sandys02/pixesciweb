@@ -101,7 +101,9 @@ production data.
 Docker Compose loads `.env.docker` and then `.env.local`. Keep Turso DB URLs and
 tokens in `.env.local` or Vercel environment variables, not in tracked source.
 With `.env.local` present, Docker uses the same shared Turso development DB as
-local Next.js.
+local Next.js. The Compose `web` service bind-mounts the current workspace and
+runs `next dev`, so admin dashboard changes can be tested in Docker with live
+reload.
 
 Required production env:
 

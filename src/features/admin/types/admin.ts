@@ -25,6 +25,7 @@ export type OrganizationListItem = {
   activeLicenseStatus?: "active" | "inactive"
   activeLicenseStartsAt?: string
   activeLicenseEndsAt?: string
+  portalSetupCompletedAt: string | null
   seatLimit?: number
   allocatedSeats?: number
   updatedAt: string

@@ -2,6 +2,7 @@ export {
   createAdminLicense,
   createAdminOrganization,
   createPortalAccountForOrganization,
+  createPortalAccountSetupLink,
   generateLicenseId,
   getAdminOrganization,
   listAdminAuditEvents,
