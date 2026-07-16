@@ -5,6 +5,10 @@ import { and, desc, eq, ne } from "drizzle-orm"
 import { assertAdminWriteAllowed } from "@/backend/admin/environment"
 import type { AdminSession } from "@/backend/admin/auth"
 import { writeAdminAuditEvent } from "@/backend/admin/auth"
+import {
+  sendPasswordResetEmail,
+  sendPortalSetupEmail,
+} from "@/backend/email/resend"
 import { db } from "@/backend/portal/db"
 import {
   auditEvents,
@@ -376,6 +380,7 @@ export async function createAdminOrganization(input: {
 
   let setupLink: string | undefined
   let setupLinkExpiresAt: string | undefined
+  let setupEmailStatus: string | undefined
   if (parsed.data.portalAccount.createSetupLink) {
     const reset = await createPortalPasswordResetLink({
       portalAccountId: account.id,
@@ -387,6 +392,13 @@ export async function createAdminOrganization(input: {
     if (reset.ok) {
       setupLink = reset.resetLink
       setupLinkExpiresAt = reset.expiresAt
+      const emailResult = await sendPortalSetupEmail({
+        to: account.email,
+        organizationName: organization.name,
+        setupLink,
+        expiresAt: setupLinkExpiresAt,
+      })
+      setupEmailStatus = emailResult.status
     }
   }
 
@@ -404,6 +416,7 @@ export async function createAdminOrganization(input: {
     },
     setupLink,
     setupLinkExpiresAt,
+    setupEmailStatus,
   }
 }
 
@@ -601,6 +614,7 @@ export async function createPortalAccountForOrganization(input: {
 
   let setupLink: string | undefined
   let setupLinkExpiresAt: string | undefined
+  let setupEmailStatus: string | undefined
   if (input.createSetupLink) {
     const reset = await createPortalPasswordResetLink({
       portalAccountId: account.id,
@@ -612,6 +626,13 @@ export async function createPortalAccountForOrganization(input: {
     if (reset.ok) {
       setupLink = reset.resetLink
       setupLinkExpiresAt = reset.expiresAt
+      const emailResult = await sendPortalSetupEmail({
+        to: account.email,
+        organizationName: organization.name,
+        setupLink,
+        expiresAt: setupLinkExpiresAt,
+      })
+      setupEmailStatus = emailResult.status
     }
   }
 
@@ -620,6 +641,7 @@ export async function createPortalAccountForOrganization(input: {
     account: { id: account.id, email: account.email },
     setupLink,
     setupLinkExpiresAt,
+    setupEmailStatus,
     detail: await getAdminOrganization(input.organizationId),
   }
 }
@@ -652,10 +674,25 @@ export async function resetPortalAccountPassword(input: {
 
   if (!reset.ok) return reset
 
+  const [account] = await db
+    .select({ email: portalAccounts.email })
+    .from(portalAccounts)
+    .where(eq(portalAccounts.id, input.portalAccountId))
+    .limit(1)
+  const emailResult = account
+    ? await sendPasswordResetEmail({
+        to: account.email,
+        resetLink: reset.resetLink,
+        expiresAt: reset.expiresAt,
+        surface: "portal",
+      })
+    : { status: "skipped" as const, reason: "account_not_found" }
+
   return {
     ok: true as const,
     resetLink: reset.resetLink,
     expiresAt: reset.expiresAt,
+    resetEmailStatus: emailResult.status,
     detail: await getAdminOrganization(membership.organizationId),
   }
 }
@@ -703,11 +740,20 @@ export async function createPortalAccountSetupLink(input: {
 
   if (!reset.ok) return reset
 
+  const detail = await getAdminOrganization(row.membership.organizationId)
+  const emailResult = await sendPortalSetupEmail({
+    to: row.account.email,
+    organizationName: detail?.profile.name ?? "your organization",
+    setupLink: reset.resetLink,
+    expiresAt: reset.expiresAt,
+  })
+
   return {
     ok: true as const,
     setupLink: reset.resetLink,
     expiresAt: reset.expiresAt,
-    detail: await getAdminOrganization(row.membership.organizationId),
+    setupEmailStatus: emailResult.status,
+    detail,
   }
 }
 

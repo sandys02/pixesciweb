@@ -1,8 +1,12 @@
-import { and, eq } from "drizzle-orm"
+import { createHash, randomBytes } from "node:crypto"
+
+import { and, eq, isNull } from "drizzle-orm"
 import { SignJWT, jwtVerify } from "jose"
 
+import { sendPasswordResetEmail } from "@/backend/email/resend"
 import { db } from "@/backend/portal/db"
 import {
+  adminAccountResetTokens,
   adminAccounts,
   auditEvents,
   type AdminAccount,
@@ -28,6 +32,7 @@ export const ADMIN_MESSAGES = {
 
 const LOGIN_LOCK_THRESHOLD = 5
 const LOGIN_LOCK_MINUTES = 15
+const ADMIN_RESET_TOKEN_TTL_HOURS = 24
 const ADMIN_ROLES = new Set(["owner", "admin", "support"])
 
 export type AdminRole = "owner" | "admin" | "support"
@@ -46,6 +51,14 @@ type AdminSessionClaims = {
 
 function nowIso() {
   return new Date().toISOString()
+}
+
+function hashToken(token: string) {
+  return createHash("sha256").update(token).digest("base64url")
+}
+
+function normalizeOrigin(origin: string) {
+  return origin.replace(/\/$/, "")
 }
 
 function isAdminRole(value: string): value is AdminRole {
@@ -297,6 +310,136 @@ export function parseAdminLoginBody(body: unknown) {
   }
 
   return { ok: true as const, email, password }
+}
+
+export async function requestAdminPasswordResetEmail(input: {
+  email: string
+  origin: string
+}) {
+  const account = await findAdminByEmail(input.email)
+
+  if (!account?.active || !isAdminRole(account.role)) {
+    return { ok: true as const, emailStatus: "skipped" as const }
+  }
+
+  const token = randomBytes(32).toString("base64url")
+  const createdAt = nowIso()
+  const expiresAt = new Date(
+    Date.now() + ADMIN_RESET_TOKEN_TTL_HOURS * 60 * 60 * 1000
+  ).toISOString()
+
+  await db.insert(adminAccountResetTokens).values({
+    adminAccountId: account.id,
+    tokenHash: hashToken(token),
+    purpose: "password_reset",
+    expiresAt,
+    usedAt: null,
+    createdByAdminId: null,
+    createdAt,
+  })
+
+  await writeAdminAuditEvent({
+    actorAdminAccountId: null,
+    eventType: "admin_password_reset_requested",
+    targetType: "admin_account",
+    targetId: String(account.id),
+    metadata: { email: account.email },
+  })
+
+  const emailResult = await sendPasswordResetEmail({
+    to: account.email,
+    resetLink: `${normalizeOrigin(input.origin)}/admin/reset-password/${token}`,
+    expiresAt,
+    surface: "staff admin",
+  })
+
+  return { ok: true as const, emailStatus: emailResult.status }
+}
+
+export async function completeAdminPasswordReset(input: {
+  token: string
+  newPassword: string
+  confirmPassword: string
+}) {
+  if (
+    !input.token.trim() ||
+    input.newPassword.length < 10 ||
+    input.newPassword !== input.confirmPassword
+  ) {
+    return { ok: false as const, status: 400, message: "Password reset is unavailable." }
+  }
+
+  const tokenHash = hashToken(input.token)
+  const [row] = await db
+    .select({
+      token: adminAccountResetTokens,
+      account: adminAccounts,
+    })
+    .from(adminAccountResetTokens)
+    .innerJoin(
+      adminAccounts,
+      eq(adminAccounts.id, adminAccountResetTokens.adminAccountId)
+    )
+    .where(
+      and(
+        eq(adminAccountResetTokens.tokenHash, tokenHash),
+        isNull(adminAccountResetTokens.usedAt)
+      )
+    )
+    .limit(1)
+
+  if (
+    !row ||
+    !row.account.active ||
+    !isAdminRole(row.account.role) ||
+    Date.parse(row.token.expiresAt) <= Date.now()
+  ) {
+    return { ok: false as const, status: 400, message: "Password reset is unavailable." }
+  }
+
+  const timestamp = nowIso()
+
+  await db
+    .update(adminAccounts)
+    .set({
+      passwordHash: hashAdminPassword(input.newPassword),
+      mustChangePassword: false,
+      failedLoginCount: 0,
+      lockedUntil: null,
+      updatedAt: timestamp,
+    })
+    .where(eq(adminAccounts.id, row.account.id))
+
+  await db
+    .update(adminAccountResetTokens)
+    .set({ usedAt: timestamp })
+    .where(eq(adminAccountResetTokens.id, row.token.id))
+
+  await writeAdminAuditEvent({
+    actorAdminAccountId: row.account.id,
+    eventType: "admin_password_reset_completed",
+    targetType: "admin_account",
+    targetId: String(row.account.id),
+    metadata: { email: row.account.email },
+  })
+
+  return { ok: true as const, changed: true as const }
+}
+
+export function parseAdminPasswordResetBody(body: unknown) {
+  if (!body || typeof body !== "object") {
+    return { ok: false as const }
+  }
+
+  const newPassword = "newPassword" in body ? String(body.newPassword ?? "") : ""
+  const confirmPassword =
+    "confirmPassword" in body ? String(body.confirmPassword ?? "") : ""
+
+  if (newPassword.length < 10 || newPassword !== confirmPassword) {
+    return { ok: false as const }
+  }
+
+  return { ok: true as const, data: { newPassword, confirmPassword } }
 }
 
 export function hashAdminPassword(password: string) {

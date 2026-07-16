@@ -2,6 +2,7 @@ import { createHash, randomBytes } from "node:crypto"
 
 import { and, eq, isNull } from "drizzle-orm"
 
+import { sendPasswordResetEmail } from "@/backend/email/resend"
 import { db } from "@/backend/portal/db"
 import {
   auditEvents,
@@ -32,7 +33,7 @@ function normalizeOrigin(origin: string) {
 export async function createPortalPasswordResetLink(input: {
   portalAccountId: number
   organizationId: number
-  createdByAdminId: number
+  createdByAdminId: number | null
   origin: string
   purpose: "setup" | "password_reset"
 }) {
@@ -85,7 +86,7 @@ export async function createPortalPasswordResetLink(input: {
     actorAccountId: null,
     actorSeatId: null,
     actorAdminAccountId: input.createdByAdminId,
-    actorType: "admin_account",
+    actorType: input.createdByAdminId ? "admin_account" : "system",
     eventType:
       input.purpose === "setup"
         ? "portal_account_setup_link_created"
@@ -102,6 +103,57 @@ export async function createPortalPasswordResetLink(input: {
     expiresAt,
     resetLink: `${normalizeOrigin(input.origin)}/portal/reset-password/${token}`,
   }
+}
+
+export async function requestPortalPasswordResetEmail(input: {
+  email: string
+  origin: string
+}) {
+  const normalizedEmail = normalizeEmail(input.email)
+
+  if (!/^\S+@\S+\.\S+$/.test(normalizedEmail)) {
+    return { ok: true as const, emailStatus: "skipped" as const }
+  }
+
+  const [row] = await db
+    .select({
+      account: portalAccounts,
+      organization: organizations,
+    })
+    .from(portalAccounts)
+    .innerJoin(
+      portalAccountOrganizations,
+      eq(portalAccountOrganizations.accountId, portalAccounts.id)
+    )
+    .innerJoin(
+      organizations,
+      eq(organizations.id, portalAccountOrganizations.organizationId)
+    )
+    .where(eq(portalAccounts.email, normalizedEmail))
+    .limit(1)
+
+  if (!row?.account.active || row.organization.status !== "active") {
+    return { ok: true as const, emailStatus: "skipped" as const }
+  }
+
+  const reset = await createPortalPasswordResetLink({
+    portalAccountId: row.account.id,
+    organizationId: row.organization.id,
+    createdByAdminId: null,
+    origin: input.origin,
+    purpose: "password_reset",
+  })
+
+  if (!reset.ok) return { ok: true as const, emailStatus: "skipped" as const }
+
+  const emailResult = await sendPasswordResetEmail({
+    to: row.account.email,
+    resetLink: reset.resetLink,
+    expiresAt: reset.expiresAt,
+    surface: "portal",
+  })
+
+  return { ok: true as const, emailStatus: emailResult.status }
 }
 
 export async function completePortalPasswordReset(input: {

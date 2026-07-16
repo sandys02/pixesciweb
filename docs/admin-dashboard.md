@@ -161,5 +161,6 @@ PixeSci staff can send it manually. The database stores only a token hash.
 Admin-created setup and reset links are single-use and expire. The dashboard
 shows the plaintext link only once. The database stores only token hashes.
 
-Email delivery is deferred for v1. If Resend is added later, use
-`RESEND_API_KEY` and `RESEND_FROM_EMAIL`; never hardcode keys.
+Email delivery uses Resend when `RESEND_API_KEY` and `RESEND_FROM_EMAIL` are
+configured. Never hardcode keys. Setup and reset links remain single-use; the
+database stores only token hashes.

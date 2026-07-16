@@ -16,6 +16,9 @@ import { cn } from "@/lib/utils"
 import { DemoBookingLink } from "./demo-booking-link"
 
 type DialogState =
+  | "forgot"
+  | "forgot-sending"
+  | "forgot-sent"
   | "idle"
   | "login"
   | "authenticating"
@@ -178,8 +181,44 @@ export function SignInPortalDialog({
     }
   }
 
+  async function handleForgotPassword(event: React.FormEvent<HTMLFormElement>) {
+    event.preventDefault()
+
+    setState("forgot-sending")
+    setError("")
+
+    try {
+      const response = await fetch("/api/portal/password/forgot", {
+        method: "POST",
+        credentials: "include",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email }),
+      })
+      const body = await response.json().catch(() => ({}))
+
+      if (!response.ok) {
+        throw new Error(
+          typeof body?.message === "string"
+            ? body.message
+            : "Password reset is temporarily unavailable."
+        )
+      }
+
+      setError(
+        typeof body?.message === "string"
+          ? body.message
+          : "If that email is registered, PixeSci will send password reset instructions."
+      )
+      setState("forgot-sent")
+    } catch (nextError) {
+      setError(getErrorMessage(nextError))
+      setState("forgot")
+    }
+  }
+
   const isChecking = open && state === "idle"
-  const busy = isChecking || state === "authenticating"
+  const busy =
+    isChecking || state === "authenticating" || state === "forgot-sending"
 
   return (
     <>
@@ -262,6 +301,18 @@ export function SignInPortalDialog({
                 ) : null}
                 Sign in
               </Button>
+              <Button
+                type="button"
+                variant="link"
+                className="w-full"
+                onClick={() => {
+                  setError("")
+                  setPassword("")
+                  setState("forgot")
+                }}
+              >
+                Forgot password?
+              </Button>
               <div className="rounded-md border border-border bg-muted/35 p-4 text-center">
                 <p className="text-xs leading-5 text-muted-foreground">
                   Portal sign-in is available only to registered accounts. Need
@@ -275,6 +326,57 @@ export function SignInPortalDialog({
                   .
                 </p>
               </div>
+            </form>
+          ) : null}
+
+          {state === "forgot" || state === "forgot-sending" || state === "forgot-sent" ? (
+            <form onSubmit={handleForgotPassword} className="space-y-4">
+              <FloatingLabelInput
+                id="portal-forgot-email"
+                name="email"
+                type="email"
+                label="Work email"
+                value={email}
+                placeholder="name@organization.org"
+                required
+                disabled={state === "forgot-sending" || state === "forgot-sent"}
+                autoComplete="email"
+                inputMode="email"
+                spellCheck={false}
+                onChangeAction={setEmail}
+              />
+              {error ? (
+                <p
+                  role={state === "forgot" ? "alert" : "status"}
+                  className={`text-sm ${
+                    state === "forgot" ? "text-destructive" : "text-muted-foreground"
+                  }`}
+                >
+                  {error}
+                </p>
+              ) : null}
+              <Button
+                type="submit"
+                size="lg"
+                className="w-full px-4"
+                disabled={busy || state === "forgot-sent"}
+              >
+                {state === "forgot-sending" ? (
+                  <Loader2 className="size-4 animate-spin" />
+                ) : null}
+                Send reset instructions
+              </Button>
+              <Button
+                type="button"
+                variant="link"
+                className="w-full"
+                onClick={() => {
+                  setError("")
+                  setState("login")
+                }}
+              >
+                Return to sign in
+              </Button>
             </form>
           ) : null}
 
