@@ -1,3 +1,5 @@
+export { PortalShell } from "./components/portal-shell"
+export { PortalPasswordResetForm } from "./password-reset-form"
 export type {
   LicenseStatus,
   OrganizationType,
@@ -5,11 +7,9 @@ export type {
   PortalAccountSetupForm,
   PortalLicense,
   PortalLicenseBundle,
-  PortalLicenseBundlePayload,
   PortalOrganization,
   PortalSeat,
   PortalSeatActivation,
-  PortalSeatActivationPayload,
   SeatRole,
   SeatStatus,
 } from "./types/portal"
