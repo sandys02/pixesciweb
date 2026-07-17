@@ -2,12 +2,17 @@
 
 import * as React from "react"
 import { KeyRound } from "lucide-react"
+import { useRouter } from "next/navigation"
+import { toast } from "sonner"
 
 import { FloatingLabelInput } from "@/components/shared/inputs"
 import { Button } from "@/components/ui/button"
 import { validatePasswordChange } from "@/features/portal/helpers"
 
+const REDIRECT_SECONDS = 5
+
 export function PortalPasswordResetForm({ token }: { token: string }) {
+  const router = useRouter()
   const [form, setForm] = React.useState({
     currentPassword: "placeholder",
     newPassword: "",
@@ -16,14 +21,32 @@ export function PortalPasswordResetForm({ token }: { token: string }) {
   const [message, setMessage] = React.useState("")
   const [success, setSuccess] = React.useState(false)
   const [pending, setPending] = React.useState(false)
-  const errors = validatePasswordChange(form)
-  delete errors.currentPassword
+  const [redirectSeconds, setRedirectSeconds] = React.useState(REDIRECT_SECONDS)
+  const validationErrors = validatePasswordChange(form)
+  delete validationErrors.currentPassword
+  const errors = success ? {} : validationErrors
+
+  React.useEffect(() => {
+    if (!success) return
+
+    const interval = window.setInterval(() => {
+      setRedirectSeconds((current) => Math.max(current - 1, 0))
+    }, 1000)
+    const timeout = window.setTimeout(() => {
+      router.replace("/?portal=sign-in&passwordChanged=1")
+    }, REDIRECT_SECONDS * 1000)
+
+    return () => {
+      window.clearInterval(interval)
+      window.clearTimeout(timeout)
+    }
+  }, [router, success])
 
   async function submit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault()
     setMessage("")
 
-    if (Object.keys(errors).length > 0) {
+    if (Object.keys(validationErrors).length > 0) {
       setMessage("Enter matching passwords with at least 10 characters.")
       return
     }
@@ -53,8 +76,11 @@ export function PortalPasswordResetForm({ token }: { token: string }) {
       }
 
       setSuccess(true)
+      setRedirectSeconds(REDIRECT_SECONDS)
       setForm({ currentPassword: "placeholder", newPassword: "", confirmPassword: "" })
-      setMessage("Password changed. Return to the portal sign-in form.")
+      toast.success(
+        "Password changed. Sign in with your registered email and new password."
+      )
     } catch (error) {
       setMessage(
         error instanceof Error ? error.message : "Password reset is unavailable."
@@ -105,10 +131,16 @@ export function PortalPasswordResetForm({ token }: { token: string }) {
               }
             />
           </div>
-          {message ? (
+          {success ? (
+            <p role="status" className="mt-4 text-sm text-muted-foreground">
+              Password changed. Redirecting to sign in in {redirectSeconds}{" "}
+              {redirectSeconds === 1 ? "second" : "seconds"}. Use your
+              registered email and new password.
+            </p>
+          ) : message ? (
             <p
               role="status"
-              className={`mt-4 text-sm ${success ? "text-muted-foreground" : "text-destructive"}`}
+              className="mt-4 text-sm text-destructive"
             >
               {message}
             </p>
