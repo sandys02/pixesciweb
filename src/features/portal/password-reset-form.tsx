@@ -2,7 +2,6 @@
 
 import * as React from "react"
 import { KeyRound } from "lucide-react"
-import { useRouter } from "next/navigation"
 import { toast } from "sonner"
 
 import { FloatingLabelInput } from "@/components/shared/inputs"
@@ -12,7 +11,6 @@ import { validatePasswordChange } from "@/features/portal/helpers"
 const REDIRECT_SECONDS = 5
 
 export function PortalPasswordResetForm({ token }: { token: string }) {
-  const router = useRouter()
   const [form, setForm] = React.useState({
     currentPassword: "placeholder",
     newPassword: "",
@@ -33,14 +31,14 @@ export function PortalPasswordResetForm({ token }: { token: string }) {
       setRedirectSeconds((current) => Math.max(current - 1, 0))
     }, 1000)
     const timeout = window.setTimeout(() => {
-      router.replace("/?portal=sign-in&passwordChanged=1")
+      window.location.assign("/?portal=sign-in&passwordChanged=1")
     }, REDIRECT_SECONDS * 1000)
 
     return () => {
       window.clearInterval(interval)
       window.clearTimeout(timeout)
     }
-  }, [router, success])
+  }, [success])
 
   async function submit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault()
