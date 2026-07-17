@@ -27,7 +27,8 @@ export function validateSetupForm(
   if (!/^\S+@\S+\.\S+$/.test(form.email.trim())) {
     errors.email = "Enter a valid organization email."
   }
-  if (!/^[a-z0-9.-]+\.[a-z]{2,}$/i.test(normalizeDomain(form.domain))) {
+  const domain = normalizeDomain(form.domain)
+  if (domain && !/^[a-z0-9.-]+\.[a-z]{2,}$/i.test(domain)) {
     errors.domain = "Enter a valid organization domain."
   }
   if (!form.researchField.trim()) {

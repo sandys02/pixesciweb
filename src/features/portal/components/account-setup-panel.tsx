@@ -145,7 +145,7 @@ function OrganizationReview({
     ["Edition", organizationTypeLabel(organization.organizationType)],
     ["Organization email", organization.email],
     ["Organization name", organization.name],
-    ["Organization domain", organization.domain],
+    ["Organization domain", organization.domain || "No domain"],
     ["Research field", organization.researchField],
   ] as const
 
@@ -234,7 +234,7 @@ export function OrganizationFields({
         id="portal-domain"
         label="Organization domain"
         value={form.domain}
-        required
+        placeholder="example.org (optional)"
         error={Boolean(errors.domain)}
         helperText={errors.domain}
         onChangeAction={(value) => onFieldChange("domain", value)}

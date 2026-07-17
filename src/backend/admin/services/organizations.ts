@@ -36,7 +36,7 @@ export type AdminCreateOrganizationInput = {
     state: string
     name: string
     email: string
-    domain: string
+    domain?: string | null
     organizationType: "enterprise" | "academia" | "pixesci"
     researchField: string
   }
@@ -60,7 +60,7 @@ export type AdminOrganizationUpdateInput = {
   state: string
   name: string
   email: string
-  domain: string
+  domain?: string | null
   organizationType: "enterprise" | "academia" | "pixesci"
   researchField: string
 }
@@ -299,7 +299,7 @@ export async function createAdminOrganization(input: {
 
   const organizationEmail = normalizeEmail(parsed.data.organization.email)
   const accountEmail = organizationEmail
-  const domain = normalizeDomain(parsed.data.organization.domain)
+  const domain = parsed.data.organization.domain
   const licenseId = parsed.data.license.generateLicenseId
     ? generateLicenseId()
     : parsed.data.license.licenseId?.trim() || generateLicenseId()
@@ -441,12 +441,21 @@ export async function updateAdminOrganization(input: {
     return { ok: false as const, status: 404, message: "Organization not found." }
   }
 
-  const domain = normalizeDomain(parsed.data.domain)
-  const [duplicateDomain] = await db
-    .select({ id: organizations.id })
-    .from(organizations)
-    .where(and(eq(organizations.domain, domain), ne(organizations.id, input.organizationId)))
-    .limit(1)
+  const domain = parsed.data.domain
+  const duplicateDomain = domain
+    ? (
+        await db
+          .select({ id: organizations.id })
+          .from(organizations)
+          .where(
+            and(
+              eq(organizations.domain, domain),
+              ne(organizations.id, input.organizationId)
+            )
+          )
+          .limit(1)
+      )[0]
+    : null
 
   if (duplicateDomain) {
     return {
@@ -508,8 +517,8 @@ export async function setAdminOrganizationStatus(input: {
   if (
     writeAllowed.runtime === "production" &&
     input.status !== "active" &&
-    input.confirmation !== organization.domain &&
-    input.confirmation !== organization.name
+    input.confirmation !== organization.name &&
+    (!organization.domain || input.confirmation !== organization.domain)
   ) {
     return {
       ok: false as const,
@@ -977,20 +986,22 @@ export async function listAdminAuditEvents() {
 }
 
 async function findOnboardingDuplicate(input: {
-  domain: string
+  domain: string | null
   accountEmail: string
   licenseId: string
 }) {
-  const [organization] = await db
-    .select({ id: organizations.id })
-    .from(organizations)
-    .where(eq(organizations.domain, input.domain))
-    .limit(1)
-  if (organization) {
-    return {
-      ok: false as const,
-      status: 409,
-      message: "An organization already uses that domain.",
+  if (input.domain) {
+    const [organization] = await db
+      .select({ id: organizations.id })
+      .from(organizations)
+      .where(eq(organizations.domain, input.domain))
+      .limit(1)
+    if (organization) {
+      return {
+        ok: false as const,
+        status: 409,
+        message: "An organization already uses that domain.",
+      }
     }
   }
 
@@ -1047,12 +1058,18 @@ function parseCreateOrganizationInput(input: AdminCreateOrganizationInput) {
       organization: organization.data,
       portalAccount: {
         email: organization.data.email,
-        createSetupLink: Boolean(input.portalAccount?.createSetupLink),
+        createSetupLink:
+          "createSetupLink" in (input.portalAccount ?? {})
+            ? Boolean(input.portalAccount?.createSetupLink)
+            : true,
       },
       license: {
         ...license.data,
         licenseId: input.license.licenseId,
-        generateLicenseId: Boolean(input.license.generateLicenseId),
+        generateLicenseId:
+          "generateLicenseId" in input.license
+            ? Boolean(input.license.generateLicenseId)
+            : true,
       },
     },
   }
@@ -1081,7 +1098,7 @@ function parseOrganizationProfile(input: AdminOrganizationUpdateInput) {
   if (!/^\S+@\S+\.\S+$/.test(email)) {
     return { ok: false as const, status: 400, message: "Enter a valid organization email." }
   }
-  if (!/^[a-z0-9.-]+\.[a-z]{2,}$/i.test(domain)) {
+  if (domain && !/^[a-z0-9.-]+\.[a-z]{2,}$/i.test(domain)) {
     return { ok: false as const, status: 400, message: "Enter a valid organization domain." }
   }
   if (!ORGANIZATION_TYPES.has(input.organizationType)) {
@@ -1098,7 +1115,7 @@ function parseOrganizationProfile(input: AdminOrganizationUpdateInput) {
       state: input.state,
       name: input.name,
       email,
-      domain,
+      domain: domain || null,
       organizationType: input.organizationType,
       researchField: input.researchField,
     },

@@ -13,7 +13,7 @@ export type OrganizationProfileInput = {
   state: string
   name: string
   email: string
-  domain: string
+  domain?: string | null
   researchField: string
 }
 
@@ -28,7 +28,7 @@ export function serializePortalOrganization(
       : "enterprise",
     name: organization.name,
     email: organization.email,
-    domain: organization.domain,
+    domain: organization.domain ?? "",
     researchField: organization.researchField,
   }
 }
@@ -65,7 +65,7 @@ export async function updateOrganizationProfile(input: {
   }
 
   const timestamp = new Date().toISOString()
-  const normalizedDomain = normalizeDomain(input.profile.domain)
+  const normalizedDomain = normalizeDomain(input.profile.domain ?? "")
 
   await db
     .update(organizations)
@@ -74,7 +74,7 @@ export async function updateOrganizationProfile(input: {
       country: "United States",
       state: input.profile.state.trim(),
       name: input.profile.name.trim(),
-      domain: normalizedDomain,
+      domain: normalizedDomain || null,
       researchField: input.profile.researchField.trim(),
       updatedAt: timestamp,
     })
@@ -97,7 +97,7 @@ export async function updateOrganizationProfile(input: {
         organizationType: input.profile.organizationType,
         state: input.profile.state.trim(),
         name: input.profile.name.trim(),
-        domain: normalizedDomain,
+        domain: normalizedDomain || null,
         researchField: input.profile.researchField.trim(),
       }),
     },
@@ -112,7 +112,7 @@ function changedFields(
     organizationType: string
     state: string
     name: string
-    domain: string
+    domain: string | null
     researchField: string
   }
 ) {
@@ -159,7 +159,7 @@ export function parseOrganizationProfileBody(body: unknown) {
     return { ok: false as const }
   }
 
-  if (!/^[a-z0-9.-]+\.[a-z]{2,}$/i.test(normalizedDomain)) {
+  if (normalizedDomain && !/^[a-z0-9.-]+\.[a-z]{2,}$/i.test(normalizedDomain)) {
     return { ok: false as const }
   }
 
@@ -175,7 +175,7 @@ export function parseOrganizationProfileBody(body: unknown) {
       state,
       name,
       email,
-      domain: normalizedDomain,
+      domain: normalizedDomain || null,
       researchField,
     },
   }

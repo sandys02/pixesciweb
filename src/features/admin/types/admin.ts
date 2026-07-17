@@ -14,7 +14,7 @@ export type EnvironmentState = {
 export type OrganizationListItem = {
   id: number
   name: string
-  domain: string
+  domain: string | null
   email: string
   country: string
   state: string
@@ -38,7 +38,7 @@ export type OrganizationDetail = {
     state: string
     name: string
     email: string
-    domain: string
+    domain: string | null
     organizationType: "enterprise" | "academia" | "pixesci"
     researchField: string
     status: "active" | "deactivated" | "archived"
@@ -98,9 +98,7 @@ export type CreateOrganizationForm = {
   organizationType: "enterprise" | "academia" | "pixesci"
   researchField: string
   licenseId: string
-  generateLicenseId: boolean
   label: string
   startsAt: string
   seatLimit: number
-  createSetupLink: boolean
 }

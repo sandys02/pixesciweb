@@ -3,6 +3,7 @@
 import * as React from "react"
 import { LayoutDashboard, ListChecks, LogOut, RefreshCw } from "lucide-react"
 
+import { ThemeSwitcher } from "@/components/site/theme-switcher"
 import { Button } from "@/components/ui/button"
 
 import { requestAdminApi } from "../api/admin-client"
@@ -89,11 +90,8 @@ export function AdminDashboard({
               Signed in as {auth.adminEmail} / {auth.role}
             </p>
           </div>
-          <div className="flex flex-wrap gap-2">
-            <Button type="button" variant="outline" onClick={refresh} disabled={loading}>
-              <RefreshCw className="size-4" />
-              {loading ? "Refreshing..." : "Refresh"}
-            </Button>
+          <div className="flex flex-wrap items-center gap-2">
+            <ThemeSwitcher />
             <Button type="button" variant="outline" onClick={logout}>
               <LogOut className="size-4" />
               Logout
@@ -118,7 +116,12 @@ export function AdminDashboard({
         ) : null}
 
         <div className="mt-6">
-          <AdminTabs view={view} onViewChange={setView} />
+          <AdminTabs
+            loading={loading}
+            onRefresh={refresh}
+            view={view}
+            onViewChange={setView}
+          />
           {view === "dashboard" ? (
             <OrganizationsTable
               organizations={organizations}
@@ -137,29 +140,39 @@ export function AdminDashboard({
 }
 
 function AdminTabs({
+  loading,
+  onRefresh,
   onViewChange,
   view,
 }: {
+  loading: boolean
+  onRefresh: () => void
   onViewChange: (view: AdminView) => void
   view: AdminView
 }) {
   return (
-    <div className="mb-6 flex flex-wrap gap-2">
-      <Button
-        type="button"
-        variant={view === "dashboard" ? "default" : "outline"}
-        onClick={() => onViewChange("dashboard")}
-      >
-        <LayoutDashboard className="size-4" />
-        Dashboard
-      </Button>
-      <Button
-        type="button"
-        variant={view === "audit" ? "default" : "outline"}
-        onClick={() => onViewChange("audit")}
-      >
-        <ListChecks className="size-4" />
-        Audit Logs
+    <div className="mb-6 flex flex-wrap items-center justify-between gap-3">
+      <div className="flex flex-wrap gap-2">
+        <Button
+          type="button"
+          variant={view === "dashboard" ? "default" : "outline"}
+          onClick={() => onViewChange("dashboard")}
+        >
+          <LayoutDashboard className="size-4" />
+          Dashboard
+        </Button>
+        <Button
+          type="button"
+          variant={view === "audit" ? "default" : "outline"}
+          onClick={() => onViewChange("audit")}
+        >
+          <ListChecks className="size-4" />
+          Audit Logs
+        </Button>
+      </div>
+      <Button type="button" variant="outline" onClick={onRefresh} disabled={loading}>
+        <RefreshCw className="size-4" />
+        {loading ? "Refreshing..." : "Refresh"}
       </Button>
     </div>
   )
