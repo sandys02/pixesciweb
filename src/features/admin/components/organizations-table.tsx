@@ -748,16 +748,27 @@ function CreateOrganizationDialog({
               onChange={(value) => update("startsAt", value)}
               helperText={`End date: ${addOneYear(form.startsAt) || "select a date"}`}
             />
-            <FloatingLabelInput
-              id="admin-license-seats"
-              type="number"
-              label="Seats"
-              value={String(form.seatLimit)}
-              placeholder="7"
-              onChangeAction={(value) =>
-                update("seatLimit", Math.max(1, Number.parseInt(value, 10) || 1))
-              }
-            />
+            {form.organizationType === "pixesci" ? (
+              <FloatingLabelInput
+                id="admin-license-seats"
+                label="Seats"
+                value="Unlimited (∞)"
+                disabled
+                helperText="PixeSci edition licenses have unlimited app seats."
+                onChangeAction={() => undefined}
+              />
+            ) : (
+              <FloatingLabelInput
+                id="admin-license-seats"
+                type="number"
+                label="Seats"
+                value={String(form.seatLimit)}
+                placeholder="7"
+                onChangeAction={(value) =>
+                  update("seatLimit", Math.max(1, Number.parseInt(value, 10) || 1))
+                }
+              />
+            )}
             <FloatingLabelInput
               id="admin-license-label"
               label="License label"

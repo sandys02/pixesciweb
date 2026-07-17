@@ -20,6 +20,7 @@
     "db:seed": "tsx scripts/seed-download-user.ts",
     "db:seed:portal": "tsx scripts/seed-portal-account.ts",
     "db:migrate:portal": "tsx scripts/migrate-portal-sqlite-to-libsql.ts",
+    "db:migrate:portal-domain-nullable": "tsx scripts/migrate-portal-domain-nullable.ts",
     "db:seed:admin": "tsx scripts/seed-admin-account.ts",
     "db:wipe:portal-customers": "tsx scripts/wipe-portal-customer-data.ts"
   },
