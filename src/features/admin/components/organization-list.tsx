@@ -32,7 +32,7 @@ export function OrganizationList({
           >
             <span className="font-medium">{organization.name}</span>
             <span className="mt-1 block text-xs text-muted-foreground">
-              {organization.domain} / {organization.status}
+              {organization.domain || "No domain"} / {organization.status}
             </span>
           </button>
         ))}

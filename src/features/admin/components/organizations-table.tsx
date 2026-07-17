@@ -53,6 +53,7 @@ import type {
   OrganizationListItem,
 } from "../types/admin"
 import { addOneYear } from "../utils/date"
+import { LicenseDatePicker } from "./license-date-picker"
 
 type DetailCache = Record<number, OrganizationDetail | null>
 
@@ -206,10 +207,11 @@ export function OrganizationsTable({
     organization: OrganizationListItem,
     action: "deactivate" | "archive"
   ) {
+    const confirmationLabel = organization.domain || organization.name
     const confirmation =
       environment.runtime === "production"
-        ? window.prompt(`Enter ${organization.domain} to confirm ${action}.`) ?? ""
-        : organization.domain
+        ? window.prompt(`Enter ${confirmationLabel} to confirm ${action}.`) ?? ""
+        : confirmationLabel
     try {
       await requestAdminApi(`/api/admin/organizations/${organization.id}/${action}`, {
         method: "POST",
@@ -391,7 +393,7 @@ function OrganizationTableRow({
       <TableCell className="min-w-52 font-medium">
         {organization.name}
         <span className="mt-1 block text-xs font-normal text-muted-foreground">
-          {organization.domain}
+          {organization.domain || "No domain"}
         </span>
       </TableCell>
       <TableCell>{organization.email}</TableCell>
@@ -506,13 +508,17 @@ function SeatSummary({
 }) {
   const allocated = organization.allocatedSeats ?? 0
   const limit = organization.seatLimit ?? 0
+  const hasUnlimitedSeats = organization.edition === "pixesci"
 
   return (
     <div className="flex items-center gap-2">
       <div>
         <p className="text-base leading-none font-semibold">
           {allocated}
-          <span className="text-xs font-normal text-muted-foreground"> / {limit}</span>
+          <span className="text-xs font-normal text-muted-foreground">
+            {" "}
+            / {hasUnlimitedSeats ? "Unlimited" : limit}
+          </span>
         </p>
         <p className="mt-1 text-xs text-muted-foreground">allocated</p>
       </div>
@@ -641,11 +647,11 @@ function CreateOrganizationDialog({
               researchField: form.researchField,
             },
             portalAccount: {
-              createSetupLink: form.createSetupLink,
+              createSetupLink: true,
             },
             license: {
               licenseId: form.licenseId,
-              generateLicenseId: form.generateLicenseId,
+              generateLicenseId: true,
               label: form.label,
               startsAt: form.startsAt,
               endsAt,
@@ -698,6 +704,7 @@ function CreateOrganizationDialog({
               label="Edition"
               value={form.organizationType}
               options={portalOrganizationTypes}
+              placeholder="Select edition"
               onValueChange={(value) =>
                 update(
                   "organizationType",
@@ -709,6 +716,7 @@ function CreateOrganizationDialog({
               id="admin-org-name"
               label="Organization name"
               value={form.name}
+              placeholder="Northstar Bioanalytics"
               onChangeAction={(value) => update("name", value)}
             />
             <FloatingLabelInput
@@ -716,70 +724,59 @@ function CreateOrganizationDialog({
               type="email"
               label="Organization email"
               value={form.email}
+              placeholder="admin@example.org"
               onChangeAction={(value) => update("email", value)}
             />
             <FloatingLabelInput
               id="admin-org-domain"
               label="Organization domain"
               value={form.domain}
+              placeholder="example.org (optional)"
               onChangeAction={(value) => update("domain", value)}
             />
             <FloatingLabelInput
               id="admin-org-research"
               label="Research field"
               value={form.researchField}
+              placeholder="Bioanalytics and regulated QC"
               onChangeAction={(value) => update("researchField", value)}
             />
-            <FloatingLabelInput
+            <LicenseDatePicker
               id="admin-license-start"
-              type="date"
               label="License start date"
               value={form.startsAt}
-              onChangeAction={(value) => update("startsAt", value)}
+              onChange={(value) => update("startsAt", value)}
               helperText={`End date: ${addOneYear(form.startsAt) || "select a date"}`}
             />
-            <FloatingLabelInput
-              id="admin-license-seats"
-              type="number"
-              label="Seats"
-              value={String(form.seatLimit)}
-              onChangeAction={(value) =>
-                update("seatLimit", Math.max(1, Number.parseInt(value, 10) || 1))
-              }
-            />
+            {form.organizationType === "pixesci" ? (
+              <FloatingLabelInput
+                id="admin-license-seats"
+                label="Seats"
+                value="Unlimited (∞)"
+                disabled
+                helperText="PixeSci edition licenses have unlimited app seats."
+                onChangeAction={() => undefined}
+              />
+            ) : (
+              <FloatingLabelInput
+                id="admin-license-seats"
+                type="number"
+                label="Seats"
+                value={String(form.seatLimit)}
+                placeholder="7"
+                onChangeAction={(value) =>
+                  update("seatLimit", Math.max(1, Number.parseInt(value, 10) || 1))
+                }
+              />
+            )}
             <FloatingLabelInput
               id="admin-license-label"
               label="License label"
               value={form.label}
+              placeholder="Annual organization license"
               onChangeAction={(value) => update("label", value)}
             />
           </div>
-          <div className="flex flex-col gap-3 rounded-md border border-border p-3 text-sm sm:flex-row sm:items-center sm:justify-between">
-            <label className="flex items-center gap-2">
-              <input
-                type="checkbox"
-                checked={form.generateLicenseId}
-                onChange={(event) => update("generateLicenseId", event.target.checked)}
-              />
-              Generate license ID
-            </label>
-            <label className="flex items-center gap-2">
-              <input
-                type="checkbox"
-                checked={form.createSetupLink}
-                onChange={(event) => update("createSetupLink", event.target.checked)}
-              />
-              Create setup link
-            </label>
-          </div>
-          {!form.generateLicenseId ? (
-            <FloatingLabelInput
-              id="admin-license-id"
-              label="License ID"
-              value={form.licenseId}
-              onChangeAction={(value) => update("licenseId", value)}
-            />
-          ) : null}
           <DialogFooter>
             <DialogClose asChild>
               <Button type="button" variant="outline">
@@ -810,7 +807,10 @@ function EditOrganizationDialog({
   onUpdated: (detail: OrganizationDetail | null) => Promise<void>
   onError: (message: string) => void
 }) {
-  const [form, setForm] = React.useState(detail.profile)
+  const [form, setForm] = React.useState({
+    ...detail.profile,
+    domain: detail.profile.domain ?? "",
+  })
   const [pending, setPending] = React.useState(false)
 
   async function submit(event: React.FormEvent<HTMLFormElement>) {
@@ -885,6 +885,7 @@ function EditOrganizationDialog({
               id="edit-admin-org-domain"
               label="Organization domain"
               value={form.domain}
+              placeholder="example.org (optional)"
               onChangeAction={(value) =>
                 setForm((current) => ({ ...current, domain: value }))
               }
@@ -973,12 +974,11 @@ function RenewLicenseDialog({
           </DialogDescription>
         </DialogHeader>
         <form className="space-y-4" onSubmit={submit}>
-          <FloatingLabelInput
+          <LicenseDatePicker
             id="renew-license-start"
-            type="date"
             label="Start date"
             value={startsAt}
-            onChangeAction={setStartsAt}
+            onChange={setStartsAt}
             helperText={`End date: ${addOneYear(startsAt) || "select a date"}`}
           />
           <FloatingLabelInput
@@ -1028,11 +1028,14 @@ function SeatManagementDialog({
   const allocated = registeredSeats.filter(
     (seat) => seat.status === "active" || seat.status === "invited"
   ).length
+  const hasUnlimitedSeats = detail.profile.organizationType === "pixesci"
   const [seatLimit, setSeatLimit] = React.useState(license.seatLimit)
   const [pending, setPending] = React.useState(false)
 
   async function submit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault()
+    if (hasUnlimitedSeats) return
+
     if (seatLimit < allocated) {
       onError("Seat limit cannot be lower than active and invited seats.")
       return
@@ -1068,39 +1071,54 @@ function SeatManagementDialog({
         <DialogHeader>
           <DialogTitle>Manage seats</DialogTitle>
           <DialogDescription>
-            Adjust seat capacity and review registered seat IDs.
+            {hasUnlimitedSeats
+              ? "Review registered seat IDs for this unlimited PixeSci license."
+              : "Adjust seat capacity and review registered seat IDs."}
           </DialogDescription>
         </DialogHeader>
         <form className="space-y-5" onSubmit={submit}>
           <div className="rounded-lg border border-border bg-muted/20 p-5">
-            <div className="flex items-center justify-between gap-4">
-              <Button
-                type="button"
-                variant="outline"
-                size="icon-lg"
-                aria-label="Decrease seats"
-                onClick={() => setSeatLimit((current) => Math.max(allocated, current - 1))}
-              >
-                <CircleMinus className="size-5" />
-              </Button>
+            {hasUnlimitedSeats ? (
               <div className="text-center">
                 <p className="text-5xl leading-none font-semibold tabular-nums">
-                  {seatLimit}
+                  Unlimited
                 </p>
                 <p className="mt-2 text-sm text-muted-foreground">
-                  seats / {allocated} allocated
+                  {allocated} allocated app seats
                 </p>
               </div>
-              <Button
-                type="button"
-                variant="outline"
-                size="icon-lg"
-                aria-label="Increase seats"
-                onClick={() => setSeatLimit((current) => current + 1)}
-              >
-                <CirclePlus className="size-5" />
-              </Button>
-            </div>
+            ) : (
+              <div className="flex items-center justify-between gap-4">
+                <Button
+                  type="button"
+                  variant="outline"
+                  size="icon-lg"
+                  aria-label="Decrease seats"
+                  onClick={() =>
+                    setSeatLimit((current) => Math.max(allocated, current - 1))
+                  }
+                >
+                  <CircleMinus className="size-5" />
+                </Button>
+                <div className="text-center">
+                  <p className="text-5xl leading-none font-semibold tabular-nums">
+                    {seatLimit}
+                  </p>
+                  <p className="mt-2 text-sm text-muted-foreground">
+                    seats / {allocated} allocated
+                  </p>
+                </div>
+                <Button
+                  type="button"
+                  variant="outline"
+                  size="icon-lg"
+                  aria-label="Increase seats"
+                  onClick={() => setSeatLimit((current) => current + 1)}
+                >
+                  <CirclePlus className="size-5" />
+                </Button>
+              </div>
+            )}
           </div>
           <div>
             <div className="mb-3 flex items-center justify-between gap-3">
@@ -1135,9 +1153,11 @@ function SeatManagementDialog({
                 Cancel
               </Button>
             </DialogClose>
-            <Button type="submit" disabled={pending || seatLimit < allocated}>
-              {pending ? "Saving..." : "Save seats"}
-            </Button>
+            {hasUnlimitedSeats ? null : (
+              <Button type="submit" disabled={pending || seatLimit < allocated}>
+                {pending ? "Saving..." : "Save seats"}
+              </Button>
+            )}
           </DialogFooter>
         </form>
       </DialogContent>

@@ -20,6 +20,7 @@
     "db:seed": "tsx scripts/seed-download-user.ts",
     "db:seed:portal": "tsx scripts/seed-portal-account.ts",
     "db:migrate:portal": "tsx scripts/migrate-portal-sqlite-to-libsql.ts",
+    "db:migrate:portal-domain-nullable": "tsx scripts/migrate-portal-domain-nullable.ts",
     "db:seed:admin": "tsx scripts/seed-admin-account.ts",
     "db:wipe:portal-customers": "tsx scripts/wipe-portal-customer-data.ts"
   },
@@ -31,6 +32,7 @@
     "axios": "^1.18.1",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
+    "date-fns": "^4.4.0",
     "drizzle-orm": "^0.45.2",
     "jose": "^6.2.3",
     "lucide-react": "^1.18.0",
@@ -38,6 +40,7 @@
     "next-themes": "^0.4.6",
     "radix-ui": "^1.5.0",
     "react": "19.2.4",
+    "react-day-picker": "^10.0.1",
     "react-dom": "19.2.4",
     "react-redux": "^9.3.0",
     "resend": "^6.17.2",

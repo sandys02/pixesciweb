@@ -49,7 +49,7 @@ export default async function PortalPage() {
     organizationType,
     name: organization.name,
     email: organization.email,
-    domain: organization.domain,
+    domain: organization.domain ?? "",
     researchField: organization.researchField,
   }
 

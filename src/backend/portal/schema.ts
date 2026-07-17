@@ -32,7 +32,7 @@ export const organizations = sqliteTable(
     state: text("state").notNull(),
     name: text("name").notNull(),
     email: text("email").notNull(),
-    domain: text("domain").notNull(),
+    domain: text("domain"),
     researchField: text("research_field").notNull(),
     status: text("status").notNull().default("active"),
     deactivatedAt: text("deactivated_at"),

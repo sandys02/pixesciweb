@@ -28,7 +28,7 @@ export function OrganizationDetailPanel({
             <p className="eyebrow">Organization detail</p>
             <h2 className="mt-1 text-xl font-semibold">{detail.profile.name}</h2>
             <p className="mt-1 text-sm text-muted-foreground">
-              {detail.profile.domain} / {detail.profile.status}
+              {detail.profile.domain || "No domain"} / {detail.profile.status}
             </p>
           </div>
           <OrganizationLifecycleActions
@@ -90,10 +90,11 @@ function OrganizationLifecycleActions({
   onError: (message: string) => void
 }) {
   async function run(action: "deactivate" | "archive") {
+    const confirmationLabel = detail.profile.domain || detail.profile.name
     const confirmation =
       environment.runtime === "production"
-        ? window.prompt(`Enter ${detail.profile.domain} to confirm ${action}.`) ?? ""
-        : detail.profile.domain
+        ? window.prompt(`Enter ${confirmationLabel} to confirm ${action}.`) ?? ""
+        : confirmationLabel
     try {
       await requestAdminApi(
         `/api/admin/organizations/${detail.organization.id}/${action}`,
