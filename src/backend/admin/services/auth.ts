@@ -353,6 +353,36 @@ export async function requestAdminPasswordResetEmail(input: {
   return { ok: true as const, emailStatus: emailResult.status }
 }
 
+export async function isAdminPasswordResetTokenAvailable(token: string) {
+  if (!token.trim()) return false
+
+  const tokenHash = hashToken(token)
+  const [row] = await db
+    .select({
+      token: adminAccountResetTokens,
+      account: adminAccounts,
+    })
+    .from(adminAccountResetTokens)
+    .innerJoin(
+      adminAccounts,
+      eq(adminAccounts.id, adminAccountResetTokens.adminAccountId)
+    )
+    .where(
+      and(
+        eq(adminAccountResetTokens.tokenHash, tokenHash),
+        isNull(adminAccountResetTokens.usedAt)
+      )
+    )
+    .limit(1)
+
+  return Boolean(
+    row &&
+      row.account.active &&
+      isAdminRole(row.account.role) &&
+      Date.parse(row.token.expiresAt) > Date.now()
+  )
+}
+
 export async function completeAdminPasswordReset(input: {
   token: string
   newPassword: string

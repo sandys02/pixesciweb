@@ -2,6 +2,7 @@
 
 import * as React from "react"
 import { KeyRound } from "lucide-react"
+import { toast } from "sonner"
 
 import { FloatingLabelInput } from "@/components/shared/inputs"
 import { Button } from "@/components/ui/button"
@@ -21,6 +22,37 @@ export function AdminLogin({
   const [view, setView] = React.useState<"forgot" | "login">("login")
   const [message, setMessage] = React.useState("")
   const [pending, setPending] = React.useState(false)
+
+  React.useEffect(() => {
+    const url = new URL(window.location.href)
+    const passwordChanged = url.searchParams.get("passwordChanged") === "1"
+    const resetLinkUnavailable =
+      url.searchParams.get("resetLinkUnavailable") === "1"
+
+    if (!passwordChanged && !resetLinkUnavailable) return
+
+    const toastTimeout = window.setTimeout(() => {
+      if (passwordChanged) {
+        toast.success(
+          "Password changed. Sign in with your staff email and new password."
+        )
+        return
+      }
+
+      toast.error(
+        "That reset link is no longer available. Request a new password reset link."
+      )
+    }, 100)
+
+    url.searchParams.delete("passwordChanged")
+    url.searchParams.delete("resetLinkUnavailable")
+    const nextUrl = `${url.pathname}${url.search}${url.hash}`
+    window.history.replaceState(window.history.state, "", nextUrl || "/admin")
+
+    return () => {
+      window.clearTimeout(toastTimeout)
+    }
+  }, [])
 
   async function submit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault()
