@@ -88,7 +88,8 @@ export function LicenseBundlePanel({
   const disabled = pending || loading
 
   return (
-    <div className="mt-4 min-w-0 rounded-lg border border-border bg-background p-4">
+    // TODO: Unhide and finish the flow later when it is ready to be used for enterprise and organizations that require a tight air-gapped/offline environment. Academia does not have too many security requirements.
+    <div className="hidden mt-4 min-w-0 rounded-lg border border-border bg-background p-4">
       <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
         <div>
           <h3 className="text-base font-semibold">Offline license bundle</h3>
