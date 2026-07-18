@@ -2,6 +2,7 @@ import { createHash, randomBytes } from "node:crypto"
 
 import { and, eq, isNull } from "drizzle-orm"
 
+import { getEmailLinkOrigin } from "@/backend/email/link-origin"
 import { sendPasswordResetEmail } from "@/backend/email/resend"
 import { db } from "@/backend/portal/db"
 import {
@@ -24,10 +25,6 @@ function nowIso() {
 
 function hashToken(token: string) {
   return createHash("sha256").update(token).digest("base64url")
-}
-
-function normalizeOrigin(origin: string) {
-  return origin.replace(/\/$/, "")
 }
 
 export async function createPortalPasswordResetLink(input: {
@@ -101,7 +98,7 @@ export async function createPortalPasswordResetLink(input: {
     ok: true as const,
     account,
     expiresAt,
-    resetLink: `${normalizeOrigin(input.origin)}/portal/reset-password/${token}`,
+    resetLink: `${getEmailLinkOrigin(input.origin)}/portal/reset-password/${token}`,
   }
 }
 

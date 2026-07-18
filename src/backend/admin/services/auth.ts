@@ -3,6 +3,7 @@ import { createHash, randomBytes } from "node:crypto"
 import { and, eq, isNull } from "drizzle-orm"
 import { SignJWT, jwtVerify } from "jose"
 
+import { getEmailLinkOrigin } from "@/backend/email/link-origin"
 import { sendPasswordResetEmail } from "@/backend/email/resend"
 import { db } from "@/backend/portal/db"
 import {
@@ -55,10 +56,6 @@ function nowIso() {
 
 function hashToken(token: string) {
   return createHash("sha256").update(token).digest("base64url")
-}
-
-function normalizeOrigin(origin: string) {
-  return origin.replace(/\/$/, "")
 }
 
 function isAdminRole(value: string): value is AdminRole {
@@ -348,7 +345,7 @@ export async function requestAdminPasswordResetEmail(input: {
 
   const emailResult = await sendPasswordResetEmail({
     to: account.email,
-    resetLink: `${normalizeOrigin(input.origin)}/admin/reset-password/${token}`,
+    resetLink: `${getEmailLinkOrigin(input.origin)}/admin/reset-password/${token}`,
     expiresAt,
     surface: "staff admin",
   })
