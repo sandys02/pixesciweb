@@ -153,6 +153,41 @@ export async function requestPortalPasswordResetEmail(input: {
   return { ok: true as const, emailStatus: emailResult.status }
 }
 
+export async function isPortalPasswordResetTokenAvailable(token: string) {
+  if (!token.trim()) return false
+
+  const tokenHash = hashToken(token)
+  const [row] = await db
+    .select({
+      token: portalAccountResetTokens,
+      account: portalAccounts,
+      organization: organizations,
+    })
+    .from(portalAccountResetTokens)
+    .innerJoin(
+      portalAccounts,
+      eq(portalAccounts.id, portalAccountResetTokens.portalAccountId)
+    )
+    .innerJoin(
+      organizations,
+      eq(organizations.id, portalAccountResetTokens.organizationId)
+    )
+    .where(
+      and(
+        eq(portalAccountResetTokens.tokenHash, tokenHash),
+        isNull(portalAccountResetTokens.usedAt)
+      )
+    )
+    .limit(1)
+
+  return Boolean(
+    row &&
+      row.account.active &&
+      row.organization.status === "active" &&
+      Date.parse(row.token.expiresAt) > Date.now()
+  )
+}
+
 export async function completePortalPasswordReset(input: {
   token: string
   newPassword: string
