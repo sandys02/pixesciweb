@@ -7,6 +7,7 @@ import {
   requireCompletedPortalSession,
 } from "@/backend/portal/auth"
 import { invitePortalSeat, parseSeatInviteBody } from "@/backend/portal/licenses"
+import { sendSeatInviteSetupEmail } from "@/backend/portal/seat-invite-email"
 
 export async function POST(
   request: Request,
@@ -41,8 +42,19 @@ export async function POST(
       return jsonResponse({ message: result.message }, result.status)
     }
 
+    const emailStatus = await sendSeatInviteSetupEmail({
+      actor: session.user,
+      inviteLink: result.inviteLink,
+      requestOrigin:
+        request.headers.get("origin") ?? new URL(request.url).origin,
+      seat: result.seat,
+    }).catch(() => ({
+      status: "failed" as const,
+      message: "Email delivery failed.",
+    }))
+
     return jsonResponse(
-      { seat: result.seat, inviteLink: result.inviteLink },
+      { seat: result.seat, inviteLink: result.inviteLink, emailStatus },
       201
     )
   } catch {
