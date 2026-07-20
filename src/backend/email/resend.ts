@@ -19,6 +19,16 @@ type PasswordResetEmailInput = {
   to: string
 }
 
+type SeatInviteEmailInput = {
+  activationCode: string
+  downloadLink: string
+  expiresAt?: string
+  licenseId: string
+  organizationName: string
+  seatRole: "admin" | "member"
+  to: string
+}
+
 type EmailTemplateInput = {
   body: string[]
   ctaHref: string
@@ -81,6 +91,7 @@ function formatExpiry(expiresAt?: string) {
 function textFromHtml(value: string) {
   return value
     .replace(/<a\s+href="([^"]+)">.*?<\/a>/g, "$1")
+    .replace(/<br\s*\/?>/g, "\n")
     .replace(/<[^>]+>/g, "")
     .replaceAll("&amp;", "&")
     .replaceAll("&lt;", "<")
@@ -279,6 +290,43 @@ export async function sendPasswordResetEmail(input: PasswordResetEmailInput) {
       "Open the secure reset link below and choose a new password.",
       `${expiry} The link is single-use.`,
       "If you did not request this reset, you can ignore this email.",
+    ],
+  }
+
+  return sendEmail({
+    to: input.to,
+    subject,
+    html: renderEmailHtml(template),
+    text: renderEmailText(template),
+  })
+}
+
+export async function sendSeatInviteEmail(input: SeatInviteEmailInput) {
+  const activationCode = escapeHtml(input.activationCode).replaceAll("\n", "<br>")
+  const downloadLink = escapeHtml(input.downloadLink)
+  const email = escapeHtml(input.to)
+  const expiry = escapeHtml(formatExpiry(input.expiresAt))
+  const licenseId = escapeHtml(input.licenseId)
+  const organizationName = escapeHtml(input.organizationName)
+  const seatRole = escapeHtml(input.seatRole)
+  const subject = "Set up your PixeSci seat"
+  const template = {
+    subject,
+    title: "Set up PixeSci",
+    eyebrow: "Seat invitation",
+    preheader:
+      "Download PixeSci and paste your activation code to finish setup.",
+    ctaHref: downloadLink,
+    ctaLabel: "Download PixeSci",
+    footerNote:
+      "PixeSci sent this seat invitation because your organization added this email to a customer-controlled PixeSci license.",
+    body: [
+      `<strong>${organizationName}</strong> invited <strong>${email}</strong> to set up PixeSci as a <strong>${seatRole}</strong> seat.`,
+      `License: <strong>${licenseId}</strong>`,
+      "Download PixeSci, open the application, click New setup, paste the activation code below, and proceed with account setup.",
+      `${expiry} The activation code is tied to the invited email address.`,
+      `<span style="display:block;margin:8px 0 0;padding:14px;border:1px solid #d9e1ea;border-radius:8px;background:#f7f9fc;color:#172033;font-family:ui-monospace,SFMono-Regular,Consolas,Liberation Mono,monospace;font-size:12px;line-height:1.55;word-break:break-all;">${activationCode}</span>`,
+      "If you were not expecting this email, contact your PixeSci organization administrator before continuing.",
     ],
   }
 
