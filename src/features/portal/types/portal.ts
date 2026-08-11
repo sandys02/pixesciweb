@@ -2,8 +2,6 @@ export type OrganizationType = "academia" | "enterprise" | "pixesci"
 
 export type LicenseStatus = "active" | "inactive"
 
-export type SeatRole = "admin" | "member"
-
 export type SeatStatus = "active" | "invited" | "revoked"
 
 export type PortalOrganization = {
@@ -25,7 +23,7 @@ export type PortalSeat = {
   id: string
   status: SeatStatus
   email?: string
-  role?: SeatRole
+  roles?: string[]
   inviteLink?: string
   temporaryCredentialState?: "issued" | "resent" | "accepted" | "revoked"
 }
@@ -56,7 +54,7 @@ export type PortalLicenseBundlePayload = {
   seats?: Array<{
     seatId: string
     email: string
-    role: SeatRole
+    roles: string[]
     status: Extract<SeatStatus, "active" | "invited">
   }>
 }
@@ -79,7 +77,7 @@ export type PortalSeatActivationPayload = {
   organizationName: string
   seatId: string
   seatEmail: string
-  seatRole: SeatRole
+  seatRoles: string[]
   seatStatus: Extract<SeatStatus, "invited">
   licenseStartsAt: string
   licenseEndsAt: string

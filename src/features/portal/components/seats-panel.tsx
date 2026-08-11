@@ -4,9 +4,15 @@ import * as React from "react"
 import { FileSignature, MailPlus, MoreHorizontal, UserMinus } from "lucide-react"
 import type { LucideIcon } from "lucide-react"
 
-import { FloatingLabelInput, FloatingLabelSelect } from "@/components/shared/inputs"
+import { FloatingLabelInput } from "@/components/shared/inputs"
 import { Button } from "@/components/ui/button"
+import { Checkbox } from "@/components/ui/checkbox"
 import { cn } from "@/lib/utils"
+import {
+  ADMIN_TIER_ROLE_KEYS,
+  ROLE_TEMPLATES,
+  type RoleTemplate,
+} from "@/backend/portal/role-templates"
 
 import type {
   PortalLicense,
@@ -17,6 +23,29 @@ import type {
 import type { InviteForm } from "../types/shell"
 import { SeatActivationPanel } from "./seat-activation-panel"
 import { SeatStatusBadge, hasUnlimitedSeats } from "./metrics-and-status"
+
+const ADMIN_ROLE_TEMPLATES = ROLE_TEMPLATES.filter((role) =>
+  ADMIN_TIER_ROLE_KEYS.has(role.key)
+)
+const OPERATIONAL_ROLE_TEMPLATES = ROLE_TEMPLATES.filter(
+  (role) => !ADMIN_TIER_ROLE_KEYS.has(role.key)
+)
+const ROLE_NAME_BY_KEY: Record<string, string> = Object.fromEntries(
+  ROLE_TEMPLATES.map((role) => [role.key, role.name])
+)
+
+function hasAdminTierRole(roles: string[] | undefined) {
+  return (roles ?? []).some((role) => ADMIN_TIER_ROLE_KEYS.has(role))
+}
+
+function isAdminSeat(seat: PortalSeat) {
+  return hasAdminTierRole(seat.roles)
+}
+
+function formatSeatRoles(seat: PortalSeat) {
+  if (!seat.roles || seat.roles.length === 0) return "—"
+  return seat.roles.map((role) => ROLE_NAME_BY_KEY[role] ?? role).join(", ")
+}
 
 export function SeatsPanel({
   license,
@@ -37,7 +66,7 @@ export function SeatsPanel({
 }) {
   const [invite, setInvite] = React.useState<InviteForm>({
     email: "",
-    role: "member",
+    roles: [],
   })
   const [openSeatMenuId, setOpenSeatMenuId] = React.useState("")
   const [message, setMessage] = React.useState("")
@@ -48,20 +77,30 @@ export function SeatsPanel({
     (seat) => seat.status === "active" || seat.status === "invited"
   ).length
   const activeAdminCount = license.seats.filter(
-    (seat) => seat.status === "active" && seat.role === "admin"
+    (seat) => seat.status === "active" && isAdminSeat(seat)
   ).length
   const seatLimitReached =
     !hasUnlimitedSeats(license) && allocatedCount >= license.seatLimit
   const isActiveLicense = license.status === "active"
 
+  function toggleInviteRole(key: string, checked: boolean) {
+    setInvite((current) => ({
+      ...current,
+      roles: checked
+        ? [...current.roles, key]
+        : current.roles.filter((role) => role !== key),
+    }))
+  }
+
   async function submitInvite(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault()
     if (seatLimitReached) return
     if (!/^\S+@\S+\.\S+$/.test(invite.email.trim())) return
+    if (invite.roles.length === 0) return
 
     await runSeatAction("invite", async () => {
       const inviteLink = await onInviteSeat(license.id, invite)
-      setInvite({ email: "", role: "member" })
+      setInvite({ email: "", roles: [] })
       setMessage(
         inviteLink
           ? `Invite created. One-time link: ${inviteLink}`
@@ -97,44 +136,57 @@ export function SeatsPanel({
           </p>
         </div>
         {isActiveLicense ? (
-          <form
-            className="grid max-w-2xl gap-2 sm:grid-cols-[minmax(14rem,1fr)_8rem_auto]"
-            onSubmit={submitInvite}
-          >
-            <FloatingLabelInput
-              id={`invite-email-${license.id}`}
-              type="email"
-              label="Invite email"
-              value={invite.email}
-              placeholder="user@example.org"
-              disabled={seatLimitReached || pendingAction === "invite"}
-              inputMode="email"
-              onChangeAction={(value) =>
-                setInvite((current) => ({ ...current, email: value }))
-              }
-            />
-            <FloatingLabelSelect
-              id={`invite-role-${license.id}`}
-              label="Role"
-              value={invite.role}
-              options={[
-                { value: "member", label: "Member" },
-                { value: "admin", label: "Admin" },
-              ]}
-              disabled={seatLimitReached || pendingAction === "invite"}
-              onValueChange={(value) =>
-                setInvite((current) => ({ ...current, role: value }))
-              }
-            />
-            <Button
-              type="submit"
-              size="sm"
-              className="h-10"
-              disabled={seatLimitReached || pendingAction === "invite"}
-            >
-              <MailPlus className="size-4" />
-              {pendingAction === "invite" ? "Inviting..." : "Invite"}
-            </Button>
+          <form className="grid max-w-2xl gap-3" onSubmit={submitInvite}>
+            <div className="grid gap-2 sm:grid-cols-[minmax(14rem,1fr)_auto]">
+              <FloatingLabelInput
+                id={`invite-email-${license.id}`}
+                type="email"
+                label="Invite email"
+                value={invite.email}
+                placeholder="user@example.org"
+                disabled={seatLimitReached || pendingAction === "invite"}
+                inputMode="email"
+                onChangeAction={(value) =>
+                  setInvite((current) => ({ ...current, email: value }))
+                }
+              />
+              <Button
+                type="submit"
+                size="sm"
+                className="h-10"
+                disabled={
+                  seatLimitReached ||
+                  pendingAction === "invite" ||
+                  invite.roles.length === 0
+                }
+              >
+                <MailPlus className="size-4" />
+                {pendingAction === "invite" ? "Inviting..." : "Invite"}
+              </Button>
+            </div>
+            <fieldset className="rounded-md border border-border p-3">
+              <legend className="px-1 text-xs font-medium text-muted-foreground">
+                Roles (select at least one)
+              </legend>
+              <div className="grid gap-4 sm:grid-cols-2">
+                <RoleCheckboxGroup
+                  title="Administration"
+                  roles={ADMIN_ROLE_TEMPLATES}
+                  selected={invite.roles}
+                  disabled={seatLimitReached || pendingAction === "invite"}
+                  idPrefix={`invite-role-${license.id}`}
+                  onToggle={toggleInviteRole}
+                />
+                <RoleCheckboxGroup
+                  title="Operational"
+                  roles={OPERATIONAL_ROLE_TEMPLATES}
+                  selected={invite.roles}
+                  disabled={seatLimitReached || pendingAction === "invite"}
+                  idPrefix={`invite-role-${license.id}`}
+                  onToggle={toggleInviteRole}
+                />
+              </div>
+            </fieldset>
           </form>
         ) : null}
       </div>
@@ -191,7 +243,7 @@ export function SeatsPanel({
                 <tr key={seat.id} className="border-b border-border/70">
                   <td className="px-3 py-2 font-mono">{seat.id}</td>
                   <td className="px-3 py-2">{seat.email}</td>
-                  <td className="px-3 py-2 capitalize">{seat.role}</td>
+                  <td className="px-3 py-2">{formatSeatRoles(seat)}</td>
                   <td className="px-3 py-2">
                     <SeatStatusBadge status={seat.status} />
                   </td>
@@ -205,7 +257,7 @@ export function SeatsPanel({
                       canInvite={!seatLimitReached}
                       protectActiveAdmin={
                         seat.status === "active" &&
-                        seat.role === "admin" &&
+                        isAdminSeat(seat) &&
                         activeAdminCount <= 1
                       }
                       onOpenChange={(open) =>
@@ -296,6 +348,52 @@ export function SeatsPanel({
           </table>
         </div>
       )}
+    </div>
+  )
+}
+
+function RoleCheckboxGroup({
+  disabled,
+  idPrefix,
+  onToggle,
+  roles,
+  selected,
+  title,
+}: {
+  disabled: boolean
+  idPrefix: string
+  onToggle: (key: string, checked: boolean) => void
+  roles: readonly RoleTemplate[]
+  selected: string[]
+  title: string
+}) {
+  return (
+    <div className="grid gap-1.5">
+      <p className="text-xs font-medium text-foreground">{title}</p>
+      {roles.map((role) => {
+        const id = `${idPrefix}-${role.key}`
+        const checked = selected.includes(role.key)
+        return (
+          <label
+            key={role.key}
+            htmlFor={id}
+            className="flex items-start gap-2 text-xs text-muted-foreground"
+          >
+            <Checkbox
+              id={id}
+              checked={checked}
+              disabled={disabled}
+              onCheckedChange={(value) => onToggle(role.key, value === true)}
+              className="mt-0.5"
+            />
+            <span>
+              <span className="text-foreground">{role.name}</span>
+              <br />
+              {role.description}
+            </span>
+          </label>
+        )
+      })}
     </div>
   )
 }

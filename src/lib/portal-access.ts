@@ -5,7 +5,6 @@ import type {
   PortalOrganization,
   PortalSeat,
   PortalSeatActivation,
-  SeatRole,
 } from "@/features/portal/types"
 
 export type PortalAuthState = {
@@ -127,7 +126,7 @@ export async function getPortalLicenseSeats(
 
 export async function invitePortalSeat(
   licenseId: string,
-  input: { email: string; role: SeatRole }
+  input: { email: string; roles: string[] }
 ): Promise<{ seat: PortalSeat; inviteLink?: string }> {
   return requestPortalApi<{ seat: PortalSeat; inviteLink?: string }>(
     `/api/portal/licenses/${encodeURIComponent(licenseId)}/seats/invite`,

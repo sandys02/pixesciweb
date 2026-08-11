@@ -4,23 +4,27 @@ import { and, eq, ne } from "drizzle-orm"
 
 import { writePortalAuditEvent, normalizeEmail } from "@/backend/portal/auth"
 import { db } from "@/backend/portal/db"
+import {
+  ADMIN_TIER_ROLE_KEYS,
+  parseRoleKeys,
+  parseStoredRoles,
+} from "@/backend/portal/role-templates"
 import { licenses, organizations, seats } from "@/backend/portal/schema"
 import type {
   LicenseStatus,
   OrganizationType,
   PortalLicense,
   PortalSeat,
-  SeatRole,
   SeatStatus,
 } from "@/features/portal/types"
 
 const INVITE_TTL_DAYS = 7
-const SEAT_ROLES = new Set(["admin", "member"])
 const PUBLIC_ID_PATTERN = /^[a-z0-9._-]{3,128}$/i
 
 type PortalActor = {
   accountId: number
   organizationId: number
+  actorType?: string
 }
 
 type LicenseRow = typeof licenses.$inferSelect
@@ -41,16 +45,16 @@ export function parseSeatInviteBody(body: unknown) {
   }
 
   const email = "email" in body ? String(body.email ?? "") : ""
-  const role = "role" in body ? String(body.role ?? "") : ""
+  const roles = "roles" in body ? parseRoleKeys(body.roles) : null
   const normalizedEmail = normalizeEmail(email)
 
-  if (!/^\S+@\S+\.\S+$/.test(normalizedEmail) || !isSeatRole(role)) {
+  if (!/^\S+@\S+\.\S+$/.test(normalizedEmail) || !roles) {
     return { ok: false as const }
   }
 
   return {
     ok: true as const,
-    data: { email: normalizedEmail, role },
+    data: { email: normalizedEmail, roles },
   }
 }
 
@@ -65,6 +69,7 @@ export async function listPortalLicenses(actor: PortalActor) {
   await writePortalAuditEvent({
     organizationId: actor.organizationId,
     actorAccountId: actor.accountId,
+    actorType: actor.actorType,
     eventType: "license_viewed",
     targetType: "organization",
     targetId: String(actor.organizationId),
@@ -116,6 +121,7 @@ export async function listPortalLicenseSeats(
   await writePortalAuditEvent({
     organizationId: actor.organizationId,
     actorAccountId: actor.accountId,
+    actorType: actor.actorType,
     eventType: "license_viewed",
     targetType: "license",
     targetId: license.licenseId,
@@ -132,7 +138,7 @@ export async function listPortalLicenseSeats(
 export async function invitePortalSeat(
   actor: PortalActor,
   licenseId: string,
-  input: { email: string; role: SeatRole }
+  input: { email: string; roles: string[] }
 ): Promise<SeatActionResult> {
   if (!isValidPortalPublicId(licenseId)) {
     await auditUnauthorized(actor, "license", licenseId, "invalid_license_id")
@@ -172,7 +178,7 @@ export async function invitePortalSeat(
     organizationId: actor.organizationId,
     licenseId: license.id,
     email: input.email,
-    role: input.role,
+    rolesJson: JSON.stringify(input.roles),
     status: "invited",
     inviteTokenHash: invite.hash,
     inviteExpiresAt: invite.expiresAt,
@@ -186,10 +192,11 @@ export async function invitePortalSeat(
   await writePortalAuditEvent({
     organizationId: actor.organizationId,
     actorAccountId: actor.accountId,
+    actorType: actor.actorType,
     eventType: "seat_invited",
     targetType: "seat",
     targetId: seatId,
-    metadata: { licenseId: license.licenseId, role: input.role },
+    metadata: { licenseId: license.licenseId, roles: input.roles },
   })
 
   return {
@@ -257,6 +264,7 @@ export async function resendPortalSeatInvite(
   await writePortalAuditEvent({
     organizationId: actor.organizationId,
     actorAccountId: actor.accountId,
+    actorType: actor.actorType,
     eventType: "seat_invite_resent",
     targetType: "seat",
     targetId: seatId,
@@ -299,6 +307,7 @@ export async function revokePortalSeatInvite(
   await writePortalAuditEvent({
     organizationId: actor.organizationId,
     actorAccountId: actor.accountId,
+    actorType: actor.actorType,
     eventType: "seat_invite_revoked",
     targetType: "seat",
     targetId: seatId,
@@ -325,7 +334,10 @@ export async function removePortalSeat(
     return { ok: false, status: 400, message: "This seat cannot be removed." }
   }
 
-  if (seat.role === "owner" || (seat.role === "admin" && (await activeAdminCount(actor, license)) <= 1)) {
+  const seatRoles = parseStoredRoles(seat.rolesJson) ?? []
+  const isAdminTierSeat = seatRoles.some((role) => ADMIN_TIER_ROLE_KEYS.has(role))
+
+  if (isAdminTierSeat && (await activeAdminCount(actor, license)) <= 1) {
     await auditUnauthorized(actor, "seat", seatId, "protected_admin_seat")
     return {
       ok: false,
@@ -349,6 +361,7 @@ export async function removePortalSeat(
   await writePortalAuditEvent({
     organizationId: actor.organizationId,
     actorAccountId: actor.accountId,
+    actorType: actor.actorType,
     eventType: "seat_removed",
     targetType: "seat",
     targetId: seatId,
@@ -396,7 +409,7 @@ function serializeSeat(
   return {
     id: seat.seatId,
     email: seat.email ?? undefined,
-    role: seat.role && isSeatRole(seat.role) ? seat.role : undefined,
+    roles: parseStoredRoles(seat.rolesJson),
     status,
     inviteLink:
       inviteLink ??
@@ -499,6 +512,7 @@ async function ensureCapacity(actor: PortalActor, license: LicenseRow) {
     await writePortalAuditEvent({
       organizationId: actor.organizationId,
       actorAccountId: actor.accountId,
+    actorType: actor.actorType,
       eventType: "seat_limit_exceeded",
       targetType: "license",
       targetId: license.licenseId,
@@ -538,12 +552,14 @@ async function activeAdminCount(actor: PortalActor, license: LicenseRow) {
       and(
         eq(seats.organizationId, actor.organizationId),
         eq(seats.licenseId, license.id),
-        eq(seats.status, "active"),
-        eq(seats.role, "admin")
+        eq(seats.status, "active")
       )
     )
 
-  return rows.length
+  return rows.filter((seat) => {
+    const roles = parseStoredRoles(seat.rolesJson) ?? []
+    return roles.some((role) => ADMIN_TIER_ROLE_KEYS.has(role))
+  }).length
 }
 
 async function findDuplicateAllocatedSeat(input: {
@@ -576,6 +592,7 @@ async function auditUnauthorized(
   await writePortalAuditEvent({
     organizationId: actor.organizationId,
     actorAccountId: actor.accountId,
+    actorType: actor.actorType,
     eventType: "unauthorized_portal_action_blocked",
     targetType,
     targetId,
@@ -606,9 +623,6 @@ function isKnownSeatStatus(status: string): status is SeatStatus {
   return status === "active" || status === "invited" || status === "revoked"
 }
 
-function isSeatRole(role: string): role is SeatRole {
-  return SEAT_ROLES.has(role)
-}
 
 function isOrganizationEdition(value: string): value is OrganizationType {
   return value === "academia" || value === "enterprise" || value === "pixesci"

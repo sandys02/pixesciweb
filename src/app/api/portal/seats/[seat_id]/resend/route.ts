@@ -1,12 +1,8 @@
 import { cookies } from "next/headers"
 
-import {
-  PORTAL_MESSAGES,
-  PORTAL_SESSION_COOKIE,
-  jsonResponse,
-  requireCompletedPortalSession,
-} from "@/backend/portal/auth"
+import { PORTAL_MESSAGES, PORTAL_SESSION_COOKIE, jsonResponse } from "@/backend/portal/auth"
 import { resendPortalSeatInvite } from "@/backend/portal/licenses"
+import { resolvePortalActor } from "@/backend/portal/machine-auth"
 import { sendSeatInviteSetupEmail } from "@/backend/portal/seat-invite-email"
 
 export async function POST(
@@ -15,23 +11,24 @@ export async function POST(
 ) {
   try {
     const cookieStore = await cookies()
-    const session = await requireCompletedPortalSession(
-      cookieStore.get(PORTAL_SESSION_COOKIE)?.value
-    )
+    const actorResult = await resolvePortalActor({
+      sessionToken: cookieStore.get(PORTAL_SESSION_COOKIE)?.value,
+      authorizationHeader: _request.headers.get("authorization"),
+    })
 
-    if (!session.ok) {
-      return jsonResponse({ message: session.message }, session.status)
+    if (!actorResult.ok) {
+      return jsonResponse({ message: actorResult.message }, actorResult.status)
     }
 
     const { seat_id: seatId } = await params
-    const result = await resendPortalSeatInvite(session.user, seatId)
+    const result = await resendPortalSeatInvite(actorResult.actor, seatId)
 
     if (!result.ok) {
       return jsonResponse({ message: result.message }, result.status)
     }
 
     const emailStatus = await sendSeatInviteSetupEmail({
-      actor: session.user,
+      actor: actorResult.actor,
       inviteLink: result.inviteLink,
       requestOrigin:
         _request.headers.get("origin") ?? new URL(_request.url).origin,

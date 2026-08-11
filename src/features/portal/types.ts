@@ -10,6 +10,5 @@ export type {
   PortalSeat,
   PortalSeatActivation,
   PortalSeatActivationPayload,
-  SeatRole,
   SeatStatus,
 } from "./types/portal"

@@ -10,6 +10,5 @@ export type {
   PortalOrganization,
   PortalSeat,
   PortalSeatActivation,
-  SeatRole,
   SeatStatus,
 } from "./types/portal"

@@ -24,6 +24,7 @@ import {
   normalizeEmail,
 } from "@/backend/portal/auth"
 import { createPortalPasswordResetLink } from "@/backend/portal/password-reset"
+import { parseStoredRoles } from "@/backend/portal/role-templates"
 
 const ORGANIZATION_TYPES = new Set(["academia", "enterprise", "pixesci"])
 const LICENSE_STATUSES = new Set(["active", "inactive"])
@@ -266,7 +267,7 @@ export async function getAdminOrganization(organizationId: number) {
       seatId: seat.seatId,
       licenseId: license.licenseId,
       email: seat.email,
-      role: seat.role,
+      roles: parseStoredRoles(seat.rolesJson) ?? [],
       status: seat.status,
       inviteExpiresAt: seat.inviteExpiresAt,
       inviteAcceptedAt: seat.inviteAcceptedAt,

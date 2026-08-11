@@ -1,5 +1,3 @@
-import type { SeatRole } from "./portal"
-
 export type PortalShellProps = {
   initialOrganization: import("./portal").PortalOrganization
   sessionEmail: string
@@ -10,7 +8,7 @@ export type PortalView = "licenses" | "settings"
 
 export type InviteForm = {
   email: string
-  role: SeatRole
+  roles: string[]
 }
 
 export type PasswordForm = {

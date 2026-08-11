@@ -245,6 +245,7 @@ export async function writePortalAuditEvent(input: {
   organizationId: number | null
   actorAccountId: number | null
   actorSeatId?: number | null
+  actorType?: string
   eventType: string
   targetType: string
   targetId: string
@@ -254,6 +255,7 @@ export async function writePortalAuditEvent(input: {
     organizationId: input.organizationId,
     actorAccountId: input.actorAccountId,
     actorSeatId: input.actorSeatId ?? null,
+    actorType: input.actorType ?? "portal_account",
     eventType: input.eventType,
     targetType: input.targetType,
     targetId: input.targetId,

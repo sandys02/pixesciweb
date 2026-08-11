@@ -9,6 +9,7 @@ import {
   seats,
 } from "@/backend/portal/schema"
 import { isValidPortalPublicId } from "@/backend/portal/licenses"
+import { parseStoredRoles } from "@/backend/portal/role-templates"
 import {
   armorPortalSignedWrapper,
   canonicalJson,
@@ -47,7 +48,7 @@ export type LicenseBundlePayload = {
   seats?: Array<{
     seatId: string
     email: string
-    role: "admin" | "member"
+    roles: string[]
     status: "active" | "invited"
   }>
 }
@@ -376,13 +377,13 @@ async function buildBundlePayload(input: {
     .filter(
       (seat) =>
         (seat.status === "active" || seat.status === "invited") &&
-        (seat.role === "admin" || seat.role === "member") &&
+        Boolean(parseStoredRoles(seat.rolesJson)?.length) &&
         Boolean(seat.email)
     )
     .map((seat) => ({
       seatId: seat.seatId,
       email: seat.email as string,
-      role: seat.role as "admin" | "member",
+      roles: parseStoredRoles(seat.rolesJson) ?? [],
       status: seat.status as "active" | "invited",
     }))
     .sort((left, right) => left.seatId.localeCompare(right.seatId))

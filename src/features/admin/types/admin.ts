@@ -67,7 +67,7 @@ export type OrganizationDetail = {
     seatId: string
     licenseId: string
     email: string | null
-    role: string | null
+    roles: string[]
     status: string
     inviteExpiresAt: string | null
     inviteAcceptedAt: string | null
