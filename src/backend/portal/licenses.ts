@@ -6,6 +6,9 @@ import { writePortalAuditEvent, normalizeEmail } from "@/backend/portal/auth"
 import { db } from "@/backend/portal/db"
 import {
   ADMIN_TIER_ROLE_KEYS,
+  DEFAULT_FIRST_SEAT_ROLE_KEY,
+  DEFAULT_SEAT_ROLE_KEY,
+  SINGLE_ROLE_PER_SEAT,
   parseRoleKeys,
   parseStoredRoles,
 } from "@/backend/portal/role-templates"
@@ -45,10 +48,29 @@ export function parseSeatInviteBody(body: unknown) {
   }
 
   const email = "email" in body ? String(body.email ?? "") : ""
-  const roles = "roles" in body ? parseRoleKeys(body.roles) : null
   const normalizedEmail = normalizeEmail(email)
+  if (!/^\S+@\S+\.\S+$/.test(normalizedEmail)) {
+    return { ok: false as const }
+  }
 
-  if (!/^\S+@\S+\.\S+$/.test(normalizedEmail) || !roles) {
+  // An absent or empty `roles` field is not a validation failure -- it means
+  // "use the computed default" (see DEFAULT_FIRST_SEAT_ROLE_KEY /
+  // DEFAULT_SEAT_ROLE_KEY in invitePortalSeat below). An explicit array is
+  // still validated against the known role keys as before.
+  const rawRoles = "roles" in body ? body.roles : undefined
+  let roles: string[] | null = null
+  if (Array.isArray(rawRoles) && rawRoles.length > 0) {
+    const parsed = parseRoleKeys(rawRoles)
+    if (!parsed) {
+      return { ok: false as const }
+    }
+    roles = parsed
+  }
+
+  // TODO: temporary constraint -- see SINGLE_ROLE_PER_SEAT in
+  // role-templates.ts. Remove this check once multi-role seats are exposed
+  // per-organization instead of globally disabled.
+  if (roles && SINGLE_ROLE_PER_SEAT && roles.length > 1) {
     return { ok: false as const }
   }
 
@@ -138,7 +160,7 @@ export async function listPortalLicenseSeats(
 export async function invitePortalSeat(
   actor: PortalActor,
   licenseId: string,
-  input: { email: string; roles: string[] }
+  input: { email: string; roles: string[] | null }
 ): Promise<SeatActionResult> {
   if (!isValidPortalPublicId(licenseId)) {
     await auditUnauthorized(actor, "license", licenseId, "invalid_license_id")
@@ -169,6 +191,26 @@ export async function invitePortalSeat(
     }
   }
 
+  // The org's very first seat ever invited (any status, not just active --
+  // so a later-revoked first seat doesn't make a subsequent seat incorrectly
+  // "first" again) becomes the super admin by default; every seat after
+  // that defaults to analyst_technician. Still overridable by the inviter.
+  const existingSeat = await db
+    .select({ id: seats.id })
+    .from(seats)
+    .where(
+      and(
+        eq(seats.organizationId, actor.organizationId),
+        eq(seats.licenseId, license.id)
+      )
+    )
+    .limit(1)
+  const isFirstSeat = existingSeat.length === 0
+  const resolvedRoles =
+    input.roles && input.roles.length > 0
+      ? input.roles
+      : [isFirstSeat ? DEFAULT_FIRST_SEAT_ROLE_KEY : DEFAULT_SEAT_ROLE_KEY]
+
   const invite = createInviteToken()
   const timestamp = nowIso()
   const seatId = `seat_${randomBytes(9).toString("base64url")}`
@@ -178,7 +220,7 @@ export async function invitePortalSeat(
     organizationId: actor.organizationId,
     licenseId: license.id,
     email: input.email,
-    rolesJson: JSON.stringify(input.roles),
+    rolesJson: JSON.stringify(resolvedRoles),
     status: "invited",
     inviteTokenHash: invite.hash,
     inviteExpiresAt: invite.expiresAt,
@@ -196,7 +238,7 @@ export async function invitePortalSeat(
     eventType: "seat_invited",
     targetType: "seat",
     targetId: seatId,
-    metadata: { licenseId: license.licenseId, roles: input.roles },
+    metadata: { licenseId: license.licenseId, roles: resolvedRoles },
   })
 
   return {

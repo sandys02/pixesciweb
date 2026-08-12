@@ -10,7 +10,10 @@ import { Checkbox } from "@/components/ui/checkbox"
 import { cn } from "@/lib/utils"
 import {
   ADMIN_TIER_ROLE_KEYS,
+  DEFAULT_SEAT_ROLE_KEY,
   ROLE_TEMPLATES,
+  SINGLE_ROLE_PER_SEAT,
+  SUPER_ADMIN_ROLE_KEY,
   type RoleTemplate,
 } from "@/backend/portal/role-templates"
 
@@ -64,10 +67,10 @@ export function SeatsPanel({
   onResendSeat: (licenseId: string, seatId: string) => Promise<string | undefined>
   onRevokeSeat: (licenseId: string, seatId: string) => Promise<void>
 }) {
-  const [invite, setInvite] = React.useState<InviteForm>({
+  const [invite, setInvite] = React.useState<InviteForm>(() => ({
     email: "",
-    roles: [],
-  })
+    roles: [license.seats.length === 0 ? SUPER_ADMIN_ROLE_KEY : DEFAULT_SEAT_ROLE_KEY],
+  }))
   const [openSeatMenuId, setOpenSeatMenuId] = React.useState("")
   const [message, setMessage] = React.useState("")
   const [pendingAction, setPendingAction] = React.useState("")
@@ -83,7 +86,18 @@ export function SeatsPanel({
     !hasUnlimitedSeats(license) && allocatedCount >= license.seatLimit
   const isActiveLicense = license.status === "active"
 
+  // TODO: temporary constraint -- see SINGLE_ROLE_PER_SEAT in
+  // role-templates.ts. Once multi-role seats are exposed per-organization,
+  // this should go back to plain add/remove multi-select behavior.
   function toggleInviteRole(key: string, checked: boolean) {
+    if (SINGLE_ROLE_PER_SEAT) {
+      setInvite((current) => ({
+        ...current,
+        roles: checked ? [key] : [],
+      }))
+      return
+    }
+
     setInvite((current) => ({
       ...current,
       roles: checked
@@ -100,7 +114,9 @@ export function SeatsPanel({
 
     await runSeatAction("invite", async () => {
       const inviteLink = await onInviteSeat(license.id, invite)
-      setInvite({ email: "", roles: [] })
+      // A seat now definitely exists, so the next invite is never the
+      // org's first seat -- always default to analyst_technician.
+      setInvite({ email: "", roles: [DEFAULT_SEAT_ROLE_KEY] })
       setMessage(
         inviteLink
           ? `Invite created. One-time link: ${inviteLink}`

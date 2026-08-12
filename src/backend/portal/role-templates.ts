@@ -91,14 +91,35 @@ export const SYSTEM_ROLE_KEYS: ReadonlySet<string> = new Set(
   ROLE_TEMPLATES.map((role) => role.key)
 )
 
-// The four admin-tier roles a pre-Phase-2 pixesciv2 install should treat as
-// the legacy "admin" seat role. See docs/admin/phase-1-pixesciweb-role-expansion.md.
-export const ADMIN_TIER_ROLE_KEYS: ReadonlySet<string> = new Set([
-  "tenant_security_administrator",
+// tenant_security_administrator is the sole "super admin" role. The other
+// three admin-tier roles are kept in an easy-to-edit array for later work
+// (e.g. a per-org small-staff toggle). Purely structural -- no existing
+// permission check or the "last admin seat" protection changes because of
+// this split; ADMIN_TIER_ROLE_KEYS below still derives the same 4-key set.
+export const SUPER_ADMIN_ROLE_KEY = "tenant_security_administrator"
+export const OTHER_ADMIN_ROLE_KEYS: readonly string[] = [
   "platform_operator",
   "site_administrator",
   "laboratory_manager",
+]
+
+// The four admin-tier roles a pre-Phase-2 pixesciv2 install should treat as
+// the legacy "admin" seat role. See docs/admin/phase-1-pixesciweb-role-expansion.md.
+export const ADMIN_TIER_ROLE_KEYS: ReadonlySet<string> = new Set([
+  SUPER_ADMIN_ROLE_KEY,
+  ...OTHER_ADMIN_ROLE_KEYS,
 ])
+
+// Default roles applied when a seat invite doesn't explicitly select any.
+// The org's very first seat becomes the super admin; every seat after that
+// defaults to analyst_technician. Still overridable by the inviter.
+export const DEFAULT_FIRST_SEAT_ROLE_KEY = SUPER_ADMIN_ROLE_KEY
+export const DEFAULT_SEAT_ROLE_KEY = "analyst_technician"
+
+// TODO: temporary constraint -- a seat may hold only one role for now. This
+// will become a per-organization toggle (e.g. enabled for small-staff orgs)
+// once that feature is built; until then it's a single flat boolean.
+export const SINGLE_ROLE_PER_SEAT = true
 
 export function isSystemRoleKey(value: string): boolean {
   return SYSTEM_ROLE_KEYS.has(value)
