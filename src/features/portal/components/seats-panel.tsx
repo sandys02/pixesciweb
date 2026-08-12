@@ -4,17 +4,14 @@ import * as React from "react"
 import { FileSignature, MailPlus, MoreHorizontal, UserMinus } from "lucide-react"
 import type { LucideIcon } from "lucide-react"
 
-import { FloatingLabelInput } from "@/components/shared/inputs"
+import { FloatingLabelInput, FloatingLabelSelect } from "@/components/shared/inputs"
 import { Button } from "@/components/ui/button"
-import { Checkbox } from "@/components/ui/checkbox"
 import { cn } from "@/lib/utils"
 import {
   ADMIN_TIER_ROLE_KEYS,
   DEFAULT_SEAT_ROLE_KEY,
   ROLE_TEMPLATES,
-  SINGLE_ROLE_PER_SEAT,
   SUPER_ADMIN_ROLE_KEY,
-  type RoleTemplate,
 } from "@/backend/portal/role-templates"
 
 import type {
@@ -27,12 +24,12 @@ import type { InviteForm } from "../types/shell"
 import { SeatActivationPanel } from "./seat-activation-panel"
 import { SeatStatusBadge, hasUnlimitedSeats } from "./metrics-and-status"
 
-const ADMIN_ROLE_TEMPLATES = ROLE_TEMPLATES.filter((role) =>
-  ADMIN_TIER_ROLE_KEYS.has(role.key)
-)
-const OPERATIONAL_ROLE_TEMPLATES = ROLE_TEMPLATES.filter(
-  (role) => !ADMIN_TIER_ROLE_KEYS.has(role.key)
-)
+// Admin-tier roles first (matches ROLE_TEMPLATES order) so the most
+// commonly-assigned roles for a new seat are at the top of the dropdown.
+const ROLE_SELECT_OPTIONS = ROLE_TEMPLATES.map((role) => ({
+  value: role.key,
+  label: role.name,
+}))
 const ROLE_NAME_BY_KEY: Record<string, string> = Object.fromEntries(
   ROLE_TEMPLATES.map((role) => [role.key, role.name])
 )
@@ -88,22 +85,9 @@ export function SeatsPanel({
 
   // TODO: temporary constraint -- see SINGLE_ROLE_PER_SEAT in
   // role-templates.ts. Once multi-role seats are exposed per-organization,
-  // this should go back to plain add/remove multi-select behavior.
-  function toggleInviteRole(key: string, checked: boolean) {
-    if (SINGLE_ROLE_PER_SEAT) {
-      setInvite((current) => ({
-        ...current,
-        roles: checked ? [key] : [],
-      }))
-      return
-    }
-
-    setInvite((current) => ({
-      ...current,
-      roles: checked
-        ? [...current.roles, key]
-        : current.roles.filter((role) => role !== key),
-    }))
+  // this select should go back to a multi-select control.
+  function selectInviteRole(key: string) {
+    setInvite((current) => ({ ...current, roles: [key] }))
   }
 
   async function submitInvite(event: React.FormEvent<HTMLFormElement>) {
@@ -180,29 +164,14 @@ export function SeatsPanel({
                 {pendingAction === "invite" ? "Inviting..." : "Invite"}
               </Button>
             </div>
-            <fieldset className="rounded-md border border-border p-3">
-              <legend className="px-1 text-xs font-medium text-muted-foreground">
-                Roles (select at least one)
-              </legend>
-              <div className="grid gap-4 sm:grid-cols-2">
-                <RoleCheckboxGroup
-                  title="Administration"
-                  roles={ADMIN_ROLE_TEMPLATES}
-                  selected={invite.roles}
-                  disabled={seatLimitReached || pendingAction === "invite"}
-                  idPrefix={`invite-role-${license.id}`}
-                  onToggle={toggleInviteRole}
-                />
-                <RoleCheckboxGroup
-                  title="Operational"
-                  roles={OPERATIONAL_ROLE_TEMPLATES}
-                  selected={invite.roles}
-                  disabled={seatLimitReached || pendingAction === "invite"}
-                  idPrefix={`invite-role-${license.id}`}
-                  onToggle={toggleInviteRole}
-                />
-              </div>
-            </fieldset>
+            <FloatingLabelSelect
+              id={`invite-role-${license.id}`}
+              label="Role"
+              value={invite.roles[0] ?? ""}
+              onValueChange={selectInviteRole}
+              options={ROLE_SELECT_OPTIONS}
+              disabled={seatLimitReached || pendingAction === "invite"}
+            />
           </form>
         ) : null}
       </div>
@@ -368,51 +337,6 @@ export function SeatsPanel({
   )
 }
 
-function RoleCheckboxGroup({
-  disabled,
-  idPrefix,
-  onToggle,
-  roles,
-  selected,
-  title,
-}: {
-  disabled: boolean
-  idPrefix: string
-  onToggle: (key: string, checked: boolean) => void
-  roles: readonly RoleTemplate[]
-  selected: string[]
-  title: string
-}) {
-  return (
-    <div className="grid gap-1.5">
-      <p className="text-xs font-medium text-foreground">{title}</p>
-      {roles.map((role) => {
-        const id = `${idPrefix}-${role.key}`
-        const checked = selected.includes(role.key)
-        return (
-          <label
-            key={role.key}
-            htmlFor={id}
-            className="flex items-start gap-2 text-xs text-muted-foreground"
-          >
-            <Checkbox
-              id={id}
-              checked={checked}
-              disabled={disabled}
-              onCheckedChange={(value) => onToggle(role.key, value === true)}
-              className="mt-0.5"
-            />
-            <span>
-              <span className="text-foreground">{role.name}</span>
-              <br />
-              {role.description}
-            </span>
-          </label>
-        )
-      })}
-    </div>
-  )
-}
 
 function SeatActions({
   canInvite,
