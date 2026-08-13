@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
+    "vercel-build": "npm run db:apply-portal-migrations && next build",
     "start": "next start",
     "lint": "eslint",
     "format": "prettier --write \"**/*.{ts,tsx}\"",
@@ -17,6 +18,8 @@
     "db:push": "npm run db:push:download && npm run db:push:portal",
     "db:push:download": "drizzle-kit push",
     "db:push:portal": "drizzle-kit push --config drizzle.portal.config.ts",
+    "db:generate:portal": "drizzle-kit generate --config drizzle.portal.config.ts",
+    "db:apply-portal-migrations": "drizzle-kit migrate --config drizzle.portal.config.ts",
     "db:seed": "tsx scripts/seed-download-user.ts",
     "db:seed:portal": "tsx scripts/seed-portal-account.ts",
     "db:migrate:portal": "tsx scripts/migrate-portal-sqlite-to-libsql.ts",
