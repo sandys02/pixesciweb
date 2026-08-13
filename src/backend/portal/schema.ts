@@ -153,7 +153,7 @@ export const seats = sqliteTable(
       .notNull()
       .references(() => licenses.id, { onDelete: "cascade" }),
     email: text("email"),
-    role: text("role"),
+    rolesJson: text("roles_json"),
     status: text("status").notNull(),
     inviteTokenHash: text("invite_token_hash"),
     inviteExpiresAt: text("invite_expires_at"),
@@ -167,6 +167,26 @@ export const seats = sqliteTable(
     index("seats_organization_idx").on(table.organizationId),
     index("seats_license_idx").on(table.licenseId),
     index("seats_status_idx").on(table.status),
+  ]
+)
+
+export const portalMachineCredentials = sqliteTable(
+  "portal_machine_credentials",
+  {
+    id: integer("id").primaryKey({ autoIncrement: true }),
+    organizationId: integer("organization_id")
+      .notNull()
+      .references(() => organizations.id, { onDelete: "cascade" }),
+    serviceAccountId: integer("service_account_id")
+      .notNull()
+      .references(() => portalAccounts.id, { onDelete: "cascade" }),
+    keyHash: text("key_hash").notNull(),
+    createdAt: text("created_at").notNull(),
+    revokedAt: text("revoked_at"),
+  },
+  (table) => [
+    uniqueIndex("portal_machine_credentials_key_hash_unique").on(table.keyHash),
+    index("portal_machine_credentials_organization_idx").on(table.organizationId),
   ]
 )
 
@@ -283,3 +303,5 @@ export type NewPortalAccountResetToken =
   typeof portalAccountResetTokens.$inferInsert
 export type LicenseBundle = typeof licenseBundles.$inferSelect
 export type NewLicenseBundle = typeof licenseBundles.$inferInsert
+export type PortalMachineCredential = typeof portalMachineCredentials.$inferSelect
+export type NewPortalMachineCredential = typeof portalMachineCredentials.$inferInsert

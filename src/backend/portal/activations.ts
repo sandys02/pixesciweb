@@ -4,6 +4,12 @@ import { writePortalAuditEvent } from "@/backend/portal/auth"
 import { generateConnectedActivationLicenseBundle } from "@/backend/portal/bundles"
 import { db } from "@/backend/portal/db"
 import { isValidPortalPublicId } from "@/backend/portal/licenses"
+import { mintPortalMachineCredential } from "@/backend/portal/machine-auth"
+import {
+  isSystemRoleKey,
+  parseStoredRoles,
+  rolesEqual,
+} from "@/backend/portal/role-templates"
 import {
   licenses,
   organizations,
@@ -34,7 +40,7 @@ export type SeatActivationPayload = {
   organizationName: string
   seatId: string
   seatEmail: string
-  seatRole: "admin" | "member"
+  seatRoles: string[]
   seatStatus: "invited"
   licenseStartsAt: string
   licenseEndsAt: string
@@ -69,9 +75,16 @@ export type ConnectedSeatActivationAcceptResponse = {
   seat: {
     seatId: string
     email: string
-    role: "admin" | "member"
+    roles: string[]
     status: "active"
     acceptedAt: string
+  }
+  /** Only present the first time an organization connects: a one-time bearer
+   * credential pixesciv2 must store to make future machine-authenticated
+   * seat-management calls. Never re-issued on subsequent activations. */
+  machineCredential?: {
+    organizationId: number
+    apiKey: string
   }
   license: {
     licenseId: string
@@ -112,7 +125,7 @@ export async function generatePortalSeatActivation(
     organizationName: scoped.organization.name,
     seatId: scoped.seat.seatId,
     seatEmail: scoped.seat.email as string,
-    seatRole: scoped.seat.role as "admin" | "member",
+    seatRoles: parseStoredRoles(scoped.seat.rolesJson) ?? [],
     seatStatus: "invited",
     licenseStartsAt: scoped.license.startsAt,
     licenseEndsAt: scoped.license.endsAt,
@@ -187,7 +200,8 @@ export async function acceptConnectedSeatActivation(
     payload.seatStatus !== "invited" ||
     !isValidPortalPublicId(payload.seatId) ||
     !isValidPortalPublicId(payload.licenseId) ||
-    !isSeatRole(payload.seatRole) ||
+    payload.seatRoles.length === 0 ||
+    !payload.seatRoles.every(isSystemRoleKey) ||
     !/^\S+@\S+\.\S+$/.test(payload.seatEmail) ||
     new Date(payload.expiresAt).getTime() <= Date.now()
   ) {
@@ -227,7 +241,7 @@ export async function acceptConnectedSeatActivation(
     organizationEdition(row.organization.organizationType) !== payload.edition ||
     row.organization.name !== payload.organizationName ||
     row.seat.email !== payload.seatEmail ||
-    row.seat.role !== payload.seatRole ||
+    !rolesEqual(parseStoredRoles(row.seat.rolesJson) ?? [], payload.seatRoles) ||
     !row.seat.inviteExpiresAt ||
     new Date(row.seat.inviteExpiresAt).getTime() <= Date.now()
   ) {
@@ -280,6 +294,20 @@ export async function acceptConnectedSeatActivation(
     acceptedSeatId: acceptedSeat.seatId,
   })
 
+  const machineApiKey = await mintPortalMachineCredential(row.organization.id)
+
+  if (machineApiKey) {
+    await writePortalAuditEvent({
+      organizationId: row.organization.id,
+      actorAccountId: null,
+      actorSeatId: acceptedSeat.id,
+      eventType: "portal_machine_credential_issued",
+      targetType: "organization",
+      targetId: String(row.organization.id),
+      metadata: { issuedVia: "connected_activation_file", seatId: acceptedSeat.seatId },
+    })
+  }
+
   return {
     ok: true,
     activation: {
@@ -287,10 +315,13 @@ export async function acceptConnectedSeatActivation(
       seat: {
         seatId: acceptedSeat.seatId,
         email: acceptedSeat.email as string,
-        role: acceptedSeat.role as "admin" | "member",
+        roles: parseStoredRoles(acceptedSeat.rolesJson) ?? [],
         status: "active",
         acceptedAt,
       },
+      ...(machineApiKey
+        ? { machineCredential: { organizationId: row.organization.id, apiKey: machineApiKey } }
+        : {}),
       license: {
         licenseId: row.license.licenseId,
         edition: organizationEdition(row.organization.organizationType),
@@ -363,10 +394,14 @@ async function requireExportableScopedSeat(actor: PortalActor, seatId: string) {
     }
   }
 
+  const rolesFromRow = parseStoredRoles(row.seat.rolesJson)
+
   if (
     !row.seat.email ||
     !row.seat.inviteExpiresAt ||
-    !isSeatRole(row.seat.role ?? "")
+    !rolesFromRow ||
+    rolesFromRow.length === 0 ||
+    !rolesFromRow.every(isSystemRoleKey)
   ) {
     await auditBlockedActivationAction(actor, "seat", seatId, "seat_incomplete")
     return {
@@ -413,7 +448,11 @@ function isArmoredSeatActivation(value: unknown): value is ArmoredSeatActivation
     typeof payload.organizationName === "string" &&
     typeof payload.seatId === "string" &&
     typeof payload.seatEmail === "string" &&
-    (payload.seatRole === "admin" || payload.seatRole === "member") &&
+    Array.isArray(payload.seatRoles) &&
+    payload.seatRoles.length > 0 &&
+    payload.seatRoles.every(
+      (role) => typeof role === "string" && isSystemRoleKey(role)
+    ) &&
     payload.seatStatus === "invited" &&
     typeof payload.licenseStartsAt === "string" &&
     typeof payload.licenseEndsAt === "string" &&
@@ -422,10 +461,6 @@ function isArmoredSeatActivation(value: unknown): value is ArmoredSeatActivation
     typeof payload.expiresAt === "string" &&
     typeof payload.keyId === "string"
   )
-}
-
-function isSeatRole(role: string): role is "admin" | "member" {
-  return role === "admin" || role === "member"
 }
 
 function isOrganizationEdition(value: unknown): value is OrganizationType {

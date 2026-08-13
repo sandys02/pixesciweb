@@ -95,7 +95,7 @@ export const portalDummyAccount: PortalAccount = {
         {
           id: "seat-admin-001",
           email: "admin@northstarbio.example",
-          role: "admin",
+          roles: ["tenant_security_administrator"],
           status: "active",
           inviteLink: "Accepted first app admin invite",
           temporaryCredentialState: "accepted",
@@ -103,7 +103,7 @@ export const portalDummyAccount: PortalAccount = {
         {
           id: "seat-member-009",
           email: "qc.lead@northstarbio.example",
-          role: "member",
+          roles: ["analyst_technician"],
           status: "active",
           inviteLink: "Accepted invite",
           temporaryCredentialState: "accepted",
@@ -111,7 +111,7 @@ export const portalDummyAccount: PortalAccount = {
         {
           id: "seat-member-018",
           email: "assay.ops@northstarbio.example",
-          role: "member",
+          roles: ["analyst_technician"],
           status: "invited",
           inviteLink: "https://portal.pixesci.example/invite/psci-demo-018",
           temporaryCredentialState: "issued",
@@ -119,7 +119,7 @@ export const portalDummyAccount: PortalAccount = {
         {
           id: "seat-member-021",
           email: "automation.review@northstarbio.example",
-          role: "member",
+          roles: ["analyst_technician"],
           status: "revoked",
           inviteLink: "Revoked invite",
           temporaryCredentialState: "revoked",

@@ -25,7 +25,7 @@ type SeatInviteEmailInput = {
   expiresAt?: string
   licenseId: string
   organizationName: string
-  seatRole: "admin" | "member"
+  seatRoleNames: string[]
   to: string
 }
 
@@ -308,7 +308,7 @@ export async function sendSeatInviteEmail(input: SeatInviteEmailInput) {
   const expiry = escapeHtml(formatExpiry(input.expiresAt))
   const licenseId = escapeHtml(input.licenseId)
   const organizationName = escapeHtml(input.organizationName)
-  const seatRole = escapeHtml(input.seatRole)
+  const seatRole = escapeHtml(input.seatRoleNames.join(", ") || "seat")
   const subject = "Set up your PixeSci seat"
   const template = {
     subject,

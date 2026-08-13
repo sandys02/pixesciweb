@@ -209,7 +209,9 @@ function SeatTable({ seats }: { seats: OrganizationDetail["seats"] }) {
                 <td className="px-3 py-2 font-mono text-xs">{seat.seatId}</td>
                 <td className="px-3 py-2 font-mono text-xs">{seat.licenseId}</td>
                 <td className="px-3 py-2">{seat.email ?? "No email"}</td>
-                <td className="px-3 py-2">{seat.role ?? "No role"}</td>
+                <td className="px-3 py-2">
+                  {seat.roles.length > 0 ? seat.roles.join(", ") : "No roles"}
+                </td>
                 <td className="px-3 py-2">{seat.status}</td>
               </tr>
             ))}

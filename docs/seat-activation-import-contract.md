@@ -44,7 +44,11 @@ The decoded wrapper contains:
 - `organizationName`
 - `seatId`
 - `seatEmail`
-- `seatRole`
+- `seatRole`: legacy binary role, `"admin" | "member"`. Kept for pre-Phase-2
+  pixesciv2 installs. See "System Role Keys" below.
+- `seatRoles`: array of one or more of the 14 system role keys (see below).
+  This is the field a Phase-2-aligned pixesciv2 install should read; `seatRole`
+  is a derived fallback for installs that haven't been updated yet.
 - `seatStatus`
 - `licenseStartsAt`
 - `licenseEndsAt`
@@ -56,6 +60,32 @@ The decoded wrapper contains:
 The payload must not contain invite tokens, token hashes, passwords, password
 hashes, session secrets, private keys, device identifiers, scientific data, or
 local app state.
+
+## System Role Keys
+
+Client Portal seat invites assign one or more of pixesciv2's 14 system role
+templates (authoritative source: `ROLE_TEMPLATES` in
+`backend/services/scoped_authorization_service.py` in the pixesciv2 repo):
+
+`tenant_security_administrator`, `platform_operator`, `site_administrator`,
+`laboratory_manager`, `analyst_technician`, `scientist_workflow_author`,
+`lims_reviewer`, `quality_investigator`, `quality_approver`, `document_author`,
+`training_coordinator`, `auditor`, `lab_tools_administrator`,
+`connector_operator`.
+
+The `seats.role` column and every payload's legacy `seatRole`/`role` field are
+derived automatically: `"admin"` if the seat's role set intersects
+`{tenant_security_administrator, platform_operator, site_administrator,
+laboratory_manager}`, else `"member"`. This derivation exists only so
+un-upgraded pixesciv2 installs keep working; the legacy field is never shown
+or chosen directly in the Client Portal UI. See
+`src/backend/portal/role-templates.ts` for the single source of truth used by
+`licenses.ts`, `activations.ts`, and `bundles.ts`.
+
+The license bundle payload (`src/backend/portal/bundles.ts`,
+`LicenseBundlePayload.seats[]`, the air-gapped fallback path) follows the same
+pattern: each seat manifest entry carries both the legacy `role` and the full
+`roles: string[]` array, signed together.
 
 ## Connected Acceptance Rules
 
@@ -118,6 +148,13 @@ The current local portal database has this invited app seat:
 - status: `invited`
 - invite expires: `2026-07-17T14:23:42.701Z`
 
+This fixture seat predates the `roles_json` column (Phase 8, see
+`docs/prompts/phase-8-role-expansion.md`) and has no `roles` set. Seat
+activation export for a seat with no `roles` will fail the "seat activation
+can only be exported for a complete pending invite" check — invite a new test
+seat through the Client Portal UI (which now requires selecting at least one
+of the 14 system roles) to exercise the full `seatRoles` export/accept path.
+
 To test manually, the portal admin should expand license `LIC-PSCI-TEST-0001`,
-choose `Export activation` for `japhethrobert@gmail.com`, and save the armored
-text as a file such as `seat_uJqKn6PISZbk-activation.pixesci-seat.txt`.
+choose `Export activation` for a seat with roles selected, and save the
+armored text as a file such as `<seat_id>-activation.pixesci-seat.txt`.

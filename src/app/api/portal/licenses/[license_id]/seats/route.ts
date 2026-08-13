@@ -1,29 +1,26 @@
 import { cookies } from "next/headers"
 
-import {
-  PORTAL_MESSAGES,
-  PORTAL_SESSION_COOKIE,
-  jsonResponse,
-  requireCompletedPortalSession,
-} from "@/backend/portal/auth"
+import { PORTAL_MESSAGES, PORTAL_SESSION_COOKIE, jsonResponse } from "@/backend/portal/auth"
 import { listPortalLicenseSeats } from "@/backend/portal/licenses"
+import { resolvePortalActor } from "@/backend/portal/machine-auth"
 
 export async function GET(
-  _request: Request,
+  request: Request,
   { params }: { params: Promise<{ license_id: string }> }
 ) {
   try {
     const cookieStore = await cookies()
-    const session = await requireCompletedPortalSession(
-      cookieStore.get(PORTAL_SESSION_COOKIE)?.value
-    )
+    const actorResult = await resolvePortalActor({
+      sessionToken: cookieStore.get(PORTAL_SESSION_COOKIE)?.value,
+      authorizationHeader: request.headers.get("authorization"),
+    })
 
-    if (!session.ok) {
-      return jsonResponse({ message: session.message }, session.status)
+    if (!actorResult.ok) {
+      return jsonResponse({ message: actorResult.message }, actorResult.status)
     }
 
     const { license_id: licenseId } = await params
-    const result = await listPortalLicenseSeats(session.user, licenseId)
+    const result = await listPortalLicenseSeats(actorResult.actor, licenseId)
 
     if (!result.ok) {
       return jsonResponse({ message: result.message }, result.status)
