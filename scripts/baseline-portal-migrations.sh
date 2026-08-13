@@ -74,7 +74,7 @@ baseline_env() {
 PREVIEW_HOST=$(grep -E '^PORTAL_DATABASE_URL=' .env.local | cut -d= -f2- | sed 's#libsql://##')
 PREVIEW_TOKEN=$(grep -E '^PORTAL_DATABASE_AUTH_TOKEN=' .env.local | cut -d= -f2-)
 PROD_HOST=$(grep -E '^PORTAL_PRODUCTION_DATABASE_URL_HOST=' .env.local | cut -d= -f2-)
-PROD_TOKEN=$(grep -E '^PROD-PORTAL_DATABASE_AUTH_TOKEN=' .env.local | cut -d= -f2-)
+PROD_TOKEN=$(grep -E '^PROD_PORTAL_DATABASE_AUTH_TOKEN=' .env.local | cut -d= -f2-)
 
 baseline_env "Preview" "$PREVIEW_HOST" "$PREVIEW_TOKEN"
 baseline_env "Production" "$PROD_HOST" "$PROD_TOKEN"

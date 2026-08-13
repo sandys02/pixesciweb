@@ -16,7 +16,7 @@
 set -euo pipefail
 cd "$(dirname "$0")/.."
 
-TOKEN=$(grep -E '^PROD-PORTAL_DATABASE_AUTH_TOKEN=' .env.local | cut -d= -f2-)
+TOKEN=$(grep -E '^PROD_PORTAL_DATABASE_AUTH_TOKEN=' .env.local | cut -d= -f2-)
 HOST=$(grep -E '^PORTAL_PRODUCTION_DATABASE_URL_HOST=' .env.local | cut -d= -f2-)
 
 if [ -z "$TOKEN" ] || [ -z "$HOST" ]; then
