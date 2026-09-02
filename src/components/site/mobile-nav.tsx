@@ -1,12 +1,12 @@
 "use client"
 
 import * as React from "react"
-import { Menu, X } from "lucide-react"
+import { ChevronDown, Menu, X } from "lucide-react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 
 import { Button } from "@/components/ui/button"
-import { primaryNavigation } from "@/content/site"
+import { platformNavigation, primaryNavigation } from "@/content/site"
 import { cn } from "@/lib/utils"
 
 import { DemoBookingLink } from "./demo-booking-link"
@@ -60,25 +60,62 @@ export function MobileNav() {
             className="flex-1 overflow-y-auto p-5"
           >
             <ul className="divide-y divide-border border-y border-border">
-              {primaryNavigation.map((item) => (
-                <li key={item.href}>
-                  <Link
-                    href={item.href}
-                    onClick={() => setOpen(false)}
-                    className={cn(
-                      "block py-5 focus-visible:ring-2 focus-visible:ring-primary focus-visible:outline-none",
-                      pathname === item.href && "text-primary"
-                    )}
-                  >
-                    <span className="block text-base font-medium">
-                      {item.label}
-                    </span>
-                    <span className="mt-1 block text-sm leading-6 text-muted-foreground">
-                      {item.description}
-                    </span>
-                  </Link>
-                </li>
-              ))}
+              {primaryNavigation.map((item) =>
+                item.label === "Platform" ? (
+                  <li key={item.href}>
+                    <details className="group py-5">
+                      <summary className="flex cursor-pointer list-none items-center justify-between focus-visible:ring-2 focus-visible:ring-primary focus-visible:outline-none">
+                        <span>
+                          <span className="block text-base font-medium">
+                            {item.label}
+                          </span>
+                          <span className="mt-1 block text-sm leading-6 text-muted-foreground">
+                            {item.description}
+                          </span>
+                        </span>
+                        <ChevronDown
+                          className="size-4 shrink-0 text-muted-foreground transition-transform group-open:rotate-180"
+                          aria-hidden="true"
+                        />
+                      </summary>
+                      <ul className="mt-3 space-y-3 border-l border-border pl-4">
+                        {platformNavigation.map((platformItem) => (
+                          <li key={platformItem.href}>
+                            <Link
+                              href={platformItem.href}
+                              onClick={() => setOpen(false)}
+                              className={cn(
+                                "block py-1 text-sm font-medium focus-visible:ring-2 focus-visible:ring-primary focus-visible:outline-none",
+                                pathname === platformItem.href && "text-primary"
+                              )}
+                            >
+                              {platformItem.label}
+                            </Link>
+                          </li>
+                        ))}
+                      </ul>
+                    </details>
+                  </li>
+                ) : (
+                  <li key={item.href}>
+                    <Link
+                      href={item.href}
+                      onClick={() => setOpen(false)}
+                      className={cn(
+                        "block py-5 focus-visible:ring-2 focus-visible:ring-primary focus-visible:outline-none",
+                        pathname === item.href && "text-primary"
+                      )}
+                    >
+                      <span className="block text-base font-medium">
+                        {item.label}
+                      </span>
+                      <span className="mt-1 block text-sm leading-6 text-muted-foreground">
+                        {item.description}
+                      </span>
+                    </Link>
+                  </li>
+                )
+              )}
             </ul>
           </nav>
           <div className="grid gap-3 border-t border-border p-5">

@@ -14,9 +14,16 @@ import { Button } from "@/components/ui/button"
 import { demoBookingUrl } from "@/content/site"
 import {
   AuditTimeline,
+  BatchRecordVisual,
   CatalogVisual,
+  DashboardVisual,
+  DocumentLifecycleVisual,
   EnvironmentControls,
+  EquipmentLifecycleVisual,
   ExecutionConsole,
+  GenealogyVisual,
+  LimsVisual,
+  QualityRecordVisual,
   TemplateVisual,
   WorkflowVisual,
 } from "@/components/visuals"
@@ -37,6 +44,20 @@ function SectionVisual({ visual }: Pick<PageSection, "visual">) {
       return <ExecutionConsole />
     case "templates":
       return <TemplateVisual />
+    case "lims":
+      return <LimsVisual />
+    case "quality-record":
+      return <QualityRecordVisual />
+    case "genealogy":
+      return <GenealogyVisual />
+    case "batch-record":
+      return <BatchRecordVisual />
+    case "equipment-lifecycle":
+      return <EquipmentLifecycleVisual />
+    case "document-lifecycle":
+      return <DocumentLifecycleVisual />
+    case "dashboard":
+      return <DashboardVisual />
     default:
       return null
   }

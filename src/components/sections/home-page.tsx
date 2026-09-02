@@ -13,6 +13,7 @@ import Link from "next/link"
 import {
   connectedLabBenefits,
   complianceDisclaimer,
+  platformModules,
   platformOverviewSteps,
   problems,
   proofPoints,
@@ -269,6 +270,48 @@ export function HomePage() {
                 </Link>
               </div>
               <AuditTimeline />
+            </div>
+          </div>
+        </section>
+
+        <section className="section-space border-t border-border">
+          <div className="site-container">
+            <div className="max-w-3xl">
+              <p className="eyebrow">Platform</p>
+              <h2 className="mt-3 text-3xl leading-tight font-semibold sm:text-4xl">
+                One platform, every regulated workflow.
+              </h2>
+              <p className="mt-5 text-base leading-7 text-muted-foreground">
+                <BrandName /> started as workflow automation for the software
+                you already use. It now covers the full regulated lab record
+                system around that work — see what&apos;s built.
+              </p>
+            </div>
+            <div className="mt-10 grid border-t border-l border-border sm:grid-cols-2 lg:grid-cols-4">
+              {platformModules.map((item) => {
+                const Icon = item.icon
+                return (
+                  <article
+                    key={item.href}
+                    className="border-r border-b border-border p-6 sm:p-7"
+                  >
+                    <Icon className="size-5 text-primary" />
+                    <h3 className="mt-8 text-base font-semibold">
+                      {item.title}
+                    </h3>
+                    <p className="mt-2 text-sm leading-6 text-muted-foreground">
+                      {item.description}
+                    </p>
+                    <Link
+                      href={item.href}
+                      className="mt-5 inline-flex items-center gap-2 text-sm font-medium text-primary hover:underline"
+                    >
+                      Learn more
+                      <ArrowRight className="size-4" />
+                    </Link>
+                  </article>
+                )
+              })}
             </div>
           </div>
         </section>

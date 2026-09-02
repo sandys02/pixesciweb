@@ -1,12 +1,16 @@
 import type { LucideIcon } from "lucide-react"
 import {
+  BadgeCheck,
   Boxes,
   Building2,
   CheckCircle2,
   FileCheck2,
+  FileCog,
   FileStack,
+  FileText,
   FlaskConical,
   History,
+  LineChart,
   Microscope,
   Network,
   ScanSearch,
@@ -26,11 +30,57 @@ export type NavItem = {
   description?: string
 }
 
+export const platformNavigation: NavItem[] = [
+  {
+    label: "Laboratory",
+    href: "/platform/laboratory",
+    description: "Track samples from accessioning to Certificate of Analysis.",
+  },
+  {
+    label: "Quality Management",
+    href: "/platform/quality-management",
+    description: "Track deviations, CAPA, nonconformances, and quality records.",
+  },
+  {
+    label: "Materials & Products",
+    href: "/platform/materials-products",
+    description: "Track materials, lots, suppliers, products, and genealogy.",
+  },
+  {
+    label: "Manufacturing Quality",
+    href: "/platform/manufacturing-quality",
+    description: "Run electronic batch records from dispensing to release.",
+  },
+  {
+    label: "Equipment",
+    href: "/platform/equipment",
+    description:
+      "Track qualification, calibration, and maintenance for every asset.",
+  },
+  {
+    label: "Documents & Training",
+    href: "/platform/documents-training",
+    description: "Control documents and connect them to GxP training records.",
+  },
+  {
+    label: "Reports & Analytics",
+    href: "/platform/reports-analytics",
+    description:
+      "Check inspection readiness and quality metrics across the platform.",
+  },
+]
+
 export const primaryNavigation: NavItem[] = [
   {
     label: "Product",
     href: "/product",
     description: "Connect tools, automate work, and track every run.",
+  },
+  {
+    label: "Platform",
+    href: "/platform/laboratory",
+    description:
+      "See every module: lab, quality, materials, manufacturing, equipment.",
   },
   {
     label: "Solutions",
@@ -72,6 +122,21 @@ export const footerNavigation = [
       { label: "Workflow automation", href: "/workflow-automation" },
       { label: "Integrations", href: "/integrations" },
       { label: "Security", href: "/security" },
+    ],
+  },
+  {
+    title: "Platform",
+    links: [
+      { label: "Laboratory (LIMS)", href: "/platform/laboratory" },
+      { label: "Quality Management", href: "/platform/quality-management" },
+      { label: "Materials & Products", href: "/platform/materials-products" },
+      {
+        label: "Manufacturing Quality",
+        href: "/platform/manufacturing-quality",
+      },
+      { label: "Equipment", href: "/platform/equipment" },
+      { label: "Documents & Training", href: "/platform/documents-training" },
+      { label: "Reports & Analytics", href: "/platform/reports-analytics" },
     ],
   },
   {
@@ -146,6 +211,51 @@ export const platformCapabilities: FeatureItem[] = [
     description:
       "Record who did what, when they did it, what changed, and what happened.",
     icon: FileCheck2,
+  },
+]
+
+export const platformModules: (FeatureItem & { href: string })[] = [
+  {
+    title: "Laboratory",
+    description: "Track samples from accessioning to Certificate of Analysis.",
+    href: "/platform/laboratory",
+    icon: FlaskConical,
+  },
+  {
+    title: "Quality Management",
+    description: "Track deviations, CAPA, nonconformances, and complaints.",
+    href: "/platform/quality-management",
+    icon: ShieldCheck,
+  },
+  {
+    title: "Materials & Products",
+    description: "Track material lots, suppliers, products, and genealogy.",
+    href: "/platform/materials-products",
+    icon: Boxes,
+  },
+  {
+    title: "Manufacturing Quality",
+    description: "Run electronic batch records from dispensing to release.",
+    href: "/platform/manufacturing-quality",
+    icon: FileCog,
+  },
+  {
+    title: "Equipment",
+    description: "Track qualification, calibration, and maintenance.",
+    href: "/platform/equipment",
+    icon: BadgeCheck,
+  },
+  {
+    title: "Documents & Training",
+    description: "Control documents and connect them to training records.",
+    href: "/platform/documents-training",
+    icon: FileText,
+  },
+  {
+    title: "Reports & Analytics",
+    description: "See every open item across your quality system in one view.",
+    href: "/platform/reports-analytics",
+    icon: LineChart,
   },
 ]
 

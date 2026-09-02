@@ -88,6 +88,13 @@ export const softwareApplicationJsonLd = {
     "Run history and output files",
     "Audit records and review checkpoints",
     "Local AI-assisted workflow planning",
+    "Laboratory sample tracking from accessioning to Certificate of Analysis",
+    "Quality record management for deviations, CAPA, and nonconformances",
+    "Material and product lot tracking with genealogy",
+    "Electronic batch records for manufacturing",
+    "Equipment qualification, calibration, and maintenance tracking",
+    "Document control connected to GxP training records",
+    "Cross-module inspection readiness reporting",
   ],
   provider: {
     "@id": `${siteUrl}/#organization`,

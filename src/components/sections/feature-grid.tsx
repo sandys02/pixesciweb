@@ -20,12 +20,18 @@ export function FeatureGrid({
   dark,
   columns = 3,
 }: FeatureGridProps) {
+  const effectiveColumns = columns === 3 && items.length === 4 ? 4 : columns
+
   return (
     <div
       className={cn(
         "grid border-l border-t",
         dark ? "border-white/10" : "border-border",
-        columns === 2 ? "sm:grid-cols-2" : "sm:grid-cols-2 lg:grid-cols-3",
+        effectiveColumns === 2
+          ? "sm:grid-cols-2"
+          : effectiveColumns === 4
+            ? "sm:grid-cols-2 lg:grid-cols-4"
+            : "sm:grid-cols-2 lg:grid-cols-3",
       )}
     >
       {items.map((item) => {

@@ -7,6 +7,7 @@ import { DemoBookingLink } from "./demo-booking-link"
 import { SignInPortalButton } from "./download-pixesci-button"
 import { Logo } from "./logo"
 import { MobileNav } from "./mobile-nav"
+import { PlatformNavDropdown } from "./platform-nav-dropdown"
 
 export function SiteHeader() {
   return (
@@ -15,16 +16,22 @@ export function SiteHeader() {
         <Logo />
         <nav aria-label="Primary navigation" className="hidden lg:block">
           <ul className="flex items-center gap-0.5">
-            {primaryNavigation.map((item) => (
-              <li key={item.href}>
-                <Link
-                  href={item.href}
-                  className="rounded-md px-3 py-2 text-sm text-muted-foreground transition-colors hover:bg-muted hover:text-foreground focus-visible:ring-2 focus-visible:ring-primary focus-visible:outline-none"
-                >
-                  {item.label}
-                </Link>
-              </li>
-            ))}
+            {primaryNavigation.map((item) =>
+              item.label === "Platform" ? (
+                <li key={item.href}>
+                  <PlatformNavDropdown />
+                </li>
+              ) : (
+                <li key={item.href}>
+                  <Link
+                    href={item.href}
+                    className="rounded-md px-3 py-2 text-sm text-muted-foreground transition-colors hover:bg-muted hover:text-foreground focus-visible:ring-2 focus-visible:ring-primary focus-visible:outline-none"
+                  >
+                    {item.label}
+                  </Link>
+                </li>
+              )
+            )}
           </ul>
         </nav>
         <div className="hidden items-center gap-2 lg:flex">
