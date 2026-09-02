@@ -73,6 +73,16 @@ export const resourceFaqs = [
   ],
 
   [
+    "What's included in the PixeSci TM platform beyond workflow automation?",
+    "PixeSci TM also includes laboratory sample tracking, quality management (deviations, CAPA, complaints), materials and products inventory, electronic batch records for manufacturing, equipment qualification and calibration, and document control connected to training records — all running on the same local-first workflow engine.",
+  ],
+
+  [
+    "Can we use only some of the PixeSci TM modules?",
+    "Yes. Modules connect to the same underlying record and audit system, but you can adopt the ones relevant to your team first and add others later.",
+  ],
+
+  [
     "Is PixeSci a cloud workflow platform?",
     "No. Workflows run locally by default, close to the software and files your team already controls. Teams can also connect approved internal systems and run workflows on their own servers.",
   ],
@@ -125,6 +135,61 @@ export const resourceFaqs = [
   [
     "Are all named software integrations production-ready?",
     "No. The catalog shows target software and possible ways to connect it. Teams must confirm readiness for each tool, version, setup, and use case.",
+  ],
+
+  [
+    "Does PixeSci TM replace our LIMS?",
+    "PixeSci TM includes a sample-tracking workflow — accessioning, chain of custody, testing, review, and release — that can run alongside or in place of a separate LIMS, depending on your setup. Talk to us about your current lab software before deciding which fits your process.",
+  ],
+
+  [
+    "How does PixeSci TM handle out-of-specification results?",
+    "A result that falls out of specification or out of trend opens an investigation and blocks the sample from release until the investigation closes. The investigation is a Quality Management record, tracked the same way as any other deviation or CAPA.",
+  ],
+
+  [
+    "What quality record types does PixeSci TM track?",
+    "Deviations, nonconformances, out-of-specification and out-of-trend investigations, incidents, CAPA and action items, change control, complaints, audits and findings, supplier qualification and issues, risk management, management review, and regulatory commitments — each as a versioned, auditable record type.",
+  ],
+
+  [
+    "Can PixeSci TM generate our validation documentation?",
+    "PixeSci TM can generate IQ and OQ reports, a risk assessment, and a requirements traceability matrix for its own deployment, along with Part 11, GMP, and ISO 13485 self-assessments cited against your real audit data. These are a starting point for your own validation work — your organization is still responsible for validating and maintaining the system to its own quality requirements.",
+  ],
+
+  [
+    "Can PixeSci TM track material and product genealogy?",
+    "Yes. Material lots track parent-child relationships and a full inventory ledger, and product lots can cite the intermediate and material lots used to build them, giving you a traceable path from raw material receipt to a released, CoA-backed product lot.",
+  ],
+
+  [
+    "Does PixeSci TM support electronic batch records?",
+    "Yes. PixeSci TM tracks Master Batch Records, line clearance, material dispensing, in-process controls, and QA review and release for each batch, with an e-signature-style reason, printed name, and re-authentication reference captured at each approval step.",
+  ],
+
+  [
+    "What happens when an in-process control fails?",
+    "A failed in-process control result automatically raises a deviation, which is tracked as a Quality Management record and linked back to the batch.",
+  ],
+
+  [
+    "What happens when a calibration fails in PixeSci TM?",
+    "An out-of-tolerance calibration result automatically moves the asset to in-repair status and opens an investigation in the same action — there's no separate manual step to remember.",
+  ],
+
+  [
+    "Does training stay connected to a specific document revision?",
+    "Yes. Read-and-understand training is assigned against a specific document revision, and a document marked as requiring training can't be activated until that training is actually delivered and recorded.",
+  ],
+
+  [
+    "Can we issue controlled copies of a document?",
+    "Yes — issue numbered copies to named recipients, track acknowledgement status, and recall a copy once it's replaced by a new revision.",
+  ],
+
+  [
+    "Can PixeSci TM help us prepare for an inspection?",
+    "PixeSci TM can verify your audit chain, map your controls against a 21 CFR Part 11 checklist, and export audit trails, records, registers, evidence manifests, and bundled inspection packs on demand. These exports support your inspection preparation — they don't replace your own inspection readiness process.",
   ],
 ] as const
 

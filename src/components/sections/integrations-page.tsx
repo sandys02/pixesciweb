@@ -22,7 +22,9 @@ export function IntegrationsPage() {
                 You should not have to move results by hand, rebuild the same
                 reports, or lose context every time work crosses applications.
                 See the software categories teams can connect into reviewable,
-                reusable workflows.
+                reusable workflows. Some tools, like our built-in workflow
+                apps, are always available. Others are detected on your own
+                workstations and servers before a workflow can use them.
               </p>
               <div className="mt-8 flex flex-col gap-3 sm:flex-row">
                 <Button asChild size="lg" className="px-4">

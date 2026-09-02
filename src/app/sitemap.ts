@@ -5,6 +5,13 @@ import { siteUrl } from "@/content/site"
 const routes = [
   "",
   "/product",
+  "/platform/laboratory",
+  "/platform/quality-management",
+  "/platform/materials-products",
+  "/platform/manufacturing-quality",
+  "/platform/equipment",
+  "/platform/documents-training",
+  "/platform/reports-analytics",
   "/solutions/regulated-life-sciences",
   "/solutions/secure-research",
   "/solutions/core-facilities",
@@ -22,6 +29,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
     url: `${siteUrl}${route}`,
     lastModified: new Date("2026-06-14"),
     changeFrequency: index === 0 ? "weekly" : "monthly",
-    priority: index === 0 ? 1 : index < 9 ? 0.8 : 0.6,
+    priority: index === 0 ? 1 : index < 16 ? 0.8 : 0.6,
   }))
 }
