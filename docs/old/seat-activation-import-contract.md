@@ -79,10 +79,10 @@ derived automatically: `"admin"` if the seat's role set intersects
 laboratory_manager}`, else `"member"`. This derivation exists only so
 un-upgraded pixesciv2 installs keep working; the legacy field is never shown
 or chosen directly in the Client Portal UI. See
-`src/backend/portal/role-templates.ts` for the single source of truth used by
+`../../src/backend/portal/role-templates.ts` for the single source of truth used by
 `licenses.ts`, `activations.ts`, and `bundles.ts`.
 
-The license bundle payload (`src/backend/portal/bundles.ts`,
+The license bundle payload (`../../src/backend/portal/bundles.ts`,
 `LicenseBundlePayload.seats[]`, the air-gapped fallback path) follows the same
 pattern: each seat manifest entry carries both the legacy `role` and the full
 `roles: string[]` array, signed together.
@@ -149,7 +149,7 @@ The current local portal database has this invited app seat:
 - invite expires: `2026-07-17T14:23:42.701Z`
 
 This fixture seat predates the `roles_json` column (Phase 8, see
-`docs/prompts/phase-8-role-expansion.md`) and has no `roles` set. Seat
+`../prompts/phase-8-role-expansion.md`) and has no `roles` set. Seat
 activation export for a seat with no `roles` will fail the "seat activation
 can only be exported for a complete pending invite" check — invite a new test
 seat through the Client Portal UI (which now requires selecting at least one

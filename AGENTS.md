@@ -12,6 +12,8 @@ This version has breaking changes — APIs, conventions, and file structure may 
 
 This repository is the public marketing website for PixeSci, a local-first platform that connects and automates scientific software for high-control scientific environments. The website must explain quickly that PixeSci lets users describe work in plain language, review the steps, run workflows locally, and track actions, files, decisions, and results. It is not a generic AI SaaS landing page and must not drift into vague automation copy.
 
+Since September 2026, PixeSci is positioned as the agentic compliance operating system for the Quality Unit: an orchestration and evidence layer that runs behind a customer's existing CDS, LIMS/ELN, QMS, instruments, and documents, not a replacement for them.
+
 Primary audiences are regulated life-sciences teams, lab operations leaders, QC and R&D leaders, core facility staff, national lab teams, scientific software operators, and technical buyers who care about traceability, reproducibility, data locality, deployment control, and integration with existing scientific tools.
 
 ## Design Direction
@@ -127,9 +129,23 @@ Keep established scientific and regulatory terms such as ALCOA, audit trail, che
 
 Do not reduce PixeSci to generic AI chat. Plain-language or voice control is an interface into the workflow system; the product connects scientific tools, runs workflows, and tracks the work.
 
+- PixeSci is an orchestration and evidence layer that runs behind a customer's existing systems — never describe it as replacing a customer's LIMS, QMS, CDS, or instrument software.
+- PixeSci's AI agents can read, flag, and recommend, but are never described as approving, closing, releasing, invalidating, signing, or writing to a source system on their own — that boundary is enforced in the product, and messaging must reflect it precisely, not soften it into vague "human-in-the-loop" language when the more specific claim is available and true.
+- Do not claim or imply PixeSci prevents FDA warning letters, recalls, import alerts, or product failures, in any phrasing, on any page.
+
 ## Compliance Messaging Rules
 
 Be precise. PixeSci can be described as helping teams track work, produce records for review, maintain audit trails, repeat workflow runs, and operate locally or on-premises. Avoid implying that using PixeSci automatically makes a customer compliant. State clearly that customers remain responsible for validation, configuration, SOPs, training, and operation within their quality system.
+
+- Any reference to the kinds of findings that appear in FDA warning letters must be a generic, anonymized finding pattern — never name a company, cite a specific letter, or attach a specific date or docket to an example.
+- Any dollar figure describing potential remediation or compliance costs must be labeled as PixeSci's own internal illustrative modeling, not FDA-reported company spend, a prediction for the reader's organization, or a guarantee — reuse the calculator's disclaimer string (`calculatorDisclaimer` in `src/content/site.ts`) rather than writing new disclaimer language elsewhere.
+
+## AI Governance Messaging Rules
+
+- Describe PixeSci's AI plainly as governed, not autonomous: it recommends, a qualified person decides.
+- When citing the product's AI-governance design, prefer specific, true claims over vague reassurance — e.g., "cannot approve, close, release, invalidate, or sign a record" is a stronger and more accurate claim than "operates under human oversight," and both are true, so use the specific one.
+- Do not describe the AI as having long-term memory of past cases, or as learning from customer data across deployments, unless and until that capability is live and documented here.
+- Do not attach a percentage or dollar-savings figure to any AI or automation claim without an approved customer baseline behind it.
 
 ## Analytics And Privacy Rules
 

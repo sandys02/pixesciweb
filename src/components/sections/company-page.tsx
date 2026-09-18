@@ -39,7 +39,9 @@ export function CompanyPage() {
               <p className="mt-6 max-w-3xl text-base leading-7 text-muted-foreground sm:text-lg sm:leading-8">
                 You spend too much time moving data between scientific tools.
                 Talk to your lab! Review the steps, automate the handoffs, and
-                keep compliance context throughout the experiment.
+                keep compliance context throughout the experiment. That
+                connection is now also a continuous compliance layer — the
+                agentic operating system for the Quality Unit.
               </p>
               <Button asChild size="lg" className="mt-8 px-4">
                 <DemoBookingLink source="company_hero">

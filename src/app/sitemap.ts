@@ -5,6 +5,8 @@ import { siteUrl } from "@/content/site"
 const routes = [
   "",
   "/product",
+  "/platform/agents",
+  "/platform/workflow-automation",
   "/platform/laboratory",
   "/platform/quality-management",
   "/platform/materials-products",
@@ -18,7 +20,6 @@ const routes = [
   "/integrations",
   "/compliance",
   "/security",
-  "/workflow-automation",
   "/resources",
   "/company",
   "/privacy",
@@ -29,6 +30,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
     url: `${siteUrl}${route}`,
     lastModified: new Date("2026-06-14"),
     changeFrequency: index === 0 ? "weekly" : "monthly",
-    priority: index === 0 ? 1 : index < 16 ? 0.8 : 0.6,
+    priority: index === 0 ? 1 : index < 17 ? 0.8 : 0.6,
   }))
 }

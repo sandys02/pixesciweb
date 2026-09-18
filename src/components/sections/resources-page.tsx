@@ -38,7 +38,7 @@ const resources = [
     type: "Product guide",
     description:
       "Turn steps, files, settings, checks, notes, and results into a repeatable workflow.",
-    href: "/workflow-automation",
+    href: "/platform/workflow-automation",
     icon: GitBranch,
   },
   {
@@ -70,6 +70,41 @@ export const resourceFaqs = [
   [
     "What can my team automate?",
     "Connect and automate scientific software. Scientists can describe work in their own words, review the steps, run the workflow, and track every action, file, setting, and result.",
+  ],
+
+  [
+    "What's new in PixeSci's platform beyond the modules you already track?",
+    "PixeSci now includes an agentic compliance layer: continuous, deterministic monitoring across your connected systems, a governed AI copilot that recommends but never makes a regulated decision on its own, and a hash-chained, independently verifiable audit trail. See the Agentic Compliance page for the full picture.",
+  ],
+
+  [
+    "Does PixeSci's AI make compliance decisions on its own?",
+    "No. PixeSci's agents can read records, flag patterns, and recommend a next step, but they cannot approve, close, release, invalidate, or sign a record, and they cannot write to a connected source system. Those actions require a qualified person on your team, and this boundary is enforced in the software and checked by an automated test suite, not left to a policy document.",
+  ],
+
+  [
+    "What does PixeSci's compliance monitoring actually watch?",
+    "A deterministic, versioned set of rules evaluates event data from the systems you connect — instrument runs, audit-trail entries, account activity, and record completeness — continuously. It looks for patterns like unreconciled reruns, records that disagree with each other, missing raw-data references, and activity from shared or ambiguous accounts.",
+  ],
+
+  [
+    "Is PixeSci's AI running in the cloud?",
+    "By default, no — inference runs on-device. This is a deployment-configuration question specific to your environment; talk to us about your requirements.",
+  ],
+
+  [
+    "Does PixeSci replace our LIMS, QMS, or CDS?",
+    "No. PixeSci is designed to run behind the systems you already use — it connects to them, watches for gaps, and carries evidence through the work, rather than replacing them as your system of record. Some customers also choose to run specific modules, like Laboratory or Quality Management, natively in PixeSci — that's a configuration choice, not a requirement.",
+  ],
+
+  [
+    "Does PixeSci already connect to Waters Empower, Thermo Chromeleon, or similar CDS platforms?",
+    "Not yet as a direct, live connector — those are on our integration roadmap. What's connected today is PixeSci's own native modules, an open-source CDS connector, and a CSV gateway for balance, pH meter, and qPCR instrument data. Tell us your specific stack and we'll tell you exactly where it sits on the roadmap.",
+  ],
+
+  [
+    "Is the compliance-cost calculator on the homepage a guarantee or a prediction?",
+    "No. It's an illustrative tool: one part computes your own routine compliance-tax estimate from inputs you provide, and the other shows two fixed reference scenarios for what FDA-derived remediation can look like, based on PixeSci's own internal modeling. Neither is a prediction for your organization or a guarantee PixeSci prevents these costs — see the calculator's own disclaimer for details.",
   ],
 
   [
@@ -139,7 +174,7 @@ export const resourceFaqs = [
 
   [
     "Does PixeSci TM replace our LIMS?",
-    "PixeSci TM includes a sample-tracking workflow — accessioning, chain of custody, testing, review, and release — that can run alongside or in place of a separate LIMS, depending on your setup. Talk to us about your current lab software before deciding which fits your process.",
+    "PixeSci TM is designed to run behind and alongside your existing LIMS, not replace it. Its own sample-tracking workflow — accessioning, chain of custody, testing, review, and release — is available if you choose to run that module natively in PixeSci, but the platform's core value is connecting to and watching over the systems you already use. Talk to us about your current lab software before deciding what fits your process.",
   ],
 
   [

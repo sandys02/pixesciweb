@@ -5,9 +5,9 @@ import { compliancePage } from "@/content/pages"
 import { createMetadata } from "@/lib/seo"
 
 export const metadata: Metadata = createMetadata({
-  title: "Track compliance throughout scientific work",
+  title: "Compliance & Continuous Quality Software",
   description:
-    "Track users, actions, files, settings, changes, approvals, and results throughout each experiment.",
+    "An orchestration and evidence layer that runs behind your existing systems, watches continuously for the gaps regulators cite, and keeps a hash-chained, independently verifiable record.",
   path: "/compliance",
 })
 

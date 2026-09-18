@@ -87,6 +87,6 @@ Read this before touching pixesciv2:
   here as a cleanup item for whoever picks up Phase 2, not part of this
   phase's scope.
 
-See `docs/seat-activation-import-contract.md` for the full current field-level
+See `../old/seat-activation-import-contract.md` for the full current field-level
 contract (this is the file to keep in sync going forward, not this historical
 prompt).

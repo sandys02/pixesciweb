@@ -13,6 +13,7 @@ import {
 } from "@/lib/portal-access"
 import { cn } from "@/lib/utils"
 
+import { TrademarkText } from "./brand-name"
 import { DemoBookingLink } from "./demo-booking-link"
 
 type DialogState =
@@ -236,7 +237,7 @@ export function SignInPortalDialog({
               Sign In to Portal
             </h2>
             <p id={descriptionId} className="mt-1 text-xs text-muted-foreground">
-              Authenticate with your registered PixeSci account.
+              <TrademarkText text="Authenticate with your registered PixeSci account." />
             </p>
           </div>
           <Button
@@ -321,7 +322,7 @@ export function SignInPortalDialog({
                     source={`${source}_portal_contact`}
                     className="font-medium text-primary underline-offset-4 hover:underline"
                   >
-                    Contact PixeSci
+                    <TrademarkText text="Contact PixeSci" />
                   </DemoBookingLink>
                   .
                 </p>
@@ -352,7 +353,7 @@ export function SignInPortalDialog({
                     state === "forgot" ? "text-destructive" : "text-muted-foreground"
                   }`}
                 >
-                  {error}
+                  <TrademarkText text={error} />
                 </p>
               ) : null}
               <Button
@@ -448,7 +449,7 @@ export function DownloadPixeSciButton({
         ) : (
           <Download className="size-4" />
         )}
-        Download PixeSci
+        <TrademarkText text="Download PixeSci" />
       </Button>
       {error ? <ErrorMessage id={errorId}>{error}</ErrorMessage> : null}
     </div>

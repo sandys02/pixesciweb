@@ -4,7 +4,7 @@ This document describes the intended backend for PixeSci organization
 onboarding, portal setup, license visibility, and seat management.
 
 Current implementation gaps and temporary technical debt are tracked separately
-in `docs/portal-backend-technical-debt.md`.
+in `portal-backend-technical-debt.md`.
 
 Current implementation status: the website portal has local portal auth,
 organization profile APIs, license and seat APIs, activation export, signed

@@ -78,7 +78,7 @@ export const integrationCategories: IntegrationCategory[] = [
   {
     name: "Analytical Chemistry",
     description:
-      "Track instrument files, settings, reruns, reviews, and reports without losing context.",
+      "Track instrument files, settings, reruns, reviews, and reports without losing context. Direct connectors for named chromatography data systems are on our integration roadmap — ask us where your specific system sits.",
     examples: ["Chromeleon", "Empower", "HPLC exports", "OriginPro"],
     outcomes: [
       "Linked instrument files",

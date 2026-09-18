@@ -4,12 +4,9 @@ import type { LucideIcon } from "lucide-react"
 import {
   Archive,
   BadgeCheck,
-  Blocks,
   BookOpenCheck,
   Boxes,
-  BrainCircuit,
   CalendarClock,
-  CheckCheck,
   ClipboardCheck,
   CloudOff,
   Code2,
@@ -29,11 +26,9 @@ import {
   LineChart,
   ListChecks,
   LockKeyhole,
-  MessageSquareText,
   MonitorCog,
   Network,
   PackageCheck,
-  PanelTop,
   RadioTower,
   ScanLine,
   ServerCog,
@@ -71,6 +66,8 @@ export type PageSection = {
     | "equipment-lifecycle"
     | "document-lifecycle"
     | "dashboard"
+    | "agent-orchestrator"
+    | "training-record"
   dark?: boolean
 }
 
@@ -88,202 +85,159 @@ export type MarketingPageData = {
   finalCta: string
 }
 
-export const productPage: MarketingPageData = {
-  eyebrow: "Product",
-  title: "Connect scientific software. Run workflows locally.",
+export const agenticCompliancePage: MarketingPageData = {
+  eyebrow: "Agentic compliance",
+  title:
+    "Continuous monitoring, governed recommendations, evidence you don't have to reconstruct.",
   description:
-    "Talk to your lab! Describe the work in your own words, review the workflow, run it inside your environment, and track every file, setting, decision, and result.",
-  primaryCta: "Request a demo",
+    "PixeSci's agents read events from the systems you connect, flag the same gaps regulators cite, and recommend a next step — but every approval, closure, release, and signature stays with a qualified person on your team, enforced in the software, not left to a policy.",
+  primaryCta: "See it on your workflow",
   primaryHref: demoBookingUrl,
-  secondaryCta: "See workflow automation",
-  secondaryHref: "/workflow-automation",
+  secondaryCta: "See the compliance record system",
+  secondaryHref: "/compliance",
   sections: [
     {
-      eyebrow: "Platform overview",
-      title: "Describe. Review. Run. Track.",
-      description:
-        "PixeSci connects scientific software around a simple workflow loop: describe the work, check the steps, run them locally, and keep the record for repeat runs and review.",
-      features: [
-        {
-          title: "Describe the work",
-          description:
-            "Start from a plain-language request, a repeated handoff, or an SOP that needs to become a runnable process.",
-          icon: MessageSquareText,
-        },
-        {
-          title: "Review the workflow",
-          description:
-            "Inspect the software steps, inputs, settings, limits, and review points before the workflow runs.",
-          icon: ListChecks,
-        },
-        {
-          title: "Run in your environment",
-          description:
-            "Use approved workstations, local software, controlled folders, and customer-managed servers.",
-          icon: Laptop,
-        },
-        {
-          title: "Track the run record",
-          description:
-            "Keep actions, files, settings, decisions, approvals, errors, and results with the workflow history.",
-          icon: FileClock,
-        },
-      ],
-    },
-    {
-      eyebrow: "Authoring",
-      title: "Build each process as a visual workflow.",
-      description:
-        "Connect software steps, files, settings, and review points on one canvas. Check the full process before it runs, then save it for the next experiment.",
-      visual: "workflow",
-      features: [
-        {
-          title: "Workflow canvas",
-          description:
-            "Connect software steps, files, settings, and required inputs on one canvas.",
-          icon: GitBranch,
-        },
-        {
-          title: "Operator surfaces",
-          description:
-            "Keep controls, files, notes, previews, and tools in one workspace.",
-          icon: PanelTop,
-        },
-        {
-          title: "Reusable templates",
-          description:
-            "Choose, set up, run, and save workflows that your team can repeat.",
-          icon: Library,
-        },
-      ],
-    },
-    {
-      eyebrow: "Software catalog",
-      title: "Check what each tool can do before you run it.",
+      eyebrow: "Continuous monitoring",
+      title: "Watching every event, not a sample of them.",
       description: [
-        "See which apps are supported, which files they need, what they produce, and what setup the run requires. Check a step before adding it to a workflow.",
-        "Confirm the required software is available on the computer that will run the workflow, so teams can repeat the same process across workstations and sites.",
+        "PixeSci evaluates a deterministic set of rules against the event history from every system you connect — instrument runs, audit-trail entries, user and account activity, and record completeness — continuously, not on a schedule or a sample.",
+        "These rules look for the same patterns a quality reviewer or an inspector would: aborted or repeated runs without a documented reason, activity attributed to a shared or ambiguous account, missing raw-data references, and records that disagree with each other about the same event.",
       ],
-      visual: "catalog",
+      visual: "agent-orchestrator",
       features: [
         {
-          title: "Software catalog",
+          title: "Deterministic rule engine",
           description:
-            "Check supported apps, actions, file types, and setup needs before a run.",
-          icon: Blocks,
+            "Rules are explicit and versioned, not a black-box model guessing at risk — you can see exactly what triggered a flag.",
+          icon: Variable,
         },
         {
-          title: "Local detection",
+          title: "Cross-record reconciliation",
           description:
-            "Confirm that the required software is installed where the workflow will run.",
-          icon: MonitorCog,
+            "Compare identity, timing, and outcome fields across records of the same event to catch records that disagree.",
+          icon: ScanLine,
         },
         {
-          title: "Offline distribution",
+          title: "Continuous, not periodic",
           description:
-            "Move approved software setup files through secure or offline environments.",
-          icon: PackageCheck,
-        },
-      ],
-    },
-    {
-      eyebrow: "Run workflows",
-      title: "Run locally and watch each step.",
-      description:
-        "Run workflows where your software and data already live. Watch progress, results, errors, and decisions as they happen. Pause any controlled step until a person approves it.",
-      visual: "console",
-      dark: true,
-      features: [
-        {
-          title: "Execution events",
-          description:
-            "Record progress, retries, time, errors, and files during every run.",
+            "Evaluate events as they happen, instead of waiting for a scheduled review or an audit to surface a gap.",
           icon: RadioTower,
         },
         {
-          title: "Safety gates",
+          title: "Routed into Quality records",
           description:
-            "Ask for approval before a step changes a system, instrument, or file.",
+            "A flagged event becomes a real Quality Management record — a deviation, OOS, or investigation — not a siloed alert.",
           icon: ShieldCheck,
         },
-        {
-          title: "Run history",
-          description:
-            "Review completed, failed, and stopped runs with all their details.",
-          icon: History,
-        },
       ],
     },
     {
-      eyebrow: "Platform",
-      title: "The same workflow engine runs your regulated modules.",
-      description:
-        "Laboratory sample tracking, quality records, materials and products, manufacturing batch records, equipment qualification, and document control all run on the same local-first workflow engine described above. See the Platform section for a page on each module.",
-      layout: "stacked",
+      eyebrow: "Governed execution",
+      title: "Every agent action runs through an approval gate scoped to its risk.",
+      description: [
+        "Each capability an agent can use is a typed, registered contract with a declared risk level and required permissions — reads run automatically; anything that writes to a record, or that could affect a live instrument, requires human approval first.",
+        "Actions that pattern-match to live-instrument control — acquiring, injecting, calibrating, arming, or operating a connected instrument — are always routed to a person, regardless of risk tier.",
+      ],
+      visual: "console",
+      dark: true,
       bullets: [
-        "Laboratory sample tracking, from accessioning to Certificate of Analysis",
-        "Quality records for deviations, CAPA, and nonconformances",
-        "Materials & Products lot tracking with genealogy",
-        "Manufacturing electronic batch records",
-        "Equipment qualification and calibration",
-        "Document control connected to GxP training",
+        "Typed capability registry with a declared risk level per action",
+        "Risk-tiered approval gates, not a single blanket permission",
+        "Live-instrument actions always require human approval",
+        "Every execution is checked against role and permission before it runs",
       ],
     },
     {
-      eyebrow: "Interface",
-      title: "Talk to your lab!",
-      description:
-        "Describe the work in your own words. Turn the request into clear software steps that you can review before anything runs.",
+      eyebrow: "Recommendation only",
+      title: "The AI recommends. It cannot approve, close, release, or sign.",
+      description: [
+        "PixeSci's compliance copilot answers questions only from the records, rule results, and evidence it can cite — and it is designed to decline rather than guess when the evidence is missing or contradictory.",
+        "Its ability to approve, close, release, invalidate, sign, or write to a source system isn't just discouraged in a prompt — it's absent from what the software will let it do, and an automated evaluation suite tests for exactly this boundary before any change ships.",
+      ],
+      layout: "stacked",
       features: [
         {
-          title: "Local model routing",
+          title: "Cited recommendations",
           description:
-            "Use approved local AI models inside your own environment.",
-          icon: BrainCircuit,
+            "Every answer is grounded in specific records and rule results the copilot can point to, not a general impression.",
+          icon: BookOpenCheck,
         },
         {
-          title: "Checked decisions",
+          title: "Enforced authority boundary",
           description:
-            "Turn your request into clear steps based on what each tool can do.",
-          icon: CheckCheck,
+            "Approve, close, release, invalidate, sign, and write-to-source-system are outside what the copilot can do — enforced in the software.",
+          icon: LockKeyhole,
         },
         {
-          title: "Workspace details",
+          title: "Tested, not just described",
           description:
-            "Keep chats, tabs, files, attachments, and software details ready while you plan.",
-          icon: MessageSquareText,
-        },
-        {
-          title: "Choose what the AI can use",
-          description:
-            "Let the AI use the full workspace or limit it to one workflow, run, file, or investigation.",
-          icon: Network,
-        },
-        {
-          title: "Governed AI actions",
-          description:
-            "Every action — human, workflow, or AI-initiated — runs through a capability registry that knows its risk level, required permissions, and whether it's safe to run automatically.",
+            "An automated evaluation suite checks the copilot resists claiming authority it doesn't have, before any change reaches production.",
           icon: ShieldCheck,
         },
+      ],
+    },
+    {
+      eyebrow: "Verifiable evidence",
+      title: "A hash-chained audit trail you can verify on demand.",
+      description: [
+        "Every record change and agent action is written into the same hash-chained trail, with each entry linked to the one before it. Run a chain-integrity check at any time and see exactly where it breaks, if it ever does — the check is recomputed live, not served from a cache.",
+        "When you need to hand over evidence, export a checksum-manifested bundle for a specific finding — one download, one hash you can verify independently.",
+      ],
+      visual: "audit",
+      bullets: [
+        "On-demand, live-recomputed audit-chain verification",
+        "Checksum-manifested evidence export per finding",
+        "The same trail records human and agent actions alike",
+      ],
+    },
+    {
+      eyebrow: "Built on FDA and EMA good-AI-practice principles",
+      title: "Ten principles, and how PixeSci's design answers each one.",
+      description:
+        "These ten principles summarize current FDA and EMA guidance on using AI in regulated environments. PixeSci's agent architecture was built against them directly, not retrofitted afterward.",
+      layout: "stacked",
+      bullets: [
+        "Start with the intended use — every capability is scoped to a specific, declared job",
+        "Assess and manage risk — actions are risk-tiered, with approval gates proportionate to impact",
+        "Use appropriate and trustworthy data — recommendations cite the records and rule results behind them",
+        "Keep training and testing independent — the copilot's authority boundary is checked by an automated evaluation suite, not self-assessed",
+        "Validate the complete system — the model runs inside the same permission, approval, and audit infrastructure as every other action on the platform",
+        "Demonstrate performance for the real-world context — rules evaluate real event data from connected systems, not a synthetic benchmark",
+        "Define limitations and ensure human oversight — the copilot is designed to decline rather than guess, and every regulated decision stays with a person",
+        "Assign accountability — every action, human or agent, is attributed to an identity and a role",
+        "Monitor and manage changes — capability and rule changes go through the same controlled-change process as the rest of the platform",
+        "Maintain transparent and auditable records — every agent action is written into the same hash-chained trail as every human action",
       ],
     },
   ],
-  finalTitle:
-    "Describe your workflow in simple language. See the steps before they run.",
-  finalDescription: "",
-  finalCta: "Start building workflows",
+  finalTitle: "Show us one gap you've had to reconstruct after the fact.",
+  finalDescription:
+    "Bring one real example — a repeat test, a closed deviation, a disconnected calibration record. We will show you how PixeSci's agents would have flagged it as it happened, and what stays with your team to decide.",
+  finalCta: "See it on your workflow",
 }
 
 export const regulatedPage: MarketingPageData = {
   eyebrow: "Regulated life sciences",
-  title: "Connect QC and R&D tools and track every handoff.",
+  title: "Built for QC and QA teams scaling toward GMP readiness.",
   description:
-    "Automate work across QC and R&D software. Keep each input, setting, action, review, and result ready to repeat and inspect.",
+    "PixeSci is built for regulated manufacturers and testing organizations building or scaling QA/QC operations — approaching GMP readiness, going through tech transfer, running their first regulated manufacturing or testing work, or dealing with a fragmented, outsourced testing setup.",
   primaryCta: "Map a regulated workflow",
   primaryHref: demoBookingUrl,
   secondaryCta: "Review compliance workflows",
   secondaryHref: "/compliance",
   sections: [
+    {
+      eyebrow: "Who this is for",
+      title: "Built for the moment QC operations start to strain.",
+      description:
+        "Most teams reach for PixeSci at a specific trigger point, not on a generic timeline: preparing for a GMP inspection, transferring a method or process from R&D into regulated manufacturing, standing up QC for the first time, or watching investigation and reconciliation time climb as volume grows.",
+      bullets: [
+        "GMP readiness and first regulated manufacturing or testing runs",
+        "Technology transfer from R&D into a regulated process",
+        "Rising QC volume outpacing manual reconciliation and review",
+        "Fragmented, outsourced, or multi-vendor testing that's hard to reconcile",
+      ],
+    },
     {
       title: "Keep one record across every tool.",
       description:
@@ -295,6 +249,7 @@ export const regulatedPage: MarketingPageData = {
         "CellProfiler or ImageJ → statistics → Benchling / review",
         "Mass spectrometry → MaxQuant → R or Python → LIMS",
         "Lab results and CoAs → PixeSci TM Laboratory and Quality Management records",
+        "Every handoff above watched continuously by PixeSci's agentic compliance layer",
       ],
     },
     {
@@ -302,7 +257,7 @@ export const regulatedPage: MarketingPageData = {
       title: "Review errors, changes, and reruns faster.",
       description: [
         "Keep source files, settings, operator actions, results, and reasons for change with each run. Reviewers can see what happened without searching through separate logs and notes.",
-        "When a deviation, exception, or rerun occurs, teams can inspect the full history and use it in their existing quality process.",
+        "When a deviation, exception, or rerun occurs, teams can inspect the full history and use it in their existing quality process. These investigations are also where PixeSci's compliance agents flag gaps before release, not just after.",
       ],
       visual: "audit",
       features: [
@@ -366,7 +321,7 @@ export const secureResearchPage: MarketingPageData = {
   eyebrow: "Secure research",
   title: "Automate scientific work without an outside cloud service.",
   description:
-    "Connect local software, HPC results, and internal data inside infrastructure that you control.",
+    "Connect local software, HPC results, and internal data inside infrastructure that you control. PixeSci's regulated-life-sciences customers often start here first; secure research and national-lab teams are a natural extension of the same local-first, audit-ready architecture.",
   primaryCta: "Discuss secure deployment",
   primaryHref: demoBookingUrl,
   secondaryCta: "Review deployment controls",
@@ -447,7 +402,7 @@ export const coreFacilitiesPage: MarketingPageData = {
   eyebrow: "Core facilities",
   title: "Turn proven lab procedures into workflows everyone can follow.",
   description:
-    "Connect acquisition, analysis, review, and reporting tools. Save the process once, guide each operator, and track every run.",
+    "Connect acquisition, analysis, review, and reporting tools. Save the process once, guide each operator, and track every run. Core facilities share the same local-first architecture PixeSci builds for regulated QC teams, applied to standardizing procedures across many users instead of a single regulated process.",
   primaryCta: "Standardize a facility workflow",
   primaryHref: demoBookingUrl,
   secondaryCta: "Start building workflows",
@@ -548,9 +503,23 @@ export const compliancePage: MarketingPageData = {
     "Keep a record of who did what, when it happened, what changed, and what result followed. These records can support ALCOA data integrity reviews, but software alone does not make a workflow compliant.",
   primaryCta: "Review compliance workflows",
   primaryHref: demoBookingUrl,
-  secondaryCta: "See regulated solutions",
-  secondaryHref: "/solutions/regulated-life-sciences",
+  secondaryCta: "See the agentic compliance layer",
+  secondaryHref: "/platform/agents",
   sections: [
+    {
+      eyebrow: "How it works",
+      title: "An evidence layer that runs behind the systems you already use.",
+      description: [
+        "PixeSci is not a replacement for your LIMS, QMS, CDS, or instrument software. It connects to what you already run, resolves the execution context around each event — the approved method, the sample, the analyst's authorization, the equipment state — and carries that context, plus the approvals and evidence it generates, through the workflow as it happens.",
+        "The result is a record that doesn't need to be reconstructed after the fact, because it was carried through the work in the first place.",
+      ],
+      visual: "architecture",
+      bullets: [
+        "Runs behind your existing CDS, LIMS/ELN, QMS, instruments, and documents",
+        "No new instruments and no rip-and-replace software required",
+        "One governed layer instead of separate point-to-point handoffs",
+      ],
+    },
     {
       title: "See who did what, when they did it, and why.",
       description: [
@@ -636,6 +605,19 @@ export const compliancePage: MarketingPageData = {
         },
       ],
     },
+    {
+      eyebrow: "The mechanism",
+      title: "See how the monitoring and the evidence actually work.",
+      description:
+        "This page describes the record-keeping principles. The agentic layer that watches for gaps continuously, and the hash-chained trail and evidence export behind it, are covered in full on the Agentic Compliance and Quality Management pages.",
+      visual: "audit",
+      dark: true,
+      bullets: [
+        "Continuous, deterministic monitoring and the AI's enforced authority boundary — see Agentic Compliance",
+        "IQ/OQ reports, a GAMP risk assessment, a requirements traceability matrix, and Part 11/GMP/ISO 13485 self-assessments — see Quality Management",
+        "Hash-chain verification and checksum-manifested evidence export — covered on both pages",
+      ],
+    },
   ],
   finalTitle: "Review one workflow against your quality system.",
   finalDescription:
@@ -656,7 +638,7 @@ export const securityPage: MarketingPageData = {
     {
       title: "Keep scientific work inside your environment.",
       description:
-        "Keep workflow data, logs, AI models, and software setup local. Use approved workstations or your own servers without relying on an outside cloud service. See and control what the AI can do, and audit what it did, the same way you audit any other user action.",
+        "Keep workflow data, logs, AI models, and software setup local. Use approved workstations or your own servers without relying on an outside cloud service. See and control what the AI can do, and audit what it did, the same way you audit any other user action. AI actions are governed by the same permission and audit system as every other user action — see how on the Agentic Compliance page.",
       visual: "architecture",
       dark: true,
       bullets: [
@@ -710,8 +692,14 @@ export const securityPage: MarketingPageData = {
         {
           title: "Scoped permissions",
           description:
-            "Start from role templates built for regulated teams, like an auditor role that can read and export evidence without changing records, or a technician role scoped to lab execution only.",
+            "Start from role templates spanning execution (analyst, technician), review and release (QA, QC manager, LIMS reviewer), administration, training, audit, and executive oversight — each scoped to only what that role needs.",
           icon: Users,
+        },
+        {
+          title: "Approval gates for live actions",
+          description:
+            "Actions that could affect a live instrument always require human approval, regardless of role or risk tier.",
+          icon: LockKeyhole,
         },
       ],
     },
@@ -748,103 +736,6 @@ export const securityPage: MarketingPageData = {
   finalDescription:
     "Review workstation rules, local servers, air-gapped use, encryption, access, and offline packages.",
   finalCta: "Discuss deployment requirements",
-}
-
-export const workflowAutomationPage: MarketingPageData = {
-  eyebrow: "Workflow automation",
-  title: "Describe the work. Review the steps. Run the workflow.",
-  description:
-    "Talk to your lab! Review the workflow, run it locally, track each step, and save it for the next experiment.",
-  primaryCta: "Automate your workflow",
-  primaryHref: demoBookingUrl,
-  secondaryCta: "Explore integrations",
-  secondaryHref: "/integrations",
-  sections: [
-    {
-      title: "Build the workflow around the way your lab works.",
-      description:
-        "Put software steps, files, settings, notes, previews, and tools in one visual workflow. Check what each step needs and produces before it runs.",
-      visual: "workflow",
-      features: [
-        {
-          title: "Connected steps",
-          description:
-            "Show software actions, rules, human decisions, and processing steps clearly.",
-          icon: GitBranch,
-        },
-        {
-          title: "Connected inputs and outputs",
-          description:
-            "Link the files each step needs to the results it produces.",
-          icon: Variable,
-        },
-        {
-          title: "Step checks",
-          description:
-            "Check the software, required files, and settings before a step runs.",
-          icon: CheckCheck,
-        },
-      ],
-    },
-    {
-      eyebrow: "Execution",
-      title: "Watch progress and finish with a clear run summary.",
-      description:
-        "Watch status, time, results, errors, approvals, and controlled actions as they happen. Each run ends with one summary for review, problem solving, and repeat work.",
-      visual: "console",
-      dark: true,
-      features: [
-        {
-          title: "Live events",
-          description:
-            "Watch workflow status, step progress, and errors through live updates.",
-          icon: RadioTower,
-        },
-        {
-          title: "Output files",
-          description:
-            "Keep generated files, working data, and final results with the run that made them.",
-          icon: FileText,
-        },
-        {
-          title: "Execution history",
-          description:
-            "Review past runs without searching through separate folders and logs.",
-          icon: History,
-        },
-      ],
-    },
-    {
-      eyebrow: "Control",
-      title: "Make human review part of the workflow.",
-      description:
-        "Pause before a workflow changes an instrument, outside system, interface, or file. Operators review supported software actions before they run.",
-      visual: "audit",
-      features: [
-        {
-          title: "Human steps",
-          description:
-            "Ask an operator to decide, confirm, or review a step inside the workflow, with each review step scored by risk level.",
-          icon: UserCheck,
-        },
-        {
-          title: "Safety gates",
-          description: "Record approval before a high-risk action continues.",
-          icon: ShieldCheck,
-        },
-        {
-          title: "Reusable templates",
-          description:
-            "Save a proven workflow as a template that the team can run again.",
-          icon: Library,
-        },
-      ],
-    },
-  ],
-  finalTitle: "Turn one manual handoff into an automated workflow.",
-  finalDescription:
-    "Bring your SOP, software, files, and approval steps. We will map them into a workflow you can review and run.",
-  finalCta: "Automate your workflow",
 }
 
 export const laboratoryPage: MarketingPageData = {
@@ -909,7 +800,7 @@ export const laboratoryPage: MarketingPageData = {
       title: "Out-of-specification and out-of-trend results block release.",
       description: [
         "When a result evaluates out-of-specification or trips an out-of-trend rule, PixeSci TM opens an investigation and blocks the sample from release until it closes. The quality-unit review screen shows exactly which results are blocking a sample, with a direct link into the open investigation.",
-        "Investigations opened here are real Quality Management records — the same CAPA and deviation system every other module reports into.",
+        "Investigations opened here are real Quality Management records — the same CAPA and deviation system every other module reports into. These investigations are also evaluated continuously by PixeSci's agentic compliance layer, which can flag the same out-of-specification and out-of-trend patterns before a quality-unit reviewer opens the sample.",
       ],
       visual: "audit",
       dark: true,
@@ -981,7 +872,7 @@ export const qualityManagementPage: MarketingPageData = {
       title: "One system for every kind of quality event.",
       description: [
         "Deviations, nonconformances, OOS and OOT investigations, incidents, CAPA and action items, change control, complaints, audits and findings, supplier qualification and issues, risk management, management review, and regulatory commitments — each is a first-class, versioned record type, not a generic ticket with custom fields.",
-        "Records move through a defined lifecycle with approvals and electronic signatures, not a freeform status field. A generic edit cannot change a record's status — only a defined transition can.",
+        "Records move through a defined lifecycle with approvals and electronic signatures, not a freeform status field. A generic edit cannot change a record's status — only a defined transition can. The same event patterns that open these records — reruns, aborts, missing raw data — are also watched continuously by PixeSci's agentic compliance layer, which routes a flagged event into this system automatically.",
       ],
       visual: "quality-record",
       features: [
@@ -1159,7 +1050,7 @@ export const materialsProductsPage: MarketingPageData = {
       eyebrow: "Shared registry",
       title: "One controlled vocabulary across materials and products.",
       description:
-        "Material and product codes share a single controlled vocabulary registry. Adding a new code doesn't require a document revision, and retiring a code is blocked if it's still in use anywhere in the system.",
+        "Material and product codes share a single controlled vocabulary registry. Adding a new code doesn't require a document revision, and retiring a code is blocked if it's still in use anywhere in the system. Field-level changes here are the same event stream PixeSci's compliance agents watch continuously across the rest of the platform.",
       visual: "architecture",
       dark: true,
       bullets: [
@@ -1224,7 +1115,7 @@ export const manufacturingQualityPage: MarketingPageData = {
       eyebrow: "Genealogy",
       title: "See the full batch history in one tree.",
       description:
-        "Follow one batch from formula and BOM through the MBR, EBR, dispensing events, in-process control results, finished goods lot, Certificates of Analysis, and any linked deviations — in a single traceability view.",
+        "Follow one batch from formula and BOM through the MBR, EBR, dispensing events, in-process control results, finished goods lot, Certificates of Analysis, and any linked deviations — in a single traceability view. PixeSci's agentic compliance layer watches this same batch history continuously, not just at QA review.",
       visual: "genealogy",
       dark: true,
       bullets: [
@@ -1280,7 +1171,7 @@ export const equipmentPage: MarketingPageData = {
       title: "Register, qualify, and calibrate every asset the same way.",
       description: [
         "Register an asset with its category, location, responsible owner, and qualification tier. Qualify it through installation, operational, and performance qualification, with the owner signing off and quality countersigning as two separate steps.",
-        "Calibrate on schedule, with due dates tracked automatically. An out-of-tolerance result flips the asset to in-repair and opens an investigation in the same action, so a failed calibration can't be missed.",
+        "Calibrate on schedule, with due dates tracked automatically. An out-of-tolerance result flips the asset to in-repair and opens an investigation in the same action, so a failed calibration can't be missed. That flip is also a flagged event in PixeSci's agentic compliance layer, which routes it the same way as any other exception.",
       ],
       visual: "equipment-lifecycle",
       features: [
@@ -1379,6 +1270,7 @@ export const documentsTrainingPage: MarketingPageData = {
       title: "Training tied to the document revision it covers.",
       description:
         "Assign read-and-understand training against a specific document revision, schedule instructor-led sessions, and record competency assessments and role qualifications — each a real record, not a spreadsheet checkbox.",
+      visual: "training-record",
       bullets: [
         "Read-and-understand training tied to a specific revision",
         "Instructor-led training by course and instructor",
@@ -1390,7 +1282,7 @@ export const documentsTrainingPage: MarketingPageData = {
       eyebrow: "Connected lifecycle",
       title: "A document tagged Training Required can't go active without it.",
       description:
-        "When a document is marked as requiring training, it can't be activated until that training is actually delivered and recorded — the connection is enforced, not just documented in a procedure.",
+        "When a document is marked as requiring training, it can't be activated until that training is actually delivered and recorded — the connection is enforced, not just documented in a procedure. This kind of connected-record enforcement is the same pattern PixeSci's agentic compliance layer applies across every module.",
       visual: "audit",
       dark: true,
       bullets: [
@@ -1458,7 +1350,7 @@ export const reportsAnalyticsPage: MarketingPageData = {
       title: "Verify your audit chain and map your controls.",
       description: [
         "Run a hash-chain integrity check on your full audit trail at any time. Map your controls against a 21 CFR Part 11 checklist, with each control cited against the real audit and configuration data behind it.",
-        "When you need to hand over evidence, export a full audit trail, a complete record with every version and approval, a CSV register of one record type, an evidence manifest, or a bundled inspection pack — every export is a direct, authenticated download.",
+        "When you need to hand over evidence, export a full audit trail, a complete record with every version and approval, a CSV register of one record type, an evidence manifest, or a bundled inspection pack — every export is a direct, authenticated download. This hash-chain verification and control mapping are the same evidence infrastructure PixeSci's agentic compliance layer writes into continuously.",
       ],
       visual: "audit",
       dark: true,

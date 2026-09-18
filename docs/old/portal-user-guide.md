@@ -505,8 +505,8 @@ Possible causes:
 - the account is locked after repeated failed attempts;
 - the portal account was not seeded.
 
-Download-gate users live in `private/download.db`. Portal accounts live in
-`private/portal.db` for local development and in the durable
+Download-gate users live in `../../private/download.db`. Portal accounts live in
+`../../private/portal.db` for local development and in the durable
 `PORTAL_DATABASE_URL` database on Vercel production.
 
 ### Portal Redirects Back To Home

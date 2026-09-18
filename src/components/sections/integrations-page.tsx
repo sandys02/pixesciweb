@@ -3,6 +3,7 @@ import Link from "next/link"
 
 import { capabilityFields, integrationCategories } from "@/content/integrations"
 
+import { TrademarkText } from "@/components/site/brand-name"
 import { CTASection } from "@/components/site/cta-section"
 import { DemoBookingLink } from "@/components/site/demo-booking-link"
 import { Button } from "@/components/ui/button"
@@ -34,7 +35,7 @@ export function IntegrationsPage() {
                   </DemoBookingLink>
                 </Button>
                 <Button asChild size="lg" variant="outline" className="px-4">
-                  <Link href="/workflow-automation">
+                  <Link href="/platform/workflow-automation">
                     See workflow automation
                   </Link>
                 </Button>
@@ -68,6 +69,54 @@ export function IntegrationsPage() {
                     {field}
                   </div>
                 ))}
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section className="section-space border-b border-border">
+          <div className="site-container">
+            <p className="eyebrow">Built vs. roadmap</p>
+            <h2 className="mt-3 text-3xl leading-tight font-semibold sm:text-4xl">
+              See what&apos;s connected today, and what&apos;s next.
+            </h2>
+            <p className="mt-5 max-w-3xl text-base leading-7 text-muted-foreground">
+              <TrademarkText text="PixeSci connects to your systems at different levels of depth. Here's the honest split, so you know what to expect before a demo." />
+            </p>
+            <div className="mt-8 grid gap-6 lg:grid-cols-2">
+              <div className="rounded-lg border border-border p-6">
+                <p className="text-sm font-semibold text-emerald-700">
+                  Connected today
+                </p>
+                <ul className="mt-4 space-y-3 text-sm text-muted-foreground">
+                  <li>
+                    <TrademarkText text="PixeSci's own Laboratory, Quality, Materials, Manufacturing, Equipment, and Document Control modules" />
+                  </li>
+                  <li>An open-source chromatography data system connector</li>
+                  <li>
+                    A CSV-based gateway for balance, pH meter, and qPCR
+                    instrument data
+                  </li>
+                </ul>
+              </div>
+              <div className="rounded-lg border border-border p-6">
+                <p className="text-sm font-semibold text-amber-700">
+                  On our integration roadmap
+                </p>
+                <p className="mt-2 text-sm text-muted-foreground">
+                  Direct connectors for major analytical and chromatography
+                  data systems, and additional instrument vendors, following
+                  the same approval-gated, evidence-preserving pattern as
+                  what&apos;s connected today.{" "}
+                  <Link
+                    href="/platform/agents"
+                    className="font-medium text-primary hover:underline"
+                  >
+                    See how execution is governed
+                  </Link>
+                  . Ask us about your specific stack — we can tell you
+                  exactly where a given system sits on this roadmap.
+                </p>
               </div>
             </div>
           </div>
