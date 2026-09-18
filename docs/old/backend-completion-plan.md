@@ -38,8 +38,8 @@ Rationale:
 References checked:
 
 - Next 16 route handlers and auth guidance in
-  `node_modules/next/dist/docs/01-app/01-getting-started/15-route-handlers.md`
-  and `node_modules/next/dist/docs/01-app/02-guides/authentication.md`.
+  `../../node_modules/next/dist/docs/01-app/01-getting-started/15-route-handlers.md`
+  and `../../node_modules/next/dist/docs/01-app/02-guides/authentication.md`.
 - OWASP Authentication, Password Storage, and Session Management cheat sheets.
 - Keycloak server docs for containers, realm import/export, database config, and
   bootstrap admin recovery.
@@ -103,11 +103,11 @@ Goal: make future Codex runs effective and prevent scope drift.
 
 Work:
 
-- Add `docs/backend-completion-plan.md` as the execution source of truth.
-- Add `src/backend/portal/README.md` with the portal backend purpose, auth
+- Add `backend-completion-plan.md` as the execution source of truth.
+- Add `../../src/backend/portal/README.md` with the portal backend purpose, auth
   boundaries, future layout, endpoint groups, data boundaries, security rules,
   audit expectations, and signed offline license direction.
-- Add a focused `src/backend/portal/AGENTS.md` before coding backend internals.
+- Add a focused `../../src/backend/portal/AGENTS.md` before coding backend internals.
   It should instruct agents to keep portal auth local, avoid Keycloak unless a
   new product decision changes this plan, hash secrets, scope all queries by
   organization, and never log tokens/passwords/license secrets.
@@ -132,7 +132,7 @@ Work:
 
 - Keep SQLite/libSQL and Drizzle for now. It is already in the repo and is
   enough for the portal's current size.
-- Add `src/backend/portal/schema.ts`, `db.ts`, and migration scripts.
+- Add `../../src/backend/portal/schema.ts`, `db.ts`, and migration scripts.
 - Tables:
   - `portal_accounts`: email, password_hash, active, role, must_change_password,
     setup_completed_at, failed_login_count, locked_until, timestamps.
@@ -237,7 +237,7 @@ Work:
 
 Acceptance:
 
-- The frontend no longer imports `src/data/portal.ts` for live state.
+- The frontend no longer imports `../../src/data/portal.ts` for live state.
 - Seat limits are enforced server-side.
 - Inactive licenses expose minimal historical seat data.
 

@@ -60,18 +60,18 @@ the file.
 
 Files changed or added in `/home/japheth-oruko/projects/pixesciweb`:
 
-- `src/app/api/portal/seat-activations/accept/route.ts`
-- `src/backend/portal/activations.ts`
-- `src/backend/portal/auth.ts`
-- `src/backend/portal/bundles.ts`
-- `src/backend/portal/README.md`
-- `docs/backend-completion-plan.md`
-- `docs/portal-backend-plan.md`
-- `docs/portal-user-guide.md`
-- `docs/seat-activation-import-contract.md`
-- `docs/seat-activation-instructions.md`
-- `docs/prompts/phase-7-pixesciv2-app-alignment.md`
-- `docs/prompts/phase-7b-connected-seat-activation.md`
+- `../../src/app/api/portal/seat-activations/accept/route.ts`
+- `../../src/backend/portal/activations.ts`
+- `../../src/backend/portal/auth.ts`
+- `../../src/backend/portal/bundles.ts`
+- `../../src/backend/portal/README.md`
+- `backend-completion-plan.md`
+- `portal-backend-plan.md`
+- `portal-user-guide.md`
+- `seat-activation-import-contract.md`
+- `seat-activation-instructions.md`
+- `../prompts/phase-7-pixesciv2-app-alignment.md`
+- `../prompts/phase-7b-connected-seat-activation.md`
 
 Main behavior added:
 
@@ -336,13 +336,13 @@ same activation.
 During the final investigation request, no code was edited. Findings were from:
 
 - decoding the activation;
-- querying the local development portal database at `private/portal.db`;
+- querying the local development portal database at `../../private/portal.db`;
 - checking listening ports;
 - checking route availability with `curl`;
 - checking app config defaults.
 
 Current production portal state is stored in the durable
-`PORTAL_DATABASE_URL` database, not in `private/portal.db`.
+`PORTAL_DATABASE_URL` database, not in `../../private/portal.db`.
 
 ## Dirty Worktree Notes
 
@@ -351,7 +351,7 @@ Do not revert them without explicit user approval.
 
 Website repo had pre-existing dirty/untracked files including:
 
-- `private/portal.db`
+- `../../private/portal.db`
 - several portal docs
 - phase 7 prompt docs
 

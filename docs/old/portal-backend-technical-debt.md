@@ -2,15 +2,15 @@
 
 This document tracks remaining implementation and operational debt in the
 website auth, download, portal, license, and seat flows. It should be read
-alongside `docs/portal-backend-plan.md` and `src/backend/portal/README.md`.
+alongside `portal-backend-plan.md` and `../../src/backend/portal/README.md`.
 
 ## Current State
 
 The website has two same-origin auth layers:
 
-- Download gate: `/api/download/*`, `private/download.db`, and
+- Download gate: `/api/download/*`, `../../private/download.db`, and
   `pixesci_download_session` support legacy installer-download access.
-- Organization portal: `/api/portal/*`, `private/portal.db`, and
+- Organization portal: `/api/portal/*`, `../../private/portal.db`, and
   `pixesci_portal_session` support customer organization setup, licenses,
   seats, offline files, and connected activation.
 - Internal admin: `/api/admin/*`, the portal/admin database, and
@@ -66,14 +66,14 @@ Organization, licenses, seats, bundles, and activation:
   `npm run db:seed:portal -- ...`.
 - PixeSci staff admin accounts are seeded with
   `npm run db:seed:admin -- ...`.
-- Download users live in `private/download.db`.
-- Portal records live in `private/portal.db` by default for local development.
+- Download users live in `../../private/download.db`.
+- Portal records live in `../../private/portal.db` by default for local development.
 - On Vercel, portal records must use `PORTAL_DATABASE_URL` for durable
   libSQL/Turso storage. The old bundled SQLite `/tmp` copy is no longer
   available; portal routes fail closed on Vercel when `PORTAL_DATABASE_URL` is
   missing.
 - Production requires download, portal session, Link Lock, and portal signing
-  environment variables documented in `README.md` and backend READMEs.
+  environment variables documented in `../../README.md` and backend READMEs.
 
 ## Remaining Risks
 
@@ -110,7 +110,7 @@ Keep the current download route secure:
 - keep sessions short-lived;
 - keep `HttpOnly`, `Secure` in production, and `SameSite=Lax`;
 - keep auth responses `Cache-Control: no-store`;
-- do not expose installer files under `public/`;
+- do not expose installer files under `../../public`;
 - avoid logging passwords, plaintext tokens, signed URLs, or session secrets.
 
 ## Debt Closure Criteria

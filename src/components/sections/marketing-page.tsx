@@ -13,6 +13,7 @@ import { DemoBookingLink } from "@/components/site/demo-booking-link"
 import { Button } from "@/components/ui/button"
 import { demoBookingUrl } from "@/content/site"
 import {
+  AgentOrchestratorVisual,
   AuditTimeline,
   BatchRecordVisual,
   CatalogVisual,
@@ -25,6 +26,7 @@ import {
   LimsVisual,
   QualityRecordVisual,
   TemplateVisual,
+  TrainingRecordVisual,
   WorkflowVisual,
 } from "@/components/visuals"
 
@@ -58,6 +60,10 @@ function SectionVisual({ visual }: Pick<PageSection, "visual">) {
       return <DocumentLifecycleVisual />
     case "dashboard":
       return <DashboardVisual />
+    case "agent-orchestrator":
+      return <AgentOrchestratorVisual />
+    case "training-record":
+      return <TrainingRecordVisual />
     default:
       return null
   }

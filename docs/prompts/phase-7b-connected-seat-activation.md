@@ -167,9 +167,9 @@ same activation file from being copied to another PC.
      safely identified from a verified payload.
 
 8. Update website docs:
-   - `docs/portal-user-guide.md`
-   - `docs/seat-activation-import-contract.md`
-   - `docs/backend-completion-plan.md`
+   - `../old/portal-user-guide.md`
+   - `../old/seat-activation-import-contract.md`
+   - `../old/backend-completion-plan.md`
    - `src/backend/portal/README.md`
    - `docs/prompts/phase-7-pixesciv2-app-alignment.md`
    These docs must distinguish connected acceptance from air-gapped fallback.

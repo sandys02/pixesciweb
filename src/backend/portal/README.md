@@ -229,7 +229,7 @@ activation file does not mark the portal seat active by itself. Connected
 acceptance marks the portal seat active when the app submits the activation
 file to the website. Disconnected imports remain local-only, so the portal
 cannot prove import happened unless a later return-file flow is added. See
-`docs/seat-activation-import-contract.md` for the app-side import contract.
+`../../../docs/old/seat-activation-import-contract.md` for the app-side import contract.
 
 Current development fixture:
 
