@@ -5,9 +5,9 @@ import { JsonLd } from "@/components/seo/json-ld"
 import { createMetadata, softwareApplicationJsonLd } from "@/lib/seo"
 
 export const metadata: Metadata = createMetadata({
-  title: "The agentic compliance operating system",
+  title: "The autonomous quality control operating system",
   description:
-    "PixeSci is the agentic compliance operating system for the Quality Unit. Connect the systems you already use, watch for the gaps regulators cite, and carry evidence through the work as it happens.",
+    "PixeSci is the autonomous quality control operating system for regulated life sciences. Connect the systems you already use, watch for the gaps regulators cite, and carry evidence through the work as it happens.",
   path: "/",
 })
 

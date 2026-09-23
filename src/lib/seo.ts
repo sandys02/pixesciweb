@@ -72,7 +72,7 @@ export const websiteJsonLd = {
 export const softwareApplicationJsonLd = {
   "@context": "https://schema.org",
   "@type": "SoftwareApplication",
-  "@id": `${siteUrl}/product#software`,
+  "@id": `${siteUrl}/solutions#software`,
   name: "PixeSci TM",
   url: `${siteUrl}/product`,
   applicationCategory: "ScientificApplication",

@@ -4,9 +4,9 @@ import { IntegrationsPage } from "@/components/sections/integrations-page"
 import { createMetadata } from "@/lib/seo"
 
 export const metadata: Metadata = createMetadata({
-  title: "Scientific software integrations",
+  title: "Integrations",
   description:
-    "Connect the scientific software your team already uses and automate manual handoffs between analysis, lab systems, reporting, AI, imaging, and omics tools.",
+    "Connect the instruments, chromatography data, LIMS, QMS, and environmental systems your team already uses, so nobody rebuilds context between them.",
   path: "/integrations",
 })
 

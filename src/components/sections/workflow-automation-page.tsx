@@ -124,13 +124,13 @@ const aiInterfaceFeatures = [
     icon: MessageSquareText,
   },
   {
-    title: "Choose what the AI can use",
+    title: "Choose what PixeSci can use",
     description:
-      "Let the AI use the full workspace or limit it to one workflow, run, file, or investigation.",
+      "Let PixeSci use the full workspace or limit it to one workflow, run, file, or investigation.",
     icon: Network,
   },
   {
-    title: "Governed AI actions",
+    title: "Governed actions",
     description:
       "Every action — human, workflow, or AI-initiated — runs through a capability registry that knows its risk level, required permissions, and whether it's safe to run automatically.",
     icon: ShieldCheck,
@@ -151,12 +151,12 @@ export function WorkflowAutomationPage() {
           <div className="site-container py-18 sm:py-24 lg:py-28">
             <div className="grid items-center gap-10 lg:grid-cols-[0.85fr_1.05fr] lg:gap-12">
               <div>
-                <p className="eyebrow">Workflow automation</p>
+                <p className="eyebrow">Agentic Automation</p>
                 <h1 className="mt-5 text-4xl leading-[1.05] font-semibold sm:text-6xl">
-                  Describe the work. Review the steps. Run it locally.
+                  Ask your lab to do the work, and check it before it runs.
                 </h1>
                 <p className="mt-6 max-w-xl text-base leading-7 text-muted-foreground sm:text-lg sm:leading-8">
-                  <TrademarkText text="Talk to your lab! Turn a plain-language request into a checked workflow, run it where your software and data already live, and keep the record for repeat runs and review." />
+                  <TrademarkText text="Say what you need in plain language. You review the steps, then PixeSci runs them on your own systems and keeps a record you can repeat and review later." />
                 </p>
                 <div className="mt-8 flex flex-col gap-3 sm:flex-row">
                   <Button asChild size="lg" className="px-4">
@@ -180,7 +180,7 @@ export function WorkflowAutomationPage() {
             <div className="max-w-3xl">
               <p className="eyebrow">Overview</p>
               <h2 className="mt-3 text-3xl leading-tight font-semibold sm:text-4xl">
-                Describe. Review. Run. Track.
+                From a request to a finished, recorded run.
               </h2>
               <p className="mt-5 text-base leading-7 text-muted-foreground sm:text-lg">
                 <TrademarkText text="PixeSci connects scientific software around a simple workflow loop: describe the work, check the steps, run them locally, and keep the record for repeat runs and review." />
@@ -198,7 +198,7 @@ export function WorkflowAutomationPage() {
               <div>
                 <p className="eyebrow">Authoring</p>
                 <h2 className="mt-3 text-3xl leading-tight font-semibold sm:text-4xl">
-                  Build each process as a visual workflow.
+                  Build a process once and reuse it every time.
                 </h2>
                 <p className="mt-5 text-base leading-7 text-muted-foreground">
                   Connect software steps, files, settings, and review points on
@@ -260,9 +260,9 @@ export function WorkflowAutomationPage() {
         <section className="section-space dark-surface border-b border-white/10 text-white">
           <div className="site-container">
             <div className="max-w-3xl">
-              <p className="eyebrow text-cyan-300">Execution</p>
+              <p className="eyebrow text-icy">Execution</p>
               <h2 className="mt-3 text-3xl leading-tight font-semibold sm:text-4xl">
-                Run locally and watch each step.
+                Watch every step as it runs on your own systems.
               </h2>
               <p className="mt-5 text-base leading-7 text-white/62">
                 Run workflows where your software and data already live.
@@ -293,7 +293,7 @@ export function WorkflowAutomationPage() {
                 >
                   See the full mechanism
                 </Link>
-                , including what the AI can never do on its own.
+                , including what PixeSci can never do on its own.
               </p>
             </div>
             <div className="mt-10">

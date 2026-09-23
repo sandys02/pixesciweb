@@ -4,9 +4,9 @@ import { CompanyPage } from "@/components/sections/company-page"
 import { createMetadata } from "@/lib/seo"
 
 export const metadata: Metadata = createMetadata({
-  title: "Connect scientific software for controlled labs",
+  title: "Company",
   description:
-    "Connect and automate scientific software while keeping actions, files, reviews, and results ready to inspect.",
+    "Our core mission is to create a disease-free world by pushing regulated life science companies into autonomous quality control.",
   path: "/company",
 })
 

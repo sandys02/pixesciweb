@@ -30,15 +30,15 @@ type WorkflowStep = {
 const workflowSteps: WorkflowStep[] = [
   {
     label: "Request understood",
-    detail: "flow review / records required",
+    detail: "result review / records required",
   },
   {
     label: "Approved software found",
-    detail: "FlowJo / FCS Express / LIMS",
+    detail: "CDS / LIMS / QMS",
   },
   {
     label: "Analysis tool connected",
-    detail: "flow-cytometry.analysis / gating-v3",
+    detail: "hplc.review / method-v3",
   },
   {
     label: "Workflow steps built",
@@ -67,7 +67,7 @@ const phaseMessages = [
   "Reading the request and defining the goal",
   "Turning the request into clear workflow needs",
   "Searching the approved software catalog",
-  "Connecting flow-cytometry.analysis with gating-v3",
+  "Connecting hplc.review with method-v3",
   "Building the workflow and checking each link",
   "Workflow ready. QC approval is required before it runs",
   "Running the workflow and recording every event",
@@ -160,8 +160,8 @@ export function HeroAgentMockup() {
 
   return (
     <figure
-      className="visual-frame hero-agent-mockup relative min-h-[520px] overflow-hidden bg-card text-card-foreground shadow-[0_24px_80px_rgba(21,36,45,0.14)] dark:border-white/12 dark:bg-[#071015] dark:text-white dark:shadow-[0_24px_80px_rgba(7,16,21,0.28)]"
-      aria-label="Plain-language flow cytometry request becomes a workflow with live status, human review, and saved records"
+      className="visual-frame hero-agent-mockup relative min-h-[520px] overflow-hidden bg-card text-card-foreground dark:border-white/12 dark:bg-deep dark:text-white"
+      aria-label="Plain-language QC review request becomes a workflow with live status, human review, and saved records"
     >
       <div
         className="workflow-grid absolute inset-0 opacity-65 dark:hidden"
@@ -176,7 +176,7 @@ export function HeroAgentMockup() {
           <span className="hero-agent-status-dot size-2 rounded-full bg-emerald-400" />
           <BrandName /> AI Agent
         </span>
-        <span className="inline-flex items-center gap-1.5 font-mono text-[9px] text-primary dark:text-cyan-300">
+        <span className="inline-flex items-center gap-1.5 font-mono text-[9px] text-primary dark:text-icy">
           <ShieldCheck className="size-3.5" />
           Controlled session
         </span>
@@ -185,7 +185,7 @@ export function HeroAgentMockup() {
       <div className="relative z-10 grid min-h-[475px] lg:grid-cols-[0.82fr_1.18fr]">
         <div className="border-b bg-muted/15 p-4 sm:p-5 lg:border-r lg:border-b-0 dark:border-white/10 dark:bg-white/[0.018]">
           <div className="flex items-center gap-2 text-[9px] font-semibold tracking-[0.14em] text-muted-foreground uppercase">
-            <MessageSquareText className="size-3.5 text-primary dark:text-cyan-300" />
+            <MessageSquareText className="size-3.5 text-primary dark:text-icy" />
             Intent
           </div>
 
@@ -195,28 +195,28 @@ export function HeroAgentMockup() {
                 QC analyst
               </p>
               <p className="mt-2 text-xs leading-5 text-foreground/80 dark:text-white/78">
-                Review flow cytometry results and prepare audit-ready evidence.
+                Review HPLC results and prepare audit-ready evidence.
               </p>
             </div>
 
-            <div className="mr-3 rounded-lg rounded-tl-sm border border-primary/20 bg-primary/[0.045] p-3.5 dark:border-cyan-300/20 dark:bg-cyan-300/[0.07]">
+            <div className="mr-3 rounded-lg rounded-tl-sm border border-primary/20 bg-primary/[0.045] p-3.5 dark:border-icy/20 dark:bg-icy/[0.07]">
               <div className="flex items-center gap-2">
                 <span className="flex size-6 items-center justify-center rounded-md border border-primary/20 bg-primary/10">
-                  <Bot className="size-3.5 text-primary dark:text-cyan-300" />
+                  <Bot className="size-3.5 text-primary dark:text-icy" />
                 </span>
-                <p className="text-[9px] font-medium tracking-[0.12em] text-primary uppercase dark:text-cyan-300">
+                <p className="text-[9px] font-medium tracking-[0.12em] text-primary uppercase dark:text-icy">
                   <BrandName />
                 </p>
               </div>
               <p className="mt-3 text-xs leading-5 text-foreground/80 dark:text-white/78">
                 {phaseMessages[displayedPhase]}
-                <span className="hero-agent-typing-cursor ml-0.5 text-primary dark:text-cyan-300">
+                <span className="hero-agent-typing-cursor ml-0.5 text-primary dark:text-icy">
                   {executionComplete ? "." : "..."}
                 </span>
               </p>
               <div className="mt-3 flex flex-wrap gap-1.5">
                 {[
-                  displayedPhase >= 3 ? "gating-v3" : "software search",
+                  displayedPhase >= 3 ? "method-v3" : "software search",
                   displayedPhase >= 5 ? "1 review step" : "rules checked",
                   executionComplete ? "ready to review" : "recording events",
                 ].map((item) => (
@@ -236,13 +236,13 @@ export function HeroAgentMockup() {
               <span className="text-[9px] tracking-[0.12em] text-muted-foreground uppercase">
                 Workflow progress
               </span>
-              <span className="font-mono text-[9px] text-primary dark:text-cyan-300">
+              <span className="font-mono text-[9px] text-primary dark:text-icy">
                 {readiness}%
               </span>
             </div>
             <div className="mt-2.5 h-1 overflow-hidden rounded-full bg-muted dark:bg-white/8">
               <div
-                className="hero-agent-progress h-full rounded-full bg-primary transition-[width] duration-500 dark:bg-cyan-300"
+                className="hero-agent-progress h-full rounded-full bg-primary transition-[width] duration-500 dark:bg-icy"
                 style={{ width: `${readiness}%` }}
               />
             </div>
@@ -266,7 +266,7 @@ export function HeroAgentMockup() {
                   "border-amber-600/25 bg-amber-500/[0.08] text-amber-700 dark:border-amber-300/20 dark:text-amber-300",
                 !reviewRequired &&
                   !executionComplete &&
-                  "border-primary/20 bg-primary/[0.06] text-primary dark:border-cyan-300/20 dark:bg-cyan-300/[0.08] dark:text-cyan-300",
+                  "border-primary/20 bg-primary/[0.06] text-primary dark:border-icy/20 dark:bg-icy/[0.08] dark:text-icy",
                 executionComplete &&
                   "border-emerald-600/25 bg-emerald-500/[0.08] text-emerald-700 dark:border-emerald-300/20 dark:text-emerald-300"
               )}
@@ -302,7 +302,7 @@ export function HeroAgentMockup() {
                   className={cn(
                     "hero-agent-step grid grid-cols-[24px_minmax(0,1fr)_auto] items-center gap-2.5 border-b px-3 py-2.5 transition-colors duration-300 last:border-b-0 dark:border-white/8",
                     status === "running" &&
-                      "bg-primary/[0.035] dark:bg-cyan-300/[0.035]",
+                      "bg-primary/[0.035] dark:bg-icy/[0.035]",
                     status === "review" &&
                       "bg-amber-500/[0.05] dark:bg-amber-300/[0.04]"
                   )}
@@ -313,7 +313,7 @@ export function HeroAgentMockup() {
                       status === "completed" &&
                         "border-emerald-600/25 bg-emerald-500/10 text-emerald-700 dark:border-emerald-300/25 dark:bg-emerald-300/10 dark:text-emerald-300",
                       status === "running" &&
-                        "hero-agent-running border-primary/25 bg-primary/10 text-primary dark:border-cyan-300/25 dark:bg-cyan-300/10 dark:text-cyan-300",
+                        "hero-agent-running border-primary/25 bg-primary/10 text-primary dark:border-icy/25 dark:bg-icy/10 dark:text-icy",
                       status === "review" &&
                         "border-amber-600/30 bg-amber-500/10 text-amber-700 dark:border-amber-300/30 dark:bg-amber-300/10 dark:text-amber-300",
                       status === "queued" &&
@@ -335,7 +335,7 @@ export function HeroAgentMockup() {
                       "font-mono text-[7px] tracking-[0.08em] uppercase transition-colors duration-300",
                       status === "completed" &&
                         "text-emerald-700 dark:text-emerald-300/75",
-                      status === "running" && "text-primary dark:text-cyan-300",
+                      status === "running" && "text-primary dark:text-icy",
                       status === "review" &&
                         "text-amber-700 dark:text-amber-300",
                       status === "queued" &&
@@ -377,7 +377,7 @@ export function HeroAgentMockup() {
               const Icon = metric.icon
               return (
                 <div key={metric.label} className="px-2 py-2.5 text-center">
-                  <Icon className="mx-auto size-3 text-primary/80 dark:text-cyan-300/75" />
+                  <Icon className="mx-auto size-3 text-primary/80 dark:text-icy/75" />
                   <p className="mt-1 font-mono text-[10px] font-semibold text-foreground/85 dark:text-white/80">
                     {metric.value}
                   </p>
@@ -394,7 +394,7 @@ export function HeroAgentMockup() {
               "mt-3 flex items-center justify-between gap-3 rounded-md border px-3 py-2 transition-colors duration-300",
               executionComplete
                 ? "border-emerald-600/20 bg-emerald-500/[0.055] dark:border-emerald-300/15 dark:bg-emerald-300/[0.055]"
-                : "border-primary/15 bg-primary/[0.035] dark:border-cyan-300/12 dark:bg-cyan-300/[0.035]"
+                : "border-primary/15 bg-primary/[0.035] dark:border-icy/12 dark:bg-icy/[0.035]"
             )}
           >
             <span
@@ -402,7 +402,7 @@ export function HeroAgentMockup() {
                 "flex items-center gap-2 text-[9px]",
                 executionComplete
                   ? "text-emerald-700 dark:text-emerald-200/80"
-                  : "text-primary/80 dark:text-cyan-200/70"
+                  : "text-primary/80 dark:text-icy/70"
               )}
             >
               <FlaskConical className="size-3.5" />
@@ -421,7 +421,7 @@ export function HeroAgentMockup() {
                 "font-mono text-[8px]",
                 executionComplete
                   ? "text-emerald-700 dark:text-emerald-300"
-                  : "text-primary dark:text-cyan-300"
+                  : "text-primary dark:text-icy"
               )}
             >
               {executionComplete

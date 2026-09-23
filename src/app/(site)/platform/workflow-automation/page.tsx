@@ -4,7 +4,7 @@ import { WorkflowAutomationPage } from "@/components/sections/workflow-automatio
 import { createMetadata } from "@/lib/seo"
 
 export const metadata: Metadata = createMetadata({
-  title: "Workflow Automation Software",
+  title: "Agentic Automation for Regulated Labs",
   description:
     "Describe the work in plain language, review the steps, run the workflow locally, and track every file, decision, and result.",
   path: "/platform/workflow-automation",

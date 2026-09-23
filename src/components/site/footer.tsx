@@ -15,14 +15,17 @@ import { ThemeSwitcher } from "./theme-switcher"
 
 export function SiteFooter() {
   return (
-    <footer className="border-t border-border bg-muted/30">
+    <footer className="metal-edge metal-edge-top border-t border-border bg-[linear-gradient(180deg,#eef2f8,#e2e9f3)] dark:bg-[linear-gradient(180deg,#14223a,#0e1826)]">
       <div className="site-container py-14 sm:py-18">
         <div className="space-y-12">
           <div className="flex flex-col items-center justify-between gap-6 sm:flex-row sm:items-start sm:gap-12">
-            <div>
+            <div className="flex flex-col items-center gap-3 text-center sm:items-start sm:text-left">
               <Logo />
               <p className="text-sm leading-6 text-muted-foreground">
                 <TrademarkText text={categoryLine} />
+              </p>
+              <p className="tech-label">
+                Data · Quality · Compliance · Confidence
               </p>
             </div>
             <div className=" space-y-4 sm:space-y-0 sm:space-x-6">
@@ -40,24 +43,13 @@ export function SiteFooter() {
               />
             </div>
           </div>
-          <div className="grid grid-cols-2 gap-8 sm:grid-cols-3 lg:grid-cols-6">
+          <div className="grid grid-cols-2 gap-8 sm:grid-cols-3 lg:max-w-3xl">
             {footerNavigation.map((group) => (
-              <div
-                key={group.title}
-                className={
-                  group.title === "Platform" ? "lg:col-span-2" : undefined
-                }
-              >
+              <div key={group.title}>
                 <h2 className="text-xs font-semibold tracking-[0.12em] text-foreground uppercase">
                   {group.title}
                 </h2>
-                <ul
-                  className={
-                    group.title === "Platform"
-                      ? "mt-4 space-y-3 lg:grid lg:grid-cols-2 lg:space-y-0 lg:gap-x-6 lg:gap-y-3"
-                      : "mt-4 space-y-3"
-                  }
-                >
+                <ul className="mt-4 space-y-3">
                   {group.links.map((link) => (
                     <li key={link.href + link.label}>
                       {link.href === demoBookingUrl ? (
