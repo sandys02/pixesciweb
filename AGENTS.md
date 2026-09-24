@@ -12,6 +12,8 @@ This version has breaking changes — APIs, conventions, and file structure may 
 
 This repository is the public marketing website for PixeSci, a local-first platform that connects and automates scientific software for high-control scientific environments. The website must explain quickly that PixeSci lets users describe work in plain language, review the steps, run workflows locally, and track actions, files, decisions, and results. It is not a generic AI SaaS landing page and must not drift into vague automation copy.
 
+Since September 2026, PixeSci is positioned as the autonomous quality control operating system for regulated life sciences: an orchestration and evidence layer that runs behind a customer's existing CDS, LIMS/ELN, QMS, instruments, and documents, not a replacement for them.
+
 Primary audiences are regulated life-sciences teams, lab operations leaders, QC and R&D leaders, core facility staff, national lab teams, scientific software operators, and technical buyers who care about traceability, reproducibility, data locality, deployment control, and integration with existing scientific tools.
 
 ## Design Direction
@@ -27,6 +29,16 @@ The PixeSci brand should feel:
 - local-first and infrastructure-grade without feeling old or defensive
 
 Avoid one-note color palettes. The default visual language should combine neutral technical surfaces with restrained scientific accents. Do not let the site become dominated by purple-blue gradients, beige/tan, dark slate, or decorative glow blobs.
+
+### Visual Brand Rulebook v1.0 (September 2026)
+
+The PixeSci Visual Brand Rulebook governs look and feel: clean metallic precision for regulated science, expressed as cleanroom satin stainless, never chrome or sci-fi. Brand essence: quality infrastructure you can trust.
+
+- Palette tokens live in `src/app/globals.css`: PixeSci Blue `#0054D8` (`primary`), Icy Blue `#B6D3FF` (`icy`), Clean White `#F9FBFD` (`background`), Cool Gray `#E7EEF7` (`secondary`), Metallic Silver `#C7CCD6` (`silver`), Slate `#1F2D3D` (`foreground`). Dark mode uses deep slate (`deep`). Do not hardcode other hues; do not use cyan, teal, or purple accents.
+- Metal is a material cue used hierarchically. Strongest: home hero (`hero-grid`, `MetalPlanes`), header/footer/CTA edges (`metal-edge`), primary and outline button satin. Ordinary content sections stay white or light gray. Never make every card metallic.
+- Utilities: `.metal-surface` (brushed satin panel), `.metal-edge` + `.metal-edge-top|bottom` (reflected-light rail), `.instrument-strip`, `.tech-label` and `.eyebrow` (widely spaced uppercase technical labels), `.dark-surface`, `.visual-frame`.
+- Metallic gradients read as reflected light: silver, white highlight, pale blue, PixeSci Blue, silver. No metallic text, glow blobs, neon, holograms, or stock lab imagery.
+- Before shipping a visual, apply the rulebook's no-logo test and pillar check (clean, metallic, precise, scientific, premium: at least three).
 
 ## Technical Expectations
 
@@ -112,7 +124,7 @@ Always preserve the core positioning:
 - PixeSci helps teams replace manual handoffs with reusable workflows that are easier to repeat and review.
 - PixeSci speaks to high-control scientific environments: regulated life sciences, pharma, biotech, CROs, CDMOs, core facilities, national labs, and secure R&D.
 
-Lead with what PixeSci does, not its technical category. Prefer short subject-verb-object sentences and common words. For example: `PixeSci connects and automates scientific software.` Follow with the user outcome.
+Write about the reader, not about PixeSci. Lead with the outcome for "you" in plain words, then say how PixeSci delivers it. Avoid headlines that describe what PixeSci "is" or how it is built. Follow the strategic-narrative order on the homepage and solutions page: what is changing in the world, what is at stake (winners and losers), the promised land (what life is like for the reader), PixeSci's capabilities as the way to get there (each one answering a named obstacle), then evidence. The promised land describes the reader's future state, never the product. Name PixeSci, not "the AI", as the one working for the reader. Prefer short sentences and common words.
 
 Replace abstract wording when a simpler phrase is accurate:
 
@@ -127,9 +139,23 @@ Keep established scientific and regulatory terms such as ALCOA, audit trail, che
 
 Do not reduce PixeSci to generic AI chat. Plain-language or voice control is an interface into the workflow system; the product connects scientific tools, runs workflows, and tracks the work.
 
+- PixeSci is an orchestration and evidence layer that runs behind a customer's existing systems — never describe it as replacing a customer's LIMS, QMS, CDS, or instrument software.
+- PixeSci's AI agents can read, flag, and recommend, but are never described as approving, closing, releasing, invalidating, signing, or writing to a source system on their own — that boundary is enforced in the product, and messaging must reflect it precisely, not soften it into vague "human-in-the-loop" language when the more specific claim is available and true.
+- Do not claim or imply PixeSci prevents FDA warning letters, recalls, import alerts, or product failures, in any phrasing, on any page.
+
 ## Compliance Messaging Rules
 
 Be precise. PixeSci can be described as helping teams track work, produce records for review, maintain audit trails, repeat workflow runs, and operate locally or on-premises. Avoid implying that using PixeSci automatically makes a customer compliant. State clearly that customers remain responsible for validation, configuration, SOPs, training, and operation within their quality system.
+
+- Any reference to the kinds of findings that appear in FDA warning letters must be a generic, anonymized finding pattern — never name a company, cite a specific letter, or attach a specific date or docket to an example.
+- Any dollar figure describing potential remediation or compliance costs must be labeled as PixeSci's own internal illustrative modeling, not FDA-reported company spend, a prediction for the reader's organization, or a guarantee — reuse the calculator's disclaimer string (`calculatorDisclaimer` in `src/content/site.ts`) rather than writing new disclaimer language elsewhere.
+
+## AI Governance Messaging Rules
+
+- "Autonomous" describes the operating system's continuous monitoring, evidence capture, and routing. Never describe the AI as autonomously approving, closing, releasing, invalidating, or signing anything: it recommends, a qualified person decides.
+- When citing the product's AI-governance design, prefer specific, true claims over vague reassurance — e.g., "cannot approve, close, release, invalidate, or sign a record" is a stronger and more accurate claim than "operates under human oversight," and both are true, so use the specific one.
+- Do not describe the AI as having long-term memory of past cases, or as learning from customer data across deployments, unless and until that capability is live and documented here.
+- Do not attach a percentage or dollar-savings figure to any AI or automation claim without an approved customer baseline behind it.
 
 ## Analytics And Privacy Rules
 

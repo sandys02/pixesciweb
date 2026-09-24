@@ -30,7 +30,7 @@ const resources = [
     type: "Quality evaluation",
     description:
       "Check how actions, file details, checksums, reviews, and approvals stay ready for inspection.",
-    href: "/compliance",
+    href: "/platform/agents",
     icon: BookOpenCheck,
   },
   {
@@ -38,7 +38,7 @@ const resources = [
     type: "Product guide",
     description:
       "Turn steps, files, settings, checks, notes, and results into a repeatable workflow.",
-    href: "/workflow-automation",
+    href: "/platform/workflow-automation",
     icon: GitBranch,
   },
   {
@@ -53,7 +53,7 @@ const resources = [
     title: "Security and deployment brief",
     type: "Deployment guide",
     description:
-      "Compare workstation, lab, local server, and air-gapped setup options.",
+      "See how a PixeSci Node is installed and runs at your site.",
     href: "/security",
     icon: ShieldCheck,
   },
@@ -62,7 +62,7 @@ const resources = [
     type: "Buyer checklist",
     description:
       "Check how users, files, versions, scripts, changes, and reviews stay linked to each run.",
-    href: "/compliance",
+    href: "/platform/agents",
     icon: FileKey2,
   },
 ] as const
@@ -70,6 +70,51 @@ export const resourceFaqs = [
   [
     "What can my team automate?",
     "Connect and automate scientific software. Scientists can describe work in their own words, review the steps, run the workflow, and track every action, file, setting, and result.",
+  ],
+
+  [
+    "What's new in PixeSci's platform beyond the modules you already track?",
+    "PixeSci now includes Continuous Quality Monitoring: continuous, deterministic monitoring across your connected systems, a governed AI copilot that recommends but never makes a regulated decision on its own, and a hash-chained, independently verifiable audit trail. See the Continuous Quality Monitoring page for the full picture.",
+  ],
+
+  [
+    "Does PixeSci's AI make compliance decisions on its own?",
+    "No. PixeSci's agents can read records, flag patterns, and recommend a next step, but they cannot approve, close, release, invalidate, or sign a record, and they cannot write to a connected source system. Those actions require a qualified person on your team, and this boundary is enforced in the software and checked by an automated test suite, not left to a policy document.",
+  ],
+
+  [
+    "What does PixeSci's compliance monitoring actually watch?",
+    "A deterministic, versioned set of rules evaluates event data from the systems you connect — instrument runs, audit-trail entries, account activity, and record completeness — continuously. It looks for patterns like unreconciled reruns, records that disagree with each other, missing raw-data references, and activity from shared or ambiguous accounts.",
+  ],
+
+  [
+    "Is PixeSci's AI running in the cloud?",
+    "By default, no — inference runs on-device. This is a deployment-configuration question specific to your environment; talk to us about your requirements.",
+  ],
+
+  [
+    "Does PixeSci replace our LIMS, QMS, or CDS?",
+    "No. PixeSci is designed to run behind the systems you already use — it connects to them, watches for gaps, and carries evidence through the work, rather than replacing them as your system of record. Some customers also choose to run specific modules, like Laboratory or Quality Management, natively in PixeSci — that's a configuration choice, not a requirement.",
+  ],
+
+  [
+    "Does PixeSci already connect to Waters Empower, Thermo Chromeleon, or similar CDS platforms?",
+    "Not yet as a direct, live connector — those are on our integration roadmap. What's connected today is PixeSci's own native modules, an open-source CDS connector, and a CSV gateway for balance, pH meter, and qPCR instrument data. Tell us your specific stack and we'll tell you exactly where it sits on the roadmap.",
+  ],
+
+  [
+    "Is the compliance-cost calculator on the homepage a guarantee or a prediction?",
+    "No. It's an illustrative tool: one part computes your own routine compliance-tax estimate from inputs you provide, and the other shows two fixed reference scenarios for what FDA-derived remediation can look like, based on PixeSci's own internal modeling. Neither is a prediction for your organization or a guarantee PixeSci prevents these costs — see the calculator's own disclaimer for details.",
+  ],
+
+  [
+    "What's included in the PixeSci TM platform beyond workflow automation?",
+    "PixeSci TM also includes laboratory sample tracking, quality management (deviations, CAPA, complaints), materials and products inventory, electronic batch records for manufacturing, equipment qualification and calibration, and document control connected to training records — all running on the same local-first workflow engine.",
+  ],
+
+  [
+    "Can we use only some of the PixeSci TM modules?",
+    "Yes. Modules connect to the same underlying record and audit system, but you can adopt the ones relevant to your team first and add others later.",
   ],
 
   [
@@ -126,6 +171,61 @@ export const resourceFaqs = [
     "Are all named software integrations production-ready?",
     "No. The catalog shows target software and possible ways to connect it. Teams must confirm readiness for each tool, version, setup, and use case.",
   ],
+
+  [
+    "Does PixeSci TM replace our LIMS?",
+    "PixeSci TM is designed to run behind and alongside your existing LIMS, not replace it. Its own sample-tracking workflow — accessioning, chain of custody, testing, review, and release — is available if you choose to run that module natively in PixeSci, but the platform's core value is connecting to and watching over the systems you already use. Talk to us about your current lab software before deciding what fits your process.",
+  ],
+
+  [
+    "How does PixeSci TM handle out-of-specification results?",
+    "A result that falls out of specification or out of trend opens an investigation and blocks the sample from release until the investigation closes. The investigation is a Quality Management record, tracked the same way as any other deviation or CAPA.",
+  ],
+
+  [
+    "What quality record types does PixeSci TM track?",
+    "Deviations, nonconformances, out-of-specification and out-of-trend investigations, incidents, CAPA and action items, change control, complaints, audits and findings, supplier qualification and issues, risk management, management review, and regulatory commitments — each as a versioned, auditable record type.",
+  ],
+
+  [
+    "Can PixeSci TM generate our validation documentation?",
+    "PixeSci TM can generate IQ and OQ reports, a risk assessment, and a requirements traceability matrix for its own deployment, along with Part 11, GMP, and ISO 13485 self-assessments cited against your real audit data. These are a starting point for your own validation work — your organization is still responsible for validating and maintaining the system to its own quality requirements.",
+  ],
+
+  [
+    "Can PixeSci TM track material and product genealogy?",
+    "Yes. Material lots track parent-child relationships and a full inventory ledger, and product lots can cite the intermediate and material lots used to build them, giving you a traceable path from raw material receipt to a released, CoA-backed product lot.",
+  ],
+
+  [
+    "Does PixeSci TM support electronic batch records?",
+    "Yes. PixeSci TM tracks Master Batch Records, line clearance, material dispensing, in-process controls, and QA review and release for each batch, with an e-signature-style reason, printed name, and re-authentication reference captured at each approval step.",
+  ],
+
+  [
+    "What happens when an in-process control fails?",
+    "A failed in-process control result automatically raises a deviation, which is tracked as a Quality Management record and linked back to the batch.",
+  ],
+
+  [
+    "What happens when a calibration fails in PixeSci TM?",
+    "An out-of-tolerance calibration result automatically moves the asset to in-repair status and opens an investigation in the same action — there's no separate manual step to remember.",
+  ],
+
+  [
+    "Does training stay connected to a specific document revision?",
+    "Yes. Read-and-understand training is assigned against a specific document revision, and a document marked as requiring training can't be activated until that training is actually delivered and recorded.",
+  ],
+
+  [
+    "Can we issue controlled copies of a document?",
+    "Yes — issue numbered copies to named recipients, track acknowledgement status, and recall a copy once it's replaced by a new revision.",
+  ],
+
+  [
+    "Can PixeSci TM help us prepare for an inspection?",
+    "PixeSci TM can verify your audit chain, map your controls against a 21 CFR Part 11 checklist, and export audit trails, records, registers, evidence manifests, and bundled inspection packs on demand. These exports support your inspection preparation — they don't replace your own inspection readiness process.",
+  ],
 ] as const
 
 export function ResourcesPage() {
@@ -137,11 +237,11 @@ export function ResourcesPage() {
             <div className="max-w-4xl">
               <p className="eyebrow">Resources</p>
               <h1 className="mt-5 text-4xl leading-[1.05] font-semibold sm:text-6xl lg:text-7xl">
-                Connect software. Automate workflows. Track scientific work.
+                Answers to what you&apos;ll ask before a demo.
               </h1>
               <p className="mt-6 max-w-3xl text-base leading-7 text-muted-foreground sm:text-lg sm:leading-8">
-                Read clear guides for technical teams, quality teams, lab IT,
-                facility operators, and workflow owners.
+                Short guides for quality teams, lab IT, and the people who
+                own your workflows.
               </p>
             </div>
           </div>

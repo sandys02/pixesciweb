@@ -1,24 +1,48 @@
 import type { LucideIcon } from "lucide-react"
 import {
-  Boxes,
-  Building2,
-  CheckCircle2,
-  FileCheck2,
+  Blocks,
+  BookOpenCheck,
+  CloudOff,
+  FileSearch,
   FileStack,
-  FlaskConical,
+  Fingerprint,
   History,
-  Microscope,
+  LockKeyhole,
+  MessageSquareText,
   Network,
+  RadioTower,
+  ScanLine,
   ScanSearch,
   ShieldCheck,
-  Sparkles,
-  TerminalSquare,
-  Workflow,
+  UserCheck,
 } from "lucide-react"
 
 export const siteUrl = "https://pixesci.com"
 export const demoBookingUrl =
   "https://cal.com/pixesci/30min?user=pixesci&overlayCalendar=true&layout=mobile"
+
+export const tagline = "Talk to your Lab!"
+
+export const categoryLine =
+  "The autonomous quality control operating system for regulated life sciences."
+
+export const calculatorDisclaimer =
+  "These cost figures are PixeSci's own internal illustrative models based on FDA-required remediation scope. They are not FDA-reported company spend, not a prediction for your organization, and not a guarantee that PixeSci prevents these outcomes. Actual costs depend on your operation, your products, and the scope of any compliance issue."
+
+export const remediationScenarios = [
+  {
+    label: "Smaller-scope remediation",
+    range: "$180,000–$540,000",
+    description:
+      "Illustrative base cost for a narrower FDA-derived remediation scope, before additional OOS review, retain testing, recall, or market-loss costs.",
+  },
+  {
+    label: "Larger-scope remediation",
+    range: "$415,000–$1,290,000",
+    description:
+      "Illustrative base cost for a broader FDA-derived remediation scope, before additional OOS review, retain testing, recall, or market-loss costs.",
+  },
+] as const
 
 export type NavItem = {
   label: string
@@ -26,31 +50,40 @@ export type NavItem = {
   description?: string
 }
 
-export const primaryNavigation: NavItem[] = [
+export const solutionsNavigation: NavItem[] = [
   {
-    label: "Product",
-    href: "/product",
-    description: "Connect tools, automate work, and track every run.",
+    label: "Solutions overview",
+    href: "/solutions",
+    description: "See how the four products fit together.",
   },
   {
-    label: "Solutions",
-    href: "/solutions/regulated-life-sciences",
-    description: "Run clear workflows in regulated and secure labs.",
+    label: "Quality Core",
+    href: "/solutions#quality-core",
+    description:
+      "One connected record for samples, deviations, batches, equipment, and documents.",
   },
   {
     label: "Integrations",
     href: "/integrations",
-    description: "Connect the scientific software you already use.",
+    description: "Connect the instruments and software you already use.",
   },
   {
-    label: "Compliance",
-    href: "/compliance",
-    description: "Track actions, reviews, changes, and results.",
+    label: "Agentic Automation",
+    href: "/platform/workflow-automation",
+    description: "Describe the work, review the steps, and let it run.",
   },
   {
-    label: "Security",
-    href: "/security",
-    description: "Keep software, data, and access under your control.",
+    label: "Continuous Quality Monitoring",
+    href: "/platform/agents",
+    description: "Catch problems while they're still small.",
+  },
+]
+
+export const primaryNavigation: NavItem[] = [
+  {
+    label: "Solutions",
+    href: "/solutions",
+    description: "Four products that connect your lab and keep the record.",
   },
   {
     label: "Resources",
@@ -66,33 +99,23 @@ export const primaryNavigation: NavItem[] = [
 
 export const footerNavigation = [
   {
-    title: "Product",
-    links: [
-      { label: "Connect your software", href: "/product" },
-      { label: "Workflow automation", href: "/workflow-automation" },
-      { label: "Integrations", href: "/integrations" },
-      { label: "Security", href: "/security" },
-    ],
-  },
-  {
     title: "Solutions",
     links: [
-      {
-        label: "Regulated life sciences",
-        href: "/solutions/regulated-life-sciences",
-      },
-      { label: "Secure research", href: "/solutions/secure-research" },
-      { label: "Core facilities", href: "/solutions/core-facilities" },
-      { label: "Compliance", href: "/compliance" },
+      { label: "Solutions overview", href: "/solutions" },
+      { label: "Quality Core", href: "/solutions#quality-core" },
+      { label: "Integrations", href: "/integrations" },
+      { label: "Agentic Automation", href: "/platform/workflow-automation" },
+      { label: "Continuous Quality Monitoring", href: "/platform/agents" },
     ],
   },
   {
     title: "Resources",
     links: [
       { label: "Resource center", href: "/resources" },
-      { label: "Deployment controls", href: "/security" },
-      { label: "Workflow examples", href: "/workflow-automation" },
-      { label: "Software catalog", href: "/integrations" },
+      {
+        label: "Regulated life sciences",
+        href: "/solutions/regulated-life-sciences",
+      },
     ],
   },
   {
@@ -111,211 +134,189 @@ export type FeatureItem = {
   icon: LucideIcon
 }
 
-export const platformCapabilities: FeatureItem[] = [
-  {
-    title: "Visual workflows",
-    description:
-      "Build each process as connected steps with inputs, decisions, and review points.",
-    icon: Workflow,
-  },
-  {
-    title: "Software catalog",
-    description:
-      "Check supported tools, required files, review points, and local availability before a run.",
-    icon: Boxes,
-  },
-  {
-    title: "Run locally",
-    description:
-      "Run workflows with local files and software inside your own environment.",
-    icon: TerminalSquare,
-  },
-  {
-    title: "Plain-language control",
-    description: "Talk to your lab! Review the steps before they run.",
-    icon: Sparkles,
-  },
-  {
-    title: "Execution history",
-    description:
-      "Track each run, including settings, files, results, errors, and decisions.",
-    icon: History,
-  },
-  {
-    title: "Audit records",
-    description:
-      "Record who did what, when they did it, what changed, and what happened.",
-    icon: FileCheck2,
-  },
-]
-
-export const platformOverviewSteps: FeatureItem[] = [
-  {
-    title: "Describe the work",
-    description:
-      "Start with a plain-language request, SOP, file set, or repeated handoff.",
-    icon: Sparkles,
-  },
-  {
-    title: "Review the workflow",
-    description:
-      "Check the software steps, required inputs, settings, limits, and review points before anything runs.",
-    icon: Workflow,
-  },
-  {
-    title: "Run locally",
-    description:
-      "Execute the workflow on approved workstations or customer-controlled servers close to the data.",
-    icon: TerminalSquare,
-  },
-  {
-    title: "Track the record",
-    description:
-      "Keep actions, files, settings, decisions, approvals, errors, and results with the run.",
-    icon: History,
-  },
-]
-
-export const connectedLabBenefits: FeatureItem[] = [
-  {
-    title: "Fewer manual handoffs",
-    description:
-      "Reduce copy, paste, renaming, transcription, and re-entry work between scientific tools.",
-    icon: FileStack,
-  },
-  {
-    title: "Clearer data movement",
-    description:
-      "Move files and results between instruments, analysis tools, LIMS, ELN, reports, and reviewers with context intact.",
-    icon: Network,
-  },
-  {
-    title: "Reusable workflow practice",
-    description:
-      "Save proven procedures so teams can repeat the same process across operators, workstations, and sites.",
-    icon: CheckCircle2,
-  },
-  {
-    title: "Review-ready history",
-    description:
-      "Give technical and quality teams a single place to inspect runs, changes, approvals, and results.",
-    icon: ScanSearch,
-  },
-  {
-    title: "Lower integration risk",
-    description:
-      "Connect tools through controlled workflows instead of relying on fragile point-to-point handoffs.",
-    icon: ShieldCheck,
-  },
-  {
-    title: "Local deployment control",
-    description:
-      "Keep workflow execution, data, credentials, and approved software access inside your environment.",
-    icon: Building2,
-  },
-]
+export const heroMessages = [
+  "We help you reduce expensive errors and wasted time operating fragmented, retrospective quality control systems.",
+  "We bring your fragmented partners together, so you never have to rebuild context between contractors.",
+  "We keep your regulated team one step ahead of AI, without worrying about learning bandwidth.",
+] as const
 
 export const proofPoints = [
-  "Compliance tracking",
-  "On-prem ready",
-  "Visual workflows",
-  "Audit history",
-  "Software connections",
-  "Human review",
+  "Problems caught early",
+  "Every decision stays yours",
+  "Fast deployment",
+  "Evidence always in hand",
+  "Works with what you already use",
+  "Your data stays on your site",
 ] as const
 
-export const problems: FeatureItem[] = [
+export const painPoints: FeatureItem[] = [
   {
-    title: "Manual handoffs",
+    title: "You move data between systems that don't talk",
     description:
-      "Teams export, rename, copy, and re-enter data as work moves between tools.",
+      "Instruments, CDS, LIMS, QMS, spreadsheets. You are the copy and paste in the middle.",
     icon: FileStack,
   },
   {
-    title: "Lost file history",
+    title: "You rebuild context at every handoff",
     description:
-      "Files, settings, versions, and results lose their link as work moves between apps.",
-    icon: Network,
+      "Between teams and between contractors, you re-explain what happened, again.",
+    icon: History,
   },
   {
-    title: "Review gaps",
+    title: "You check conditions and chase approvals by hand",
     description:
-      "Reviewers must piece together who ran each step, what changed, and which result was final.",
+      "Environmental readings, calibration status, sign-offs. All manual, all on you.",
     icon: ScanSearch,
   },
-]
-
-export const solutionCards = [
   {
-    title: "Regulated life sciences",
-    href: "/solutions/regulated-life-sciences",
+    title: "You piece together what happened, after the fact",
     description:
-      "Connect QC and R&D tools, automate handoffs, and keep a clear record of every run.",
-    icon: FlaskConical,
-    examples: "FlowJo → Prism → LIMS / Chromeleon → batch record",
-  },
-  {
-    title: "Secure research",
-    href: "/solutions/secure-research",
-    description:
-      "Connect local software, HPC jobs, and internal data without relying on a cloud service.",
-    icon: ShieldCheck,
-    examples: "VASP → VESTA → Origin / EPICS → MATLAB → repository",
-  },
-  {
-    title: "Core facilities",
-    href: "/solutions/core-facilities",
-    description:
-      "Save proven procedures as guided workflows that every operator can follow.",
-    icon: Microscope,
-    examples: "Acquisition → analysis → review → facility report",
+      "When a reviewer or auditor asks, you start digging through five systems.",
+    icon: FileSearch,
   },
 ] as const
 
-export const resourceCards = [
+export const stakesLosers: FeatureItem[] = [
   {
-    title: "Architecture overview",
-    type: "Technical brief",
-    description:
-      "See how your workflows stay close to local data, models, and lab software.",
-    href: "/security",
+    title: "Find gaps at release, audit, or inspection",
+    description: "By then, the fix is an investigation.",
+    icon: FileSearch,
   },
   {
-    title: "Compliance workflow guide",
-    type: "Evaluation guide",
+    title: "Lose weeks to rework and batch holds",
     description:
-      "Check how runs, changes, approvals, and records stay ready for review.",
-    href: "/compliance",
+      "Every disconnected record becomes a reconstruction project.",
+    icon: History,
   },
   {
-    title: "Workflow automation patterns",
-    type: "Product guide",
+    title: "Watch a small team drown in reconciliation",
     description:
-      "See how a plain request becomes checked steps, live updates, and saved results.",
-    href: "/workflow-automation",
+      "Your best people spend their days moving data between systems.",
+    icon: FileStack,
+  },
+  {
+    title: "Put timelines and revenue at risk",
+    description: "Delayed release and slower market access follow.",
+    icon: ScanSearch,
+  },
+] as const
+
+export const stakesWinners: FeatureItem[] = [
+  {
+    title: "Catch problems while they're small",
+    description: "Exceptions reach the right person as they happen.",
+    icon: RadioTower,
+  },
+  {
+    title: "Release and review on schedule",
+    description: "The evidence is already there when the reviewer asks.",
+    icon: Fingerprint,
+  },
+  {
+    title: "Walk into audits with the record connected",
+    description: "Every run, record, and exception is already linked.",
+    icon: Network,
+  },
+  {
+    title: "Do more with the team you have",
+    description:
+      "PixeSci does the watching and the connecting. You make the decisions.",
+    icon: UserCheck,
+  },
+] as const
+
+export const promisedLand: FeatureItem[] = [
+  {
+    title: "Ask your lab what's happening",
+    description:
+      "Talk to your lab in plain language and get an answer, instead of pulling data from five systems.",
+    icon: MessageSquareText,
+  },
+  {
+    title: "Problems surface while they're small",
+    description:
+      "You hear about an exception when it happens, not at release or inspection.",
+    icon: RadioTower,
+  },
+  {
+    title: "The evidence is already connected",
+    description:
+      "When someone asks what happened, every record, run, and exception is already linked.",
+    icon: Network,
+  },
+  {
+    title: "Your team decides, every time",
+    description:
+      "PixeSci does the watching and the connecting. Every approval, closure, release, and signature stays with a qualified person.",
+    icon: UserCheck,
+  },
+] as const
+
+export const governedAiPrinciples: FeatureItem[] = [
+  {
+    title: "You set what PixeSci can do",
+    description:
+      "Every capability is scoped to one job: reading, flagging, or drafting a recommendation. Never an open-ended mandate.",
+    icon: Blocks,
+  },
+  {
+    title: "Bigger actions need your approval",
+    description:
+      "The riskier the action, the more approval it needs before it runs.",
+    icon: LockKeyhole,
+  },
+  {
+    title: "No regulated decision without you",
+    description:
+      "PixeSci never approves, closes, releases, invalidates, or signs a record on its own. That limit is enforced in the software, not just written in a policy.",
+    icon: ShieldCheck,
+  },
+  {
+    title: "Answers you can check",
+    description:
+      "Every recommendation points to the records and results behind it, and PixeSci declines to guess when evidence is missing or conflicting.",
+    icon: BookOpenCheck,
+  },
+  {
+    title: "Nothing happens off the record",
+    description:
+      "Every action PixeSci takes lands in the same verifiable audit trail as your team's, and you can check that trail any time.",
+    icon: Fingerprint,
+  },
+  {
+    title: "Stays on your site",
+    description:
+      "PixeSci and its AI run on your own hardware by default. No cloud service required.",
+    icon: CloudOff,
+  },
+] as const
+
+export const riskPatterns: FeatureItem[] = [
+  {
+    title: "Raw data, blank on paper, complete in the summary",
+    description:
+      "A worksheet or batch record has blank fields, but the summary report shows a complete, passing result.",
+    icon: FileSearch,
+  },
+  {
+    title: "An instrument's own history disagrees with the record",
+    description:
+      "The chromatography or instrument audit trail shows aborts, reinjections, or method changes that the paper record doesn't mention.",
+    icon: ScanLine,
+  },
+  {
+    title: "A repeat test with no stated reason",
+    description:
+      "A test is repeated, and only the passing result is reported, with no documented justification for the repeat.",
+    icon: History,
+  },
+  {
+    title: "A deviation closed without root cause",
+    description:
+      "An out-of-specification result or deviation is closed with a corrective action but no investigation into why it happened.",
+    icon: ShieldCheck,
   },
 ] as const
 
 export const complianceDisclaimer =
   "Teams can track work and produce records for review. Customers still must validate and configure the system, train users, maintain SOPs, and meet their own quality requirements."
-
-export const securityHighlights: FeatureItem[] = [
-  {
-    title: "Deployment control",
-    description:
-      "Run workflows on a workstation or your own servers without an outside cloud service.",
-    icon: Building2,
-  },
-  {
-    title: "Controlled connections",
-    description:
-      "Choose which tools can connect, block internet access, and keep passwords in the local service.",
-    icon: ShieldCheck,
-  },
-  {
-    title: "Controlled local paths",
-    description:
-      "Limit workflows to approved folders, files, models, and internal storage.",
-    icon: CheckCircle2,
-  },
-]

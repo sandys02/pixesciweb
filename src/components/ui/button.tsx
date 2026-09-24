@@ -9,9 +9,10 @@ const buttonVariants = cva(
   {
     variants: {
       variant: {
-        default: "bg-primary text-primary-foreground hover:bg-primary/80",
+        default:
+          "bg-primary bg-[image:linear-gradient(180deg,rgb(255_255_255/0.22),rgb(255_255_255/0)_58%)] text-primary-foreground shadow-[inset_0_1px_0_rgb(255_255_255/0.32),0_1px_2px_rgb(0_30_90/0.3),0_10px_20px_-12px_rgb(0_84_216/0.75)] hover:bg-[color-mix(in_oklab,var(--primary),black_9%)] dark:shadow-[inset_0_1px_0_rgb(255_255_255/0.3),0_10px_22px_-12px_rgb(106_162_255/0.5)]",
         outline:
-          "border-border bg-background shadow-xs hover:bg-muted hover:text-foreground aria-expanded:bg-muted aria-expanded:text-foreground dark:border-input dark:bg-input/30 dark:hover:bg-input/50",
+          "border-silver/80 bg-background bg-[image:linear-gradient(180deg,#ffffff,#edf2f8)] shadow-[inset_0_1px_0_#ffffff,0_1px_2px_rgb(31_45_61/0.07)] hover:bg-[image:linear-gradient(180deg,#ffffff,#e2eaf5)] hover:text-foreground aria-expanded:bg-muted aria-expanded:text-foreground dark:border-input dark:bg-input/30 dark:bg-none dark:shadow-none dark:hover:bg-input/50",
         secondary:
           "bg-secondary text-secondary-foreground hover:bg-[color-mix(in_oklch,var(--secondary),var(--foreground)_5%)] aria-expanded:bg-secondary aria-expanded:text-secondary-foreground",
         ghost:

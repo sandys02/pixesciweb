@@ -3,7 +3,7 @@
 import { ArrowRight, CheckCircle2 } from "lucide-react"
 import Link from "next/link"
 
-import type { MarketingPageData, PageSection } from "@/content/pages"
+import type { MarketingPageData } from "@/content/pages"
 import { complianceDisclaimer } from "@/content/site"
 import { cn } from "@/lib/utils"
 
@@ -12,35 +12,8 @@ import { CTASection } from "@/components/site/cta-section"
 import { DemoBookingLink } from "@/components/site/demo-booking-link"
 import { Button } from "@/components/ui/button"
 import { demoBookingUrl } from "@/content/site"
-import {
-  AuditTimeline,
-  CatalogVisual,
-  EnvironmentControls,
-  ExecutionConsole,
-  TemplateVisual,
-  WorkflowVisual,
-} from "@/components/visuals"
-
 import { FeatureGrid } from "./feature-grid"
-
-function SectionVisual({ visual }: Pick<PageSection, "visual">) {
-  switch (visual) {
-    case "workflow":
-      return <WorkflowVisual compact />
-    case "audit":
-      return <AuditTimeline />
-    case "architecture":
-      return <EnvironmentControls />
-    case "catalog":
-      return <CatalogVisual />
-    case "console":
-      return <ExecutionConsole />
-    case "templates":
-      return <TemplateVisual />
-    default:
-      return null
-  }
-}
+import { SectionVisual } from "./section-visual"
 
 type MarketingPageProps = {
   data: MarketingPageData
@@ -104,7 +77,7 @@ export function MarketingPage({ data, disclaimer }: MarketingPageProps) {
                 <div>
                   {section.eyebrow ? (
                     <p
-                      className={cn("eyebrow", section.dark && "text-cyan-300")}
+                      className={cn("eyebrow", section.dark && "text-icy")}
                     >
                       {section.eyebrow}
                     </p>

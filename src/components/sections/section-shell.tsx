@@ -34,7 +34,7 @@ export function SectionShell({
         <div className="grid gap-8 lg:grid-cols-[0.75fr_1.25fr] lg:gap-16">
           <div>
             {eyebrow ? (
-              <p className={cn("eyebrow", dark && "text-cyan-300")}>{eyebrow}</p>
+              <p className={cn("eyebrow", dark && "text-icy")}>{eyebrow}</p>
             ) : null}
             <h2 className="mt-3 max-w-xl text-3xl font-semibold leading-tight sm:text-4xl">
               {title}

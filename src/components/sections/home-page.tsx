@@ -1,61 +1,52 @@
 // @/components/sections/home-page.tsx
 
-import {
-  ArrowRight,
-  CheckCircle2,
-  CircleDot,
-  CloudOff,
-  FolderLock,
-  ShieldCheck,
-} from "lucide-react"
+import { ArrowRight } from "lucide-react"
 import Link from "next/link"
 
+import { qualityCore, solutionProducts } from "@/content/solutions"
 import {
-  connectedLabBenefits,
-  complianceDisclaimer,
-  platformOverviewSteps,
-  problems,
+  governedAiPrinciples,
+  heroMessages,
+  painPoints,
+  promisedLand,
   proofPoints,
-  resourceCards,
-  securityHighlights,
-  solutionCards,
+  riskPatterns,
+  stakesLosers,
+  stakesWinners,
 } from "@/content/site"
 
-import { BrandName } from "@/components/site/brand-name"
+import { TrademarkText } from "@/components/site/brand-name"
 import { CTASection } from "@/components/site/cta-section"
 import { DemoBookingLink } from "@/components/site/demo-booking-link"
-import { SignInPortalButton } from "@/components/site/download-pixesci-button"
+import { Tagline } from "@/components/site/tagline"
 import { Button } from "@/components/ui/button"
-import {
-  AuditTimeline,
-  CatalogVisual,
-  EnvironmentControls,
-  HeroAgentMockup,
-} from "@/components/visuals"
+import { LabConsole, MetalPlanes } from "@/components/visuals"
 
 import { FeatureGrid } from "./feature-grid"
-import { SectionShell } from "./section-shell"
+import { HeroRotator } from "./hero-rotator"
+import { RiskCalculator } from "./risk-calculator"
+
+const howWeGetYouThere = [qualityCore, ...solutionProducts]
 
 export function HomePage() {
   return (
     <>
       <main>
         <section className="hero-grid overflow-hidden border-b border-border">
-          <div className="site-container pt-16 pb-16 sm:pb-22 lg:pb-24">
-            <div className="grid items-center gap-4 lg:grid-cols-[0.75fr_1.1fr]">
+          <MetalPlanes />
+          <div className="site-container relative pt-16 pb-16 sm:pb-22 lg:pb-24">
+            <div className="grid items-center gap-4 lg:grid-cols-[0.85fr_1.1fr]">
               <div>
-                <div className="inline-flex items-center gap-2 rounded-full border border-border bg-background px-3 py-1.5 text-xs text-muted-foreground">
-                  <CircleDot className="size-3 text-emerald-500" />
-                  Describe. Review. Run. Track.
-                </div>
-                <h1 className="mt-7 text-4xl leading-[1.04] font-semibold md:text-5xl xl:text-6xl">
-                  Talk to your lab!
-                </h1>
-                <p className="mt-6 max-w-2xl text-base leading-7 text-muted-foreground sm:text-lg sm:leading-8">
-                  Connect and automate the scientific software you already use.
-                  Describe the work in your own words, review the steps, run
-                  locally, and track every action, file, decision, and result.
+                <p className="instrument-strip inline-flex items-center rounded-md border border-silver/70 px-3 py-2 text-xs font-semibold tracking-[0.16em] text-foreground/80 uppercase dark:border-input">
+                  <Tagline trademark />
                 </p>
+                <h1 className="mt-7 text-4xl leading-[1.04] font-semibold md:text-5xl">
+                  The autonomous quality control operating system for
+                  regulated life sciences.
+                </h1>
+                <div className="mt-6">
+                  <HeroRotator messages={heroMessages} />
+                </div>
                 <div className="mt-8 flex flex-col gap-3 sm:flex-row">
                   <Button asChild size="lg" className="px-4">
                     <DemoBookingLink source="home_hero">
@@ -63,20 +54,20 @@ export function HomePage() {
                       <ArrowRight className="size-4" />
                     </DemoBookingLink>
                   </Button>
-                  <SignInPortalButton
-                    source="home_hero"
-                    className="sm:w-auto"
-                    fullWidth
-                  />
+                  <Button asChild size="lg" variant="outline" className="px-4">
+                    <Link href="/platform/agents">
+                      See how you stay in control
+                    </Link>
+                  </Button>
                 </div>
               </div>
-              <HeroAgentMockup />
+              <LabConsole />
             </div>
-            <div className="mt-12 grid grid-cols-2 border-t border-l border-border sm:grid-cols-6 lg:mt-16">
+            <div className="instrument-strip mt-12 grid grid-cols-2 border-t border-l border-silver/60 sm:grid-cols-6 lg:mt-16 dark:border-border">
               {proofPoints.map((point) => (
                 <div
                   key={point}
-                  className="border-r border-b border-border px-3 py-4 text-center text-[10px] font-medium tracking-[0.12em] text-muted-foreground uppercase"
+                  className="border-r border-b border-silver/60 px-3 py-4 text-center text-[10px] font-medium tracking-[0.16em] text-muted-foreground uppercase dark:border-border"
                 >
                   {point}
                 </div>
@@ -85,129 +76,71 @@ export function HomePage() {
           </div>
         </section>
 
-        <SectionShell
-          eyebrow="The problem"
-          title="Your scientific tools work. The handoffs do not."
-          description="Labs use different apps for instruments, analysis, statistics, review, and records. People still move files and re-enter data by hand. This makes work slower, harder to repeat, and harder to review."
-        >
-          <FeatureGrid items={problems} columns={3} />
-        </SectionShell>
-
-        <section className="section-space border-t border-border">
+        <section className="section-space border-b border-border">
           <div className="site-container">
-            <div className="grid gap-8 lg:grid-cols-[1fr_1.28fr] lg:gap-16">
-              <div>
-                <p className="eyebrow">Platform overview</p>
-                <h2 className="mt-3 text-2xl leading-tight font-semibold sm:text-4xl">
-                  Connect scientific software. <br /> Run the workflow. <br />
-                  Keep the record.
-                </h2>
-              </div>
-              <div>
-                <p className="max-w-2xl text-base leading-7 text-muted-foreground sm:text-lg">
-                  <BrandName /> helps you turn scientific work into reviewed,
-                  reusable workflows. Teams can describe what they need, check
-                  the steps, run work locally or inside customer-controlled
-                  infrastructure, and keep the evidence needed to repeat and
-                  review the run.
-                </p>
-              </div>
-            </div>
-            <div className="mt-10 grid border-t border-l border-border md:grid-cols-2 xl:grid-cols-4">
-              {platformOverviewSteps.map((step, index) => {
-                const Icon = step.icon
-                return (
-                  <article
-                    key={step.title}
-                    className="min-h-64 border-r border-b border-border p-6 sm:p-7"
-                  >
-                    <div className="flex items-center justify-between gap-4">
-                      <Icon className="size-5 text-primary" />
-                      <span className="font-mono text-[10px] text-muted-foreground">
-                        0{index + 1}
-                      </span>
-                    </div>
-                    <h3 className="mt-12 text-lg font-semibold">
-                      {step.title}
-                    </h3>
-                    <p className="mt-3 text-sm leading-6 text-muted-foreground">
-                      {step.description}
-                    </p>
-                  </article>
-                )
-              })}
-            </div>
-            <div className="mt-12 max-w-3xl">
-              <p className="eyebrow">Connected lab benefits</p>
+            <div className="max-w-3xl">
+              <p className="eyebrow">The problem</p>
               <h2 className="mt-3 text-3xl leading-tight font-semibold sm:text-5xl">
-                Replace manual handoffs with workflows your team can repeat and
-                review.
+                You&apos;re stuck in manual and fragmented processes.
               </h2>
               <p className="mt-5 text-base leading-7 text-muted-foreground sm:text-lg">
-                We help teams connect instruments, analysis tools, informatics
-                systems, files, scripts, and reviewers without moving scientific
-                work into a cloud-only platform.
+                Your quality work spans instruments, software, and outside
+                partners that were never built to work together, so the gaps
+                between them land on you.
               </p>
             </div>
             <div className="mt-10">
-              <FeatureGrid items={connectedLabBenefits} />
+              <FeatureGrid items={painPoints} columns={3} />
             </div>
-            <div className="mt-8 flex">
+            <div className="dark-surface mt-6 rounded-lg p-6 text-white sm:p-10">
+              <p className="eyebrow text-icy">What we do about it</p>
+              <h3 className="mt-3 text-2xl leading-tight font-semibold sm:text-4xl">
+                We take that off your plate.
+              </h3>
+              <p className="mt-4 max-w-3xl text-base leading-7 text-white/70 sm:text-lg">
+                <TrademarkText text="PixeSci connects your instruments, software, and partners, and runs your routine QC work with your sign-off on every step that matters. Work runs precisely as you approved it, and every action, file, and decision is recorded as it happens. Your team gets complete quality records, an audit trail ready for compliance review, and confidence in every result." />
+              </p>
               <Link
-                href="/product"
-                className="inline-flex items-center gap-2 text-sm font-medium text-primary hover:underline"
+                href="/solutions"
+                className="mt-6 inline-flex items-center gap-2 text-sm font-medium text-icy hover:underline"
               >
-                See the product overview
+                See how it works
                 <ArrowRight className="size-4" />
               </Link>
             </div>
           </div>
         </section>
 
-        <section className="section-space dark-surface border-t border-white/10 text-white">
+        <section className="section-space border-b border-border bg-muted/25">
           <div className="site-container">
-            <div className="grid gap-10 lg:grid-cols-[0.72fr_1.28fr] lg:items-center lg:gap-16">
-              <div>
-                <p className="eyebrow text-cyan-300">Run it locally</p>
-                <h2 className="mt-3 text-3xl leading-tight font-semibold sm:text-4xl">
-                  Run workflows within your own environment.
-                </h2>
-                <p className="mt-5 text-base leading-7 text-white/62">
-                  Keep workflow services, work data, AI models, and software
-                  connections inside your own environment. Use lab workstations
-                  or your own servers without relying on an outside cloud
-                  service.
+            <div className="max-w-3xl">
+              <p className="eyebrow">What&apos;s at stake</p>
+              <h2 className="mt-3 text-3xl leading-tight font-semibold sm:text-4xl">
+                Small evidence gaps become expensive problems, fast.
+              </h2>
+              <p className="mt-5 text-base leading-7 text-muted-foreground sm:text-lg">
+                Without PixeSci, teams rebuild quality evidence after the fact
+                and find their gaps at release, audit, or inspection, when
+                they cost the most. With it, they carry the evidence through
+                the work and find gaps while they&apos;re small.
+              </p>
+            </div>
+            <div className="mt-10 grid overflow-hidden rounded-lg border border-border bg-background lg:grid-cols-2">
+              <div className="p-6 sm:p-8">
+                <p className="text-xs font-semibold tracking-[0.12em] text-muted-foreground uppercase">
+                  Teams that don&apos;t use PixeSci
                 </p>
-                <ul className="mt-7 space-y-4">
-                  {[
-                    {
-                      title: "Customer-controlled data",
-                      description:
-                        "Keep workflow data, run history, and audit records inside approved systems.",
-                      icon: FolderLock,
-                    },
-                    {
-                      title: "No outside cloud service required",
-                      description:
-                        "Run on workstations or your own servers without an outside execution service.",
-                      icon: CloudOff,
-                    },
-                    {
-                      title: "Controlled connections",
-                      description:
-                        "Choose which tools, folders, passwords, and networks each workflow can use.",
-                      icon: ShieldCheck,
-                    },
-                  ].map((item) => {
+                <ul className="mt-6 space-y-5">
+                  {stakesLosers.map((item) => {
                     const Icon = item.icon
                     return (
                       <li key={item.title} className="flex gap-3">
-                        <Icon className="mt-0.5 size-4 shrink-0 text-cyan-300" />
+                        <Icon className="mt-0.5 size-4 shrink-0 text-muted-foreground" />
                         <div>
-                          <p className="text-sm font-medium text-white/85">
+                          <p className="text-sm font-medium text-foreground/85">
                             {item.title}
                           </p>
-                          <p className="mt-1 text-xs leading-5 text-white/48">
+                          <p className="mt-1 text-xs leading-5 text-muted-foreground">
                             {item.description}
                           </p>
                         </div>
@@ -215,196 +148,159 @@ export function HomePage() {
                     )
                   })}
                 </ul>
-                <Link
-                  href="/security"
-                  className="mt-8 inline-flex items-center gap-2 text-sm font-medium text-cyan-300 hover:underline"
-                >
-                  Review deployment controls
-                  <ArrowRight className="size-4" />
-                </Link>
               </div>
-              <EnvironmentControls />
+              <div className="dark-surface p-6 text-white sm:p-8">
+                <p className="text-xs font-semibold tracking-[0.12em] text-icy uppercase">
+                  Teams that use PixeSci
+                </p>
+                <ul className="mt-6 space-y-5">
+                  {stakesWinners.map((item) => {
+                    const Icon = item.icon
+                    return (
+                      <li key={item.title} className="flex gap-3">
+                        <Icon className="mt-0.5 size-4 shrink-0 text-icy" />
+                        <div>
+                          <p className="text-sm font-medium text-white/85">
+                            {item.title}
+                          </p>
+                          <p className="mt-1 text-xs leading-5 text-white/55">
+                            {item.description}
+                          </p>
+                        </div>
+                      </li>
+                    )
+                  })}
+                </ul>
+              </div>
+            </div>
+            <div className="mt-16">
+              <div className="max-w-3xl">
+                <h3 className="text-xl font-semibold sm:text-2xl">
+                  What could evidence gaps cost your operation?
+                </h3>
+                <p className="mt-3 text-sm leading-6 text-muted-foreground sm:text-base">
+                  <TrademarkText text="Estimate your exposure based on your own operation. These are illustrative scenarios built on PixeSci's own remediation-cost modeling — not predictions, and not a substitute for your own risk assessment." />
+                </p>
+              </div>
+              <div className="mt-6">
+                <RiskCalculator />
+              </div>
             </div>
           </div>
         </section>
 
-        <section className="section-space border-t border-border">
-          <div className="site-container">
-            <div className="grid gap-10 lg:grid-cols-2 lg:items-center lg:gap-16">
-              <div>
-                <p className="eyebrow">Track every run</p>
-                <h2 className="mt-3 text-3xl leading-tight font-semibold sm:text-4xl">
-                  See what happened during every experiment.
-                </h2>
-                <p className="mt-5 text-base leading-7 text-muted-foreground">
-                  Keep each user, action, setting, result, file, approval, and
-                  error with the run. Reviewers can see completed steps and
-                  changes without searching through folders and app histories.
-                </p>
-                <div className="mt-7 space-y-4">
-                  {[
-                    "Users, roles, sessions, and times",
-                    "Software actions, files, and results",
-                    "File details, checksums, errors, and reviews",
-                    "Human approval for controlled actions",
-                  ].map((item) => (
-                    <div
-                      key={item}
-                      className="flex gap-3 text-sm text-muted-foreground"
-                    >
-                      <CheckCircle2 className="size-4 shrink-0 text-emerald-600" />
-                      {item}
-                    </div>
-                  ))}
-                </div>
-                <p className="mt-7 border-l-2 border-amber-400 pl-4 text-xs leading-5 text-muted-foreground">
-                  {complianceDisclaimer}
-                </p>
-                <Link
-                  href="/compliance"
-                  className="mt-7 inline-flex items-center gap-2 text-sm font-medium text-primary hover:underline"
-                >
-                  See compliance workflows
-                  <ArrowRight className="size-4" />
-                </Link>
-              </div>
-              <AuditTimeline />
-            </div>
-          </div>
-        </section>
-
-        <section className="section-space border-t border-border bg-muted/25">
-          <div className="site-container">
-            <div className="grid gap-10 lg:grid-cols-[0.72fr_1.28fr] lg:items-center lg:gap-16">
-              <div>
-                <p className="eyebrow">Connect your software</p>
-                <h2 className="mt-3 text-3xl leading-tight font-semibold sm:text-4xl">
-                  Use each tool the way it was built to work.
-                </h2>
-                <p className="mt-5 text-base leading-7 text-muted-foreground">
-                  Check which apps are supported, which files they need, what
-                  results they produce, and where human review belongs. Confirm
-                  the right tools are installed before the workflow runs.
-                </p>
-                <Link
-                  href="/integrations"
-                  className="mt-7 inline-flex items-center gap-2 text-sm font-medium text-primary hover:underline"
-                >
-                  Explore integrations
-                  <ArrowRight className="size-4" />
-                </Link>
-              </div>
-              <CatalogVisual />
-            </div>
-          </div>
-        </section>
-
-        <section className="section-space border-t border-border">
+        <section className="section-space border-b border-border">
           <div className="site-container">
             <div className="max-w-3xl">
-              <p className="eyebrow">Built for controlled scientific work</p>
-              <h2 className="mt-3 text-3xl leading-tight font-semibold sm:text-4xl">
-                Automate work without losing control of data or records.
+              <p className="eyebrow">What winning looks like</p>
+              <h2 className="mt-3 text-3xl leading-tight font-semibold sm:text-5xl">
+                Your quality team gets to do the actual quality work again.
               </h2>
             </div>
-            <div className="mt-10 grid border-t border-l border-border lg:grid-cols-3">
-              {solutionCards.map((solution) => {
-                const Icon = solution.icon
-                return (
-                  <article
-                    key={solution.href}
-                    className="border-r border-b border-border p-6 sm:p-8"
-                  >
-                    <Icon className="size-5 text-primary" />
-                    <h3 className="mt-10 text-lg font-semibold">
-                      {solution.title}
-                    </h3>
-                    <p className="mt-3 text-sm leading-6 text-muted-foreground">
-                      {solution.description}
-                    </p>
-                    <p className="mt-6 border-t border-border pt-5 font-mono text-[10px] leading-5 text-muted-foreground">
-                      {solution.examples}
-                    </p>
-                    <Link
-                      href={solution.href}
-                      className="mt-6 inline-flex items-center gap-2 text-sm font-medium text-primary hover:underline"
-                    >
-                      Automate this workflow
-                      <ArrowRight className="size-4" />
-                    </Link>
-                  </article>
-                )
-              })}
+            <div className="mt-10">
+              <FeatureGrid items={promisedLand} columns={3} />
             </div>
           </div>
         </section>
 
-        <section className="section-space border-t border-border bg-muted/25">
+        <section className="section-space border-b border-border bg-muted/25">
           <div className="site-container">
             <div className="flex flex-col justify-between gap-5 sm:flex-row sm:items-end">
-              <div className="max-w-2xl">
-                <p className="eyebrow">Learn how it works</p>
+              <div className="max-w-3xl">
+                <p className="eyebrow">How we get you there</p>
                 <h2 className="mt-3 text-3xl leading-tight font-semibold sm:text-4xl">
-                  Give technical and quality teams clear information to review.
+                  Four things stand in your way. We clear each one.
                 </h2>
               </div>
               <Link
-                href="/resources"
+                href="/solutions"
                 className="inline-flex items-center gap-2 text-sm font-medium text-primary hover:underline"
               >
-                View all resources
+                See how it fits together
                 <ArrowRight className="size-4" />
               </Link>
             </div>
-            <div className="mt-10 grid border-t border-l border-border lg:grid-cols-3">
-              {resourceCards.map((resource) => (
-                <article
-                  key={resource.title}
-                  className="border-r border-b border-border p-6 sm:p-8"
+            <div className="mt-10 grid border-t border-l border-border bg-background sm:grid-cols-2 lg:grid-cols-4">
+              {howWeGetYouThere.map((item) => (
+                <Link
+                  key={item.id}
+                  href={`/solutions#${item.id}`}
+                  className="group block border-r border-b border-border p-6 transition-colors hover:bg-muted/60 sm:p-7"
                 >
-                  <p className="eyebrow">{resource.type}</p>
-                  <h3 className="mt-8 text-lg font-semibold">
-                    {resource.title}
-                  </h3>
-                  <p className="mt-3 text-sm leading-6 text-muted-foreground">
-                    {resource.description}
+                  <p className="tech-label">The obstacle</p>
+                  <p className="mt-2 text-sm leading-6 text-muted-foreground">
+                    {item.obstacle}
                   </p>
-                  <Link
-                    href={resource.href}
-                    className="mt-6 inline-flex items-center gap-2 text-sm font-medium text-primary hover:underline"
-                  >
-                    Read workflow guide
-                    <ArrowRight className="size-4" />
-                  </Link>
-                </article>
+                  <p className="mt-6 flex items-center gap-2 text-base font-semibold">
+                    {item.label}
+                    <ArrowRight
+                      className="size-4 text-primary transition-transform group-hover:translate-x-0.5"
+                      aria-hidden="true"
+                    />
+                  </p>
+                  <p className="mt-2 text-sm leading-6">{item.gift}</p>
+                </Link>
               ))}
             </div>
           </div>
         </section>
 
-        <section className="border-t border-border">
-          <div className="site-container grid gap-6 py-8 sm:grid-cols-3">
-            {securityHighlights.map((item) => {
-              const Icon = item.icon
-              return (
-                <div key={item.title} className="flex gap-3">
-                  <Icon className="mt-0.5 size-4 shrink-0 text-primary" />
-                  <div>
-                    <h2 className="text-sm font-semibold">{item.title}</h2>
-                    <p className="mt-1 text-xs leading-5 text-muted-foreground">
-                      {item.description}
-                    </p>
-                  </div>
-                </div>
-              )
-            })}
+        <section className="section-space border-b border-border">
+          <div className="site-container">
+            <div className="max-w-3xl">
+              <p className="eyebrow">You stay in charge</p>
+              <h2 className="mt-3 text-3xl leading-tight font-semibold sm:text-4xl">
+                <TrademarkText text="PixeSci works for you. You make every decision." />
+              </h2>
+              <p className="mt-5 text-base leading-7 text-muted-foreground sm:text-lg">
+                <TrademarkText text="PixeSci reads, watches, and recommends. It can't approve, close, release, invalidate, or sign a record, and that limit is built into the software, not left to a policy document." />
+              </p>
+            </div>
+            <div className="mt-10">
+              <FeatureGrid items={governedAiPrinciples} columns={3} />
+            </div>
+            <p className="mt-6 max-w-3xl text-xs leading-5 text-muted-foreground">
+              Aligned to FDA and EMA good-AI-practice principles: clear
+              intended use, proportionate risk management, trustworthy data,
+              independent validation, human oversight, defined accountability,
+              controlled change management, and auditable records.
+            </p>
+            <Link
+              href="/platform/agents"
+              className="mt-6 inline-flex items-center gap-2 text-sm font-medium text-primary hover:underline"
+            >
+              See how you stay in control
+              <ArrowRight className="size-4" />
+            </Link>
+          </div>
+        </section>
+
+        <section className="section-space border-b border-border bg-muted/25">
+          <div className="site-container">
+            <div className="max-w-3xl">
+              <p className="eyebrow">Sound familiar?</p>
+              <h2 className="mt-3 text-3xl leading-tight font-semibold sm:text-4xl">
+                Recognize any of these?
+              </h2>
+              <p className="mt-5 text-base leading-7 text-muted-foreground sm:text-lg">
+                <TrademarkText text="These are common patterns across regulated labs, described as categories, not as citations to any specific company or inspection. We watch for them continuously, so you can find and fix them early." />
+              </p>
+            </div>
+            <div className="mt-10">
+              <FeatureGrid items={riskPatterns} columns={2} />
+            </div>
+            <p className="mt-6 max-w-3xl text-xs leading-5 text-muted-foreground">
+              These categories are illustrative and general to the industry.
+              They do not describe any named company, product, or specific
+              regulatory action.
+            </p>
           </div>
         </section>
       </main>
       <CTASection
-        title="Turn manual scientific work into a reviewed workflow."
-        description="Identify the software, files, handoffs, and review steps. We will show you how PixeSci connects the tools, runs the workflow, and tracks the record."
-        cta="Automate your workflow"
+        title="See it on the workflow that worries you most."
+        description="Bring one workflow where evidence is hardest to pull together. We will show you how it looks when it is connected, with your team making every decision."
+        cta="Request a demo"
       />
     </>
   )

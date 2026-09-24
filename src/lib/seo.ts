@@ -1,6 +1,6 @@
 import type { Metadata } from "next"
 
-import { siteUrl } from "@/content/site"
+import { categoryLine, siteUrl } from "@/content/site"
 
 type SeoMetadata = {
   title: string
@@ -52,8 +52,7 @@ export const organizationJsonLd = {
   "@id": `${siteUrl}/#organization`,
   name: "PixeSci TM",
   url: siteUrl,
-  description:
-    "Connect and automate scientific software. Teams describe work in plain language, run it locally, and track every step for review.",
+  description: categoryLine,
 }
 
 export const websiteJsonLd = {
@@ -63,7 +62,7 @@ export const websiteJsonLd = {
   url: siteUrl,
   name: "PixeSci TM",
   alternateName: "PixeSci TM Scientific Workflow Automation",
-  description: "Connect, automate, and track scientific software workflows.",
+  description: categoryLine,
   inLanguage: "en-US",
   publisher: {
     "@id": `${siteUrl}/#organization`,
@@ -73,7 +72,7 @@ export const websiteJsonLd = {
 export const softwareApplicationJsonLd = {
   "@context": "https://schema.org",
   "@type": "SoftwareApplication",
-  "@id": `${siteUrl}/product#software`,
+  "@id": `${siteUrl}/solutions#software`,
   name: "PixeSci TM",
   url: `${siteUrl}/product`,
   applicationCategory: "ScientificApplication",
@@ -88,6 +87,18 @@ export const softwareApplicationJsonLd = {
     "Run history and output files",
     "Audit records and review checkpoints",
     "Local AI-assisted workflow planning",
+    "Laboratory sample tracking from accessioning to Certificate of Analysis",
+    "Quality record management for deviations, CAPA, and nonconformances",
+    "Material and product lot tracking with genealogy",
+    "Electronic batch records for manufacturing",
+    "Equipment qualification, calibration, and maintenance tracking",
+    "Document control connected to GxP training records",
+    "Cross-module inspection readiness reporting",
+    "Continuous, agent-monitored compliance across connected systems",
+    "Deterministic rule-based detection of data-integrity and audit-trail gaps",
+    "Governed AI copilot with an enforced no-autonomous-decision boundary",
+    "Hash-chained, independently verifiable audit trail",
+    "One-click, checksum-manifested evidence export per finding",
   ],
   provider: {
     "@id": `${siteUrl}/#organization`,

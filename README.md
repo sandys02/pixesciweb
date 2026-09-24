@@ -77,24 +77,26 @@ prefix unless they are intentionally safe to ship to browsers.
 
 ## Routes
 
-| Route                                | Purpose                                                                                    |
-| ------------------------------------ | ------------------------------------------------------------------------------------------ |
-| `/`                                  | Primary product positioning and conversion journey                                         |
-| `/product`                           | Platform, workflow canvas, runtime, catalog, and audit capabilities                        |
-| `/workflow-automation`               | Graph-native authoring, controlled execution, and run evidence                             |
-| `/integrations`                      | Scientific software categories, capability profiles, and adapter channels                  |
-| `/compliance`                        | Data integrity, auditability, review, and validation boundaries                            |
-| `/security`                          | Local-first architecture, deployment models, and policy controls                           |
-| `/solutions/regulated-life-sciences` | QC and R&D workflows for regulated organizations                                           |
-| `/solutions/secure-research`         | On-premises and air-gapped research environments                                           |
-| `/solutions/core-facilities`         | Reusable operator workflows for shared facilities                                          |
-| `/resources`                         | Technical evaluation guides and FAQ content                                                |
-| `/company`                           | Product thesis, market focus, and company positioning                                      |
-| `/privacy`                           | Website analytics, performance measurement, and booking disclosure                         |
-| `/portal`                            | Authenticated organization portal for setup, licenses, seats, downloads, and offline files |
-| `/admin`                             | Internal PixeSci staff dashboard for organization and license administration               |
-| `/contact`                           | Permanent compatibility redirect to the Cal.com demo calendar                              |
-| `/talk-to-sales`                     | Permanent compatibility redirect to the Cal.com demo calendar                              |
+| Route                                | Purpose                                                                                                                          |
+| ------------------------------------ | -------------------------------------------------------------------------------------------------------------------------------- |
+| `/`                                  | Primary product positioning and conversion journey                                                                               |
+| `/solutions`                         | The four products: Quality Core (with seven record modules), Integrations, Agentic Automation, and Continuous Quality Monitoring |
+| `/platform/agents`                   | Continuous Quality Monitoring: continuous monitoring, governed AI, evidence, and data integrity                                  |
+| `/platform/workflow-automation`      | Agentic Automation: plain-language requests, reviewed steps, controlled execution, and run records                               |
+| `/integrations`                      | Scientific software categories, capability profiles, and adapter channels                                                        |
+| `/security`                          | Local-first architecture, deployment models, and policy controls                                                                 |
+| `/solutions/regulated-life-sciences` | QC and R&D workflows for regulated organizations                                                                                 |
+| `/resources`                         | Technical evaluation guides and FAQ content                                                                                      |
+| `/company`                           | Product thesis, market focus, and company positioning                                                                            |
+| `/privacy`                           | Website analytics, performance measurement, and booking disclosure                                                               |
+| `/portal`                            | Authenticated organization portal for setup, licenses, seats, downloads, and offline files                                       |
+| `/admin`                             | Internal PixeSci staff dashboard for organization and license administration                                                     |
+| `/contact`                           | Permanent compatibility redirect to the Cal.com demo calendar                                                                    |
+| `/talk-to-sales`                     | Permanent compatibility redirect to the Cal.com demo calendar                                                                    |
+
+Retired routes redirect permanently from `next.config.ts`: `/platform/<module>` to
+`/solutions#<module>`, `/product` to `/solutions`, `/compliance` to `/platform/agents`, `/solutions/secure-research`
+to `/security`, and `/solutions/core-facilities` to `/platform/workflow-automation`.
 
 Next.js also generates `/opengraph-image`, `/robots.txt`, and `/sitemap.xml`.
 Redirect-only routes are intentionally excluded from the sitemap.

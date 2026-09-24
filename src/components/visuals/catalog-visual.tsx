@@ -1,36 +1,36 @@
-import { CheckCircle2, Search, Settings2 } from "lucide-react"
+import { CheckCircle2, Clock, Search, Settings2 } from "lucide-react"
 
 const software = [
   {
     name: "Empower CDS",
-    category: "Analytical Chemistry",
+    category: "Chromatography",
     outcome: "Reviewed chromatographic results",
-    status: "Available",
-    detail: "8 capabilities · 4 workflows",
+    status: "On roadmap",
+    detail: "Direct connector planned",
   },
 
   {
-    name: "HPLC System",
-    category: "Analytical Chemistry",
-    outcome: "Quantified compounds",
+    name: "HPLC / UPLC exports",
+    category: "Chromatography",
+    outcome: "Linked instrument files",
     status: "Needs setup",
-    detail: "6 capabilities · 3 workflows",
+    detail: "File-based intake",
   },
 
   {
-    name: "NMR Software",
-    category: "Analytical Chemistry",
-    outcome: "Structural characterization",
+    name: "Balance and pH meter data",
+    category: "QC instruments",
+    outcome: "Weights and readings captured",
     status: "Installed",
-    detail: "5 capabilities · 2 workflows",
+    detail: "CSV gateway",
   },
 
   {
-    name: "LC-MS Platform",
-    category: "Analytical Chemistry",
-    outcome: "Identified analytes",
-    status: "Available",
-    detail: "7 capabilities · 3 workflows",
+    name: "Environmental monitors",
+    category: "Environmental monitoring",
+    outcome: "Excursions flagged early",
+    status: "On roadmap",
+    detail: "Direct connector planned",
   },
 ]
 
@@ -62,13 +62,13 @@ export function CatalogVisual() {
           </div>
           <div className="mt-5 space-y-1">
             {[
-              "Analytical Chemistry",
-              "Data Analysis & Statistics",
-              "Laboratory Productivity",
-              "Reporting & Visualization",
-              "AI & Automation",
-              "Imaging & Microscopy",
-              "Bioinformatics & Omics",
+              "Chromatography",
+              "QC instruments",
+              "LIMS & ELN",
+              "Quality management",
+              "Environmental monitoring",
+              "Equipment & calibration",
+              "Documents & training",
             ].map((category, index) => (
               <div
                 key={category}
@@ -118,8 +118,8 @@ export function CatalogVisual() {
                     {app.status}
                   </span>
                 ) : (
-                  <span className="inline-flex items-center gap-1 text-primary">
-                    <CheckCircle2 className="size-3" />
+                  <span className="inline-flex items-center gap-1 text-muted-foreground">
+                    <Clock className="size-3" />
                     {app.status}
                   </span>
                 )}

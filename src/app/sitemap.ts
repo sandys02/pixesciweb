@@ -4,14 +4,12 @@ import { siteUrl } from "@/content/site"
 
 const routes = [
   "",
-  "/product",
+  "/solutions",
+  "/platform/agents",
+  "/platform/workflow-automation",
   "/solutions/regulated-life-sciences",
-  "/solutions/secure-research",
-  "/solutions/core-facilities",
   "/integrations",
-  "/compliance",
   "/security",
-  "/workflow-automation",
   "/resources",
   "/company",
   "/privacy",
@@ -22,6 +20,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
     url: `${siteUrl}${route}`,
     lastModified: new Date("2026-06-14"),
     changeFrequency: index === 0 ? "weekly" : "monthly",
-    priority: index === 0 ? 1 : index < 9 ? 0.8 : 0.6,
+    priority: index === 0 ? 1 : index < 7 ? 0.8 : 0.6,
   }))
 }

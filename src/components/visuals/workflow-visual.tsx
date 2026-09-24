@@ -7,7 +7,7 @@ import {
   FileInput,
   FileText,
   FolderOpen,
-  Microscope,
+  FlaskConical,
   MonitorPlay,
   ShieldCheck,
   Terminal,
@@ -26,16 +26,16 @@ const nodes = [
   {
     label: "Instrument output",
     meta: "source / sample-set-042",
-    icon: Microscope,
+    icon: FlaskConical,
   },
   {
-    label: "Image analysis",
-    meta: "action / quantify-cells",
+    label: "Data check",
+    meta: "action / validate-results",
     icon: FileInput,
   },
   {
-    label: "Statistics",
-    meta: "parameters / analysis-v3",
+    label: "Calculation",
+    meta: "parameters / calc-v3",
     icon: FileBarChart,
   },
   {
@@ -63,13 +63,13 @@ export function WorkflowVisual({
         compact ? "min-h-[390px]" : "min-h-[500px]",
         className
       )}
-      aria-label="PixeSci TM workflow connecting instrument output, analysis, statistics, review, and a final record"
+      aria-label="PixeSci TM workflow connecting instrument output, data checks, calculations, review, and a final record"
     >
       {/* TODO: Replace with real workflow canvas screenshot. */}
       <figcaption className="visual-toolbar">
         <span className="flex items-center gap-2">
           <span className="size-2 rounded-full bg-emerald-400" />
-          Flow cytometry review pipeline
+          HPLC result review pipeline
         </span>
         <span className="font-mono text-[10px] text-muted-foreground">
           workflow / v3.4
@@ -123,7 +123,7 @@ export function WorkflowVisual({
               <div
                 className={cn(
                   "relative z-10 w-full rounded-md border bg-background p-4 shadow-sm",
-                  dark && "border-white/12 bg-[#10171b]",
+                  dark && "border-white/12 bg-deep-raised",
                   index === 3 && "border-amber-400/50"
                 )}
               >

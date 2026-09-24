@@ -59,6 +59,45 @@ const nextConfig: NextConfig = {
     "/api/download/session": ["./private/download.db"],
     "/api/portal/**/*": ["./private/portal.db"],
   },
+  async redirects() {
+    const modules = [
+      "laboratory",
+      "quality-management",
+      "materials-products",
+      "manufacturing-quality",
+      "equipment",
+      "documents-training",
+      "reports-analytics",
+    ]
+
+    return [
+      ...modules.map((module) => ({
+        source: `/platform/${module}`,
+        destination: `/solutions#${module}`,
+        permanent: true,
+      })),
+      {
+        source: "/product",
+        destination: "/solutions",
+        permanent: true,
+      },
+      {
+        source: "/compliance",
+        destination: "/platform/agents",
+        permanent: true,
+      },
+      {
+        source: "/solutions/secure-research",
+        destination: "/security",
+        permanent: true,
+      },
+      {
+        source: "/solutions/core-facilities",
+        destination: "/platform/workflow-automation",
+        permanent: true,
+      },
+    ]
+  },
   async headers() {
     return [
       {
