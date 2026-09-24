@@ -1,0 +1,364 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>PixeSci one-pager</title>
+<style>
+@font-face { font-family: "Geist"; src: url("assets/geist.woff2") format("woff2"); font-weight: 100 900; }
+@font-face { font-family: "Geist Mono"; src: url("assets/geist-mono.woff2") format("woff2"); font-weight: 100 900; }
+@page { size: 8.5in 11in; margin: 0; }
+:root { --blue: #0054d8; --icy: #b6d3ff; --white: #f9fbfd; --gray: #e7eef7; --silver: #c7ccd6; --slate: #1f2d3d; --muted: #526176; }
+* { box-sizing: border-box; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+html, body { margin: 0; background: #fff; }
+body { font-family: "Geist", "Segoe UI", Arial, sans-serif; color: var(--slate); }
+.mono { font-family: "Geist Mono", ui-monospace, Consolas, monospace; }
+.page { width: 8.5in; height: 11in; padding: 0.28in 0.5in 0.22in; background: var(--white); font-size: 8pt; line-height: 1.38; display: flex; flex-direction: column; overflow: hidden; }
+.tech { font-size: 6pt; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase; }
+.eyebrow { display: flex; align-items: center; gap: 6px; color: var(--blue); }
+.eyebrow::before { content: ""; width: 14px; height: 1px; background: currentColor; opacity: .7; }
+.muted { color: var(--muted); }
+
+header { display: flex; align-items: center; justify-content: space-between; padding-bottom: 0.08in; }
+.brand { display: flex; align-items: center; gap: 8px; }
+.brand img { width: 0.36in; height: 0.36in; border-radius: 8px; box-shadow: 0 1px 2px rgba(0,30,90,.28); }
+.wordmark { font-size: 15pt; font-weight: 650; letter-spacing: -0.02em; color: var(--blue); line-height: 1; }
+.wordmark sup { font-size: 6pt; margin-left: 1px; vertical-align: 0.55em; }
+.pill { display: inline-flex; align-items: center; gap: 8px; border: 0.6pt solid var(--silver); border-radius: 5px; padding: 5px 10px; color: var(--slate); background: linear-gradient(180deg,#fff,#eef3f9); }
+.pill .tech { letter-spacing: 0.16em; font-size: 6.6pt; color: var(--slate); }
+.pill .w { color: var(--blue); }
+.rail { height: 1.5px; margin-bottom: 0.12in; background: linear-gradient(90deg,#c7ccd6 0%,#eef2f7 20%,#fff 32%,#b6d3ff 50%,#0054d8 62%,#b6d3ff 74%,#dfe4ec 88%,#c7ccd6 100%); }
+
+h1 { margin: 0; font-size: 21pt; line-height: 1.05; font-weight: 640; letter-spacing: -0.024em; max-width: 6.9in; }
+.sub { margin: 5px 0 0; font-size: 9.4pt; line-height: 1.38; color: var(--muted); max-width: 6.4in; }
+.hero { padding: 0.04in 0 0.11in; }
+
+.console { display: grid; grid-template-columns: 1.55fr 1fr; gap: 0.12in; margin-bottom: 0.11in; }
+.ask { border-radius: 8px; padding: 0.13in 0.17in 0.12in; color: #fff; position: relative; overflow: hidden;
+  background: radial-gradient(80% 90% at 100% 0%, rgba(0,84,216,.5), transparent 62%), linear-gradient(180deg, #1a2b45, #0e1826); }
+.tabs { display: flex; gap: 5px; align-items: center; }
+.tab { font-size: 6pt; letter-spacing: 0.18em; text-transform: uppercase; font-weight: 600; padding: 3px 8px; border-radius: 4px; border: 0.6pt solid rgba(255,255,255,.22); color: rgba(255,255,255,.6); }
+.tab.on { background: #fff; color: #0e1826; border-color: #fff; }
+.tabs .live { margin-left: auto; display: inline-flex; gap: 6px; align-items: center; color: var(--icy); font-size: 6pt; letter-spacing: 0.16em; text-transform: uppercase; font-weight: 600; }
+.prompt { margin-top: 0.09in; display: flex; align-items: center; gap: 9px; }
+.prompt .q { font-size: 13.5pt; line-height: 1.15; font-weight: 600; letter-spacing: -0.015em; }
+.src { display: flex; gap: 5px; margin-top: 0.08in; flex-wrap: wrap; }
+.src span { border: 0.6pt solid rgba(255,255,255,.24); border-radius: 4px; padding: 2px 7px; font-size: 6.8pt; color: rgba(255,255,255,.86); }
+.src b { font-weight: 650; color: #fff; }
+.reply { margin-top: 0.08in; font-size: 9pt; line-height: 1.38; color: rgba(255,255,255,.92); }
+.items { margin-top: 0.07in; display: grid; gap: 3px; }
+.it { display: flex; align-items: center; gap: 8px; border: 0.6pt solid rgba(255,255,255,.16); border-radius: 5px; padding: 3px 8px; font-size: 7.2pt; }
+.it .l { font-weight: 600; min-width: 1.05in; }
+.it .d { color: rgba(255,255,255,.62); }
+.it.flag { background: rgba(0,84,216,.5); border-color: rgba(182,211,255,.6); }
+.it.flag .r { margin-left: auto; font-size: 5.8pt; letter-spacing: .16em; text-transform: uppercase; font-weight: 700; }
+.it svg { flex: none; }
+.outcome { margin-top: 0.08in; display: flex; justify-content: space-between; align-items: center; gap: 8px; }
+.outcome .o { font-size: 7.4pt; font-weight: 650; color: #fff; }
+.outcome .b { font-size: 6.2pt; color: rgba(255,255,255,.62); text-align: right; max-width: 2.6in; line-height: 1.3; }
+
+.side { display: grid; gap: 0.12in; grid-template-rows: 1fr 1fr; }
+.mini { background: #fff; border: 0.6pt solid var(--silver); border-radius: 8px; padding: 0.1in 0.14in; display: flex; flex-direction: column; }
+.mini .tech { color: var(--blue); }
+.mini .p { margin-top: 4px; font-size: 9pt; line-height: 1.22; font-weight: 640; letter-spacing: -0.01em; }
+.mini .rp { margin-top: 4px; font-size: 7.4pt; line-height: 1.38; color: var(--muted); }
+.mini .oc { margin-top: auto; padding-top: 5px; font-size: 7pt; font-weight: 650; color: var(--slate); display: flex; align-items: center; gap: 5px; }
+.mini .oc::before { content: ""; width: 5px; height: 5px; border-radius: 50%; background: var(--blue); }
+
+.proof { display: grid; grid-template-columns: repeat(6, 1fr); border-top: 0.6pt solid var(--silver); border-left: 0.6pt solid var(--silver); background: #fff; margin-bottom: 0.12in; }
+.proof div { border-right: 0.6pt solid var(--silver); border-bottom: 0.6pt solid var(--silver); padding: 5px 4px; text-align: center; font-size: 5.6pt; letter-spacing: 0.13em; text-transform: uppercase; font-weight: 600; color: var(--muted); line-height: 1.3; }
+
+h2 { margin: 3px 0 0; font-size: 12.5pt; line-height: 1.12; font-weight: 640; letter-spacing: -0.02em; }
+.pains { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0; margin-top: 6px; border-top: 0.6pt solid var(--silver); border-left: 0.6pt solid var(--silver); background: #fff; }
+.pain { padding: 6px 8px 7px; border-right: 0.6pt solid var(--silver); border-bottom: 0.6pt solid var(--silver); }
+.pain b { display: block; font-size: 8pt; line-height: 1.22; font-weight: 650; }
+.pain span { display: block; margin-top: 3px; font-size: 7pt; line-height: 1.36; color: var(--muted); }
+.bridge { margin: 5px 0 0; font-size: 8.6pt; font-weight: 640; color: var(--blue); }
+section.blk { margin-bottom: 0.11in; }
+
+.prod-grid { display: grid; grid-template-columns: repeat(4, 1fr); margin-top: 6px; border-top: 0.6pt solid var(--silver); border-left: 0.6pt solid var(--silver); background: #fff; }
+.prod { padding: 6px 8px 7px; border-right: 0.6pt solid var(--silver); border-bottom: 0.6pt solid var(--silver); }
+.prod .tech { color: var(--blue); font-size: 5.6pt; }
+.prod b { display: block; margin-top: 3px; font-size: 8.8pt; font-weight: 650; line-height: 1.2; }
+.prod .ob { margin-top: 3px; font-size: 7pt; color: var(--muted); line-height: 1.33; }
+.prod .gift { margin-top: 2px; font-size: 7.8pt; line-height: 1.34; font-weight: 560; }
+
+.row { display: grid; gap: 0.16in; grid-template-columns: 1fr 1fr; margin-bottom: 0.1in; }
+.row h3 { margin: 3px 0 0; font-size: 10pt; line-height: 1.2; font-weight: 640; letter-spacing: -0.015em; }
+.row p { margin: 3px 0 0; color: var(--muted); font-size: 7.7pt; line-height: 1.4; }
+
+.cta { display: grid; grid-template-columns: 1fr auto; gap: 0.25in; align-items: center; border-radius: 7px; padding: 0.11in 0.22in; color: #fff; margin-top: auto;
+  background: radial-gradient(70% 120% at 100% 0%, rgba(0,84,216,.5), transparent 62%), linear-gradient(180deg, #1a2b45, #0e1826); }
+.cta .eyebrow { color: var(--icy); }
+.cta h3 { margin: 3px 0 0; font-size: 13.5pt; line-height: 1.08; font-weight: 650; letter-spacing: -0.022em; }
+.cta p { margin: 4px 0 0; color: rgba(255,255,255,.78); font-size: 7.8pt; line-height: 1.4; max-width: 4.7in; }
+.cta .url { margin-top: 4px; font-size: 8.4pt; font-weight: 600; color: var(--icy); }
+.qr { background: #fff; border-radius: 6px; padding: 5px 6px; text-align: center; }
+.qr svg { width: 0.8in; height: 0.8in; display: block; }
+.qr .tech { margin-top: 3px; color: var(--slate); font-size: 5.2pt; letter-spacing: 0.14em; }
+footer { margin-top: 0.07in; }
+.mission { font-size: 6.9pt; line-height: 1.4; }
+.mission b { font-weight: 640; }
+.fine { margin-top: 3px; padding-top: 3px; border-top: 0.6pt solid var(--silver); font-size: 5.5pt; line-height: 1.4; color: var(--muted); }
+</style>
+</head>
+<body>
+<div class="page">
+  <header>
+    <div class="brand"><img src="assets/logo.png" alt="" /><div class="wordmark">PixeSci<sup>TM</sup></div></div>
+    <div class="pill"><span class="w"><span style="display:inline-flex;align-items:center;gap:1.5px;height:12px"><i style="display:inline-block;width:2px;height:4px;border-radius:2px;background:currentColor"></i><i style="display:inline-block;width:2px;height:8px;border-radius:2px;background:currentColor"></i><i style="display:inline-block;width:2px;height:12px;border-radius:2px;background:currentColor"></i><i style="display:inline-block;width:2px;height:7px;border-radius:2px;background:currentColor"></i><i style="display:inline-block;width:2px;height:4px;border-radius:2px;background:currentColor"></i><i style="display:inline-block;width:2px;height:8px;border-radius:2px;background:currentColor"></i><i style="display:inline-block;width:2px;height:11px;border-radius:2px;background:currentColor"></i><i style="display:inline-block;width:2px;height:6px;border-radius:2px;background:currentColor"></i><i style="display:inline-block;width:2px;height:4px;border-radius:2px;background:currentColor"></i></span></span><span class="tech">Talk to your Lab!&#8482;</span></div>
+  </header>
+  <div class="rail"></div>
+
+  <section class="hero">
+    <h1>The autonomous quality control operating system for regulated life sciences.</h1>
+    <p class="sub">We help you reduce expensive errors and wasted time operating fragmented, retrospective quality control systems.</p>
+  </section>
+
+  <section class="console">
+    <div class="ask">
+      <div class="tabs"><span class="tab on">Ask</span><span class="tab">Tell</span><span class="tab">Watch</span><span class="live">Your lab, in plain language</span></div>
+      <div class="prompt"><span style="display:inline-flex;align-items:center;gap:1.6px;height:20px"><i style="display:inline-block;width:2.4px;height:5px;border-radius:2px;background:#b6d3ff"></i><i style="display:inline-block;width:2.4px;height:9px;border-radius:2px;background:#b6d3ff"></i><i style="display:inline-block;width:2.4px;height:16px;border-radius:2px;background:#b6d3ff"></i><i style="display:inline-block;width:2.4px;height:20px;border-radius:2px;background:#b6d3ff"></i><i style="display:inline-block;width:2.4px;height:14px;border-radius:2px;background:#b6d3ff"></i><i style="display:inline-block;width:2.4px;height:7px;border-radius:2px;background:#b6d3ff"></i><i style="display:inline-block;width:2.4px;height:4px;border-radius:2px;background:#b6d3ff"></i><i style="display:inline-block;width:2.4px;height:10px;border-radius:2px;background:#b6d3ff"></i><i style="display:inline-block;width:2.4px;height:18px;border-radius:2px;background:#b6d3ff"></i><i style="display:inline-block;width:2.4px;height:13px;border-radius:2px;background:#b6d3ff"></i><i style="display:inline-block;width:2.4px;height:6px;border-radius:2px;background:#b6d3ff"></i><i style="display:inline-block;width:2.4px;height:11px;border-radius:2px;background:#b6d3ff"></i><i style="display:inline-block;width:2.4px;height:17px;border-radius:2px;background:#b6d3ff"></i><i style="display:inline-block;width:2.4px;height:20px;border-radius:2px;background:#b6d3ff"></i><i style="display:inline-block;width:2.4px;height:12px;border-radius:2px;background:#b6d3ff"></i><i style="display:inline-block;width:2.4px;height:5px;border-radius:2px;background:#b6d3ff"></i><i style="display:inline-block;width:2.4px;height:8px;border-radius:2px;background:#b6d3ff"></i><i style="display:inline-block;width:2.4px;height:15px;border-radius:2px;background:#b6d3ff"></i><i style="display:inline-block;width:2.4px;height:10px;border-radius:2px;background:#b6d3ff"></i><i style="display:inline-block;width:2.4px;height:6px;border-radius:2px;background:#b6d3ff"></i></span><div class="q">&ldquo;Why was batch-042 reinjected?&rdquo;</div></div>
+      <div class="src"><span><b>CDS</b> run log</span><span><b>LIMS</b> batch-042</span><span><b>Audit trail</b> user activity</span></div>
+      <div class="reply">Injection 7 was repeated at 14:02. No reason was recorded in the run log or in LIMS.</div>
+      <div class="items">
+        <div class="it"><svg viewBox="0 0 12 12" width="10" height="10"><circle cx="6" cy="6" r="6" fill="#b6d3ff"/><path d="M3.2 6.2l2 2 3.6-4" fill="none" stroke="#0e1826" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="l">Run log</span><span class="d mono">injection 7 / repeated 14:02</span></div>
+        <div class="it"><svg viewBox="0 0 12 12" width="10" height="10"><circle cx="6" cy="6" r="6" fill="#b6d3ff"/><path d="M3.2 6.2l2 2 3.6-4" fill="none" stroke="#0e1826" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="l">LIMS result</span><span class="d mono">batch-042 / assay</span></div>
+        <div class="it flag"><svg viewBox="0 0 12 12" width="10" height="10"><path d="M2.5 1.5v9" stroke="#fff" stroke-width="1.4" stroke-linecap="round"/><path d="M2.5 2h6.5l-1.6 2.2L9 6.4H2.5z" fill="#fff"/></svg><span class="l">Reason for repeat</span><span class="d mono" style="color:#fff">not documented</span><span class="r">Flagged</span></div>
+      </div>
+      <div class="outcome"><span class="o">Flagged for a reviewer</span><span class="b">Recommendation only. It cannot approve, close, release, or sign a record.</span></div>
+    </div>
+    <div class="side">
+      <div class="mini"><div class="tech">Tell</div><div class="p">&ldquo;Start the weekly stability trend review.&rdquo;</div><div class="rp">Here are 4 steps. Nothing runs until you approve them.</div><div class="oc">Waiting for your approval</div></div>
+      <div class="mini"><div class="tech">Watch</div><div class="p">&ldquo;Cold room 2 humidity passed its alert limit at 03:40.&rdquo;</div><div class="rp">12 stability samples were stored there overnight. I recommend opening a deviation.</div><div class="oc">A qualified reviewer decides</div></div>
+    </div>
+  </section>
+
+  <div class="proof"><div>Problems caught early</div><div>Every decision stays yours</div><div>Fast deployment</div><div>Evidence always in hand</div><div>Works with what you already use</div><div>Your data stays on your site</div></div>
+
+  <section class="blk">
+    <div class="tech eyebrow">The problem</div>
+    <h2>You&rsquo;re stuck in manual and fragmented processes.</h2>
+    <div class="pains">
+      <div class="pain"><b>You retype results between systems that don&rsquo;t talk</b><span>Every retyped reading or calculation is a chance for a transcription error.</span></div>
+      <div class="pain"><b>You lose hours to work nobody should do by hand</b><span>Moving data, rebuilding context, chasing approvals.</span></div>
+      <div class="pain"><b>You find problems after they&rsquo;ve grown</b><span>Retrospective review catches an error after it has repeated.</span></div>
+      <div class="pain"><b>You piece together what happened, after the fact</b><span>Then dig through five systems when someone asks.</span></div>
+    </div>
+    <p class="bridge">We take that off your plate.</p>
+  </section>
+
+  <section class="blk">
+    <div class="tech eyebrow">How we get you there</div>
+    <h2>Four things stand in your way. We clear each one.</h2>
+    <div class="prod-grid">
+      <div class="prod"><div class="tech">Product 01</div><b>Quality Core</b><div class="ob">Evidence gets rebuilt after the fact.</div><div class="gift">One connected record, so the answer is already there.</div></div>
+      <div class="prod"><div class="tech">Product 02</div><b>Integrations</b><div class="ob">Your systems don&rsquo;t talk to each other.</div><div class="gift">We connect them, so your team stops being the glue.</div></div>
+      <div class="prod"><div class="tech">Product 03</div><b>Agentic Automation</b><div class="ob">Someone has to connect it all by hand.</div><div class="gift">Routine QC work runs for you, with your sign-off.</div></div>
+      <div class="prod"><div class="tech">Product 04</div><b>Continuous Quality Monitoring</b><div class="ob">Problems surface late.</div><div class="gift">We watch around the clock and flag early.</div></div>
+    </div>
+  </section>
+
+  <section class="row">
+    <div><div class="tech eyebrow">You stay in charge</div><h3>PixeSci works for you. You make every decision.</h3>
+      <p>PixeSci reads, watches, and recommends. It can&rsquo;t approve, close, release, invalidate, or sign a record, and that limit is built into the software.</p></div>
+    <div><div class="tech eyebrow">Fast deployment</div><h3>A PixeSci Node, installed at your site.</h3>
+      <p>We ship you a PixeSci Node, set up before it arrives. Your data and workflows stay on hardware at your own premises.</p></div>
+  </section>
+
+  <section class="cta">
+    <div>
+      <div class="tech eyebrow">See it on your own workflow</div>
+      <h3>See it on the workflow that worries you most.</h3>
+      <p>Bring one workflow where evidence is hardest to pull together. We&rsquo;ll show you how it looks connected, with your team making every decision.</p>
+      <div class="url">pixesci.com</div>
+    </div>
+    <div class="qr"><svg width="120" height="120" preserveAspectRatio="xMinYMin meet" viewBox="0 0 120 120" xmlns="http://www.w3.org/2000/svg" version="1.0" fill-rule="evenodd" xmlns:xlink="http://www.w3.org/1999/xlink">
+	<title>...</title>
+	<desc>...</desc>
+	<clipPath id="clip">
+		<rect x="0" y="0" width="120" height="120"/>
+	</clipPath>
+	<g id="group" transform="scale(1,-1) translate(0,-120)" style="clip-path: url(#clip)">
+		<g transform=" matrix(1.322917,0,0,1.322917,0,0)">
+			<g transform="">
+				<rect x="0" y="0" width="90.70866141732284" height="90.70866141732284" style="stroke: none; stroke-linecap: butt; stroke-width: 0; fill: none; fill-rule: evenodd;"/>
+				<rect x="10.994989262705799" y="76.96492483894059" width="19.241231209735147" height="2.7487473156764537" style="stroke: none; stroke-linecap: butt; stroke-width: 0; fill: rgb(12%,17%,23%); fill-rule: evenodd;"/>
+				<rect x="32.984967788117395" y="76.96492483894059" width="2.7487473156764466" height="2.7487473156764537" style="stroke: none; stroke-linecap: butt; stroke-width: 0; fill: rgb(12%,17%,23%); fill-rule: evenodd;"/>
+				<rect x="38.482462419470295" y="76.96492483894059" width="8.246241947029347" height="2.7487473156764537" style="stroke: none; stroke-linecap: butt; stroke-width: 0; fill: rgb(12%,17%,23%); fill-rule: evenodd;"/>
+				<rect x="49.477451682176095" y="76.96492483894059" width="2.7487473156764466" height="2.7487473156764537" style="stroke: none; stroke-linecap: butt; stroke-width: 0; fill: rgb(12%,17%,23%); fill-rule: evenodd;"/>
+				<rect x="60.472440944881896" y="76.96492483894059" width="19.241231209735147" height="2.7487473156764537" style="stroke: none; stroke-linecap: butt; stroke-width: 0; fill: rgb(12%,17%,23%); fill-rule: evenodd;"/>
+				<rect x="10.994989262705799" y="74.21617752326415" width="2.74874731567645" height="2.7487473156764537" style="stroke: none; stroke-linecap: butt; stroke-width: 0; fill: rgb(12%,17%,23%); fill-rule: evenodd;"/>
+				<rect x="27.487473156764498" y="74.21617752326415" width="2.74874731567645" height="2.7487473156764537" style="stroke: none; stroke-linecap: butt; stroke-width: 0; fill: rgb(12%,17%,23%); fill-rule: evenodd;"/>
+				<rect x="35.73371510379385" y="74.21617752326415" width="5.4974946313529" height="2.7487473156764537" style="stroke: none; stroke-linecap: butt; stroke-width: 0; fill: rgb(12%,17%,23%); fill-rule: evenodd;"/>
+				<rect x="43.979957050823195" y="74.21617752326415" width="8.246241947029347" height="2.7487473156764537" style="stroke: none; stroke-linecap: butt; stroke-width: 0; fill: rgb(12%,17%,23%); fill-rule: evenodd;"/>
+				<rect x="60.472440944881896" y="74.21617752326415" width="2.7487473156764466" height="2.7487473156764537" style="stroke: none; stroke-linecap: butt; stroke-width: 0; fill: rgb(12%,17%,23%); fill-rule: evenodd;"/>
+				<rect x="76.96492483894059" y="74.21617752326415" width="2.7487473156764537" height="2.7487473156764537" style="stroke: none; stroke-linecap: butt; stroke-width: 0; fill: rgb(12%,17%,23%); fill-rule: evenodd;"/>
+				<rect x="10.994989262705799" y="71.4674302075877" width="2.74874731567645" height="2.7487473156764537" style="stroke: none; stroke-linecap: butt; stroke-width: 0; fill: rgb(12%,17%,23%); fill-rule: evenodd;"/>
+				<rect x="16.492483894058697" y="71.4674302075877" width="8.24624194702935" height="2.7487473156764537" style="stroke: none; stroke-linecap: butt; stroke-width: 0; fill: rgb(12%,17%,23%); fill-rule: evenodd;"/>
+				<rect x="27.487473156764498" y="71.4674302075877" width="2.74874731567645" height="2.7487473156764537" style="stroke: none; stroke-linecap: butt; stroke-width: 0; fill: rgb(12%,17%,23%); fill-rule: evenodd;"/>
+				<rect x="38.482462419470295" y="71.4674302075877" width="5.4974946313529" height="2.7487473156764537" style="stroke: none; stroke-linecap: butt; stroke-width: 0; fill: rgb(12%,17%,23%); fill-rule: evenodd;"/>
+				<rect x="46.72870436649964" y="71.4674302075877" width="10.9949892627058" height="2.7487473156764537" style="stroke: none; stroke-linecap: butt; stroke-width: 0; fill: rgb(12%,17%,23%); fill-rule: evenodd;"/>
+				<rect x="60.472440944881896" y="71.4674302075877" width="2.7487473156764466" height="2.7487473156764537" style="stroke: none; stroke-linecap: butt; stroke-width: 0; fill: rgb(12%,17%,23%); fill-rule: evenodd;"/>
+				<rect x="65.96993557623479" y="71.4674302075877" width="8.246241947029347" height="2.7487473156764537" style="stroke: none; stroke-linecap: butt; stroke-width: 0; fill: rgb(12%,17%,23%); fill-rule: evenodd;"/>
+				<rect x="76.96492483894059" y="71.4674302075877" width="2.7487473156764537" height="2.7487473156764537" style="stroke: none; stroke-linecap: butt; stroke-width: 0; fill: rgb(12%,17%,23%); fill-rule: evenodd;"/>
+				<rect x="10.994989262705799" y="68.71868289191124" width="2.74874731567645" height="2.7487473156764537" style="stroke: none; stroke-linecap: butt; stroke-width: 0; fill: rgb(12%,17%,23%); fill-rule: evenodd;"/>
+				<rect x="16.492483894058697" y="68.71868289191124" width="8.24624194702935" height="2.7487473156764537" style="stroke: none; stroke-linecap: butt; stroke-width: 0; fill: rgb(12%,17%,23%); fill-rule: evenodd;"/>
+				<rect x="27.487473156764498" y="68.71868289191124" width="2.74874731567645" height="2.7487473156764537" style="stroke: none; stroke-linecap: butt; stroke-width: 0; fill: rgb(12%,17%,23%); fill-rule: evenodd;"/>
+				<rect x="41.23120973514675" y="68.71868289191124" width="8.246241947029347" height="2.7487473156764537" style="stroke: none; stroke-linecap: butt; stroke-width: 0; fill: rgb(12%,17%,23%); fill-rule: evenodd;"/>
+				<rect x="60.472440944881896" y="68.71868289191124" width="2.7487473156764466" height="2.7487473156764537" style="stroke: none; stroke-linecap: butt; stroke-width: 0; fill: rgb(12%,17%,23%); fill-rule: evenodd;"/>
+				<rect x="65.96993557623479" y="68.71868289191124" width="8.246241947029347" height="2.7487473156764537" style="stroke: none; stroke-linecap: butt; stroke-width: 0; fill: rgb(12%,17%,23%); fill-rule: evenodd;"/>
+				<rect x="76.96492483894059" y="68.71868289191124" width="2.7487473156764537" height="2.7487473156764537" style="stroke: none; stroke-linecap: butt; stroke-width: 0; fill: rgb(12%,17%,23%); fill-rule: evenodd;"/>
+				<rect x="10.994989262705799" y="65.9699355762348" width="2.74874731567645" height="2.7487473156764537" style="stroke: none; stroke-linecap: butt; stroke-width: 0; fill: rgb(12%,17%,23%); fill-rule: evenodd;"/>
+				<rect x="16.492483894058697" y="65.9699355762348" width="8.24624194702935" height="2.7487473156764537" style="stroke: none; stroke-linecap: butt; stroke-width: 0; fill: rgb(12%,17%,23%); fill-rule: evenodd;"/>
+				<rect x="27.487473156764498" y="65.9699355762348" width="2.74874731567645" height="2.7487473156764537" style="stroke: none; stroke-linecap: butt; stroke-width: 0; fill: rgb(12%,17%,23%); fill-rule: evenodd;"/>
+				<rect x="35.73371510379385" y="65.9699355762348" width="2.7487473156764466" height="2.7487473156764537" style="stroke: none; stroke-linecap: butt; stroke-width: 0; fill: rgb(12%,17%,23%); fill-rule: evenodd;"/>
+				<rect x="46.72870436649964" y="65.9699355762348" width="2.7487473156764466" height="2.7487473156764537" style="stroke: none; stroke-linecap: butt; stroke-width: 0; fill: rgb(12%,17%,23%); fill-rule: evenodd;"/>
+				<rect x="54.974946313528996" y="65.9699355762348" width="2.7487473156764466" height="2.7487473156764537" style="stroke: none; stroke-linecap: butt; stroke-width: 0; fill: rgb(12%,17%,23%); fill-rule: evenodd;"/>
+				<rect x="60.472440944881896" y="65.9699355762348" width="2.7487473156764466" height="2.7487473156764537" style="stroke: none; stroke-linecap: butt; stroke-width: 0; fill: rgb(12%,17%,23%); fill-rule: evenodd;"/>
+				<rect x="65.96993557623479" y="65.9699355762348" width="8.246241947029347" height="2.7487473156764537" style="stroke: none; stroke-linecap: butt; stroke-width: 0; fill: rgb(12%,17%,23%); fill-rule: evenodd;"/>
+				<rect x="76.96492483894059" y="65.9699355762348" width="2.7487473156764537" height="2.7487473156764537" style="stroke: none; stroke-linecap: butt; stroke-width: 0; fill: rgb(12%,17%,23%); fill-rule: evenodd;"/>
+				<rect x="10.994989262705799" y="63.22118826055835" width="2.74874731567645" height="2.7487473156764537" style="stroke: none; stroke-linecap: butt; stroke-width: 0; fill: rgb(12%,17%,23%); fill-rule: evenodd;"/>
+				<rect x="27.487473156764498" y="63.22118826055835" width="2.74874731567645" height="2.7487473156764537" style="stroke: none; stroke-linecap: butt; stroke-width: 0; fill: rgb(12%,17%,23%); fill-rule: evenodd;"/>
+				<rect x="38.482462419470295" y="63.22118826055835" width="5.4974946313529" height="2.7487473156764537" style="stroke: none; stroke-linecap: butt; stroke-width: 0; fill: rgb(12%,17%,23%); fill-rule: evenodd;"/>
+				<rect x="60.472440944881896" y="63.22118826055835" width="2.7487473156764466" height="2.7487473156764537" style="stroke: none; stroke-linecap: butt; stroke-width: 0; fill: rgb(12%,17%,23%); fill-rule: evenodd;"/>
+				<rect x="76.96492483894059" y="63.22118826055835" width="2.7487473156764537" height="2.7487473156764537" style="stroke: none; stroke-linecap: butt; stroke-width: 0; fill: rgb(12%,17%,23%); fill-rule: evenodd;"/>
+				<rect x="10.994989262705799" y="60.472440944881896" width="19.241231209735147" height="2.7487473156764466" style="stroke: none; stroke-linecap: butt; stroke-width: 0; fill: rgb(12%,17%,23%); fill-rule: evenodd;"/>
+				<rect x="32.984967788117395" y="60.472440944881896" width="2.7487473156764466" height="2.7487473156764466" style="stroke: none; stroke-linecap: butt; stroke-width: 0; fill: rgb(12%,17%,23%); fill-rule: evenodd;"/>
+				<rect x="38.482462419470295" y="60.472440944881896" width="2.7487473156764466" height="2.7487473156764466" style="stroke: none; stroke-linecap: butt; stroke-width: 0; fill: rgb(12%,17%,23%); fill-rule: evenodd;"/>
+				<rect x="43.979957050823195" y="60.472440944881896" width="2.7487473156764466" height="2.7487473156764466" style="stroke: none; stroke-linecap: butt; stroke-width: 0; fill: rgb(12%,17%,23%); fill-rule: evenodd;"/>
+				<rect x="49.477451682176095" y="60.472440944881896" width="2.7487473156764466" height="2.7487473156764466" style="stroke: none; stroke-linecap: butt; stroke-width: 0; fill: rgb(12%,17%,23%); fill-rule: evenodd;"/>
+				<rect x="54.974946313528996" y="60.472440944881896" width="2.7487473156764466" height="2.7487473156764466" style="stroke: none; stroke-linecap: butt; stroke-width: 0; fill: rgb(12%,17%,23%); fill-rule: evenodd;"/>
+				<rect x="60.472440944881896" y="60.472440944881896" width="19.241231209735147" height="2.7487473156764466" style="stroke: none; stroke-linecap: butt; stroke-width: 0; fill: rgb(12%,17%,23%); fill-rule: evenodd;"/>
+				<rect x="32.984967788117395" y="57.72369362920545" width="2.7487473156764466" height="2.7487473156764466" style="stroke: none; stroke-linecap: butt; stroke-width: 0; fill: rgb(12%,17%,23%); fill-rule: evenodd;"/>
+				<rect x="38.482462419470295" y="57.72369362920545" width="2.7487473156764466" height="2.7487473156764466" style="stroke: none; stroke-linecap: butt; stroke-width: 0; fill: rgb(12%,17%,23%); fill-rule: evenodd;"/>
+				<rect x="43.979957050823195" y="57.72369362920545" width="13.743736578382247" height="2.7487473156764466" style="stroke: none; stroke-linecap: butt; stroke-width: 0; fill: rgb(12%,17%,23%); fill-rule: evenodd;"/>
+				<rect x="10.994989262705799" y="54.974946313528996" width="5.4974946313528985" height="2.7487473156764466" style="stroke: none; stroke-linecap: butt; stroke-width: 0; fill: rgb(12%,17%,23%); fill-rule: evenodd;"/>
+				<rect x="19.241231209735147" y="54.974946313528996" width="5.4974946313529" height="2.7487473156764466" style="stroke: none; stroke-linecap: butt; stroke-width: 0; fill: rgb(12%,17%,23%); fill-rule: evenodd;"/>
+				<rect x="27.487473156764498" y="54.974946313528996" width="2.74874731567645" height="2.7487473156764466" style="stroke: none; stroke-linecap: butt; stroke-width: 0; fill: rgb(12%,17%,23%); fill-rule: evenodd;"/>
+				<rect x="35.73371510379385" y="54.974946313528996" width="10.9949892627058" height="2.7487473156764466" style="stroke: none; stroke-linecap: butt; stroke-width: 0; fill: rgb(12%,17%,23%); fill-rule: evenodd;"/>
+				<rect x="49.477451682176095" y="54.974946313528996" width="2.7487473156764466" height="2.7487473156764466" style="stroke: none; stroke-linecap: butt; stroke-width: 0; fill: rgb(12%,17%,23%); fill-rule: evenodd;"/>
+				<rect x="54.974946313528996" y="54.974946313528996" width="2.7487473156764466" height="2.7487473156764466" style="stroke: none; stroke-linecap: butt; stroke-width: 0; fill: rgb(12%,17%,23%); fill-rule: evenodd;"/>
+				<rect x="60.472440944881896" y="54.974946313528996" width="2.7487473156764466" height="2.7487473156764466" style="stroke: none; stroke-linecap: butt; stroke-width: 0; fill: rgb(12%,17%,23%); fill-rule: evenodd;"/>
+				<rect x="76.96492483894059" y="54.974946313528996" width="2.7487473156764537" height="2.7487473156764466" style="stroke: none; stroke-linecap: butt; stroke-width: 0; fill: rgb(12%,17%,23%); fill-rule: evenodd;"/>
+				<rect x="16.492483894058697" y="52.22619899785255" width="5.4974946313529" height="2.7487473156764466" style="stroke: none; stroke-linecap: butt; stroke-width: 0; fill: rgb(12%,17%,23%); fill-rule: evenodd;"/>
+				<rect x="24.738725841088048" y="52.22619899785255" width="2.74874731567645" height="2.7487473156764466" style="stroke: none; stroke-linecap: butt; stroke-width: 0; fill: rgb(12%,17%,23%); fill-rule: evenodd;"/>
+				<rect x="32.984967788117395" y="52.22619899785255" width="5.4974946313529" height="2.7487473156764466" style="stroke: none; stroke-linecap: butt; stroke-width: 0; fill: rgb(12%,17%,23%); fill-rule: evenodd;"/>
+				<rect x="41.23120973514675" y="52.22619899785255" width="2.7487473156764466" height="2.7487473156764466" style="stroke: none; stroke-linecap: butt; stroke-width: 0; fill: rgb(12%,17%,23%); fill-rule: evenodd;"/>
+				<rect x="49.477451682176095" y="52.22619899785255" width="8.246241947029347" height="2.7487473156764466" style="stroke: none; stroke-linecap: butt; stroke-width: 0; fill: rgb(12%,17%,23%); fill-rule: evenodd;"/>
+				<rect x="63.22118826055834" y="52.22619899785255" width="13.743736578382247" height="2.7487473156764466" style="stroke: none; stroke-linecap: butt; stroke-width: 0; fill: rgb(12%,17%,23%); fill-rule: evenodd;"/>
+				<rect x="10.994989262705799" y="49.477451682176095" width="2.74874731567645" height="2.7487473156764466" style="stroke: none; stroke-linecap: butt; stroke-width: 0; fill: rgb(12%,17%,23%); fill-rule: evenodd;"/>
+				<rect x="16.492483894058697" y="49.477451682176095" width="13.74373657838225" height="2.7487473156764466" style="stroke: none; stroke-linecap: butt; stroke-width: 0; fill: rgb(12%,17%,23%); fill-rule: evenodd;"/>
+				<rect x="32.984967788117395" y="49.477451682176095" width="2.7487473156764466" height="2.7487473156764466" style="stroke: none; stroke-linecap: butt; stroke-width: 0; fill: rgb(12%,17%,23%); fill-rule: evenodd;"/>
+				<rect x="38.482462419470295" y="49.477451682176095" width="5.4974946313529" height="2.7487473156764466" style="stroke: none; stroke-linecap: butt; stroke-width: 0; fill: rgb(12%,17%,23%); fill-rule: evenodd;"/>
+				<rect x="52.22619899785254" y="49.477451682176095" width="13.743736578382247" height="2.7487473156764466" style="stroke: none; stroke-linecap: butt; stroke-width: 0; fill: rgb(12%,17%,23%); fill-rule: evenodd;"/>
+				<rect x="68.71868289191124" y="49.477451682176095" width="2.7487473156764537" height="2.7487473156764466" style="stroke: none; stroke-linecap: butt; stroke-width: 0; fill: rgb(12%,17%,23%); fill-rule: evenodd;"/>
+				<rect x="76.96492483894059" y="49.477451682176095" width="2.7487473156764537" height="2.7487473156764466" style="stroke: none; stroke-linecap: butt; stroke-width: 0; fill: rgb(12%,17%,23%); fill-rule: evenodd;"/>
+				<rect x="13.743736578382249" y="46.72870436649965" width="2.7487473156764484" height="2.7487473156764466" style="stroke: none; stroke-linecap: butt; stroke-width: 0; fill: rgb(12%,17%,23%); fill-rule: evenodd;"/>
+				<rect x="19.241231209735147" y="46.72870436649965" width="5.4974946313529" height="2.7487473156764466" style="stroke: none; stroke-linecap: butt; stroke-width: 0; fill: rgb(12%,17%,23%); fill-rule: evenodd;"/>
+				<rect x="35.73371510379385" y="46.72870436649965" width="8.246241947029347" height="2.7487473156764466" style="stroke: none; stroke-linecap: butt; stroke-width: 0; fill: rgb(12%,17%,23%); fill-rule: evenodd;"/>
+				<rect x="49.477451682176095" y="46.72870436649965" width="2.7487473156764466" height="2.7487473156764466" style="stroke: none; stroke-linecap: butt; stroke-width: 0; fill: rgb(12%,17%,23%); fill-rule: evenodd;"/>
+				<rect x="60.472440944881896" y="46.72870436649965" width="2.7487473156764466" height="2.7487473156764466" style="stroke: none; stroke-linecap: butt; stroke-width: 0; fill: rgb(12%,17%,23%); fill-rule: evenodd;"/>
+				<rect x="68.71868289191124" y="46.72870436649965" width="10.9949892627058" height="2.7487473156764466" style="stroke: none; stroke-linecap: butt; stroke-width: 0; fill: rgb(12%,17%,23%); fill-rule: evenodd;"/>
+				<rect x="10.994989262705799" y="43.9799570508232" width="5.4974946313528985" height="2.7487473156764466" style="stroke: none; stroke-linecap: butt; stroke-width: 0; fill: rgb(12%,17%,23%); fill-rule: evenodd;"/>
+				<rect x="19.241231209735147" y="43.9799570508232" width="19.241231209735147" height="2.7487473156764466" style="stroke: none; stroke-linecap: butt; stroke-width: 0; fill: rgb(12%,17%,23%); fill-rule: evenodd;"/>
+				<rect x="43.979957050823195" y="43.9799570508232" width="2.7487473156764466" height="2.7487473156764466" style="stroke: none; stroke-linecap: butt; stroke-width: 0; fill: rgb(12%,17%,23%); fill-rule: evenodd;"/>
+				<rect x="54.974946313528996" y="43.9799570508232" width="2.7487473156764466" height="2.7487473156764466" style="stroke: none; stroke-linecap: butt; stroke-width: 0; fill: rgb(12%,17%,23%); fill-rule: evenodd;"/>
+				<rect x="60.472440944881896" y="43.9799570508232" width="5.497494631352893" height="2.7487473156764466" style="stroke: none; stroke-linecap: butt; stroke-width: 0; fill: rgb(12%,17%,23%); fill-rule: evenodd;"/>
+				<rect x="76.96492483894059" y="43.9799570508232" width="2.7487473156764537" height="2.7487473156764466" style="stroke: none; stroke-linecap: butt; stroke-width: 0; fill: rgb(12%,17%,23%); fill-rule: evenodd;"/>
+				<rect x="10.994989262705799" y="41.23120973514675" width="10.994989262705799" height="2.7487473156764466" style="stroke: none; stroke-linecap: butt; stroke-width: 0; fill: rgb(12%,17%,23%); fill-rule: evenodd;"/>
+				<rect x="30.236220472440948" y="41.23120973514675" width="8.246241947029347" height="2.7487473156764466" style="stroke: none; stroke-linecap: butt; stroke-width: 0; fill: rgb(12%,17%,23%); fill-rule: evenodd;"/>
+				<rect x="41.23120973514675" y="41.23120973514675" width="2.7487473156764466" height="2.7487473156764466" style="stroke: none; stroke-linecap: butt; stroke-width: 0; fill: rgb(12%,17%,23%); fill-rule: evenodd;"/>
+				<rect x="46.72870436649964" y="41.23120973514675" width="2.7487473156764466" height="2.7487473156764466" style="stroke: none; stroke-linecap: butt; stroke-width: 0; fill: rgb(12%,17%,23%); fill-rule: evenodd;"/>
+				<rect x="52.22619899785254" y="41.23120973514675" width="5.4974946313529" height="2.7487473156764466" style="stroke: none; stroke-linecap: butt; stroke-width: 0; fill: rgb(12%,17%,23%); fill-rule: evenodd;"/>
+				<rect x="65.96993557623479" y="41.23120973514675" width="2.7487473156764537" height="2.7487473156764466" style="stroke: none; stroke-linecap: butt; stroke-width: 0; fill: rgb(12%,17%,23%); fill-rule: evenodd;"/>
+				<rect x="74.21617752326414" y="41.23120973514675" width="2.7487473156764537" height="2.7487473156764466" style="stroke: none; stroke-linecap: butt; stroke-width: 0; fill: rgb(12%,17%,23%); fill-rule: evenodd;"/>
+				<rect x="10.994989262705799" y="38.4824624194703" width="5.4974946313528985" height="2.7487473156764466" style="stroke: none; stroke-linecap: butt; stroke-width: 0; fill: rgb(12%,17%,23%); fill-rule: evenodd;"/>
+				<rect x="21.989978525411598" y="38.4824624194703" width="2.74874731567645" height="2.7487473156764466" style="stroke: none; stroke-linecap: butt; stroke-width: 0; fill: rgb(12%,17%,23%); fill-rule: evenodd;"/>
+				<rect x="27.487473156764498" y="38.4824624194703" width="2.74874731567645" height="2.7487473156764466" style="stroke: none; stroke-linecap: butt; stroke-width: 0; fill: rgb(12%,17%,23%); fill-rule: evenodd;"/>
+				<rect x="35.73371510379385" y="38.4824624194703" width="5.4974946313529" height="2.7487473156764466" style="stroke: none; stroke-linecap: butt; stroke-width: 0; fill: rgb(12%,17%,23%); fill-rule: evenodd;"/>
+				<rect x="43.979957050823195" y="38.4824624194703" width="2.7487473156764466" height="2.7487473156764466" style="stroke: none; stroke-linecap: butt; stroke-width: 0; fill: rgb(12%,17%,23%); fill-rule: evenodd;"/>
+				<rect x="52.22619899785254" y="38.4824624194703" width="2.7487473156764466" height="2.7487473156764466" style="stroke: none; stroke-linecap: butt; stroke-width: 0; fill: rgb(12%,17%,23%); fill-rule: evenodd;"/>
+				<rect x="57.72369362920544" y="38.4824624194703" width="2.7487473156764466" height="2.7487473156764466" style="stroke: none; stroke-linecap: butt; stroke-width: 0; fill: rgb(12%,17%,23%); fill-rule: evenodd;"/>
+				<rect x="65.96993557623479" y="38.4824624194703" width="13.743736578382254" height="2.7487473156764466" style="stroke: none; stroke-linecap: butt; stroke-width: 0; fill: rgb(12%,17%,23%); fill-rule: evenodd;"/>
+				<rect x="10.994989262705799" y="35.73371510379385" width="2.74874731567645" height="2.7487473156764466" style="stroke: none; stroke-linecap: butt; stroke-width: 0; fill: rgb(12%,17%,23%); fill-rule: evenodd;"/>
+				<rect x="19.241231209735147" y="35.73371510379385" width="2.74874731567645" height="2.7487473156764466" style="stroke: none; stroke-linecap: butt; stroke-width: 0; fill: rgb(12%,17%,23%); fill-rule: evenodd;"/>
+				<rect x="24.738725841088048" y="35.73371510379385" width="2.74874731567645" height="2.7487473156764466" style="stroke: none; stroke-linecap: butt; stroke-width: 0; fill: rgb(12%,17%,23%); fill-rule: evenodd;"/>
+				<rect x="32.984967788117395" y="35.73371510379385" width="5.4974946313529" height="2.7487473156764466" style="stroke: none; stroke-linecap: butt; stroke-width: 0; fill: rgb(12%,17%,23%); fill-rule: evenodd;"/>
+				<rect x="43.979957050823195" y="35.73371510379385" width="2.7487473156764466" height="2.7487473156764466" style="stroke: none; stroke-linecap: butt; stroke-width: 0; fill: rgb(12%,17%,23%); fill-rule: evenodd;"/>
+				<rect x="52.22619899785254" y="35.73371510379385" width="2.7487473156764466" height="2.7487473156764466" style="stroke: none; stroke-linecap: butt; stroke-width: 0; fill: rgb(12%,17%,23%); fill-rule: evenodd;"/>
+				<rect x="60.472440944881896" y="35.73371510379385" width="5.497494631352893" height="2.7487473156764466" style="stroke: none; stroke-linecap: butt; stroke-width: 0; fill: rgb(12%,17%,23%); fill-rule: evenodd;"/>
+				<rect x="68.71868289191124" y="35.73371510379385" width="5.497494631352893" height="2.7487473156764466" style="stroke: none; stroke-linecap: butt; stroke-width: 0; fill: rgb(12%,17%,23%); fill-rule: evenodd;"/>
+				<rect x="76.96492483894059" y="35.73371510379385" width="2.7487473156764537" height="2.7487473156764466" style="stroke: none; stroke-linecap: butt; stroke-width: 0; fill: rgb(12%,17%,23%); fill-rule: evenodd;"/>
+				<rect x="10.994989262705799" y="32.9849677881174" width="2.74874731567645" height="2.7487473156764466" style="stroke: none; stroke-linecap: butt; stroke-width: 0; fill: rgb(12%,17%,23%); fill-rule: evenodd;"/>
+				<rect x="27.487473156764498" y="32.9849677881174" width="8.24624194702935" height="2.7487473156764466" style="stroke: none; stroke-linecap: butt; stroke-width: 0; fill: rgb(12%,17%,23%); fill-rule: evenodd;"/>
+				<rect x="41.23120973514675" y="32.9849677881174" width="2.7487473156764466" height="2.7487473156764466" style="stroke: none; stroke-linecap: butt; stroke-width: 0; fill: rgb(12%,17%,23%); fill-rule: evenodd;"/>
+				<rect x="46.72870436649964" y="32.9849677881174" width="2.7487473156764466" height="2.7487473156764466" style="stroke: none; stroke-linecap: butt; stroke-width: 0; fill: rgb(12%,17%,23%); fill-rule: evenodd;"/>
+				<rect x="54.974946313528996" y="32.9849677881174" width="13.743736578382247" height="2.7487473156764466" style="stroke: none; stroke-linecap: butt; stroke-width: 0; fill: rgb(12%,17%,23%); fill-rule: evenodd;"/>
+				<rect x="71.4674302075877" y="32.9849677881174" width="5.497494631352893" height="2.7487473156764466" style="stroke: none; stroke-linecap: butt; stroke-width: 0; fill: rgb(12%,17%,23%); fill-rule: evenodd;"/>
+				<rect x="32.984967788117395" y="30.236220472440948" width="8.246241947029347" height="2.7487473156764466" style="stroke: none; stroke-linecap: butt; stroke-width: 0; fill: rgb(12%,17%,23%); fill-rule: evenodd;"/>
+				<rect x="43.979957050823195" y="30.236220472440948" width="2.7487473156764466" height="2.7487473156764466" style="stroke: none; stroke-linecap: butt; stroke-width: 0; fill: rgb(12%,17%,23%); fill-rule: evenodd;"/>
+				<rect x="54.974946313528996" y="30.236220472440948" width="2.7487473156764466" height="2.7487473156764466" style="stroke: none; stroke-linecap: butt; stroke-width: 0; fill: rgb(12%,17%,23%); fill-rule: evenodd;"/>
+				<rect x="65.96993557623479" y="30.236220472440948" width="2.7487473156764537" height="2.7487473156764466" style="stroke: none; stroke-linecap: butt; stroke-width: 0; fill: rgb(12%,17%,23%); fill-rule: evenodd;"/>
+				<rect x="71.4674302075877" y="30.236220472440948" width="5.497494631352893" height="2.7487473156764466" style="stroke: none; stroke-linecap: butt; stroke-width: 0; fill: rgb(12%,17%,23%); fill-rule: evenodd;"/>
+				<rect x="10.994989262705799" y="27.4874731567645" width="19.241231209735147" height="2.74874731567645" style="stroke: none; stroke-linecap: butt; stroke-width: 0; fill: rgb(12%,17%,23%); fill-rule: evenodd;"/>
+				<rect x="35.73371510379385" y="27.4874731567645" width="2.7487473156764466" height="2.74874731567645" style="stroke: none; stroke-linecap: butt; stroke-width: 0; fill: rgb(12%,17%,23%); fill-rule: evenodd;"/>
+				<rect x="41.23120973514675" y="27.4874731567645" width="2.7487473156764466" height="2.74874731567645" style="stroke: none; stroke-linecap: butt; stroke-width: 0; fill: rgb(12%,17%,23%); fill-rule: evenodd;"/>
+				<rect x="49.477451682176095" y="27.4874731567645" width="2.7487473156764466" height="2.74874731567645" style="stroke: none; stroke-linecap: butt; stroke-width: 0; fill: rgb(12%,17%,23%); fill-rule: evenodd;"/>
+				<rect x="54.974946313528996" y="27.4874731567645" width="2.7487473156764466" height="2.74874731567645" style="stroke: none; stroke-linecap: butt; stroke-width: 0; fill: rgb(12%,17%,23%); fill-rule: evenodd;"/>
+				<rect x="60.472440944881896" y="27.4874731567645" width="2.7487473156764466" height="2.74874731567645" style="stroke: none; stroke-linecap: butt; stroke-width: 0; fill: rgb(12%,17%,23%); fill-rule: evenodd;"/>
+				<rect x="65.96993557623479" y="27.4874731567645" width="2.7487473156764537" height="2.74874731567645" style="stroke: none; stroke-linecap: butt; stroke-width: 0; fill: rgb(12%,17%,23%); fill-rule: evenodd;"/>
+				<rect x="76.96492483894059" y="27.4874731567645" width="2.7487473156764537" height="2.74874731567645" style="stroke: none; stroke-linecap: butt; stroke-width: 0; fill: rgb(12%,17%,23%); fill-rule: evenodd;"/>
+				<rect x="10.994989262705799" y="24.738725841088055" width="2.74874731567645" height="2.74874731567645" style="stroke: none; stroke-linecap: butt; stroke-width: 0; fill: rgb(12%,17%,23%); fill-rule: evenodd;"/>
+				<rect x="27.487473156764498" y="24.738725841088055" width="2.74874731567645" height="2.74874731567645" style="stroke: none; stroke-linecap: butt; stroke-width: 0; fill: rgb(12%,17%,23%); fill-rule: evenodd;"/>
+				<rect x="35.73371510379385" y="24.738725841088055" width="13.743736578382247" height="2.74874731567645" style="stroke: none; stroke-linecap: butt; stroke-width: 0; fill: rgb(12%,17%,23%); fill-rule: evenodd;"/>
+				<rect x="52.22619899785254" y="24.738725841088055" width="5.4974946313529" height="2.74874731567645" style="stroke: none; stroke-linecap: butt; stroke-width: 0; fill: rgb(12%,17%,23%); fill-rule: evenodd;"/>
+				<rect x="65.96993557623479" y="24.738725841088055" width="2.7487473156764537" height="2.74874731567645" style="stroke: none; stroke-linecap: butt; stroke-width: 0; fill: rgb(12%,17%,23%); fill-rule: evenodd;"/>
+				<rect x="74.21617752326414" y="24.738725841088055" width="5.497494631352893" height="2.74874731567645" style="stroke: none; stroke-linecap: butt; stroke-width: 0; fill: rgb(12%,17%,23%); fill-rule: evenodd;"/>
+				<rect x="10.994989262705799" y="21.9899785254116" width="2.74874731567645" height="2.74874731567645" style="stroke: none; stroke-linecap: butt; stroke-width: 0; fill: rgb(12%,17%,23%); fill-rule: evenodd;"/>
+				<rect x="16.492483894058697" y="21.9899785254116" width="8.24624194702935" height="2.74874731567645" style="stroke: none; stroke-linecap: butt; stroke-width: 0; fill: rgb(12%,17%,23%); fill-rule: evenodd;"/>
+				<rect x="27.487473156764498" y="21.9899785254116" width="2.74874731567645" height="2.74874731567645" style="stroke: none; stroke-linecap: butt; stroke-width: 0; fill: rgb(12%,17%,23%); fill-rule: evenodd;"/>
+				<rect x="32.984967788117395" y="21.9899785254116" width="2.7487473156764466" height="2.74874731567645" style="stroke: none; stroke-linecap: butt; stroke-width: 0; fill: rgb(12%,17%,23%); fill-rule: evenodd;"/>
+				<rect x="49.477451682176095" y="21.9899785254116" width="19.241231209735147" height="2.74874731567645" style="stroke: none; stroke-linecap: butt; stroke-width: 0; fill: rgb(12%,17%,23%); fill-rule: evenodd;"/>
+				<rect x="74.21617752326414" y="21.9899785254116" width="2.7487473156764537" height="2.74874731567645" style="stroke: none; stroke-linecap: butt; stroke-width: 0; fill: rgb(12%,17%,23%); fill-rule: evenodd;"/>
+				<rect x="10.994989262705799" y="19.241231209735147" width="2.74874731567645" height="2.74874731567645" style="stroke: none; stroke-linecap: butt; stroke-width: 0; fill: rgb(12%,17%,23%); fill-rule: evenodd;"/>
+				<rect x="16.492483894058697" y="19.241231209735147" width="8.24624194702935" height="2.74874731567645" style="stroke: none; stroke-linecap: butt; stroke-width: 0; fill: rgb(12%,17%,23%); fill-rule: evenodd;"/>
+				<rect x="27.487473156764498" y="19.241231209735147" width="2.74874731567645" height="2.74874731567645" style="stroke: none; stroke-linecap: butt; stroke-width: 0; fill: rgb(12%,17%,23%); fill-rule: evenodd;"/>
+				<rect x="32.984967788117395" y="19.241231209735147" width="2.7487473156764466" height="2.74874731567645" style="stroke: none; stroke-linecap: butt; stroke-width: 0; fill: rgb(12%,17%,23%); fill-rule: evenodd;"/>
+				<rect x="38.482462419470295" y="19.241231209735147" width="16.492483894058694" height="2.74874731567645" style="stroke: none; stroke-linecap: butt; stroke-width: 0; fill: rgb(12%,17%,23%); fill-rule: evenodd;"/>
+				<rect x="60.472440944881896" y="19.241231209735147" width="2.7487473156764466" height="2.74874731567645" style="stroke: none; stroke-linecap: butt; stroke-width: 0; fill: rgb(12%,17%,23%); fill-rule: evenodd;"/>
+				<rect x="74.21617752326414" y="19.241231209735147" width="5.497494631352893" height="2.74874731567645" style="stroke: none; stroke-linecap: butt; stroke-width: 0; fill: rgb(12%,17%,23%); fill-rule: evenodd;"/>
+				<rect x="10.994989262705799" y="16.492483894058708" width="2.74874731567645" height="2.74874731567645" style="stroke: none; stroke-linecap: butt; stroke-width: 0; fill: rgb(12%,17%,23%); fill-rule: evenodd;"/>
+				<rect x="16.492483894058697" y="16.492483894058708" width="8.24624194702935" height="2.74874731567645" style="stroke: none; stroke-linecap: butt; stroke-width: 0; fill: rgb(12%,17%,23%); fill-rule: evenodd;"/>
+				<rect x="27.487473156764498" y="16.492483894058708" width="2.74874731567645" height="2.74874731567645" style="stroke: none; stroke-linecap: butt; stroke-width: 0; fill: rgb(12%,17%,23%); fill-rule: evenodd;"/>
+				<rect x="35.73371510379385" y="16.492483894058708" width="2.7487473156764466" height="2.74874731567645" style="stroke: none; stroke-linecap: butt; stroke-width: 0; fill: rgb(12%,17%,23%); fill-rule: evenodd;"/>
+				<rect x="41.23120973514675" y="16.492483894058708" width="2.7487473156764466" height="2.74874731567645" style="stroke: none; stroke-linecap: butt; stroke-width: 0; fill: rgb(12%,17%,23%); fill-rule: evenodd;"/>
+				<rect x="49.477451682176095" y="16.492483894058708" width="5.4974946313529" height="2.74874731567645" style="stroke: none; stroke-linecap: butt; stroke-width: 0; fill: rgb(12%,17%,23%); fill-rule: evenodd;"/>
+				<rect x="57.72369362920544" y="16.492483894058708" width="2.7487473156764466" height="2.74874731567645" style="stroke: none; stroke-linecap: butt; stroke-width: 0; fill: rgb(12%,17%,23%); fill-rule: evenodd;"/>
+				<rect x="65.96993557623479" y="16.492483894058708" width="13.743736578382254" height="2.74874731567645" style="stroke: none; stroke-linecap: butt; stroke-width: 0; fill: rgb(12%,17%,23%); fill-rule: evenodd;"/>
+				<rect x="10.994989262705799" y="13.743736578382254" width="2.74874731567645" height="2.74874731567645" style="stroke: none; stroke-linecap: butt; stroke-width: 0; fill: rgb(12%,17%,23%); fill-rule: evenodd;"/>
+				<rect x="27.487473156764498" y="13.743736578382254" width="2.74874731567645" height="2.74874731567645" style="stroke: none; stroke-linecap: butt; stroke-width: 0; fill: rgb(12%,17%,23%); fill-rule: evenodd;"/>
+				<rect x="32.984967788117395" y="13.743736578382254" width="8.246241947029347" height="2.74874731567645" style="stroke: none; stroke-linecap: butt; stroke-width: 0; fill: rgb(12%,17%,23%); fill-rule: evenodd;"/>
+				<rect x="49.477451682176095" y="13.743736578382254" width="2.7487473156764466" height="2.74874731567645" style="stroke: none; stroke-linecap: butt; stroke-width: 0; fill: rgb(12%,17%,23%); fill-rule: evenodd;"/>
+				<rect x="63.22118826055834" y="13.743736578382254" width="5.4974946313529" height="2.74874731567645" style="stroke: none; stroke-linecap: butt; stroke-width: 0; fill: rgb(12%,17%,23%); fill-rule: evenodd;"/>
+				<rect x="71.4674302075877" y="13.743736578382254" width="8.246241947029347" height="2.74874731567645" style="stroke: none; stroke-linecap: butt; stroke-width: 0; fill: rgb(12%,17%,23%); fill-rule: evenodd;"/>
+				<rect x="10.994989262705799" y="10.9949892627058" width="19.241231209735147" height="2.74874731567645" style="stroke: none; stroke-linecap: butt; stroke-width: 0; fill: rgb(12%,17%,23%); fill-rule: evenodd;"/>
+				<rect x="32.984967788117395" y="10.9949892627058" width="2.7487473156764466" height="2.74874731567645" style="stroke: none; stroke-linecap: butt; stroke-width: 0; fill: rgb(12%,17%,23%); fill-rule: evenodd;"/>
+				<rect x="43.979957050823195" y="10.9949892627058" width="2.7487473156764466" height="2.74874731567645" style="stroke: none; stroke-linecap: butt; stroke-width: 0; fill: rgb(12%,17%,23%); fill-rule: evenodd;"/>
+				<rect x="49.477451682176095" y="10.9949892627058" width="2.7487473156764466" height="2.74874731567645" style="stroke: none; stroke-linecap: butt; stroke-width: 0; fill: rgb(12%,17%,23%); fill-rule: evenodd;"/>
+				<rect x="54.974946313528996" y="10.9949892627058" width="5.4974946313529" height="2.74874731567645" style="stroke: none; stroke-linecap: butt; stroke-width: 0; fill: rgb(12%,17%,23%); fill-rule: evenodd;"/>
+				<rect x="68.71868289191124" y="10.9949892627058" width="2.7487473156764537" height="2.74874731567645" style="stroke: none; stroke-linecap: butt; stroke-width: 0; fill: rgb(12%,17%,23%); fill-rule: evenodd;"/>
+				<rect x="76.96492483894059" y="10.9949892627058" width="2.7487473156764537" height="2.74874731567645" style="stroke: none; stroke-linecap: butt; stroke-width: 0; fill: rgb(12%,17%,23%); fill-rule: evenodd;"/>
+			</g>
+		</g>
+	</g>
+</svg>
+<div class="tech">Scan to book a demo</div></div>
+  </section>
+
+  <footer>
+    <div class="mission"><b>Our core mission</b> is to create a disease-free world by pushing regulated life science companies into autonomous quality control.</div>
+    <div class="fine">Examples are illustrative. PixeSci helps teams track work and produce records for review; customers still validate and configure the system, train users, maintain SOPs, and meet their own quality requirements. &copy; 2026 PixeSci.</div>
+  </footer>
+</div>
+</body>
+</html>
