@@ -5,6 +5,7 @@ import {
   AlertTriangle,
   CircleDashed,
   Link2,
+  Loader2,
   LockKeyhole,
   UserCheck,
 } from "lucide-react"
@@ -12,8 +13,8 @@ import {
 import {
   labBoundary,
   labScripts,
-  type LabItemStatus,
   type LabScript,
+  type LabTaskStatus,
 } from "@/content/lab-conversation"
 import { BrandName } from "@/components/site/brand-name"
 import { useInView, useReducedMotion } from "@/lib/use-motion"
@@ -22,19 +23,23 @@ import { cn } from "@/lib/utils"
 import { PauseToggle } from "./pause-toggle"
 import { VoiceWaveform } from "./voice-waveform"
 
-// Phases: 0 speaking, 1 transcribing, 2 checking sources, 3 answering, 4 holding.
-const finalPhase = 4
-const phaseDurations = [1400, 0, 1700, 1100, 5200]
+// Phases: 0 speaking, 1 transcribing, 2 planning, 3 running tasks, 4 summary, 5 holding.
+const runningPhase = 3
+const summaryPhase = 4
+const finalPhase = 5
+const phaseDurations = [1400, 0, 1300, 0, 900, 4500]
 const typeEveryMs = 34
 const sourceStaggerMs = 380
-// Source line endpoints in a 300×40 viewBox, converging on the reply below.
+// Source line endpoints in a 300×40 viewBox, converging on the output below.
 const sourceLinePaths = [
   "M50 0 C50 24 150 16 150 40",
   "M150 0 L150 40",
   "M250 0 C250 24 150 16 150 40",
 ]
 
-const itemStyles: Record<LabItemStatus, string> = {
+type TaskState = "queued" | "running" | "done"
+
+const doneStyles: Record<LabTaskStatus, string> = {
   linked:
     "border-primary/20 bg-primary/[0.06] text-primary dark:border-icy/20 dark:bg-icy/[0.08] dark:text-icy",
   flagged:
@@ -44,26 +49,43 @@ const itemStyles: Record<LabItemStatus, string> = {
     "border-border bg-background text-muted-foreground dark:border-white/15 dark:bg-white/5 dark:text-white/45",
 }
 
-const itemLabels: Record<LabItemStatus, string> = {
+const doneLabels: Record<LabTaskStatus, string> = {
   linked: "Linked record",
   flagged: "Flagged",
-  step: "Proposed step",
+  step: "Step ready",
   pending: "Not started",
 }
 
-function ItemIcon({ status, index }: { status: LabItemStatus; index: number }) {
+function TaskIcon({
+  state,
+  status,
+  index,
+}: {
+  state: TaskState
+  status: LabTaskStatus
+  index: number
+}) {
+  if (state === "queued") return <CircleDashed className="size-3" />
+  if (state === "running") return <Loader2 className="size-3 animate-spin" />
   if (status === "linked") return <Link2 className="size-3" />
   if (status === "flagged") return <AlertTriangle className="size-3" />
   if (status === "pending") return <CircleDashed className="size-3" />
   return <span className="font-mono text-[9px] font-semibold">{index + 1}</span>
 }
 
-function statusLine(script: LabScript, phase: number) {
+function seconds(ms: number) {
+  return `${(ms / 1000).toFixed(1)}s`
+}
+
+function statusLine(script: LabScript, phase: number, taskIndex: number) {
   if (phase === 0) {
     return script.speaker === "lab" ? "PixeSci is speaking" : "Listening"
   }
   if (phase === 1) return "Transcribing"
-  if (phase === 2) return `Checking ${script.sources.length} sources`
+  if (phase === 2) return `Planning ${script.tasks.length} tasks`
+  if (phase === runningPhase) {
+    return `Running task ${taskIndex + 1} of ${script.tasks.length}`
+  }
   return script.outcome
 }
 
@@ -74,6 +96,7 @@ export function LabConsole() {
   const [modeIndex, setModeIndex] = React.useState(0)
   const [phase, setPhase] = React.useState(0)
   const [typed, setTyped] = React.useState(0)
+  const [taskIndex, setTaskIndex] = React.useState(0)
   const [autoCycle, setAutoCycle] = React.useState(true)
   const [paused, setPaused] = React.useState(false)
   const reduceMotion = useReducedMotion()
@@ -81,6 +104,7 @@ export function LabConsole() {
   const running = !reduceMotion && !paused && inView
 
   const script = labScripts[modeIndex]
+  const taskCount = script.tasks.length
 
   React.useEffect(() => {
     if (!running) return
@@ -95,23 +119,30 @@ export function LabConsole() {
       } else {
         delay = 450
       }
+    } else if (phase === runningPhase) {
+      delay = script.tasks[taskIndex].ms
+      if (taskIndex < taskCount - 1) {
+        next = () => setTaskIndex(taskIndex + 1)
+      }
     } else if (phase === finalPhase) {
       if (!autoCycle) return
       next = () => {
         setModeIndex((current) => (current + 1) % labScripts.length)
         setPhase(0)
         setTyped(0)
+        setTaskIndex(0)
       }
     }
 
     const timer = window.setTimeout(next, delay)
     return () => window.clearTimeout(timer)
-  }, [running, phase, typed, autoCycle, script.prompt.length])
+  }, [running, phase, typed, taskIndex, autoCycle, script, taskCount])
 
   function selectMode(index: number) {
     setModeIndex(index)
     setPhase(0)
     setTyped(0)
+    setTaskIndex(0)
     setAutoCycle(false)
   }
 
@@ -129,13 +160,28 @@ export function LabConsole() {
   const shownTyped =
     shownPhase >= 2 ? script.prompt.length : shownPhase === 1 ? typed : 0
   const speaking = shownPhase <= 1
-  const answered = shownPhase >= 3
+  const planned = shownPhase >= 2
+  const summarized = shownPhase >= summaryPhase
+  const activeSource =
+    shownPhase === runningPhase ? script.tasks[taskIndex].source : null
+  const finishedMs = script.tasks.reduce((total, task) => total + task.ms, 0)
+
+  function taskState(index: number): TaskState {
+    if (shownPhase > runningPhase) return "done"
+    if (shownPhase < runningPhase) return "queued"
+    if (index < taskIndex) return "done"
+    return index === taskIndex ? "running" : "queued"
+  }
+
+  const doneCount = script.tasks.filter(
+    (_, index) => taskState(index) === "done"
+  ).length
 
   return (
     <figure
       ref={frameRef}
       className="visual-frame relative min-h-[520px] overflow-hidden bg-card text-card-foreground dark:border-white/12 dark:bg-deep dark:text-white"
-      aria-label="A conversation with the lab: ask a question, tell it what needs to happen, or let it tell you when something is off. Each answer links the source records and waits for a qualified reviewer."
+      aria-label="A conversation with the lab: ask a question, tell it what needs to happen, or let it tell you when something is off. PixeSci works through each task, links the source records, and waits for a qualified reviewer."
     >
       <div
         className="workflow-grid absolute inset-0 opacity-65 dark:hidden"
@@ -203,7 +249,7 @@ export function LabConsole() {
         id={`${baseId}-panel`}
         role="tabpanel"
         aria-labelledby={`${baseId}-tab-${script.mode}`}
-        className="relative z-10 flex min-h-[475px] flex-col p-4 sm:p-5"
+        className="relative z-10 flex min-h-[611px] flex-col p-4 sm:min-h-[567px] sm:p-5"
       >
         <div className="rounded-lg border bg-background/80 p-4 dark:border-white/10 dark:bg-black/20">
           <div className="flex items-center justify-between gap-3">
@@ -217,7 +263,7 @@ export function LabConsole() {
               )}
             </p>
             <p className="font-mono text-[9px] text-muted-foreground dark:text-white/45">
-              {statusLine(script, shownPhase)}
+              {statusLine(script, shownPhase, taskIndex)}
             </p>
           </div>
           <div className="mt-3 flex min-h-[84px] flex-col items-start gap-2 sm:min-h-12 sm:flex-row sm:items-center sm:gap-3">
@@ -245,27 +291,33 @@ export function LabConsole() {
         <div className="mt-4 grid grid-cols-3 gap-2">
           {script.sources.map((source, index) => {
             const Icon = source.icon
-            const lit = shownPhase >= 2
+            const active = activeSource === index
             return (
               <div
                 key={source.label}
                 className={cn(
                   "rounded-md border px-2.5 py-2 transition-colors duration-500",
-                  lit
-                    ? "border-primary/30 bg-primary/[0.05] dark:border-icy/30 dark:bg-icy/[0.06]"
-                    : "border-border bg-background/60 dark:border-white/10 dark:bg-black/15"
+                  active && "hero-agent-running",
+                  active
+                    ? "border-primary/60 bg-primary/[0.09] dark:border-icy/60 dark:bg-icy/[0.1]"
+                    : planned
+                      ? "border-primary/30 bg-primary/[0.05] dark:border-icy/30 dark:bg-icy/[0.06]"
+                      : "border-border bg-background/60 dark:border-white/10 dark:bg-black/15"
                 )}
-                style={{ transitionDelay: `${index * sourceStaggerMs}ms` }}
+                style={{
+                  transitionDelay: planned && activeSource === null
+                    ? `${index * sourceStaggerMs}ms`
+                    : "0ms",
+                }}
               >
                 <p className="flex items-center gap-1.5 text-[11px] font-medium">
                   <Icon
                     className={cn(
                       "size-3 shrink-0 transition-colors duration-500",
-                      lit
+                      planned
                         ? "text-primary dark:text-icy"
                         : "text-muted-foreground/60"
                     )}
-                    style={{ transitionDelay: `${index * sourceStaggerMs}ms` }}
                   />
                   <span className="truncate">{source.label}</span>
                 </p>
@@ -289,25 +341,42 @@ export function LabConsole() {
               d={path}
               fill="none"
               stroke="currentColor"
-              strokeWidth={1.25}
-              strokeOpacity={0.55}
+              strokeWidth={activeSource === index ? 2 : 1.25}
+              strokeOpacity={activeSource === index ? 1 : 0.55}
               vectorEffect="non-scaling-stroke"
               className="lab-console-line"
-              data-drawn={shownPhase >= 2}
+              data-drawn={planned}
               style={{ transitionDelay: `${index * sourceStaggerMs + 200}ms` }}
             />
           ))}
         </svg>
 
         <div className="relative flex-1 rounded-lg border bg-background/80 p-4 dark:border-white/10 dark:bg-black/20">
-          <p className="text-[9px] font-semibold tracking-[0.14em] text-muted-foreground uppercase dark:text-white/45">
-            {script.speaker === "lab" ? "Recommendation" : "Answer"}
-          </p>
+          <div className="flex items-center justify-between gap-3">
+            <p className="text-[9px] font-semibold tracking-[0.14em] text-muted-foreground uppercase dark:text-white/45">
+              {summarized
+                ? script.speaker === "lab"
+                  ? "Recommendation"
+                  : "Answer"
+                : "Working"}
+            </p>
+            <p
+              className={cn(
+                "font-mono text-[9px] text-muted-foreground transition-opacity duration-300 dark:text-white/45",
+                planned ? "opacity-100" : "opacity-0"
+              )}
+            >
+              {summarized
+                ? `${taskCount} tasks · ${seconds(finishedMs)}`
+                : `${doneCount}/${taskCount} done`}
+            </p>
+          </div>
+
           <div
             aria-hidden="true"
             className={cn(
               "absolute inset-x-4 top-10 space-y-2.5 transition-opacity duration-300",
-              answered ? "opacity-0" : "opacity-100"
+              planned ? "opacity-0" : "opacity-100"
             )}
           >
             {["w-11/12", "w-3/4", "w-1/2", "w-2/3"].map((width) => (
@@ -316,55 +385,110 @@ export function LabConsole() {
                 className={cn(
                   "h-2.5 rounded-full bg-muted dark:bg-white/[0.06]",
                   width,
-                  shownPhase === 2 && "hero-agent-progress"
+                  shownPhase === 1 && "hero-agent-progress"
                 )}
               />
             ))}
           </div>
+
+          <ol className="mt-3 space-y-1.5">
+            {script.tasks.map((task, index) => {
+              const state = taskState(index)
+              return (
+                <li
+                  key={task.label}
+                  className={cn(
+                    "relative grid grid-cols-[22px_minmax(0,1fr)_auto] items-center gap-2.5 transition-[opacity,transform] duration-500",
+                    planned
+                      ? "translate-y-0 opacity-100"
+                      : "translate-y-1 opacity-0"
+                  )}
+                  style={{
+                    transitionDelay: planned ? `${index * 90}ms` : "0ms",
+                  }}
+                >
+                  <span
+                    className={cn(
+                      "flex size-[22px] items-center justify-center rounded-full border transition-colors duration-300",
+                      state === "done"
+                        ? doneStyles[task.status]
+                        : state === "running"
+                          ? "border-primary/40 bg-primary/[0.08] text-primary dark:border-icy/40 dark:bg-icy/[0.1] dark:text-icy"
+                          : "border-dashed border-border text-muted-foreground/60 dark:border-white/15 dark:text-white/30"
+                    )}
+                    aria-hidden="true"
+                  >
+                    <TaskIcon state={state} status={task.status} index={index} />
+                  </span>
+                  <span className="min-w-0 truncate">
+                    <span className="sr-only">
+                      {doneLabels[task.status]}: {task.label}, {task.detail}
+                    </span>
+                    {state === "done" ? (
+                      <span aria-hidden="true">
+                        <span className="text-[11px] font-medium text-foreground/80 dark:text-white/78">
+                          {task.label}
+                        </span>
+                        <span className="ml-2 font-mono text-[9px] text-muted-foreground dark:text-white/40">
+                          {task.detail}
+                        </span>
+                      </span>
+                    ) : (
+                      <span
+                        aria-hidden="true"
+                        className={cn(
+                          "text-[11px]",
+                          state === "running"
+                            ? "font-medium text-foreground/85 dark:text-white/85"
+                            : "text-muted-foreground/70 dark:text-white/35"
+                        )}
+                      >
+                        {task.working}
+                        {state === "running" ? (
+                          <span className="hero-agent-typing-cursor ml-1">…</span>
+                        ) : null}
+                      </span>
+                    )}
+                  </span>
+                  <span
+                    aria-hidden="true"
+                    className={cn(
+                      "font-mono text-[9px]",
+                      state === "done"
+                        ? "text-muted-foreground dark:text-white/40"
+                        : state === "running"
+                          ? "text-primary dark:text-icy"
+                          : "text-muted-foreground/50 dark:text-white/25"
+                    )}
+                  >
+                    {state === "done"
+                      ? seconds(task.ms)
+                      : state === "running"
+                        ? "running"
+                        : "queued"}
+                  </span>
+                  {state === "running" ? (
+                    <span
+                      aria-hidden="true"
+                      className="hero-agent-progress absolute right-0 -bottom-1 left-8 h-0.5 rounded-full bg-primary/20 dark:bg-icy/20"
+                    />
+                  ) : null}
+                </li>
+              )
+            })}
+          </ol>
+
           <p
             className={cn(
-              "mt-2 min-h-10 text-[13px] leading-5 text-foreground/85 transition-opacity duration-500 dark:text-white/82",
-              answered ? "opacity-100" : "opacity-0"
+              "mt-3 min-h-10 text-[13px] leading-5 text-foreground/85 transition-opacity duration-500 dark:text-white/82",
+              summarized ? "opacity-100" : "opacity-0"
             )}
           >
             {script.reply}
           </p>
-          <ul className="mt-3 min-h-[120px] space-y-1.5">
-            {script.items.map((item, index) => (
-              <li
-                key={item.label}
-                className={cn(
-                  "grid grid-cols-[22px_minmax(0,1fr)] items-center gap-2.5 transition-[opacity,transform] duration-500",
-                  answered
-                    ? "translate-y-0 opacity-100"
-                    : "translate-y-1 opacity-0"
-                )}
-                style={{ transitionDelay: `${150 + index * 110}ms` }}
-              >
-                <span
-                  className={cn(
-                    "flex size-[22px] items-center justify-center rounded-full border",
-                    itemStyles[item.status]
-                  )}
-                  aria-hidden="true"
-                >
-                  <ItemIcon status={item.status} index={index} />
-                </span>
-                <span className="min-w-0">
-                  <span className="sr-only">{itemLabels[item.status]}: </span>
-                  <span className="text-[11px] font-medium text-foreground/80 dark:text-white/78">
-                    {item.label}
-                  </span>
-                  <span className="ml-2 font-mono text-[9px] text-muted-foreground dark:text-white/40">
-                    {item.detail}
-                  </span>
-                </span>
-              </li>
-            ))}
-          </ul>
           <p
             className={cn(
-              "mt-4 inline-flex items-center gap-1.5 rounded-full border border-primary/20 bg-primary/[0.06] px-2.5 py-1 text-[10px] font-medium text-primary transition-opacity duration-500 dark:border-icy/20 dark:bg-icy/[0.08] dark:text-icy",
+              "mt-3 inline-flex items-center gap-1.5 rounded-full border border-primary/20 bg-primary/[0.06] px-2.5 py-1 text-[10px] font-medium text-primary transition-opacity duration-500 dark:border-icy/20 dark:bg-icy/[0.08] dark:text-icy",
               shownPhase >= finalPhase ? "opacity-100" : "opacity-0"
             )}
           >

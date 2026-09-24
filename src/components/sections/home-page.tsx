@@ -298,6 +298,11 @@ export function HomePage() {
         </section>
       </main>
       <CTASection
+        eyebrow={
+          <p className="text-xl font-semibold text-white sm:text-2xl">
+            <Tagline waveform="console" onDark />
+          </p>
+        }
         title="See it on the workflow that worries you most."
         description="Bring one workflow where evidence is hardest to pull together. We will show you how it looks when it is connected, with your team making every decision."
         cta="Request a demo"

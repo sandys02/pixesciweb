@@ -25,7 +25,7 @@ export function FeatureGrid({
   return (
     <div
       className={cn(
-        "grid border-l border-t",
+        "reveal-on-scroll grid border-l border-t",
         dark ? "border-white/10" : "border-border",
         effectiveColumns === 2
           ? "sm:grid-cols-2"
