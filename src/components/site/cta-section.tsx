@@ -1,3 +1,4 @@
+import type { ReactNode } from "react"
 import { ArrowRight } from "lucide-react"
 import Link from "next/link"
 
@@ -8,6 +9,7 @@ import { TrademarkText } from "./brand-name"
 import { DemoBookingLink } from "./demo-booking-link"
 
 type CTASectionProps = {
+  eyebrow?: ReactNode
   title: string
   description: string
   cta?: string
@@ -15,6 +17,7 @@ type CTASectionProps = {
 }
 
 export function CTASection({
+  eyebrow = "Workflow mapping",
   title,
   description,
   cta = "Request a demo",
@@ -24,7 +27,11 @@ export function CTASection({
     <section className="dark-surface metal-edge metal-edge-top border-t border-border text-white">
       <div className="site-container grid gap-8 py-16 sm:py-20 lg:grid-cols-[1fr_auto] lg:items-end">
         <div className="max-w-3xl">
-          <p className="eyebrow text-icy">Workflow mapping</p>
+          {typeof eyebrow === "string" ? (
+            <p className="eyebrow text-icy">{eyebrow}</p>
+          ) : (
+            eyebrow
+          )}
           <h2 className="mt-4 text-3xl leading-tight font-semibold sm:text-4xl">
             <TrademarkText text={title} />
           </h2>

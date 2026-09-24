@@ -31,7 +31,9 @@ import {
   CatalogVisual,
   ContinuousMonitoringMockup,
   HeroAgentMockup,
+  VisualPrompt,
 } from "@/components/visuals"
+import { monitoringPrompt, visualPrompts } from "@/content/visual-prompts"
 
 import { FeatureGrid } from "./feature-grid"
 
@@ -232,7 +234,10 @@ export function WorkflowAutomationPage() {
                   across workstations and sites.
                 </p>
               </div>
-              <CatalogVisual />
+              <div className="reveal-on-scroll">
+                <VisualPrompt prompt={visualPrompts.catalog} />
+                <CatalogVisual />
+              </div>
             </div>
             <div className="mt-10">
               <FeatureGrid
@@ -298,7 +303,8 @@ export function WorkflowAutomationPage() {
                 </Link>
               </p>
             </div>
-            <div className="mt-10">
+            <div className="reveal-on-scroll mt-10">
+              <VisualPrompt prompt={monitoringPrompt} />
               <ContinuousMonitoringMockup />
             </div>
           </div>
