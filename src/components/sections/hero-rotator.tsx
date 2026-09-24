@@ -3,30 +3,17 @@
 import * as React from "react"
 import { Pause, Play } from "lucide-react"
 
+import { useReducedMotion } from "@/lib/use-motion"
 import { cn } from "@/lib/utils"
 
 const rotateEveryMs = 6500
-
-function subscribeToMotionPreference(onChange: () => void) {
-  const media = window.matchMedia("(prefers-reduced-motion: reduce)")
-  media.addEventListener("change", onChange)
-  return () => media.removeEventListener("change", onChange)
-}
-
-const readReducedMotion = () =>
-  window.matchMedia("(prefers-reduced-motion: reduce)").matches
-const readServerReducedMotion = () => false
 
 type HeroRotatorProps = {
   messages: readonly string[]
 }
 
 export function HeroRotator({ messages }: HeroRotatorProps) {
-  const reduceMotion = React.useSyncExternalStore(
-    subscribeToMotionPreference,
-    readReducedMotion,
-    readServerReducedMotion
-  )
+  const reduceMotion = useReducedMotion()
   const [index, setIndex] = React.useState(0)
   const [paused, setPaused] = React.useState(false)
   const [hovered, setHovered] = React.useState(false)

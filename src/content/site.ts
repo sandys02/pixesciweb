@@ -21,6 +21,8 @@ export const siteUrl = "https://pixesci.com"
 export const demoBookingUrl =
   "https://cal.com/pixesci/30min?user=pixesci&overlayCalendar=true&layout=mobile"
 
+export const tagline = "Talk to your Lab!"
+
 export const categoryLine =
   "The autonomous quality control operating system for regulated life sciences."
 

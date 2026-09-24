@@ -25,8 +25,13 @@ import Link from "next/link"
 import { TrademarkText } from "@/components/site/brand-name"
 import { CTASection } from "@/components/site/cta-section"
 import { DemoBookingLink } from "@/components/site/demo-booking-link"
+import { Tagline } from "@/components/site/tagline"
 import { Button } from "@/components/ui/button"
-import { CatalogVisual, HeroAgentMockup } from "@/components/visuals"
+import {
+  CatalogVisual,
+  ContinuousMonitoringMockup,
+  HeroAgentMockup,
+} from "@/components/visuals"
 
 import { FeatureGrid } from "./feature-grid"
 
@@ -276,12 +281,35 @@ export function WorkflowAutomationPage() {
           </div>
         </section>
 
+        <section className="section-space border-b border-border bg-muted/25">
+          <div className="site-container">
+            <div className="max-w-3xl">
+              <p className="eyebrow">Monitoring</p>
+              <h2 className="mt-3 text-3xl leading-tight font-semibold sm:text-4xl">
+                Your lab monitors every step.
+              </h2>
+              <p className="mt-5 text-base leading-7 text-muted-foreground sm:text-lg">
+                <TrademarkText text="PixeSci checks every event from your connected systems as it happens: instrument runs, audit-trail entries, environmental readings, and partner results. When something looks off, it flags it and recommends appropriate steps. A qualified reviewer decides." />{" "}
+                <Link
+                  href="/platform/agents"
+                  className="font-medium text-primary hover:underline"
+                >
+                  See Continuous Quality Monitoring
+                </Link>
+              </p>
+            </div>
+            <div className="mt-10">
+              <ContinuousMonitoringMockup />
+            </div>
+          </div>
+        </section>
+
         <section className="section-space border-b border-border">
           <div className="site-container">
             <div className="max-w-3xl">
               <p className="eyebrow">Interface</p>
               <h2 className="mt-3 text-3xl leading-tight font-semibold sm:text-4xl">
-                Talk to your lab!
+                <Tagline waveform="console" />
               </h2>
               <p className="mt-5 text-base leading-7 text-muted-foreground sm:text-lg">
                 Describe the work in your own words. Turn the request into

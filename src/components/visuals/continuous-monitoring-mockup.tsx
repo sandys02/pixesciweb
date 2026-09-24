@@ -18,7 +18,10 @@ import {
 } from "lucide-react"
 
 import { BrandName } from "@/components/site/brand-name"
+import { useInView, useReducedMotion } from "@/lib/use-motion"
 import { cn } from "@/lib/utils"
+
+import { PauseToggle } from "./pause-toggle"
 
 type CategoryId =
   | "environment"
@@ -143,21 +146,15 @@ const visibleRows = 5
 const tickDuration = 2600
 
 export function ContinuousMonitoringMockup() {
+  const frameRef = React.useRef<HTMLElement>(null)
   const [tick, setTick] = React.useState(0)
-  const [reduceMotion, setReduceMotion] = React.useState(false)
+  const [paused, setPaused] = React.useState(false)
+  const reduceMotion = useReducedMotion()
+  const inView = useInView(frameRef)
+  const running = !reduceMotion && !paused && inView
 
   React.useEffect(() => {
-    const media = window.matchMedia("(prefers-reduced-motion: reduce)")
-    const updatePreference = () => setReduceMotion(media.matches)
-
-    updatePreference()
-    media.addEventListener("change", updatePreference)
-
-    return () => media.removeEventListener("change", updatePreference)
-  }, [])
-
-  React.useEffect(() => {
-    if (reduceMotion) {
+    if (!running) {
       return
     }
 
@@ -166,7 +163,7 @@ export function ContinuousMonitoringMockup() {
     }, tickDuration)
 
     return () => window.clearTimeout(timer)
-  }, [tick, reduceMotion])
+  }, [tick, running])
 
   const displayedTick = reduceMotion ? 2 : tick
   const rows = Array.from({ length: visibleRows }, (_, index) => {
@@ -183,7 +180,8 @@ export function ContinuousMonitoringMockup() {
 
   return (
     <figure
-      className="visual-frame hero-agent-mockup relative min-h-[520px] overflow-hidden bg-card text-card-foreground dark:border-white/12 dark:bg-deep dark:text-white"
+      ref={frameRef}
+      className="visual-frame hero-agent-mockup @container relative min-h-[520px] overflow-hidden bg-card text-card-foreground dark:border-white/12 dark:bg-deep dark:text-white"
       aria-label="Continuous monitoring console watching environmental conditions, QC instruments, laboratory records, quality records, and partner and contractor data, flagging exceptions and recording every recommendation"
     >
       <div
@@ -199,14 +197,23 @@ export function ContinuousMonitoringMockup() {
           <span className="hero-agent-status-dot size-2 rounded-full bg-emerald-400" />
           <BrandName /> Continuous Quality Monitoring
         </span>
-        <span className="inline-flex items-center gap-1.5 font-mono text-[9px] text-primary dark:text-icy">
-          <ShieldCheck className="size-3.5" />
-          Continuous
+        <span className="flex items-center gap-2">
+          <span className="inline-flex items-center gap-1.5 font-mono text-[9px] text-primary dark:text-icy">
+            <ShieldCheck className="size-3.5" />
+            Continuous
+          </span>
+          {reduceMotion ? null : (
+            <PauseToggle
+              paused={paused}
+              onToggle={() => setPaused((current) => !current)}
+              label="monitoring feed"
+            />
+          )}
         </span>
       </figcaption>
 
-      <div className="relative z-10 grid min-h-[475px] lg:grid-cols-[0.95fr_1.05fr]">
-        <div className="border-b bg-muted/15 p-4 sm:p-5 lg:border-r lg:border-b-0 dark:border-white/10 dark:bg-white/[0.018]">
+      <div className="relative z-10 grid min-h-[475px] @2xl:grid-cols-[0.95fr_1.05fr]">
+        <div className="border-b bg-muted/15 p-4 sm:p-5 @2xl:border-r @2xl:border-b-0 dark:border-white/10 dark:bg-white/[0.018]">
           <div className="flex items-center gap-2 text-[9px] font-semibold tracking-[0.14em] text-muted-foreground uppercase">
             <RadioTower className="size-3.5 text-primary dark:text-icy" />
             Monitored categories

@@ -28,7 +28,7 @@ export function SiteFooter() {
                 Data · Quality · Compliance · Confidence
               </p>
             </div>
-            <div className=" space-y-4 sm:space-y-0 sm:space-x-6">
+            <div className="flex gap-6 items-center">
               <DemoBookingLink
                 source="footer_primary"
                 className="mt-6 inline-flex text-sm font-medium text-primary hover:underline"
