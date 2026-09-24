@@ -8,6 +8,7 @@ import { SignInPortalButton } from "./download-pixesci-button"
 import { Logo } from "./logo"
 import { MobileNav } from "./mobile-nav"
 import { PlatformNavDropdown } from "./platform-nav-dropdown"
+import { ThemeSwitcher } from "./theme-switcher"
 
 export function SiteHeader() {
   return (
@@ -35,12 +36,16 @@ export function SiteHeader() {
           </ul>
         </nav>
         <div className="hidden items-center gap-2 xl:flex">
+          <ThemeSwitcher size="icon-lg" tooltipSide="bottom" />
           <SignInPortalButton source="header" />
           <Button asChild size="lg" className="px-4">
             <DemoBookingLink source="header">Request a demo</DemoBookingLink>
           </Button>
         </div>
-        <MobileNav />
+        <div className="flex items-center gap-2 xl:hidden">
+          <ThemeSwitcher size="icon-lg" tooltipSide="bottom" />
+          <MobileNav />
+        </div>
       </div>
     </header>
   )

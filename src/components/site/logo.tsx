@@ -3,6 +3,8 @@
 import Image from "next/image"
 import Link from "next/link"
 
+import { tagline as taglineText } from "@/content/site"
+
 import { BrandName } from "./brand-name"
 
 type LogoProps = {
@@ -29,7 +31,7 @@ export function Logo({ tagline = true }: LogoProps) {
         </span>
         {tagline ? (
           <span className="mt-1.5 whitespace-nowrap text-[7.5px] font-medium tracking-[0.26em] text-muted-foreground uppercase">
-            Talk to your lab
+            {taglineText}
           </span>
         ) : null}
       </span>

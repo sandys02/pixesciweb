@@ -18,6 +18,7 @@ import {
 } from "lucide-react"
 
 import { BrandName } from "@/components/site/brand-name"
+import { useReducedMotion } from "@/lib/use-motion"
 import { cn } from "@/lib/utils"
 
 type StepStatus = "completed" | "running" | "review" | "queued"
@@ -108,17 +109,7 @@ function getStepStatus(stepIndex: number, phase: number): StepStatus {
 
 export function HeroAgentMockup() {
   const [phase, setPhase] = React.useState(0)
-  const [reduceMotion, setReduceMotion] = React.useState(false)
-
-  React.useEffect(() => {
-    const media = window.matchMedia("(prefers-reduced-motion: reduce)")
-    const updatePreference = () => setReduceMotion(media.matches)
-
-    updatePreference()
-    media.addEventListener("change", updatePreference)
-
-    return () => media.removeEventListener("change", updatePreference)
-  }, [])
+  const reduceMotion = useReducedMotion()
 
   React.useEffect(() => {
     if (reduceMotion) {

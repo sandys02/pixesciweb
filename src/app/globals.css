@@ -528,6 +528,35 @@
   .hero-agent-step:nth-child(6) {
     animation-delay: 350ms;
   }
+
+  .voice-bar {
+    transform: scaleY(calc(var(--peak) * 0.7));
+    transform-origin: center;
+    transition: transform 400ms ease;
+  }
+
+  .voice-waveform[data-active="true"] .voice-bar {
+    animation: voice-bar var(--dur) ease-in-out var(--delay) infinite
+      alternate;
+  }
+
+  .voice-waveform[data-active="false"] .voice-bar {
+    transform: scaleY(0.14);
+  }
+
+  .voice-waveform-mark[data-active="true"] .voice-bar {
+    animation-duration: calc(var(--dur) * 2.2);
+  }
+
+  .lab-console-line {
+    stroke-dasharray: 400;
+    stroke-dashoffset: 400;
+    transition: stroke-dashoffset 700ms ease-out;
+  }
+
+  .lab-console-line[data-drawn="true"] {
+    stroke-dashoffset: 0;
+  }
 }
 
 @keyframes hero-agent-pulse {
@@ -571,6 +600,21 @@
   }
   50% {
     box-shadow: 0 0 0 4px rgba(103, 232, 249, 0.1);
+  }
+}
+
+@keyframes voice-bar {
+  0% {
+    transform: scaleY(0.16);
+  }
+  40% {
+    transform: scaleY(var(--peak));
+  }
+  70% {
+    transform: scaleY(calc(var(--peak) * 0.45));
+  }
+  100% {
+    transform: scaleY(calc(var(--peak) * 0.85));
   }
 }
 

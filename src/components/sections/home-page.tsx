@@ -1,6 +1,6 @@
 // @/components/sections/home-page.tsx
 
-import { ArrowRight, CircleDot } from "lucide-react"
+import { ArrowRight } from "lucide-react"
 import Link from "next/link"
 
 import { qualityCore, solutionProducts } from "@/content/solutions"
@@ -18,11 +18,13 @@ import {
 import { TrademarkText } from "@/components/site/brand-name"
 import { CTASection } from "@/components/site/cta-section"
 import { DemoBookingLink } from "@/components/site/demo-booking-link"
+import { Tagline } from "@/components/site/tagline"
 import { Button } from "@/components/ui/button"
-import { ContinuousMonitoringMockup, MetalPlanes } from "@/components/visuals"
+import { LabConsole, MetalPlanes } from "@/components/visuals"
 
 import { FeatureGrid } from "./feature-grid"
 import { HeroRotator } from "./hero-rotator"
+import { RiskCalculator } from "./risk-calculator"
 
 const howWeGetYouThere = [qualityCore, ...solutionProducts]
 
@@ -35,10 +37,9 @@ export function HomePage() {
           <div className="site-container relative pt-16 pb-16 sm:pb-22 lg:pb-24">
             <div className="grid items-center gap-4 lg:grid-cols-[0.85fr_1.1fr]">
               <div>
-                <div className="instrument-strip inline-flex items-center gap-2 rounded-md border border-silver/70 px-3 py-1.5 text-[10px] font-medium tracking-[0.2em] text-muted-foreground uppercase dark:border-input">
-                  <CircleDot className="size-3 text-primary" />
-                  Talk to your Lab.™
-                </div>
+                <p className="instrument-strip inline-flex items-center rounded-md border border-silver/70 px-3 py-2 text-xs font-semibold tracking-[0.16em] text-foreground/80 uppercase dark:border-input">
+                  <Tagline trademark />
+                </p>
                 <h1 className="mt-7 text-4xl leading-[1.04] font-semibold md:text-5xl">
                   The autonomous quality control operating system for
                   regulated life sciences.
@@ -60,7 +61,7 @@ export function HomePage() {
                   </Button>
                 </div>
               </div>
-              <ContinuousMonitoringMockup />
+              <LabConsole />
             </div>
             <div className="instrument-strip mt-12 grid grid-cols-2 border-t border-l border-silver/60 sm:grid-cols-6 lg:mt-16 dark:border-border">
               {proofPoints.map((point) => (
@@ -80,7 +81,7 @@ export function HomePage() {
             <div className="max-w-3xl">
               <p className="eyebrow">The problem</p>
               <h2 className="mt-3 text-3xl leading-tight font-semibold sm:text-5xl">
-                You&apos;ve become the integration layer.
+                You&apos;re stuck in manual and fragmented processes.
               </h2>
               <p className="mt-5 text-base leading-7 text-muted-foreground sm:text-lg">
                 Your quality work spans instruments, software, and outside
@@ -97,7 +98,7 @@ export function HomePage() {
                 We take that off your plate.
               </h3>
               <p className="mt-4 max-w-3xl text-base leading-7 text-white/70 sm:text-lg">
-                <TrademarkText text="PixeSci connects your instruments, software, and partners, runs the routine work with your sign-off, and keeps the record as it goes. And we keep your team one step ahead of AI, so learning it never becomes one more thing on your plate." />
+                <TrademarkText text="PixeSci connects your instruments, software, and partners, and runs your routine QC work with your sign-off on every step that matters. Work runs precisely as you approved it, and every action, file, and decision is recorded as it happens. Your team gets complete quality records, an audit trail ready for compliance review, and confidence in every result." />
               </p>
               <Link
                 href="/solutions"
@@ -170,6 +171,19 @@ export function HomePage() {
                     )
                   })}
                 </ul>
+              </div>
+            </div>
+            <div className="mt-16">
+              <div className="max-w-3xl">
+                <h3 className="text-xl font-semibold sm:text-2xl">
+                  What could evidence gaps cost your operation?
+                </h3>
+                <p className="mt-3 text-sm leading-6 text-muted-foreground sm:text-base">
+                  <TrademarkText text="Estimate your exposure based on your own operation. These are illustrative scenarios built on PixeSci's own remediation-cost modeling — not predictions, and not a substitute for your own risk assessment." />
+                </p>
+              </div>
+              <div className="mt-6">
+                <RiskCalculator />
               </div>
             </div>
           </div>
