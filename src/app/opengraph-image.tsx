@@ -1,6 +1,7 @@
 import { ImageResponse } from "next/og"
 
-export const alt = "PixeSci TM connects and automates scientific software"
+export const alt =
+  "PixeSci TM, the autonomous quality control operating system for regulated life sciences"
 export const size = {
   width: 1200,
   height: 630,
@@ -16,8 +17,10 @@ export default function Image() {
         display: "flex",
         flexDirection: "column",
         justifyContent: "space-between",
-        background: "#f8fbfc",
-        color: "#10191d",
+        backgroundColor: "#f9fbfd",
+        backgroundImage:
+          "linear-gradient(112deg, #cfd5df 0%, #eef2f7 26%, #ffffff 42%, #dbe8fb 58%, #b6d3ff 70%, #e7eef7 86%, #cbd1db 100%)",
+        color: "#1f2d3d",
         padding: "68px",
         fontFamily: "sans-serif",
       }}
@@ -26,74 +29,91 @@ export default function Image() {
         style={{
           display: "flex",
           alignItems: "center",
-          gap: "16px",
-          fontSize: "28px",
-          fontWeight: 700,
+          gap: "18px",
         }}
       >
         <div
           style={{
-            width: "42px",
-            height: "42px",
-            borderRadius: "8px",
-            background: "#10191d",
-            color: "#79e4ec",
+            width: "56px",
+            height: "56px",
+            borderRadius: "13px",
+            background: "#0054d8",
+            color: "#ffffff",
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
-            fontSize: "24px",
+            fontSize: "30px",
+            fontWeight: 700,
+            fontStyle: "italic",
           }}
         >
-          +
+          Px
         </div>
-        <span>
-          PixeSci
-          <sup style={{ fontSize: "12px", marginLeft: "3px" }}>TM</sup>
-        </span>
+        <div style={{ display: "flex", flexDirection: "column", gap: "6px" }}>
+          <span
+            style={{
+              display: "flex",
+              fontSize: "32px",
+              fontWeight: 700,
+              color: "#0054d8",
+              lineHeight: 1,
+            }}
+          >
+            PixeSci
+            <sup style={{ fontSize: "13px", marginLeft: "3px" }}>TM</sup>
+          </span>
+          <span
+            style={{
+              fontSize: "12px",
+              letterSpacing: "0.26em",
+              color: "#526176",
+              lineHeight: 1,
+            }}
+          >
+            TALK TO YOUR LAB
+          </span>
+        </div>
       </div>
-      <div style={{ display: "flex", flexDirection: "column", gap: "28px" }}>
+      <div style={{ display: "flex", flexDirection: "column", gap: "30px" }}>
         <div
           style={{
-            maxWidth: "960px",
+            maxWidth: "980px",
             fontSize: "68px",
             lineHeight: 1.04,
             fontWeight: 700,
+            letterSpacing: "-0.02em",
           }}
         >
-          Connect scientific software. Automate the work.
+          The autonomous quality control operating system for regulated life sciences.
         </div>
         <div
           style={{
             display: "flex",
             alignItems: "center",
             gap: "18px",
-            fontSize: "23px",
-            color: "#52636b",
+            fontSize: "20px",
+            letterSpacing: "0.22em",
+            color: "#526176",
           }}
         >
-          Track compliance
-          <span style={{ color: "#a2b0b6" }}>·</span>
-          Visual workflows
-          <span style={{ color: "#a2b0b6" }}>·</span>
-          Audit history
-          <span style={{ color: "#a2b0b6" }}>·</span>
-          On-prem ready
+          DATA
+          <span style={{ color: "#8f9bb0" }}>·</span>
+          QUALITY
+          <span style={{ color: "#8f9bb0" }}>·</span>
+          COMPLIANCE
+          <span style={{ color: "#8f9bb0" }}>·</span>
+          CONFIDENCE
         </div>
       </div>
       <div
         style={{
           display: "flex",
-          height: "8px",
+          height: "6px",
           width: "100%",
-          borderRadius: "999px",
-          background: "#dbe6e9",
-          overflow: "hidden",
+          backgroundImage:
+            "linear-gradient(90deg, #c7ccd6 0%, #eef2f7 20%, #ffffff 32%, #b6d3ff 50%, #0054d8 62%, #b6d3ff 74%, #dfe4ec 88%, #c7ccd6 100%)",
         }}
-      >
-        <div style={{ width: "64%", background: "#1787a0" }} />
-        <div style={{ width: "16%", background: "#50c9ca" }} />
-        <div style={{ width: "20%", background: "#dbe6e9" }} />
-      </div>
+      />
     </div>,
     size
   )

@@ -2,7 +2,7 @@ import {
   CheckCircle2,
   Clock3,
   FileStack,
-  Microscope,
+  Thermometer,
   Search,
   ScanSearch,
 } from "lucide-react"
@@ -11,15 +11,15 @@ import { BrandName } from "@/components/site/brand-name"
 
 const templates = [
   {
-    title: "Microscopy quantification",
-    category: "Microscopy",
+    title: "Environmental excursion check",
+    category: "Environmental",
     steps: "6 nodes",
     time: "25 min",
     difficulty: "Intermediate",
-    icon: Microscope,
+    icon: Thermometer,
   },
   {
-    title: "Flow cytometry review",
+    title: "HPLC result review",
     category: "QC",
     steps: "5 nodes",
     time: "15 min",
@@ -27,7 +27,7 @@ const templates = [
     icon: ScanSearch,
   },
   {
-    title: "Facility report package",
+    title: "Batch record package",
     category: "Reporting",
     steps: "4 nodes",
     time: "10 min",
@@ -52,7 +52,7 @@ export function TemplateVisual() {
           <Search className="size-3" />
           Search templates
         </div>
-        {["All", "Quality Control", "Microscopy", "Reporting"].map(
+        {["All", "Quality Control", "Environmental", "Reporting"].map(
           (category, index) => (
             <span
               key={category}

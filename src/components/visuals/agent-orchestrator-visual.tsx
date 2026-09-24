@@ -14,10 +14,10 @@ export function AgentOrchestratorVisual() {
   return (
     <figure
       className="visual-frame overflow-hidden"
-      aria-label="Monitoring console showing rule checks with a status per check, and a recommendation panel stating the AI only recommends"
+      aria-label="Monitoring console showing rule checks with a status per check, and a recommendation panel stating PixeSci only recommends"
     >
       <figcaption className="visual-toolbar">
-        <span>Agentic compliance / monitoring console</span>
+        <span>Continuous quality monitoring / console</span>
         <span className="text-muted-foreground">Continuous</span>
       </figcaption>
       <div className="grid sm:grid-cols-[1.1fr_1fr]">

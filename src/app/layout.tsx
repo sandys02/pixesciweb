@@ -27,17 +27,17 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: {
-    default: "PixeSci TM | The agentic compliance operating system",
+    default: "PixeSci TM | The autonomous quality control operating system",
     template: "%s | PixeSci TM",
   },
   description:
-    "PixeSci is the agentic compliance operating system for the Quality Unit. Connect the systems you already use, watch for the gaps regulators cite, and carry evidence through the work as it happens — not after.",
+    "PixeSci is the autonomous quality control operating system for regulated life sciences. Connect the systems you already use, watch for the gaps regulators cite, and carry evidence through the work as it happens — not after.",
   applicationName: "PixeSci TM",
   creator: "PixeSci TM",
   publisher: "PixeSci TM",
   category: "Scientific workflow automation",
   keywords: [
-    "agentic compliance operating system",
+    "autonomous quality control operating system",
     "continuous quality monitoring",
     "AI compliance copilot",
     "compliance-first AI",

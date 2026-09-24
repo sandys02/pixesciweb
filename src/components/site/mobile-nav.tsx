@@ -6,7 +6,7 @@ import Link from "next/link"
 import { usePathname } from "next/navigation"
 
 import { Button } from "@/components/ui/button"
-import { platformNavigation, primaryNavigation } from "@/content/site"
+import { primaryNavigation, solutionsNavigation } from "@/content/site"
 import { cn } from "@/lib/utils"
 
 import { DemoBookingLink } from "./demo-booking-link"
@@ -27,7 +27,7 @@ export function MobileNav() {
   }, [open])
 
   return (
-    <div className="lg:hidden">
+    <div className="xl:hidden">
       <Button
         type="button"
         variant="outline"
@@ -61,7 +61,7 @@ export function MobileNav() {
           >
             <ul className="divide-y divide-border border-y border-border">
               {primaryNavigation.map((item) =>
-                item.label === "Platform" ? (
+                item.label === "Solutions" ? (
                   <li key={item.href}>
                     <details className="group py-5">
                       <summary className="flex cursor-pointer list-none items-center justify-between focus-visible:ring-2 focus-visible:ring-primary focus-visible:outline-none">
@@ -79,7 +79,7 @@ export function MobileNav() {
                         />
                       </summary>
                       <ul className="mt-3 space-y-3 border-l border-border pl-4">
-                        {platformNavigation.map((platformItem) => (
+                        {solutionsNavigation.map((platformItem) => (
                           <li key={platformItem.href}>
                             <Link
                               href={platformItem.href}

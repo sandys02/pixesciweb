@@ -30,7 +30,7 @@ const resources = [
     type: "Quality evaluation",
     description:
       "Check how actions, file details, checksums, reviews, and approvals stay ready for inspection.",
-    href: "/compliance",
+    href: "/platform/agents",
     icon: BookOpenCheck,
   },
   {
@@ -53,7 +53,7 @@ const resources = [
     title: "Security and deployment brief",
     type: "Deployment guide",
     description:
-      "Compare workstation, lab, local server, and air-gapped setup options.",
+      "See how a PixeSci Node is installed and runs at your site.",
     href: "/security",
     icon: ShieldCheck,
   },
@@ -62,7 +62,7 @@ const resources = [
     type: "Buyer checklist",
     description:
       "Check how users, files, versions, scripts, changes, and reviews stay linked to each run.",
-    href: "/compliance",
+    href: "/platform/agents",
     icon: FileKey2,
   },
 ] as const
@@ -74,7 +74,7 @@ export const resourceFaqs = [
 
   [
     "What's new in PixeSci's platform beyond the modules you already track?",
-    "PixeSci now includes an agentic compliance layer: continuous, deterministic monitoring across your connected systems, a governed AI copilot that recommends but never makes a regulated decision on its own, and a hash-chained, independently verifiable audit trail. See the Agentic Compliance page for the full picture.",
+    "PixeSci now includes Continuous Quality Monitoring: continuous, deterministic monitoring across your connected systems, a governed AI copilot that recommends but never makes a regulated decision on its own, and a hash-chained, independently verifiable audit trail. See the Continuous Quality Monitoring page for the full picture.",
   ],
 
   [
@@ -237,11 +237,11 @@ export function ResourcesPage() {
             <div className="max-w-4xl">
               <p className="eyebrow">Resources</p>
               <h1 className="mt-5 text-4xl leading-[1.05] font-semibold sm:text-6xl lg:text-7xl">
-                Connect software. Automate workflows. Track scientific work.
+                Answers to what you&apos;ll ask before a demo.
               </h1>
               <p className="mt-6 max-w-3xl text-base leading-7 text-muted-foreground sm:text-lg sm:leading-8">
-                Read clear guides for technical teams, quality teams, lab IT,
-                facility operators, and workflow owners.
+                Short guides for quality teams, lab IT, and the people who
+                own your workflows.
               </p>
             </div>
           </div>

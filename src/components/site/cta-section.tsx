@@ -21,14 +21,14 @@ export function CTASection({
   href = demoBookingUrl,
 }: CTASectionProps) {
   return (
-    <section className="border-t border-border bg-foreground text-background">
+    <section className="dark-surface metal-edge metal-edge-top border-t border-border text-white">
       <div className="site-container grid gap-8 py-16 sm:py-20 lg:grid-cols-[1fr_auto] lg:items-end">
         <div className="max-w-3xl">
-          <p className="eyebrow text-cyan-300">Workflow mapping</p>
+          <p className="eyebrow text-icy">Workflow mapping</p>
           <h2 className="mt-4 text-3xl leading-tight font-semibold sm:text-4xl">
             <TrademarkText text={title} />
           </h2>
-          <p className="mt-4 max-w-2xl text-base leading-7 text-background/65">
+          <p className="mt-4 max-w-2xl text-base leading-7 text-white/70">
             <TrademarkText text={description} />
           </p>
         </div>
@@ -36,7 +36,7 @@ export function CTASection({
           asChild
           size="lg"
           variant="outline"
-          className="w-fit border-background bg-background px-4 text-foreground hover:bg-background/90 hover:text-foreground"
+          className="w-fit border-white/70 px-4 text-[#1f2d3d] hover:text-[#1f2d3d] dark:border-white/70 dark:bg-[image:linear-gradient(180deg,#ffffff,#e2eaf5)] dark:text-[#1f2d3d] dark:hover:bg-[image:linear-gradient(180deg,#ffffff,#d5e0ef)]"
         >
           {href === demoBookingUrl ? (
             <DemoBookingLink source="section_cta">

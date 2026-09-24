@@ -6,6 +6,7 @@ import { capabilityFields, integrationCategories } from "@/content/integrations"
 import { TrademarkText } from "@/components/site/brand-name"
 import { CTASection } from "@/components/site/cta-section"
 import { DemoBookingLink } from "@/components/site/demo-booking-link"
+import { Tagline } from "@/components/site/tagline"
 import { Button } from "@/components/ui/button"
 
 export function IntegrationsPage() {
@@ -22,10 +23,6 @@ export function IntegrationsPage() {
               <p className="mt-6 max-w-3xl text-base leading-7 text-muted-foreground sm:text-lg sm:leading-8">
                 You should not have to move results by hand, rebuild the same
                 reports, or lose context every time work crosses applications.
-                See the software categories teams can connect into reviewable,
-                reusable workflows. Some tools, like our built-in workflow
-                apps, are always available. Others are detected on your own
-                workstations and servers before a workflow can use them.
               </p>
               <div className="mt-8 flex flex-col gap-3 sm:flex-row">
                 <Button asChild size="lg" className="px-4">
@@ -130,6 +127,11 @@ export function IntegrationsPage() {
                 <h2 className="mt-3 text-3xl leading-tight font-semibold sm:text-4xl">
                   Move work across applications without manual handoffs.
                 </h2>
+                <p className="mt-4 text-sm leading-6 text-muted-foreground">
+                  Named products are examples of what each category includes,
+                  not a list of live connectors. See what&apos;s connected
+                  today above.
+                </p>
               </div>
               <div
                 className="flex w-full max-w-sm items-center gap-2 rounded-md border border-border bg-background px-3 py-2 text-sm text-muted-foreground"
@@ -186,9 +188,9 @@ export function IntegrationsPage() {
 
         <section className="section-space dark-surface border-b border-white/10 text-white">
           <div className="site-container max-w-4xl">
-            <p className="eyebrow text-cyan-300">Workflow outcomes</p>
+            <p className="eyebrow text-icy">Workflow outcomes</p>
             <h2 className="mt-3 text-3xl leading-tight font-semibold sm:text-4xl">
-              Talk to your lab!
+              <Tagline waveform="console" onDark />
             </h2>
             <p className="mt-5 max-w-3xl text-base leading-7 text-white/62">
               Describe the work you need, review the proposed steps, run the

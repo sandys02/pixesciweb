@@ -2,7 +2,7 @@ export const assetPlaceholders = [
   {
     id: "workflow-canvas",
     intendedAsset: "Real PixeSci TM workflow canvas screenshot",
-    usedIn: ["Homepage", "Product", "Workflow automation", "Solutions"],
+    usedIn: ["Homepage", "Solutions", "Agentic Automation"],
   },
   {
     id: "audit-log",
@@ -17,7 +17,7 @@ export const assetPlaceholders = [
   {
     id: "execution-console",
     intendedAsset: "Real workflow execution monitor screenshot",
-    usedIn: ["Product", "Workflow automation"],
+    usedIn: ["Solutions", "Agentic Automation"],
   },
   {
     id: "template-center",

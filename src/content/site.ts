@@ -1,36 +1,30 @@
 import type { LucideIcon } from "lucide-react"
 import {
-  BadgeCheck,
   Blocks,
   BookOpenCheck,
-  Boxes,
-  BrainCircuit,
   CloudOff,
-  FileCog,
   FileSearch,
   FileStack,
-  FileText,
   Fingerprint,
-  FlaskConical,
   History,
-  LineChart,
   LockKeyhole,
-  Microscope,
+  MessageSquareText,
   Network,
   RadioTower,
   ScanLine,
   ScanSearch,
   ShieldCheck,
   UserCheck,
-  Workflow,
 } from "lucide-react"
 
 export const siteUrl = "https://pixesci.com"
 export const demoBookingUrl =
   "https://cal.com/pixesci/30min?user=pixesci&overlayCalendar=true&layout=mobile"
 
+export const tagline = "Talk to your Lab!"
+
 export const categoryLine =
-  "The agentic compliance operating system for the Quality Unit."
+  "The autonomous quality control operating system for regulated life sciences."
 
 export const calculatorDisclaimer =
   "These cost figures are PixeSci's own internal illustrative models based on FDA-required remediation scope. They are not FDA-reported company spend, not a prediction for your organization, and not a guarantee that PixeSci prevents these outcomes. Actual costs depend on your operation, your products, and the scope of any compliance issue."
@@ -56,87 +50,40 @@ export type NavItem = {
   description?: string
 }
 
-export const platformNavigation: NavItem[] = [
+export const solutionsNavigation: NavItem[] = [
   {
-    label: "Agentic Compliance",
-    href: "/platform/agents",
-    description: "Continuous monitoring and a governed AI copilot.",
+    label: "Solutions overview",
+    href: "/solutions",
+    description: "See how the four products fit together.",
   },
   {
-    label: "Workflow Automation",
+    label: "Quality Core",
+    href: "/solutions#quality-core",
+    description:
+      "One connected record for samples, deviations, batches, equipment, and documents.",
+  },
+  {
+    label: "Integrations",
+    href: "/integrations",
+    description: "Connect the instruments and software you already use.",
+  },
+  {
+    label: "Agentic Automation",
     href: "/platform/workflow-automation",
-    description: "Describe the work, review the steps, and run it locally.",
+    description: "Describe the work, review the steps, and let it run.",
   },
   {
-    label: "Laboratory",
-    href: "/platform/laboratory",
-    description: "Track samples from accessioning to Certificate of Analysis.",
-  },
-  {
-    label: "Quality Management",
-    href: "/platform/quality-management",
-    description: "Track deviations, CAPA, nonconformances, and quality records.",
-  },
-  {
-    label: "Materials & Products",
-    href: "/platform/materials-products",
-    description: "Track materials, lots, suppliers, products, and genealogy.",
-  },
-  {
-    label: "Manufacturing Quality",
-    href: "/platform/manufacturing-quality",
-    description: "Run electronic batch records from dispensing to release.",
-  },
-  {
-    label: "Equipment",
-    href: "/platform/equipment",
-    description:
-      "Track qualification, calibration, and maintenance for every asset.",
-  },
-  {
-    label: "Documents & Training",
-    href: "/platform/documents-training",
-    description: "Control documents and connect them to GxP training records.",
-  },
-  {
-    label: "Reports & Analytics",
-    href: "/platform/reports-analytics",
-    description:
-      "Check inspection readiness and quality metrics across the platform.",
+    label: "Continuous Quality Monitoring",
+    href: "/platform/agents",
+    description: "Catch problems while they're still small.",
   },
 ]
 
 export const primaryNavigation: NavItem[] = [
   {
-    label: "Product",
-    href: "/product",
-    description: "See the whole platform and how every module fits together.",
-  },
-  {
-    label: "Platform",
-    href: "/platform/agents",
-    description:
-      "See every module: agentic compliance, workflow automation, lab, quality, materials, manufacturing.",
-  },
-  {
     label: "Solutions",
-    href: "/solutions/regulated-life-sciences",
-    description: "Run clear workflows in regulated and secure labs.",
-  },
-  {
-    label: "Integrations",
-    href: "/integrations",
-    description: "Connect the scientific software you already use.",
-  },
-  {
-    label: "Compliance",
-    href: "/compliance",
-    description: "Track actions, reviews, changes, and results.",
-  },
-  {
-    label: "Security",
-    href: "/security",
-    description: "Keep software, data, and access under your control.",
+    href: "/solutions",
+    description: "Four products that connect your lab and keep the record.",
   },
   {
     label: "Resources",
@@ -152,50 +99,23 @@ export const primaryNavigation: NavItem[] = [
 
 export const footerNavigation = [
   {
-    title: "Product",
-    links: [
-      { label: "Platform overview", href: "/product" },
-      { label: "Integrations", href: "/integrations" },
-      { label: "Security", href: "/security" },
-      { label: "Compliance", href: "/compliance" },
-    ],
-  },
-  {
-    title: "Platform",
-    links: [
-      { label: "Agentic Compliance", href: "/platform/agents" },
-      { label: "Workflow Automation", href: "/platform/workflow-automation" },
-      { label: "Laboratory (LIMS)", href: "/platform/laboratory" },
-      { label: "Quality Management", href: "/platform/quality-management" },
-      { label: "Materials & Products", href: "/platform/materials-products" },
-      {
-        label: "Manufacturing Quality",
-        href: "/platform/manufacturing-quality",
-      },
-      { label: "Equipment", href: "/platform/equipment" },
-      { label: "Documents & Training", href: "/platform/documents-training" },
-      { label: "Reports & Analytics", href: "/platform/reports-analytics" },
-    ],
-  },
-  {
     title: "Solutions",
     links: [
-      {
-        label: "Regulated life sciences",
-        href: "/solutions/regulated-life-sciences",
-      },
-      { label: "Secure research", href: "/solutions/secure-research" },
-      { label: "Core facilities", href: "/solutions/core-facilities" },
-      { label: "Compliance", href: "/compliance" },
+      { label: "Solutions overview", href: "/solutions" },
+      { label: "Quality Core", href: "/solutions#quality-core" },
+      { label: "Integrations", href: "/integrations" },
+      { label: "Agentic Automation", href: "/platform/workflow-automation" },
+      { label: "Continuous Quality Monitoring", href: "/platform/agents" },
     ],
   },
   {
     title: "Resources",
     links: [
       { label: "Resource center", href: "/resources" },
-      { label: "Deployment controls", href: "/security" },
-      { label: "Workflow examples", href: "/platform/workflow-automation" },
-      { label: "Software catalog", href: "/integrations" },
+      {
+        label: "Regulated life sciences",
+        href: "/solutions/regulated-life-sciences",
+      },
     ],
   },
   {
@@ -214,206 +134,159 @@ export type FeatureItem = {
   icon: LucideIcon
 }
 
-export const platformModules: (FeatureItem & { href: string })[] = [
-  {
-    title: "Agentic Compliance",
-    description:
-      "Continuous monitoring, governed recommendations, and evidence you don't have to reconstruct.",
-    href: "/platform/agents",
-    icon: BrainCircuit,
-  },
-  {
-    title: "Workflow Automation",
-    description:
-      "Describe the work in plain language, review the steps, and run it locally.",
-    href: "/platform/workflow-automation",
-    icon: Workflow,
-  },
-  {
-    title: "Laboratory",
-    description: "Track samples from accessioning to Certificate of Analysis.",
-    href: "/platform/laboratory",
-    icon: FlaskConical,
-  },
-  {
-    title: "Quality Management",
-    description: "Track deviations, CAPA, nonconformances, and complaints.",
-    href: "/platform/quality-management",
-    icon: ShieldCheck,
-  },
-  {
-    title: "Materials & Products",
-    description: "Track material lots, suppliers, products, and genealogy.",
-    href: "/platform/materials-products",
-    icon: Boxes,
-  },
-  {
-    title: "Manufacturing Quality",
-    description: "Run electronic batch records from dispensing to release.",
-    href: "/platform/manufacturing-quality",
-    icon: FileCog,
-  },
-  {
-    title: "Equipment",
-    description: "Track qualification, calibration, and maintenance.",
-    href: "/platform/equipment",
-    icon: BadgeCheck,
-  },
-  {
-    title: "Documents & Training",
-    description: "Control documents and connect them to training records.",
-    href: "/platform/documents-training",
-    icon: FileText,
-  },
-  {
-    title: "Reports & Analytics",
-    description: "See every open item across your quality system in one view.",
-    href: "/platform/reports-analytics",
-    icon: LineChart,
-  },
-]
+export const heroMessages = [
+  "We help you reduce expensive errors and wasted time operating fragmented, retrospective quality control systems.",
+  "We bring your fragmented partners together, so you never have to rebuild context between contractors.",
+  "We keep your regulated team one step ahead of AI, without worrying about learning bandwidth.",
+] as const
 
 export const proofPoints = [
-  "Continuous monitoring",
-  "Governed AI, not autonomous AI",
-  "On-prem ready",
-  "Hash-chained audit trail",
-  "Runs behind your existing systems",
-  "Human review on every decision",
+  "Problems caught early",
+  "Every decision stays yours",
+  "Fast deployment",
+  "Evidence always in hand",
+  "Works with what you already use",
+  "Your data stays on your site",
 ] as const
 
-export const whatBreaks: FeatureItem[] = [
+export const painPoints: FeatureItem[] = [
   {
-    title: "Missing raw records",
+    title: "You move data between systems that don't talk",
     description:
-      "Source data goes missing or incomplete, and nobody notices until a review or an inspection asks for it.",
-    icon: FileSearch,
-  },
-  {
-    title: "Records that disagree",
-    description:
-      "Source records, summaries, logs, calculations, and instrument histories tell different stories about the same event.",
-    icon: ScanLine,
-  },
-  {
-    title: "Unreconciled reruns",
-    description:
-      "Aborts, trial runs, reinjections, or repeat testing happen without a documented reason tying them back to the original result.",
-    icon: History,
-  },
-  {
-    title: "Weak investigation context",
-    description:
-      "Out-of-specification results and deviations get closed without the root-cause and CAPA context a reviewer would expect.",
-    icon: FileSearch,
-  },
-  {
-    title: "Disconnected equipment state",
-    description:
-      "Calibration status, equipment condition, temperature, humidity, and environmental readings sit apart from the test they affected.",
-    icon: ShieldCheck,
-  },
-  {
-    title: "Missed audit-trail events",
-    description:
-      "Warnings, user actions, approvals, and exceptions in an audit trail go unreviewed before release, not because no one cares, but because no one is watching continuously.",
-    icon: History,
-  },
-] as const
-
-export const reactiveColumn: FeatureItem[] = [
-  {
-    title: "Work happens",
-    description: "Across instruments, software, and paper.",
-    icon: FlaskConical,
-  },
-  {
-    title: "Records scattered",
-    description: "Across systems that don't talk to each other.",
+      "Instruments, CDS, LIMS, QMS, spreadsheets. You are the copy and paste in the middle.",
     icon: FileStack,
   },
   {
-    title: "Manual review",
-    description: "A person reconciles what happened, later.",
+    title: "You rebuild context at every handoff",
+    description:
+      "Between teams and between contractors, you re-explain what happened, again.",
+    icon: History,
+  },
+  {
+    title: "You check conditions and chase approvals by hand",
+    description:
+      "Environmental readings, calibration status, sign-offs. All manual, all on you.",
     icon: ScanSearch,
   },
   {
-    title: "Problem discovered",
-    description: "Often at release, audit, or inspection.",
+    title: "You piece together what happened, after the fact",
+    description:
+      "When a reviewer or auditor asks, you start digging through five systems.",
     icon: FileSearch,
-  },
-  {
-    title: "Investigation & remediation",
-    description: "Expensive, and after the fact.",
-    icon: History,
   },
 ] as const
 
-export const continuousColumn: FeatureItem[] = [
+export const stakesLosers: FeatureItem[] = [
   {
-    title: "Connect systems",
-    description: "PixeSci reads events from what you already run.",
-    icon: Network,
+    title: "Find gaps at release, audit, or inspection",
+    description: "By then, the fix is an investigation.",
+    icon: FileSearch,
   },
   {
-    title: "Agents monitor continuously",
+    title: "Lose weeks to rework and batch holds",
     description:
-      "Deterministic rules watch every event, not a sample of them.",
+      "Every disconnected record becomes a reconstruction project.",
+    icon: History,
+  },
+  {
+    title: "Watch a small team drown in reconciliation",
+    description:
+      "Your best people spend their days moving data between systems.",
+    icon: FileStack,
+  },
+  {
+    title: "Put timelines and revenue at risk",
+    description: "Delayed release and slower market access follow.",
+    icon: ScanSearch,
+  },
+] as const
+
+export const stakesWinners: FeatureItem[] = [
+  {
+    title: "Catch problems while they're small",
+    description: "Exceptions reach the right person as they happen.",
     icon: RadioTower,
   },
   {
-    title: "Exceptions flagged early",
-    description: "The same patterns regulators cite, caught as they happen.",
-    icon: ShieldCheck,
+    title: "Release and review on schedule",
+    description: "The evidence is already there when the reviewer asks.",
+    icon: Fingerprint,
   },
   {
-    title: "Human review, always",
-    description: "A qualified reviewer decides — the AI only recommends.",
+    title: "Walk into audits with the record connected",
+    description: "Every run, record, and exception is already linked.",
+    icon: Network,
+  },
+  {
+    title: "Do more with the team you have",
+    description:
+      "PixeSci does the watching and the connecting. You make the decisions.",
     icon: UserCheck,
   },
+] as const
+
+export const promisedLand: FeatureItem[] = [
   {
-    title: "Evidence, continuously",
+    title: "Ask your lab what's happening",
     description:
-      "A hash-chained record, ready before you need it, not assembled after.",
-    icon: Fingerprint,
+      "Talk to your lab in plain language and get an answer, instead of pulling data from five systems.",
+    icon: MessageSquareText,
+  },
+  {
+    title: "Problems surface while they're small",
+    description:
+      "You hear about an exception when it happens, not at release or inspection.",
+    icon: RadioTower,
+  },
+  {
+    title: "The evidence is already connected",
+    description:
+      "When someone asks what happened, every record, run, and exception is already linked.",
+    icon: Network,
+  },
+  {
+    title: "Your team decides, every time",
+    description:
+      "PixeSci does the watching and the connecting. Every approval, closure, release, and signature stays with a qualified person.",
+    icon: UserCheck,
   },
 ] as const
 
 export const governedAiPrinciples: FeatureItem[] = [
   {
-    title: "Clear intended use",
+    title: "You set what PixeSci can do",
     description:
-      "Every agent capability is scoped to a specific job — reading, flagging, or drafting a recommendation — never an open-ended mandate.",
+      "Every capability is scoped to one job: reading, flagging, or drafting a recommendation. Never an open-ended mandate.",
     icon: Blocks,
   },
   {
-    title: "Risk-tiered approval",
+    title: "Bigger actions need your approval",
     description:
-      "Higher-risk actions require human approval before they run, tiered by what the action could affect.",
+      "The riskier the action, the more approval it needs before it runs.",
     icon: LockKeyhole,
   },
   {
-    title: "No autonomous regulated decisions",
+    title: "No regulated decision without you",
     description:
-      "The AI cannot approve, close, release, invalidate, or sign a record — that boundary is enforced in the software, not just written in a policy.",
+      "PixeSci never approves, closes, releases, invalidates, or signs a record on its own. That limit is enforced in the software, not just written in a policy.",
     icon: ShieldCheck,
   },
   {
-    title: "Evidence-grounded recommendations",
+    title: "Answers you can check",
     description:
-      "Recommendations cite the specific records and rule results behind them, and the AI is designed to decline rather than guess when evidence is missing or conflicting.",
+      "Every recommendation points to the records and results behind it, and PixeSci declines to guess when evidence is missing or conflicting.",
     icon: BookOpenCheck,
   },
   {
-    title: "Verifiable audit trail",
+    title: "Nothing happens off the record",
     description:
-      "Every agent action is recorded in the same hash-chained trail as human actions, and the chain can be verified on demand.",
+      "Every action PixeSci takes lands in the same verifiable audit trail as your team's, and you can check that trail any time.",
     icon: Fingerprint,
   },
   {
-    title: "Local by default",
+    title: "Stays on your site",
     description:
-      "AI inference runs on-device by default — no cloud API required for the system to operate.",
+      "PixeSci and its AI run on your own hardware by default. No cloud service required.",
     icon: CloudOff,
   },
 ] as const
@@ -442,57 +315,6 @@ export const riskPatterns: FeatureItem[] = [
     description:
       "An out-of-specification result or deviation is closed with a corrective action but no investigation into why it happened.",
     icon: ShieldCheck,
-  },
-] as const
-
-export const solutionCards = [
-  {
-    title: "Regulated life sciences",
-    href: "/solutions/regulated-life-sciences",
-    description:
-      "Built for QC and QA teams scaling toward GMP readiness, tech transfer, or their first regulated manufacturing run.",
-    icon: FlaskConical,
-    examples: "Chromeleon or Empower → LIMS → batch record",
-  },
-  {
-    title: "Secure research",
-    href: "/solutions/secure-research",
-    description:
-      "Connect local software, HPC jobs, and internal data without relying on a cloud service.",
-    icon: ShieldCheck,
-    examples: "VASP → VESTA → Origin / EPICS → MATLAB → repository",
-  },
-  {
-    title: "Core facilities",
-    href: "/solutions/core-facilities",
-    description:
-      "Save proven procedures as guided workflows that every operator can follow.",
-    icon: Microscope,
-    examples: "Acquisition → analysis → review → facility report",
-  },
-] as const
-
-export const resourceCards = [
-  {
-    title: "Architecture overview",
-    type: "Technical brief",
-    description:
-      "See how your workflows stay close to local data, models, and lab software.",
-    href: "/security",
-  },
-  {
-    title: "Compliance workflow guide",
-    type: "Evaluation guide",
-    description:
-      "Check how runs, changes, approvals, and records stay ready for review.",
-    href: "/compliance",
-  },
-  {
-    title: "Workflow automation patterns",
-    type: "Product guide",
-    description:
-      "See how a plain request becomes checked steps, live updates, and saved results.",
-    href: "/platform/workflow-automation",
   },
 ] as const
 

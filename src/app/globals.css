@@ -30,49 +30,60 @@
   --radius-md: calc(var(--radius) * 0.85);
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) * 1.25);
+
+  /* PixeSci Visual Brand Rulebook v1.0 material palette */
+  --color-icy: #b6d3ff;
+  --color-silver: #c7ccd6;
+  --color-deep: #0e1826;
+  --color-deep-raised: #14223a;
 }
 
+/*
+ * PixeSci Visual Brand Rulebook v1.0 — clean metallic precision.
+ * PixeSci Blue #0054D8 · Icy Blue #B6D3FF · Clean White #F9FBFD
+ * Cool Gray #E7EEF7 · Metallic Silver #C7CCD6 · Slate #1F2D3D
+ */
 :root {
-  --background: oklch(0.992 0.002 230);
-  --foreground: oklch(0.155 0.012 235);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.155 0.012 235);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.155 0.012 235);
-  --primary: oklch(52.0% 0.223 259.1);
-  --primary-foreground: oklch(0.985 0.005 220);
-  --secondary: oklch(0.965 0.008 225);
-  --secondary-foreground: oklch(0.22 0.02 230);
-  --muted: oklch(0.97 0.006 230);
-  --muted-foreground: oklch(0.49 0.02 230);
-  --accent: oklch(0.935 0.03 220);
-  --accent-foreground: oklch(0.25 0.05 220);
+  --background: #f9fbfd;
+  --foreground: #1f2d3d;
+  --card: #ffffff;
+  --card-foreground: #1f2d3d;
+  --popover: #ffffff;
+  --popover-foreground: #1f2d3d;
+  --primary: #0054d8;
+  --primary-foreground: #f9fbfd;
+  --secondary: #e7eef7;
+  --secondary-foreground: #1f2d3d;
+  --muted: #edf2f8;
+  --muted-foreground: #526176;
+  --accent: #dce9fb;
+  --accent-foreground: #0b3a8c;
   --destructive: oklch(0.58 0.2 28);
-  --border: oklch(0.9 0.01 230);
-  --input: oklch(0.9 0.01 230);
-  --ring: oklch(52.0% 0.223 259.1);
-  --radius: 0.5rem;
+  --border: #d7dfea;
+  --input: #cbd4e1;
+  --ring: #0054d8;
+  --radius: 0.375rem;
 }
 
 .dark {
-  --background: oklch(0.14 0.015 230);
-  --foreground: oklch(0.97 0.006 230);
-  --card: oklch(0.18 0.016 230);
-  --card-foreground: oklch(0.97 0.006 230);
-  --popover: oklch(0.18 0.016 230);
-  --popover-foreground: oklch(0.97 0.006 230);
-  --primary: oklch(52.0% 0.223 259.1);
-  --primary-foreground: oklch(0.14 0.015 230);
-  --secondary: oklch(0.23 0.016 230);
-  --secondary-foreground: oklch(0.97 0.006 230);
-  --muted: oklch(0.22 0.016 230);
-  --muted-foreground: oklch(0.7 0.018 230);
-  --accent: oklch(0.25 0.04 220);
-  --accent-foreground: oklch(0.92 0.03 210);
+  --background: #0e1826;
+  --foreground: #eef3f9;
+  --card: #142033;
+  --card-foreground: #eef3f9;
+  --popover: #142033;
+  --popover-foreground: #eef3f9;
+  --primary: #6aa2ff;
+  --primary-foreground: #071426;
+  --secondary: #1b2a40;
+  --secondary-foreground: #eef3f9;
+  --muted: #182437;
+  --muted-foreground: #a3b1c6;
+  --accent: #1b2f52;
+  --accent-foreground: #cfe1ff;
   --destructive: oklch(0.67 0.18 25);
-  --border: oklch(1 0 0 / 12%);
-  --input: oklch(1 0 0 / 16%);
-  --ring: oklch(52.0% 0.223 259.1);
+  --border: rgb(199 204 214 / 15%);
+  --input: rgb(199 204 214 / 20%);
+  --ring: #6aa2ff;
 }
 
 @layer base {
@@ -88,6 +99,13 @@
   body {
     @apply bg-background text-foreground;
     min-width: 320px;
+  }
+
+  h1,
+  h2,
+  h3 {
+    letter-spacing: -0.022em;
+    text-wrap: balance;
   }
 
   ::selection {
@@ -132,24 +150,183 @@
     @apply py-20 sm:py-24 lg:py-28;
   }
 
+  /* Technical label: widely spaced uppercase with a short engraved rule. */
   .eyebrow {
-    @apply text-[10px] font-semibold tracking-[0.15em] text-primary uppercase;
+    @apply flex items-center gap-2.5 text-[10px] font-semibold tracking-[0.2em] text-primary uppercase;
   }
 
+  .eyebrow::before {
+    content: "";
+    flex: none;
+    width: 1.25rem;
+    height: 1px;
+    background: currentColor;
+    opacity: 0.7;
+  }
+
+  .tech-label {
+    @apply text-[10px] font-medium tracking-[0.22em] text-muted-foreground uppercase;
+  }
+
+  /* Machined panel: hairline silver edge with a lit top lip. */
   .visual-frame {
-    @apply relative rounded-lg border border-border bg-card shadow-[0_16px_55px_rgba(21,36,45,0.08)];
+    @apply relative rounded-lg border border-border bg-card;
+    box-shadow:
+      inset 0 1px 0 rgb(255 255 255 / 0.9),
+      0 1px 2px rgb(31 45 61 / 0.05),
+      0 22px 48px -24px rgb(31 45 61 / 0.28);
+  }
+
+  .dark .visual-frame {
+    box-shadow:
+      inset 0 1px 0 rgb(255 255 255 / 0.07),
+      0 22px 48px -24px rgb(0 0 0 / 0.55);
   }
 
   .visual-toolbar {
-    @apply flex min-h-11 items-center justify-between gap-3 border-b border-border bg-muted/35 px-4 text-[10px] font-medium;
+    @apply flex min-h-11 items-center justify-between gap-3 border-b border-border px-4 text-[10px] font-medium;
+    background-image: linear-gradient(
+      180deg,
+      rgb(255 255 255 / 0.85),
+      rgb(231 238 247 / 0.6)
+    );
   }
 
+  .dark .visual-toolbar {
+    background-image: linear-gradient(
+      180deg,
+      rgb(255 255 255 / 0.05),
+      rgb(255 255 255 / 0.015)
+    );
+  }
+
+  /* Deep slate surface lit by a cool reflection from the upper right. */
   .dark-surface {
-    background-color: #071015;
+    background-color: #0e1826;
     background-image:
-      linear-gradient(rgba(255, 255, 255, 0.025) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(255, 255, 255, 0.025) 1px, transparent 1px);
-    background-size: 32px 32px;
+      radial-gradient(70% 90% at 100% 0%, rgb(0 84 216 / 0.32), transparent 62%),
+      linear-gradient(
+        112deg,
+        transparent 30%,
+        rgb(182 211 255 / 0.06) 46%,
+        transparent 62%
+      ),
+      repeating-linear-gradient(
+        0deg,
+        rgb(255 255 255 / 0.014) 0 1px,
+        transparent 1px 3px
+      ),
+      linear-gradient(rgb(199 204 214 / 0.045) 1px, transparent 1px),
+      linear-gradient(90deg, rgb(199 204 214 / 0.045) 1px, transparent 1px),
+      linear-gradient(180deg, #16243a 0%, #0e1826 100%);
+    background-size:
+      auto,
+      auto,
+      auto,
+      32px 32px,
+      32px 32px,
+      auto;
+  }
+
+  /* Satin stainless: brushed grain under a directional reflected highlight. */
+  .metal-surface {
+    background-color: #dde3ec;
+    background-image:
+      repeating-linear-gradient(
+        0deg,
+        rgb(255 255 255 / 0.22) 0 1px,
+        rgb(31 45 61 / 0.02) 1px 2px
+      ),
+      linear-gradient(
+        105deg,
+        #cbd1db 0%,
+        #edf1f6 20%,
+        #ffffff 34%,
+        #e2ecfb 48%,
+        #c2d9fb 60%,
+        #e5ebf4 78%,
+        #ccd2dc 100%
+      );
+  }
+
+  .dark .metal-surface {
+    background-color: #16243a;
+    background-image:
+      repeating-linear-gradient(
+        0deg,
+        rgb(255 255 255 / 0.03) 0 1px,
+        transparent 1px 2px
+      ),
+      linear-gradient(
+        105deg,
+        #101c2f 0%,
+        #1d3049 24%,
+        #2b4a78 46%,
+        #1a2c47 68%,
+        #101c2f 100%
+      );
+  }
+
+  /* One-pixel reflected-light rail: silver > white > icy blue > PixeSci Blue > silver. */
+  .metal-edge {
+    position: relative;
+  }
+
+  .metal-edge::after {
+    content: "";
+    position: absolute;
+    right: 0;
+    left: 0;
+    height: 1px;
+    pointer-events: none;
+    background: linear-gradient(
+      90deg,
+      #c7ccd6 0%,
+      #eef2f7 20%,
+      #ffffff 32%,
+      #b6d3ff 50%,
+      #0054d8 62%,
+      #b6d3ff 74%,
+      #dfe4ec 88%,
+      #c7ccd6 100%
+    );
+  }
+
+  .metal-edge-bottom::after {
+    bottom: -1px;
+  }
+
+  .metal-edge-top::after {
+    top: -1px;
+  }
+
+  .dark .metal-edge::after {
+    background: linear-gradient(
+      90deg,
+      rgb(199 204 214 / 0.25) 0%,
+      rgb(238 243 249 / 0.5) 30%,
+      #6aa2ff 62%,
+      rgb(199 204 214 / 0.3) 100%
+    );
+  }
+
+  /* Instrument-panel strip for short technical labels. */
+  .instrument-strip {
+    background-image: linear-gradient(
+      180deg,
+      rgb(255 255 255 / 0.9),
+      rgb(231 238 247 / 0.7)
+    );
+    box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.9);
+  }
+
+  .dark .instrument-strip {
+    background-image: linear-gradient(
+      180deg,
+      rgb(255 255 255 / 0.05),
+      rgb(255 255 255 / 0.02)
+    );
+    box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.06);
   }
 
   .workflow-grid {
@@ -174,23 +351,126 @@
     background-size: 24px 24px;
   }
 
+  /*
+   * Hero field: cleanroom-light satin with a directional highlight, fine
+   * brushed grain and a precision grid. The mask lives on the pseudo-element
+   * so the hero content is never faded.
+   */
   .hero-grid {
+    position: relative;
+    isolation: isolate;
+  }
+
+  .hero-grid::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
     background-image:
       linear-gradient(
-        color-mix(in oklch, var(--border) 48%, transparent) 1px,
+        112deg,
+        transparent 34%,
+        rgb(255 255 255 / 0.9) 45%,
+        rgb(182 211 255 / 0.38) 55%,
+        transparent 68%
+      ),
+      radial-gradient(60% 75% at 92% 8%, rgb(182 211 255 / 0.6), transparent 70%),
+      repeating-linear-gradient(
+        0deg,
+        rgb(31 45 61 / 0.012) 0 1px,
+        transparent 1px 3px
+      ),
+      linear-gradient(
+        color-mix(in oklch, var(--border) 36%, transparent) 1px,
         transparent 1px
       ),
       linear-gradient(
         90deg,
-        color-mix(in oklch, var(--border) 48%, transparent) 1px,
+        color-mix(in oklch, var(--border) 36%, transparent) 1px,
         transparent 1px
-      );
-    background-size: 64px 64px;
+      ),
+      linear-gradient(180deg, #f9fbfd 0%, #e9eff8 100%);
+    background-size:
+      auto,
+      auto,
+      auto,
+      64px 64px,
+      64px 64px,
+      auto;
     mask-image: linear-gradient(
       to bottom,
       black 0%,
-      black 72%,
+      black 82%,
       transparent 100%
+    );
+  }
+
+  .dark .hero-grid::before {
+    background-image:
+      linear-gradient(
+        112deg,
+        transparent 34%,
+        rgb(182 211 255 / 0.07) 46%,
+        rgb(106 162 255 / 0.1) 55%,
+        transparent 68%
+      ),
+      radial-gradient(60% 75% at 92% 8%, rgb(0 84 216 / 0.34), transparent 70%),
+      repeating-linear-gradient(
+        0deg,
+        rgb(255 255 255 / 0.014) 0 1px,
+        transparent 1px 3px
+      ),
+      linear-gradient(rgb(199 204 214 / 0.06) 1px, transparent 1px),
+      linear-gradient(90deg, rgb(199 204 214 / 0.06) 1px, transparent 1px),
+      linear-gradient(180deg, #16243a 0%, #0e1826 100%);
+  }
+
+  /* Translucent planes sitting behind the hero product panel. */
+  .metal-plane {
+    position: absolute;
+    pointer-events: none;
+  }
+
+  .metal-plane-silver {
+    background-image:
+      repeating-linear-gradient(
+        0deg,
+        rgb(255 255 255 / 0.08) 0 1px,
+        rgb(31 45 61 / 0.008) 1px 3px
+      ),
+      linear-gradient(
+        140deg,
+        #f4f6fa 0%,
+        #cfd5df 38%,
+        #ffffff 52%,
+        #b9c1ce 100%
+      );
+  }
+
+  .metal-plane-blue {
+    background-image: linear-gradient(
+      150deg,
+      rgb(182 211 255 / 0.85) 0%,
+      rgb(0 84 216 / 0.55) 100%
+    );
+  }
+
+  .dark .metal-plane-silver {
+    background-image: linear-gradient(
+      140deg,
+      #24374f 0%,
+      #16243a 40%,
+      #3a5580 54%,
+      #101c2f 100%
+    );
+  }
+
+  .dark .metal-plane-blue {
+    background-image: linear-gradient(
+      150deg,
+      rgb(106 162 255 / 0.5) 0%,
+      rgb(0 84 216 / 0.45) 100%
     );
   }
 
@@ -248,6 +528,35 @@
   .hero-agent-step:nth-child(6) {
     animation-delay: 350ms;
   }
+
+  .voice-bar {
+    transform: scaleY(calc(var(--peak) * 0.7));
+    transform-origin: center;
+    transition: transform 400ms ease;
+  }
+
+  .voice-waveform[data-active="true"] .voice-bar {
+    animation: voice-bar var(--dur) ease-in-out var(--delay) infinite
+      alternate;
+  }
+
+  .voice-waveform[data-active="false"] .voice-bar {
+    transform: scaleY(0.14);
+  }
+
+  .voice-waveform-mark[data-active="true"] .voice-bar {
+    animation-duration: calc(var(--dur) * 2.2);
+  }
+
+  .lab-console-line {
+    stroke-dasharray: 400;
+    stroke-dashoffset: 400;
+    transition: stroke-dashoffset 700ms ease-out;
+  }
+
+  .lab-console-line[data-drawn="true"] {
+    stroke-dashoffset: 0;
+  }
 }
 
 @keyframes hero-agent-pulse {
@@ -291,6 +600,21 @@
   }
   50% {
     box-shadow: 0 0 0 4px rgba(103, 232, 249, 0.1);
+  }
+}
+
+@keyframes voice-bar {
+  0% {
+    transform: scaleY(0.16);
+  }
+  40% {
+    transform: scaleY(var(--peak));
+  }
+  70% {
+    transform: scaleY(calc(var(--peak) * 0.45));
+  }
+  100% {
+    transform: scaleY(calc(var(--peak) * 0.85));
   }
 }
 

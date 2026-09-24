@@ -2,16 +2,16 @@ import { CheckCircle2, CircleDashed, PauseCircle } from "lucide-react"
 
 const logs = [
   ["09:42:16.104", "run.started", "run_01J8Q / trace_7F2"],
-  ["09:42:18.892", "file.validated", "source/FCS/plate-7"],
-  ["09:43:08.220", "node.completed", "flowjo-gating"],
-  ["09:44:51.609", "file.created", "gating-summary.csv"],
+  ["09:42:18.892", "file.validated", "source/CDS/run-7"],
+  ["09:43:08.220", "node.completed", "cds-review"],
+  ["09:44:51.609", "file.created", "run-summary.csv"],
   ["09:46:03.017", "review.requested", "qc-director"],
 ]
 
 export function ExecutionConsole() {
   return (
     <figure
-      className="visual-frame overflow-hidden border-white/12 bg-[#081014]"
+      className="visual-frame overflow-hidden border-white/12 bg-deep"
       aria-label="Workflow monitor with live events, output files, progress, and a human review step"
     >
       {/* TODO: Replace with real PixeSci TM execution monitor screenshot. */}
@@ -30,7 +30,7 @@ export function ExecutionConsole() {
               className="grid grid-cols-[84px_1fr] gap-3 px-4 py-3 text-[10px] sm:grid-cols-[96px_130px_1fr] sm:px-5"
             >
               <span className="text-white/30">{time}</span>
-              <span className="text-cyan-300">{event}</span>
+              <span className="text-icy">{event}</span>
               <span className="col-start-2 break-all text-white/55 sm:col-start-auto">
                 {value}
               </span>
@@ -50,7 +50,7 @@ export function ExecutionConsole() {
               <span className="font-mono">3 / 5</span>
             </div>
             <div className="h-1 overflow-hidden rounded-full bg-white/10">
-              <div className="h-full w-3/5 bg-cyan-300" />
+              <div className="h-full w-3/5 bg-icy" />
             </div>
             <div className="flex items-center gap-2 text-emerald-300">
               <CheckCircle2 className="size-3.5" />3 executed

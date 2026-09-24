@@ -55,7 +55,7 @@ export function EnvironmentControls() {
     >
       <figcaption className="visual-toolbar border-white/10 bg-white/[0.025] text-white">
         <span>Environment controls</span>
-        <span className="inline-flex items-center gap-1.5 text-cyan-300">
+        <span className="inline-flex items-center gap-1.5 text-icy">
           <ShieldCheck className="size-3.5" />
           Policy active
         </span>
@@ -68,7 +68,7 @@ export function EnvironmentControls() {
             return (
               <div
                 key={control.title}
-                className="rounded-md border border-white/12 bg-[#0d1418] p-4 sm:p-5"
+                className="rounded-md border border-white/12 bg-deep-raised p-4 sm:p-5"
               >
                 <div className="flex items-start justify-between gap-4">
                   <div>
@@ -79,7 +79,7 @@ export function EnvironmentControls() {
                       {control.value}
                     </p>
                   </div>
-                  <span className="grid size-8 shrink-0 place-items-center rounded-md border border-cyan-300/20 bg-cyan-300/[0.07] text-cyan-300">
+                  <span className="grid size-8 shrink-0 place-items-center rounded-md border border-icy/20 bg-icy/[0.07] text-icy">
                     <Icon className="size-4" />
                   </span>
                 </div>
@@ -88,12 +88,12 @@ export function EnvironmentControls() {
           })}
         </div>
 
-        <div className="mt-4 rounded-md border border-cyan-300/20 bg-cyan-300/[0.06] p-4 sm:p-5">
+        <div className="mt-4 rounded-md border border-icy/20 bg-icy/[0.06] p-4 sm:p-5">
           <div className="flex items-center justify-between gap-4">
             <p className="text-xs font-medium text-white">
               Before a run starts
             </p>
-            <span className="font-mono text-[9px] text-cyan-300">
+            <span className="font-mono text-[9px] text-icy">
               3 / 3 checked
             </span>
           </div>

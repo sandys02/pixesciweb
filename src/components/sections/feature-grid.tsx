@@ -45,7 +45,7 @@ export function FeatureGrid({
             )}
           >
             <Icon
-              className={cn("size-5", dark ? "text-cyan-300" : "text-primary")}
+              className={cn("size-5", dark ? "text-icy" : "text-primary")}
               aria-hidden="true"
             />
             <h3 className="mt-8 text-base font-semibold">

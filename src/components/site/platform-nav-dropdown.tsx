@@ -9,17 +9,17 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
-import { platformNavigation } from "@/content/site"
+import { solutionsNavigation } from "@/content/site"
 
 export function PlatformNavDropdown() {
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger className="inline-flex items-center gap-1 rounded-md px-3 py-2 text-sm text-muted-foreground outline-none transition-colors hover:bg-muted hover:text-foreground focus-visible:ring-2 focus-visible:ring-primary focus-visible:outline-none data-[state=open]:bg-muted data-[state=open]:text-foreground">
-        Platform
+      <DropdownMenuTrigger className="inline-flex items-center gap-1 rounded-md px-2.5 py-2 text-sm text-muted-foreground outline-none transition-colors hover:bg-muted hover:text-foreground focus-visible:ring-2 focus-visible:ring-primary focus-visible:outline-none data-[state=open]:bg-muted data-[state=open]:text-foreground">
+        Solutions
         <ChevronDown className="size-3.5" aria-hidden="true" />
       </DropdownMenuTrigger>
       <DropdownMenuContent align="start" className="min-w-72 p-1.5">
-        {platformNavigation.map((item) => (
+        {solutionsNavigation.map((item) => (
           <DropdownMenuItem key={item.href} asChild className="py-0">
             <Link
               href={item.href}
