@@ -151,21 +151,21 @@ export const proofPoints = [
 
 export const painPoints: FeatureItem[] = [
   {
-    title: "You move data between systems that don't talk",
+    title: "You retype results between systems that don't talk",
     description:
-      "Instruments, CDS, LIMS, QMS, spreadsheets. You are the copy and paste in the middle.",
+      "Instruments, CDS, LIMS, QMS, spreadsheets. Every retyped reading or calculation is a chance for a transcription error, a pattern that keeps showing up in FDA findings.",
     icon: FileStack,
   },
   {
-    title: "You rebuild context at every handoff",
+    title: "You lose hours to work nobody should do by hand",
     description:
-      "Between teams and between contractors, you re-explain what happened, again.",
+      "Moving data, rebuilding context at every handoff, chasing approvals and checking conditions. It adds up.",
     icon: History,
   },
   {
-    title: "You check conditions and chase approvals by hand",
+    title: "You find problems after they've grown",
     description:
-      "Environmental readings, calibration status, sign-offs. All manual, all on you.",
+      "Retrospective review catches an error after it has been repeated, and fixing it costs more than catching it.",
     icon: ScanSearch,
   },
   {
