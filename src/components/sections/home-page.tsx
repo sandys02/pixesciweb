@@ -173,7 +173,7 @@ export function HomePage() {
                 </ul>
               </div>
             </div>
-            <div className="mt-16">
+            <div className="mt-16 hidden">
               <div className="max-w-3xl">
                 <h3 className="text-xl font-semibold sm:text-2xl">
                   What could evidence gaps cost your operation?
