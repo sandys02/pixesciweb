@@ -168,7 +168,7 @@ export function WorkflowAutomationPage() {
                 <div className="mt-8 flex flex-col gap-3 sm:flex-row">
                   <Button asChild size="lg" className="px-4">
                     <DemoBookingLink source="workflow_automation_hero">
-                      Automate your workflow
+                      Secure Pilot Seat
                       <ArrowRight className="size-4" />
                     </DemoBookingLink>
                   </Button>
@@ -339,7 +339,7 @@ export function WorkflowAutomationPage() {
       <CTASection
         title="Turn one manual handoff into an automated workflow."
         description="Bring your SOP, software, files, and approval steps. We will map them into a workflow you can review and run."
-        cta="Automate your workflow"
+        cta="Secure Pilot Seat"
       />
     </>
   )

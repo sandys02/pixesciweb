@@ -20,7 +20,7 @@ export function CTASection({
   eyebrow = "Workflow mapping",
   title,
   description,
-  cta = "Request a demo",
+  cta = "Secure Pilot Seat",
   href = demoBookingUrl,
 }: CTASectionProps) {
   return (

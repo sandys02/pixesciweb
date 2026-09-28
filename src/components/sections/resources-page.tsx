@@ -333,7 +333,7 @@ export function ResourcesPage() {
       <CTASection
         title="Review one workflow from start to finish."
         description="Bring your software, setup rules, data flow, and record needs."
-        cta="Start building workflows"
+        cta="Secure Pilot Seat"
       />
     </>
   )
