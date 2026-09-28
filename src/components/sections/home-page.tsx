@@ -50,7 +50,7 @@ export function HomePage() {
                 <div className="mt-8 flex flex-col gap-3 sm:flex-row">
                   <Button asChild size="lg" className="px-4">
                     <DemoBookingLink source="home_hero">
-                      Request a demo
+                      Secure Pilot Seat
                       <ArrowRight className="size-4" />
                     </DemoBookingLink>
                   </Button>
@@ -305,7 +305,7 @@ export function HomePage() {
         }
         title="See it on the workflow that worries you most."
         description="Bring one workflow where evidence is hardest to pull together. We will show you how it looks when it is connected, with your team making every decision."
-        cta="Request a demo"
+        cta="Secure Pilot Seat"
       />
     </>
   )

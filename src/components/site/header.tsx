@@ -39,7 +39,7 @@ export function SiteHeader() {
           <ThemeSwitcher size="icon-lg" tooltipSide="bottom" />
           <SignInPortalButton source="header" />
           <Button asChild size="lg" className="px-4">
-            <DemoBookingLink source="header">Request a demo</DemoBookingLink>
+            <DemoBookingLink source="header">Secure Pilot Seat</DemoBookingLink>
           </Button>
         </div>
         <div className="flex items-center gap-2 xl:hidden">

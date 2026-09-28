@@ -136,7 +136,7 @@ export function MobileNav() {
                 source="mobile_navigation"
                 onClick={() => setOpen(false)}
               >
-                Request a demo
+                Secure Pilot Seat
               </DemoBookingLink>
             </Button>
           </div>

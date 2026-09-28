@@ -88,7 +88,7 @@ export const agenticCompliancePage: MarketingPageData = {
     "Hear about quality problems as they happen, with the evidence already attached.",
   description:
     "PixeSci watches the systems you connect, flags the gaps a reviewer or inspector would look for, and recommends what to do next. Every approval, closure, release, and signature stays with a qualified person on your team, and the software enforces that.",
-  primaryCta: "See it on your workflow",
+  primaryCta: "Secure Pilot Seat",
   primaryHref: demoBookingUrl,
   secondaryCta: "See the record system",
   secondaryHref: "/solutions#quality-management",
@@ -271,7 +271,7 @@ export const agenticCompliancePage: MarketingPageData = {
   finalTitle: "Show us one gap you've had to reconstruct after the fact.",
   finalDescription:
     "Bring one real example — a repeat test, a closed deviation, a disconnected calibration record. We will show you how PixeSci's agents would have flagged it as it happened, and what stays with your team to decide.",
-  finalCta: "See it on your workflow",
+  finalCta: "Secure Pilot Seat",
 }
 
 export const regulatedPage: MarketingPageData = {
@@ -279,7 +279,7 @@ export const regulatedPage: MarketingPageData = {
   title: "Your QC and QA work is growing faster than your team.",
   description:
     "If you're heading toward GMP readiness, moving a method or process into regulated manufacturing, running your first regulated batches or tests, or juggling outsourced testing across partners, we help you keep the quality work connected as it grows.",
-  primaryCta: "Map a regulated workflow",
+  primaryCta: "Secure Pilot Seat",
   primaryHref: demoBookingUrl,
   secondaryCta: "See continuous quality monitoring",
   secondaryHref: "/platform/agents",
@@ -372,7 +372,7 @@ export const regulatedPage: MarketingPageData = {
   finalTitle: "Show us one regulated process.",
   finalDescription:
     "Bring a QC, development, or manufacturing workflow and the records and reviews it requires — including a batch record, if you run one, in the Manufacturing Quality module.",
-  finalCta: "Request a compliance workflow demo",
+  finalCta: "Secure Pilot Seat",
 }
 
 export const securityPage: MarketingPageData = {
@@ -380,7 +380,7 @@ export const securityPage: MarketingPageData = {
   title: "Run workflows inside the environment you control.",
   description:
     "Keep workflow runs, work data, and software connections inside your environment by default.",
-  primaryCta: "Discuss deployment requirements",
+  primaryCta: "Secure Pilot Seat",
   primaryHref: demoBookingUrl,
   secondaryCta: "Start building workflows",
   secondaryHref: "/solutions",
@@ -429,7 +429,7 @@ export const securityPage: MarketingPageData = {
   finalTitle: "Review your deployment boundary.",
   finalDescription:
     "Talk through how a PixeSci Node would be installed at your site, and what your team needs to review first.",
-  finalCta: "Discuss deployment requirements",
+  finalCta: "Secure Pilot Seat",
 }
 
 export const laboratoryPage: ModulePageData = {

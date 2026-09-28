@@ -23,13 +23,13 @@ const sections = [
   {
     title: "External booking",
     paragraphs: [
-      "Demo links open a PixeSci booking page on Cal.com in a new tab. Cal.com and PixeSci process the information you submit there under the notices shown on that page.",
+      "Pilot application links open a PixeSci form on Typeform in a new tab. Typeform and PixeSci process the information you submit there under the notices shown on that page.",
     ],
   },
   {
     title: "Service providers",
     paragraphs: [
-      "Vercel hosts this website and measures visits and speed. Cal.com provides scheduling. Each company may process the technical details needed to run its service under its own privacy terms.",
+      "Vercel hosts this website and measures visits and speed. Typeform collects pilot applications. Each company may process the technical details needed to run its service under its own privacy terms.",
     ],
   },
   {
@@ -102,12 +102,12 @@ export default function Page() {
                   Vercel Speed Insights privacy
                 </Link>
                 <Link
-                  href="https://cal.com/privacy"
+                  href="https://www.typeform.com/privacy-policy/"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="font-medium text-primary hover:underline"
                 >
-                  Cal.com privacy
+                  Typeform privacy
                 </Link>
               </div>
             </section>

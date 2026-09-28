@@ -60,7 +60,7 @@ export function CompanyPage() {
               </p>
               <Button asChild size="lg" className="mt-8 px-4">
                 <DemoBookingLink source="company_hero">
-                  Connect your software
+                  Secure Pilot Seat
                   <ArrowRight className="size-4" />
                 </DemoBookingLink>
               </Button>
@@ -144,7 +144,7 @@ export function CompanyPage() {
       <CTASection
         title="Map your QC process."
         description="Show us where your tools, partners, and reviews disconnect. We will show you how to connect them and keep the record."
-        cta="Request a demo"
+        cta="Secure Pilot Seat"
       />
     </>
   )

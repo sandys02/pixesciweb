@@ -56,7 +56,7 @@ jobs:
 
             test "$status" = "308"
             case "$location" in
-              https://cal.com/pixesci/30min*) ;;
+              https://form.typeform.com/to/U1fq9eb4*) ;;
               *) exit 1 ;;
             esac
           done
