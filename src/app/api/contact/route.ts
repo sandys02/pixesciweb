@@ -39,6 +39,8 @@ export async function POST(request: Request) {
   const name = typeof body.name === "string" ? body.name.trim() : ""
   const email = typeof body.email === "string" ? body.email.trim() : ""
   const phone = typeof body.phone === "string" ? body.phone.trim() : ""
+  const organization =
+    typeof body.organization === "string" ? body.organization.trim() : ""
   const message = typeof body.message === "string" ? body.message.trim() : ""
   if (
     !name ||
@@ -49,13 +51,16 @@ export async function POST(request: Request) {
     (body.phone !== undefined && typeof body.phone !== "string") ||
     phone.length > 40 ||
     (phone && !/^[+\d\s().\-#xext]+$/i.test(phone)) ||
+    !organization ||
+    organization.length > 200 ||
+    /[\r\n]/.test(organization) ||
     !message ||
     message.length > 5000
   ) {
     return Response.json(
       {
         error:
-          "Enter your full name, a valid email, and a message (up to 5,000 characters). Check your phone number if provided.",
+          "Enter your full name, a valid email, organization (up to 200 characters), and a message (up to 5,000 characters). Check your phone number if provided.",
       },
       { status: 400 }
     )
@@ -83,6 +88,7 @@ export async function POST(request: Request) {
         `Full name: ${name}`,
         `Email: ${email}`,
         `Phone: ${phone || "Not provided"}`,
+        `Organization: ${organization}`,
         "",
         "Message:",
         message,
