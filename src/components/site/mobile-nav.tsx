@@ -10,13 +10,16 @@ import { primaryNavigation, solutionsNavigation } from "@/content/site"
 import { cn } from "@/lib/utils"
 
 import { DemoBookingLink } from "./demo-booking-link"
+import { ContactDialog } from "./contact-dialog"
 import { SignInPortalDialog } from "./download-pixesci-button"
 
 export function MobileNav() {
   const [open, setOpen] = React.useState(false)
+  const [contactOpen, setContactOpen] = React.useState(false)
   const [portalSignInOpen, setPortalSignInOpen] = React.useState(false)
   const pathname = usePathname()
   const dialogRef = React.useRef<HTMLDialogElement>(null)
+  const menuButtonRef = React.useRef<HTMLButtonElement>(null)
 
   React.useEffect(() => {
     const dialog = dialogRef.current
@@ -29,6 +32,7 @@ export function MobileNav() {
   return (
     <div className="xl:hidden">
       <Button
+        ref={menuButtonRef}
         type="button"
         variant="outline"
         size="icon-lg"
@@ -116,6 +120,25 @@ export function MobileNav() {
                   </li>
                 )
               )}
+              <li>
+                <button
+                  type="button"
+                  aria-haspopup="dialog"
+                  className="block w-full py-5 text-left focus-visible:ring-2 focus-visible:ring-primary focus-visible:outline-none"
+                  onClick={() => {
+                    dialogRef.current?.close()
+                    setOpen(false)
+                    setContactOpen(true)
+                  }}
+                >
+                  <span className="block text-base font-medium">
+                    Contact us
+                  </span>
+                  <span className="mt-1 block text-sm leading-6 text-muted-foreground">
+                    Get in touch with our team.
+                  </span>
+                </button>
+              </li>
             </ul>
           </nav>
           <div className="grid gap-3 border-t border-border p-5">
@@ -146,6 +169,14 @@ export function MobileNav() {
         open={portalSignInOpen}
         source="mobile_navigation"
         onOpenChange={setPortalSignInOpen}
+      />
+      <ContactDialog
+        open={contactOpen}
+        onOpenChange={setContactOpen}
+        onCloseAutoFocus={(event) => {
+          event.preventDefault()
+          menuButtonRef.current?.focus()
+        }}
       />
     </div>
   )
