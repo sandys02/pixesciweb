@@ -7,7 +7,7 @@ import { createMetadata } from "@/lib/seo"
 export const metadata: Metadata = createMetadata({
   title: "Privacy",
   description:
-    "Learn what this website measures and how its demo booking link works.",
+    "Learn how this website handles contact inquiries, analytics, and pilot applications.",
   path: "/privacy",
 })
 
@@ -15,7 +15,7 @@ const sections = [
   {
     title: "Information this website processes",
     paragraphs: [
-      "The public marketing pages have no file uploads or contact form. The website also includes gated download access, an organization portal for customer administrators, and an internal PixeSci staff admin dashboard. Those areas process account email addresses, session cookies, organization profile fields, license records, seat records, password setup or reset state, audit events, and signed activation or license files needed to provide the portal.",
+      "The contact form collects your full name, email address, optional phone number, and message so PixeSci can respond to your inquiry. Submissions are sent through Resend to the PixeSci contact inbox; they are not saved in the website database. The public marketing pages have no file uploads. The website also includes gated download access, an organization portal for customer administrators, and an internal PixeSci staff admin dashboard. Those areas process account email addresses, session cookies, organization profile fields, license records, seat records, password setup or reset state, audit events, and signed activation or license files needed to provide the portal.",
       "PixeSci uses Vercel Web Analytics to count page visits and demo-link clicks. It uses Vercel Speed Insights to measure website speed. These events include the page path, link label, and link location. They do not include names, email addresses, scientific data, or form content.",
       "The portal does not store scientific workflow data, experiment files, local run records, SOP content, endpoint usernames, device inventory, telemetry, or internal deployment topology.",
     ],
@@ -29,7 +29,7 @@ const sections = [
   {
     title: "Service providers",
     paragraphs: [
-      "Vercel hosts this website and measures visits and speed. Typeform collects pilot applications. Each company may process the technical details needed to run its service under its own privacy terms.",
+      "Vercel hosts this website and measures visits and speed. Typeform collects pilot applications. Resend processes contact-form details to deliver inquiry emails to PixeSci, as well as account-related emails. Each company may process the technical details needed to run its service under its own privacy terms.",
     ],
   },
   {
@@ -51,10 +51,11 @@ export default function Page() {
             Privacy
           </h1>
           <p className="mt-6 max-w-3xl text-base leading-7 text-muted-foreground sm:text-lg">
-            What this website measures and how demo booking works.
+            How we handle your inquiries, website measurements, and pilot
+            applications.
           </p>
           <p className="mt-5 text-xs text-muted-foreground">
-            Last updated July 13, 2026
+            Last updated September 29, 2026
           </p>
         </div>
       </section>

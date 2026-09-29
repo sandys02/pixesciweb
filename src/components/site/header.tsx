@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button"
 import { primaryNavigation } from "@/content/site"
 
 import { DemoBookingLink } from "./demo-booking-link"
+import { ContactButton } from "./contact-dialog"
 import { SignInPortalButton } from "./download-pixesci-button"
 import { Logo } from "./logo"
 import { MobileNav } from "./mobile-nav"
@@ -33,6 +34,9 @@ export function SiteHeader() {
                 </li>
               )
             )}
+            <li>
+              <ContactButton />
+            </li>
           </ul>
         </nav>
         <div className="hidden items-center gap-2 xl:flex">
