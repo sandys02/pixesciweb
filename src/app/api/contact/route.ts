@@ -63,8 +63,10 @@ export async function POST(request: Request) {
 
   const apiKey = process.env.RESEND_API_KEY?.trim()
   const from = process.env.RESEND_FROM_EMAIL?.trim()
-  const to = process.env.RESEND_CONTACT_EMAIL?.trim()
-  if (!apiKey || !from || !to) {
+  // Temporary fallback until RESEND_CONTACT_EMAIL is configured in Vercel.
+  const to =
+    process.env.RESEND_CONTACT_EMAIL?.trim() || "dancan.oruko@pixesci.com"
+  if (!apiKey || !from) {
     return Response.json(
       { error: "Contact is temporarily unavailable. Please try again later." },
       { status: 503 }
