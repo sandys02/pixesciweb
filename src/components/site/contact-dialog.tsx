@@ -150,6 +150,17 @@ export function ContactDialog({
                 />
               </div>
               <div className="space-y-2">
+                <Label htmlFor={`${id}-organization`}>Organization</Label>
+                <Input
+                  id={`${id}-organization`}
+                  name="organization"
+                  autoComplete="organization"
+                  required
+                  maxLength={200}
+                  className="h-11"
+                />
+              </div>
+              <div className="space-y-2">
                 <Label htmlFor={`${id}-message`}>Message</Label>
                 <Textarea
                   id={`${id}-message`}
