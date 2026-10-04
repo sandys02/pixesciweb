@@ -27,7 +27,7 @@ export function IntegrationsPage() {
               <div className="mt-8 flex flex-col gap-3 sm:flex-row">
                 <Button asChild size="lg" className="px-4">
                   <DemoBookingLink source="integrations_hero">
-                    Ask about your software stack
+                    Secure Pilot Seat
                     <ArrowRight className="size-4" />
                   </DemoBookingLink>
                 </Button>
@@ -203,7 +203,7 @@ export function IntegrationsPage() {
       <CTASection
         title="See your tools working together."
         description="Bring the software, files, manual transfers, and review steps that slow your team down."
-        cta="Request a demo"
+        cta="Secure Pilot Seat"
       />
     </>
   )

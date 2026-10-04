@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button"
 import { primaryNavigation } from "@/content/site"
 
 import { DemoBookingLink } from "./demo-booking-link"
+import { ContactButton } from "./contact-dialog"
 import { SignInPortalButton } from "./download-pixesci-button"
 import { Logo } from "./logo"
 import { MobileNav } from "./mobile-nav"
@@ -33,13 +34,16 @@ export function SiteHeader() {
                 </li>
               )
             )}
+            <li>
+              <ContactButton />
+            </li>
           </ul>
         </nav>
         <div className="hidden items-center gap-2 xl:flex">
           <ThemeSwitcher size="icon-lg" tooltipSide="bottom" />
           <SignInPortalButton source="header" />
           <Button asChild size="lg" className="px-4">
-            <DemoBookingLink source="header">Request a demo</DemoBookingLink>
+            <DemoBookingLink source="header">Secure Pilot Seat</DemoBookingLink>
           </Button>
         </div>
         <div className="flex items-center gap-2 xl:hidden">

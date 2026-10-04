@@ -31,7 +31,7 @@ export const DemoBookingLink = React.forwardRef<
         path: window.location.pathname,
       })
     } catch {
-      // Analytics must never block access to the booking calendar.
+      // Analytics must never block access to the pilot form.
     }
 
     onClick?.(event)

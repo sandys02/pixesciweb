@@ -1,6 +1,7 @@
 // @/components/sections/section-visual.tsx
 
 import type { PageSection } from "@/content/pages"
+import { visualPrompts, type VisualKey } from "@/content/visual-prompts"
 
 import {
   AgentOrchestratorVisual,
@@ -17,10 +18,11 @@ import {
   QualityRecordVisual,
   TemplateVisual,
   TrainingRecordVisual,
+  VisualPrompt,
   WorkflowVisual,
 } from "@/components/visuals"
 
-export function SectionVisual({ visual }: Pick<PageSection, "visual">) {
+function renderVisual(visual: VisualKey) {
   switch (visual) {
     case "workflow":
       return <WorkflowVisual compact />
@@ -55,4 +57,17 @@ export function SectionVisual({ visual }: Pick<PageSection, "visual">) {
     default:
       return null
   }
+}
+
+export function SectionVisual({ visual }: Pick<PageSection, "visual">) {
+  if (!visual) return null
+  const content = renderVisual(visual)
+  if (!content) return null
+
+  return (
+    <div className="reveal-on-scroll">
+      <VisualPrompt prompt={visualPrompts[visual]} />
+      {content}
+    </div>
+  )
 }

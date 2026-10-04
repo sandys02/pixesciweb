@@ -22,7 +22,7 @@ and integration with existing scientific software.
 - Desktop navigation and an accessible native-dialog mobile menu.
 - Per-route metadata, canonical URLs, Open Graph and Twitter metadata, JSON-LD,
   a generated Open Graph image, `robots.txt`, and `sitemap.xml`.
-- Direct demo booking through PixeSci's external Cal.com calendar.
+- "Secure Pilot Seat" calls to action linking to PixeSci's Typeform pilot application.
 - Vercel Web Analytics, Speed Insights, and demo-booking conversion events.
 - Site-wide browser security headers and scheduled production uptime checks.
 - Compliance language that distinguishes product support from customer
@@ -91,8 +91,8 @@ prefix unless they are intentionally safe to ship to browsers.
 | `/privacy`                           | Website analytics, performance measurement, and booking disclosure                                                               |
 | `/portal`                            | Authenticated organization portal for setup, licenses, seats, downloads, and offline files                                       |
 | `/admin`                             | Internal PixeSci staff dashboard for organization and license administration                                                     |
-| `/contact`                           | Permanent compatibility redirect to the Cal.com demo calendar                                                                    |
-| `/talk-to-sales`                     | Permanent compatibility redirect to the Cal.com demo calendar                                                                    |
+| `/contact`                           | Permanent compatibility redirect to the Typeform pilot application                                                               |
+| `/talk-to-sales`                     | Permanent compatibility redirect to the Typeform pilot application                                                               |
 
 Retired routes redirect permanently from `next.config.ts`: `/platform/<module>` to
 `/solutions#<module>`, `/product` to `/solutions`, `/compliance` to `/platform/agents`, `/solutions/secure-research`
@@ -173,7 +173,7 @@ components because their layouts differ from the shared marketing-page model.
 
 ### Important Files
 
-- `src/content/site.ts`: canonical site URL, Cal.com booking URL, navigation,
+- `src/content/site.ts`: canonical site URL, Typeform pilot application URL, navigation,
   shared proof points, cards, and compliance disclaimer.
 - `src/content/pages.ts`: typed content for product, solution, compliance,
   security, and workflow-automation pages.
@@ -191,11 +191,11 @@ components because their layouts differ from the shared marketing-page model.
 
 ## Demo Booking
 
-The canonical booking destination is exported as `demoBookingUrl` from
+The canonical pilot application destination (Typeform) is exported as `demoBookingUrl` from
 `src/content/site.ts`. Demo calls to action use this value rather than repeating
 the external URL throughout the codebase.
 
-Visible calendar links open in a new browser tab with
+Visible pilot form links open in a new browser tab with
 `rel="noopener noreferrer"`. The `/contact` and `/talk-to-sales` routes remain
 as permanent server redirects for old links and external references.
 
@@ -245,8 +245,8 @@ content changes.
 - `@vercel/analytics` records page traffic and the
   `demo_booking_clicked` conversion event.
 - `@vercel/speed-insights` records production performance measurements.
-- `src/app/(site)/privacy/page.tsx` discloses website measurement and Cal.com
-  scheduling.
+- `src/app/(site)/privacy/page.tsx` discloses website measurement and Typeform
+  pilot applications.
 - `.github/workflows/uptime.yml` checks the homepage, SEO endpoints, social
   image, and demo redirects twice per hour.
 
@@ -472,7 +472,7 @@ database instead of `/data/portal.db`.
 After deployment, confirm:
 
 - `https://pixesci.com` matches the actual canonical production domain.
-- Cal.com links open the expected PixeSci booking page.
+- "Secure Pilot Seat" links open the expected PixeSci Typeform.
 - `/contact` and `/talk-to-sales` return permanent redirects.
 - `/api/portal/login` can read the durable portal database and issue a portal
   session cookie.

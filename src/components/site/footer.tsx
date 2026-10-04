@@ -33,7 +33,7 @@ export function SiteFooter() {
                 source="footer_primary"
                 className="mt-6 inline-flex text-sm font-medium text-primary hover:underline"
               >
-                Request a demo
+                Secure Pilot Seat
               </DemoBookingLink>
               <SignInPortalButton
                 source="footer"

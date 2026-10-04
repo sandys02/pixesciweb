@@ -19,7 +19,7 @@ import {
 
 export const siteUrl = "https://pixesci.com"
 export const demoBookingUrl =
-  "https://cal.com/pixesci/30min?user=pixesci&overlayCalendar=true&layout=mobile"
+  "https://form.typeform.com/to/U1fq9eb4"
 
 export const tagline = "Talk to your Lab!"
 
@@ -123,7 +123,7 @@ export const footerNavigation = [
     links: [
       { label: "About", href: "/company" },
       { label: "Privacy", href: "/privacy" },
-      { label: "Request a demo", href: demoBookingUrl },
+      { label: "Secure Pilot Seat", href: demoBookingUrl },
     ],
   },
 ] as const
