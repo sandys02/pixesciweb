@@ -1,3 +1,4 @@
+import { ContactBar } from "@/components/site/contact-bar"
 import { SiteFooter } from "@/components/site/footer"
 import { SiteHeader } from "@/components/site/header"
 import { PortalSignInRedirect } from "@/components/site/portal-sign-in-redirect"
@@ -9,6 +10,7 @@ export default function SiteLayout({
 }>) {
   return (
     <>
+      <ContactBar />
       <SiteHeader />
       <div id="main-content">{children}</div>
       <SiteFooter />

@@ -23,6 +23,12 @@ export const demoBookingUrl =
 
 export const tagline = "Talk to your Lab!"
 
+export const ceoContact = {
+  email: "dancan.oruko@pixesci.com",
+  phone: "607-286-3943",
+  phoneHref: "tel:+16072863943",
+} as const
+
 export const categoryLine =
   "The autonomous quality control operating system for regulated life sciences."
 

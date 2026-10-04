@@ -12,12 +12,16 @@
 html, body { margin: 0; background: #fff; }
 body { font-family: "Geist", "Segoe UI", Arial, sans-serif; color: var(--slate); }
 .mono { font-family: "Geist Mono", ui-monospace, Consolas, monospace; }
-.page { width: 8.5in; height: 11in; padding: 0.28in 0.5in 0.22in; background: var(--white); font-size: 8pt; line-height: 1.38; display: flex; flex-direction: column; overflow: hidden; }
+.page { width: 8.5in; height: 11in; padding: 0.18in 0.5in 0.22in; background: var(--white); font-size: 8pt; line-height: 1.38; display: flex; flex-direction: column; overflow: hidden; }
 .tech { font-size: 6pt; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase; }
 .eyebrow { display: flex; align-items: center; gap: 6px; color: var(--blue); }
 .eyebrow::before { content: ""; width: 14px; height: 1px; background: currentColor; opacity: .7; }
 .muted { color: var(--muted); }
 
+.reach { display: flex; justify-content: center; align-items: baseline; gap: 14px; padding: 0 0 0.09in; font-size: 7.6pt; color: var(--muted); border-bottom: 0.6pt solid var(--silver); margin-bottom: 0.08in; }
+.reach b { color: var(--slate); font-weight: 650; }
+.reach a { color: var(--blue); font-weight: 650; text-decoration: none; }
+.reach .sep { width: 3px; height: 3px; border-radius: 50%; background: var(--silver); align-self: center; }
 header { display: flex; align-items: center; justify-content: space-between; padding-bottom: 0.08in; }
 .brand { display: flex; align-items: center; gap: 8px; }
 .brand img { width: 0.36in; height: 0.36in; border-radius: 8px; box-shadow: 0 1px 2px rgba(0,30,90,.28); }
@@ -103,6 +107,7 @@ footer { margin-top: 0.07in; }
 </head>
 <body>
 <div class="page">
+  <div class="reach"><b>Reach our CEO at:</b><a>dancan.oruko@pixesci.com</a><span class="sep"></span><a>607-286-3943</a></div>
   <header>
     <div class="brand"><img src="assets/logo.png" alt="" /><div class="wordmark">PixeSci<sup>TM</sup></div></div>
     <div class="pill"><span class="w"><span style="display:inline-flex;align-items:center;gap:1.5px;height:12px"><i style="display:inline-block;width:2px;height:4px;border-radius:2px;background:currentColor"></i><i style="display:inline-block;width:2px;height:8px;border-radius:2px;background:currentColor"></i><i style="display:inline-block;width:2px;height:12px;border-radius:2px;background:currentColor"></i><i style="display:inline-block;width:2px;height:7px;border-radius:2px;background:currentColor"></i><i style="display:inline-block;width:2px;height:4px;border-radius:2px;background:currentColor"></i><i style="display:inline-block;width:2px;height:8px;border-radius:2px;background:currentColor"></i><i style="display:inline-block;width:2px;height:11px;border-radius:2px;background:currentColor"></i><i style="display:inline-block;width:2px;height:6px;border-radius:2px;background:currentColor"></i><i style="display:inline-block;width:2px;height:4px;border-radius:2px;background:currentColor"></i></span></span><span class="tech">Talk to your Lab!&#8482;</span></div>
